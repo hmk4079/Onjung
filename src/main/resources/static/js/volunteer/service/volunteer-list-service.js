@@ -60,3 +60,20 @@ const fetchVolunteers = async (order = "recent", page = 1, category = "") => {
         alert("봉사 모집 게시글을 불러오는데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
 };
+
+
+// 필터링된 문의 데이터를 가져오는 함수
+// const fetchFilteredVolunteers = async (page, filterType) => {
+//     console.log("js에 있는 요청하는 페이지:", page); // 페이지 번호가 전달되는지 확인
+//     try {
+//         const response = await fetch(`/volunteer/volunteer-list-filter?page=${page}&filterType=${filterType}`);
+//         const data = await response.json();
+//         console.log("js 서버 응답 데이터:", data);
+//
+//         showDonationPosts(data.donations);
+//         showPaging(data.pagination);
+//         globalThis.page = page;
+//     } catch (error) {
+//         console.error("js 기부 목록 불러오기 오류:", error);
+//     }
+// };
