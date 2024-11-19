@@ -72,8 +72,6 @@ public class VolunteerController {
         return new RedirectView("/volunteer/volunteer-list");
     }
 
-
-
     //        봉사 모집 게시글 목록
     @GetMapping("/volunteer-list")
     public String getList(HttpSession session, Pagination pagination, Model model,

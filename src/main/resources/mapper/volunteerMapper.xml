@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.back.mapper.volunteer.VolunteerMapper">
     <insert id="insert">
-    insert into tbl_vt(id,recruitment_count,vt_s_date,vt_e_date)
-    values(#{id}, #{recruitmentCount}, #{vtSDate}, #{vtEDate})
+        insert into tbl_vt(id,recruitment_count,vt_s_date,vt_e_date)
+        values(#{id}, #{recruitmentCount}, #{vtSDate}, #{vtEDate})
     </insert>
 
     <insert id="insertApplication">
@@ -65,7 +65,7 @@
             post_summary = #{postSummary},
             post_content = #{postContent},
             updated_date = #{updatedDate}
-            WHERE ID = #{id}
+        WHERE ID = #{id}
     </update>
 
     <update id="updateVt">

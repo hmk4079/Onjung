@@ -7,7 +7,8 @@
     </insert>
 
     <select id="selectAll" resultType="donationDTO">
-        select d.id, d.goal_point, d.donation_s_date, d.donation_e_date, p.post_title, p.post_content, p.post_summary, p.post_view_count, p.member_id, p.created_date, p.updated_date, m.member_nickname
+        select d.id, d.goal_point, d.donation_s_date, d.donation_e_date, p.post_title, p.post_content,
+               p.post_summary, p.post_view_count, p.member_id, p.created_date, p.updated_date, m.member_nickname
         from tbl_donation d join tbl_post p
                                  on d.id = p.id
                             join tbl_member m

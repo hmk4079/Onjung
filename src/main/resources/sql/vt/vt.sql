@@ -53,18 +53,10 @@ select count(*) from tbl_vt ;
 SELECT COUNT(*) FROM tbl_post WHERE post_type = 'VOLUNTEER';  -- 특정 조건의 데이터 개수 확인
 
 
-select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
-       pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
-       v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
-from tbl_vt v
-         left join tbl_post p on v.id = p.id
-         left join tbl_member m on p.member_id = m.id
-         left join tbl_profile pf on p.member_id = pf.id
-where v.vt_e_date >= curdate() AND v.vt_e_date
-order by v.vt_e_date asc, p.created_date desc;
-
 select * from tbl_vt;
 
+insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
+values(220,'제목입니다zz','후원 요약zz1','후원 내용z1z',100,'VOLUNTEER','VISIBLE',2);
 
 
 

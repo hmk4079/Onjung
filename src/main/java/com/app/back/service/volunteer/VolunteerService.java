@@ -26,7 +26,7 @@ public interface VolunteerService {
     public List<VolunteerDTO> findByMemberId(Long memberId); // 반환 타입 수정
     public List<VolunteerDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
 
-//    멤버ID가져오기
+    //    멤버ID가져오기
     public List<VolunteerDTO> getMemberId(Long memberId);
 
 }
