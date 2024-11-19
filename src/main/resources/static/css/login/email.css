@@ -1,0 +1,505 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+@import url("https://fonts.googleapis.com/earlyaccess/notosanskr.css");
+@import url("https://cdn.rawgit.com/theeluwin/NotoSansKR-Hestia/master/stylesheets/NotoSansKR-Hestia.css");
+body, html {
+    font-family: 'Noto Sans KR', 'Noto Sans Korean', 'AppleSDGothicNeo-Regular', 'Malgun Gothic', '맑은 고딕', dotum, '돋움', sans-serif !important;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+a, body, button, input, select, sub, textarea {
+    font-family: "Pretendard" !important;
+    color: #777;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+}
+body {
+    font-size: 1.4rem;
+    color: #272727;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+:root {
+    --swiper-navigation-size: 44px;
+}
+:root {
+    --swiper-theme-color: #007aff;
+}
+html {
+    font-size: 10px;
+    box-sizing: border-box;
+}
+.wrap.palm-leaf {
+    background: #f9fafb;
+}
+.wrap {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    background: #fff;
+}
+.main-register-wrap {
+    display: flex;
+    width: 100%;
+    height: 692px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 250px;
+}
+.right-right-area-register, .right-right-area-register-entry, .right-right-area-send {
+    position: relative;
+    background-color: #fff;
+    border-radius: 32px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.right-right-area-register, .right-right-area-register-entry{
+    min-width: 578px;
+    width: 640px;
+    padding: 48px 149px;
+}
+.header {
+    text-align: center;
+}
+header {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+.header .logo, .header .logo.loud {
+    image-rendering: -webkit-optimize-contrast;
+}
+.header .logo {
+    display: inline-block;
+    background: url(https://accounts-front.stunning.kr/assets/img/common/ico-stunning-basic.png) 50% 0 no-repeat;
+    background-size: contain;
+    width: 220px;
+    height: 32px;
+    padding-bottom: 20px;
+}
+.header .logo.loud {
+    background: url(/images/onjung-logo.png) 50% 0 no-repeat;
+    background-size: contain;
+}
+.right-right-area-register .right-join-wrap{
+    width: 100%;
+    max-width: 400px;
+    padding-top: 24px;
+}
+.register-register-area h1 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 140%;
+    letter-spacing: -.5px;
+    color: #0d0d0d;
+}
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
+.register-register-area p.register-txt {
+    margin-top: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 140%;
+    text-align: center;
+    letter-spacing: -.5px;
+    color: #4b4b4b;
+}
+.register-register-area .register-txt {
+    font-size: 13px;
+    letter-spacing: -.4px;
+    color: #999;
+}
+h3, h4, h5, li, p, span {
+    word-break: keep-all;
+}
+p {
+    display: block;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+form {
+    display: block;
+    margin-top: 0em;
+    unicode-bidi: isolate;
+}
+form div.register-input-box {
+    position: relative;
+    padding-top: 18px;
+    margin-top: 14px;
+}
+.label-text {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 140%;
+    display: flex;
+    align-items: center;
+    letter-spacing: -.5px;
+    color: #0d0d0d;
+}
+.register-flex-div {
+    position: relative;
+    align-items: center;
+    display: flex;
+}
+
+button, img, input, select, textarea {
+    vertical-align: middle;
+}
+input:not([type="image" i], [type="range" i], [type="checkbox" i], [type="radio" i]) {
+    overflow-clip-margin: 0px !important;
+    overflow: clip !important;
+}
+input[type="text" i] {
+    padding-block: 1px;
+    padding-inline: 2px;
+}
+
+input {
+    text-rendering: auto;
+    color: fieldtext;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    background-color: field;
+    margin: 0em;
+    padding: 1px 0px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+    padding-block: 1px;
+    padding-inline: 2px;
+}
+input {
+    position: relative;
+    margin-top: 8px;
+    padding: 10px 12px;
+    width: 100%;
+    height: 42px;
+    -webkit-appearance: none;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    letter-spacing: -.5px;
+    color: #0d0d0d;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+}
+/* 버튼 초기 상태 스타일 */
+.button-btn-send,.button-btn-send:hover {
+    padding: 0 28px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    height: 42px;
+    flex-shrink: 0;
+    background: #f6f6f6 !important; /* 초기 배경색 */
+    border: none;
+    border-radius: 4px;
+    color: #dfdfdf !important; /* 초기 텍스트 색상 */
+    cursor: default; /* 비활성화 상태에서 기본 커서 */
+}
+
+/* 버튼 활성화 상태 스타일 */
+.button-btn-send.button-send-active,
+.button-btn-send.button-send-active:hover {
+    background: #141414 !important; /* 활성화된 배경색 */
+    border-color: #141414;
+    color: #fff !important; /* 활성화된 텍스트 색상 */
+    cursor: pointer; /* 포인터 커서 */
+}
+/* 버튼 초기 상태 스타일 */
+.button-btn-send-phone,.button-btn-send-phone:hover {
+    padding: 0 28px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    height: 42px;
+    flex-shrink: 0;
+    background: #f6f6f6 !important; /* 초기 배경색 */
+    border: none;
+    border-radius: 4px;
+    color: #dfdfdf !important; /* 초기 텍스트 색상 */
+    cursor: default; /* 비활성화 상태에서 기본 커서 */
+}
+
+/* 버튼 활성화 상태 스타일 */
+.button-btn-send-phone.button-send-phone-active,
+.button-btn-send-phone.button-send-phone-active:hover {
+    background: #141414 !important; /* 활성화된 배경색 */
+    border-color: #141414;
+    color: #fff !important; /* 활성화된 텍스트 색상 */
+    cursor: pointer; /* 포인터 커서 */
+}
+
+button {
+    appearance: auto;
+    text-rendering: auto;
+    color: buttontext;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    box-sizing: border-box;
+    background-color: buttonface;
+    margin: 0em;
+    padding-block: 1px;
+    padding-inline: 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: buttonborder;
+    border-image: initial;
+}
+body form[name=register-form] .stunning-box span.success-msg {
+    display: block;
+    background: url(https://accounts-front.stunning.kr/assets/img/common/ico-approve.png) 0 1px no-repeat;
+    background-size: 12px 12px;
+    padding-left: 15px;
+    color: #189f14;
+}
+
+body form[name=register-form] .stunning-box span {
+    margin-top: 5px;
+    display: none;
+    font-size: 12px;
+    letter-spacing: -.25px;
+}
+.register-register-form .register-stunning-box div.register-input-box.register-email-code-box {
+    display: none;
+}
+form div.register-input-box{
+    position: relative;
+    padding-top: 18px;
+    margin-top: 14px;
+}
+.display-block {
+    display: block !important;
+}
+.register-flex-div {
+    position: relative;
+    align-items: center;
+    display: flex;
+}
+
+body form[name=register-form] .stunning-box span.warning-msg {
+    display: block;
+    background: url(https://accounts-front.stunning.kr/assets/img/common/ico-caution.png) 0 1px no-repeat;
+    background-size: 12px 12px;
+    padding-left: 14px;
+    color: #f21724;
+}
+body form[name=register-form] .stunning-box span.warning-msg2 {
+    display: block;
+    background: url(https://accounts-front.stunning.kr/assets/img/common/ico-caution.png) 0 1px no-repeat;
+    background-size: 12px 12px;
+    padding-left: 14px;
+    color: #f21724;
+}
+#countdown-timer{
+    position: absolute;
+    top: 20px;
+    right: 130px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -.27px;
+    color: #f05050;
+}
+#countdown-timer-phone{
+    position: absolute;
+    top: 20px;
+    right: 130px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -.27px;
+    color: #f05050;
+}
+
+form div.register-input-box {
+    position: relative;
+    padding-top: 18px;
+    margin-top: 14px;
+}
+.password-show-btn {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    top: 53px;
+    right: 11px;
+}
+
+.register-register-form .register-stunning-box div.register-input-box label {
+    display: block;
+    position: absolute;
+    top: 17px;
+    left: 0;
+    padding: 0;
+    font-size: 16px;
+    letter-spacing: -.31px;
+    color: #999;
+    transition: all .5s;
+    z-index: 1;
+    width: 100%;
+    cursor: pointer;
+    height: 38px;
+    line-height: 38px;
+}
+.register-agree-box {
+    position: relative;
+    padding-top: 48px;
+}
+.register-flex-div {
+    position: relative;
+    align-items: center;
+    display: flex;
+}
+.register-agree-box input {
+    display: none;
+}
+.register-agree-box label {
+    display: inline-block;
+    position: relative;
+    padding-left: 22px;
+    font-size: 12px;    /*원래 13px */
+    font-weight: 500;
+    letter-spacing: -.43px;
+    color: #333;
+    cursor: pointer;
+}
+
+.register-agree-box label:before {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    display: block;
+    content: "";
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: url(https://accounts-front.stunning.kr/assets/img/common/ic-check-line.png) 50% 50% no-repeat;
+    background-size: 20px 20px;
+    image-rendering: -webkit-optimize-contrast;
+}
+.register-agree-box input:checked+label:before {
+    background: url(https://accounts-front.stunning.kr/assets/img/common/ic-check-filled.png) 50% 50% no-repeat;
+    background-size: 20px 20px;
+    image-rendering: -webkit-optimize-contrast;
+}
+.register-agree-box p.register-txt-tiny {
+    margin-top: 5px;
+    font-size: 10px;    /*원래 12px */
+    letter-spacing: -.4px;
+    color: #666;
+}
+.register-flex-div {
+    position: relative;
+    align-items: center;
+    display: flex;
+}
+.register-btn-previous {
+    background: #fff;
+    margin-top: 24px;
+    margin-right: 8px;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    position: relative;
+    display: block;
+    width: 60%;
+    height: 50px;
+    color: #0d0d0d;
+    text-align: center;
+    letter-spacing: -.5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.register-btn-complete {
+    margin-top: 24px;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 50px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    text-align: center;
+    letter-spacing: -.5px;
+    color: #fff;
+    border-radius: 4px;
+    background: #141414;
+    border: none;
+    cursor: pointer;
+}
+
+/* 비밀번호 입력 필드 스타일 */
+.register-input-box input {
+    padding: 10px 12px; /* 입력 필드 내 패딩 */
+    width: 100%;
+    height: 42px;
+    font-size: 14px;
+    letter-spacing: 0; /* 글자 간격 고정 */
+    font-family: "Pretendard", sans-serif; /* 비밀번호와 텍스트가 동일한 폰트를 사용하도록 설정 */
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+/* 비밀번호가 텍스트로 변경되었을 때도 동일한 스타일 유지 */
+.register-input-box input[type="text"] {
+    letter-spacing: normal; /* 글자 간격을 동일하게 유지 */
+    font-family: inherit; /* 부모의 font-family 상속 */
+}
+
+#checkbox-warning {
+    display: none ;
+    color: red ;
+}
+#name:focus {
+    border-color: blue; /* 포커스 시 테두리 색상 */
+    outline: none; /* 기본 outline 제거 */
+}
+.loading-img{
+    display: none;
+
+    padding: 13px;
+    width: 24px;
+}

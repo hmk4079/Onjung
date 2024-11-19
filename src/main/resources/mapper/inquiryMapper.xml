@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.inquiry.InquiryMapper">
+<sql id="search">
+    <if test="search.keyword != null and search.keyword != 'null'.toString()">
+        <choose>
+            <when test="search.types != null">
+                <foreach item="type" collection="search.types">
+                    <if test="type == 'post-title'.toString()">
+                        and post_title like concat('%', #{search.keyword}, '%')
+                    </if>
+                </foreach>
+            </when>
+            <otherwise>
+                and (
+                post_title like concat('%', #{search.keyword}, '%')
+                )
+            </otherwise>
+        </choose>
+    </if>
+</sql>
+
+<insert id="insert">
+    insert into tbl_inquiry (id, inquiry_email,inquiry_phone,inquiry_type)
+    values (#{id}, #{inquiryEmail}, #{inquiryPhone},#{inquiryType});
+</insert>
+
+<select id="selectAll" resultType="inquiryDTO">
+    select
+    i.id,
+    p.post_title,
+    p.post_content,
+    p.created_date,
+    p.updated_date,
+    m.member_nickname,
+    i.inquiry_email,
+    i.inquiry_type,
+    i.inquiry_status
+    from tbl_inquiry i
+            join tbl_post p on i.id = p.id
+            join tbl_member m on p.member_id = m.id
+    <include refid="search"/>
+    where p.post_status = 'VISIBLE'
+    order by p.created_date desc
+    limit #{pagination.startRow}, #{pagination.rowCount};
+</select>
+
+<select id="selectFilterAll" resultType="inquiryDTO">
+    select
+        i.id,
+        p.post_title,
+        p.post_content,
+        p.created_date,
+        p.updated_date,
+        m.member_nickname,
+        i.inquiry_email,
+        i.inquiry_type,
+        i.inquiry_status
+    from tbl_inquiry i
+             join tbl_post p on i.id = p.id
+             join tbl_member m on p.member_id = m.id
+    <include refid="search"/>
+    where p.post_status = 'VISIBLE'
+    and i.inquiry_type = #{filterType}
+    order by p.created_date desc
+    limit #{pagination.startRow}, #{pagination.rowCount};
+</select>
+
+<select id="selectById" resultType="inquiryDTO">
+    select id, post_title, post_content
+    from tbl_post
+    where id = #{id}
+</select>
+
+<select id="selectTotal">
+    select count(*)
+    from tbl_inquiry i
+        join tbl_post p on i.id = p.id
+    where p.post_status = 'VISIBLE'
+</select>
+
+<select id="selectTotalWithSearch">
+    select count(*)
+    from tbl_inquiry i
+        join tbl_post p on i.id = p.id
+    <include refid="search"/>
+    and p.post_status = 'VISIBLE'
+</select>
+
+<select id="selectTotalWithFilter" resultType="int">
+    select count(*)
+    from tbl_inquiry i
+        join tbl_post p on i.id = p.id
+        join tbl_member m on p.member_id = m.id
+    <include refid="search"/>
+    where p.post_status = 'VISIBLE'
+    and i.inquiry_type = #{filterType}
+</select>
+
+
+<update id="updateById">
+    update tbl_post
+    set post_title = #{postTitle},
+        post_content = #{postContent}
+    where id = #{id}
+</update>
+
+<update id="updateStatus">
+    update tbl_inquiry
+    set inquiry_status = #{status}
+    where id = #{id};
+</update>
+
+<delete id="deleteById">
+    delete from tbl_inquiry
+    where id = #{id}
+</delete>
+
+<select id="selectByMemberId" parameterType="long" resultType="inquiryDTO">
+    select i.id,i.inquiry_email, i.inquiry_type, i.inquiry_status,
+           p.id as postId, p.member_id as memberId,
+           p.post_title, p.post_content, p.created_date, p.updated_date, p.post_type, p.post_status
+    from tbl_inquiry i
+            join tbl_post p on i.id = p.id
+    where p.member_id = #{memberId}
+    order by p.created_date desc
+</select>
+
+<select id="selectByMemberIdAndDateRange" resultType="inquiryDTO">
+    select i.id,i.inquiry_email, i.inquiry_type, i.inquiry_status,
+           p.id as postId, p.member_id as memberId,
+           p.post_title, p.post_content, p.created_date, p.updated_date, p.post_type, p.post_status
+    from tbl_inquiry i
+             join tbl_post p on i.id = p.id
+    where p.member_id = #{memberId}
+      and p.created_date between #{startDate} and #{endDate} + interval '1' DAY
+    order by p.created_date desc
+</select>
+
+
+</mapper>

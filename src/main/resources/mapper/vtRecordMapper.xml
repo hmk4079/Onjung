@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.vt_record.VtRecordMapper">
+
+    <insert id="insert" parameterType="VtRecordDTO">
+        INSERT INTO tbl_vt_record(
+        id,
+        vt_time
+        ) VALUES (
+        #{id},
+        #{vtTime}
+        )
+    </insert>
+
+    <select id="selectById" parameterType="long" resultType="vtRecordDTO">
+        SELECT
+            r.id,
+            r.vt_time AS vtTime,
+            a.created_date AS createdDate,
+            p.post_title AS postTitle
+        FROM
+            tbl_vt_record r
+                JOIN
+            tbl_vt_application a ON r.id = a.id
+                JOIN
+            tbl_vt v ON a.vt_id = v.id
+                JOIN
+            tbl_post p ON v.id = p.id
+        WHERE
+            r.id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="vtRecordDTO">
+        SELECT
+            r.id,
+            r.vt_time AS vtTime,
+            a.created_date AS createdDate,
+            p.post_title AS postTitle
+        FROM
+            tbl_vt_record r
+                JOIN
+            tbl_vt_application a ON r.id = a.id
+                JOIN
+            tbl_vt v ON a.vt_id = v.id
+                JOIN
+            tbl_post p ON v.id = p.id
+    </select>
+
+    <update id="update" parameterType="vtRecordDTO">
+        UPDATE tbl_vt_record
+        SET vt_time = #{vtTime}
+        WHERE id = #{id}
+    </update>
+
+
+    <delete id="deleteById" parameterType="long">
+        delete
+        from tbl_vt_record
+        where id = #{id};
+    </delete>
+
+    <select id="selectByMemberId" parameterType="long" resultType="vtRecordDTO">
+        SELECT
+            r.id,
+            r.vt_time AS vtTime,
+            a.created_date AS createdDate,
+            p.post_title AS postTitle
+        FROM
+            tbl_vt_record r
+                JOIN
+            tbl_vt_application a ON r.id = a.id
+                JOIN
+            tbl_vt v ON a.vt_id = v.id
+                JOIN
+            tbl_post p ON v.id = p.id
+        WHERE
+            a.member_id = #{memberId}
+    </select>
+
+
+    <select id="selectByMemberIdAndDateRange" parameterType="map" resultType="vtRecordDTO">
+        SELECT
+            r.id,
+            r.vt_time,
+            a.created_date,
+            p.post_title
+        FROM
+            tbl_vt_record r
+                JOIN
+            tbl_vt_application a ON r.id = a.id
+                JOIN
+            tbl_vt v ON a.vt_id = v.id
+                JOIN
+            tbl_post p ON v.id = p.id
+        WHERE
+            a.member_id = #{memberId}
+          AND a.created_date BETWEEN #{startDate} AND #{endDate} + interval '1' day
+        order by
+            created_date desc
+    </select>
+
+    <select id="selectTotalVtTimeByMemberId" parameterType="long" resultType="int">
+        SELECT
+            COALESCE(SUM(r.vt_time), 0) AS totalVtTime
+        FROM
+            tbl_vt_record r
+                JOIN tbl_vt_application a ON r.id = a.id
+        WHERE
+            a.member_id = #{memberId}
+    </select>
+
+    <select id="selectVtCountByMemberId" parameterType="long" resultType="int">
+        SELECT
+            COUNT(r.id) AS vtCount
+        FROM
+            tbl_vt_record r
+                JOIN tbl_vt_application a ON r.id = a.id
+        WHERE
+            a.member_id = #{memberId}
+    </select>
+
+</mapper>

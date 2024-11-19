@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.post.PostMapper">
+    <sql id="search">
+        <if test="search.keyword != null and search.keyword != 'null'.toString()">
+            <choose>
+                <when test="search.types != null">
+                    <foreach item="type" collection="search.types">
+                        <if test="type == 'post-title'.toString()">
+                            and post_title like concat('%', #{search.keyword}, '%')
+                        </if>
+                    </foreach>
+                </when>
+                <otherwise>
+                    and (
+                    post_title like concat('%', #{search.keyword}, '%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
+
+    <insert id="insert">
+        insert into tbl_post(id, post_title, post_content, post_summary, post_type, member_id, created_date, updated_date)
+        values (#{id}, #{postTitle}, #{postContent}, #{postSummary}, #{postType}, #{memberId}, current_timestamp, current_timestamp)
+    </insert>
+
+    <select id="selectAll" resultType="postDTO">
+        select
+        p.id,
+        p.post_title,
+        p.post_type,
+        p.created_date,
+        p.updated_date,
+        p.post_view_count,
+        m.member_nickname,
+        (select count(*) from tbl_reply r where r.post_id = p.id) as reply_count
+        from tbl_post p
+        join tbl_member m on p.member_id = m.id
+        <include refid="search"/>
+        where p.post_status = 'VISIBLE'
+        order by
+        <choose>
+            <when test="pagination.order == '작성일 순'">p.created_date</when>
+            <when test="pagination.order == '조회수 순'">p.post_view_count</when>
+            <when test="pagination.order == '댓글수 순'">reply_count</when>
+            <otherwise>p.created_date</otherwise>
+        </choose>
+        desc
+        limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+    <select id="selectFilterAll" resultType="postDTO">
+        select
+        p.id,
+        p.post_title,
+        p.post_type,
+        p.created_date,
+        p.updated_date,
+        p.post_view_count,
+        m.member_nickname,
+        p.post_type,
+        (select count(id) from tbl_reply r where r.post_id = p.id) as reply_count
+        from tbl_post p
+        join tbl_member m on p.member_id = m.id
+        <include refid="search"/>
+        where p.post_type = #{filterType}
+        and p.post_status = 'VISIBLE'
+        order by p.created_date desc
+        limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+
+    <select id="selectById" resultType="postDTO">
+        select *
+        from tbl_post
+        where id = #{id}
+    </select>
+
+    <select id="selectTotal">
+        select count(*) from tbl_post
+        where post_status = 'VISIBLE'
+    </select>
+
+    <select id="selectTotalWithSearch">
+        select count(*)
+        from tbl_post p
+        <where>
+            <include refid="search"/>
+            and p.post_status = 'VISIBLE'
+        </where>
+    </select>
+
+    <select id="selectTotalWithFilter" resultType="int">
+        select count(*)
+        from tbl_post p
+        <where>
+            <include refid="search"/>
+            <if test="filterType != null">
+                AND p.post_type = #{filterType}
+            </if>
+            and p.post_status = 'VISIBLE'
+        </where>
+    </select>
+
+
+    <select id="selectByPostId" resultType="postDTO">
+        select *
+        from tbl_post
+        where id = #{id}
+          and post_status = 'VISIBLE'
+    </select>
+
+    <delete id="deleteById">
+        delete from tbl_post
+        where id = #{id}
+    </delete>
+
+    <select id="getTotal" resultType="int">
+        select count(id)
+        from tbl_post
+        where post_type = #{postType}
+          and post_status = 'VISIBLE'
+    </select>
+
+    <select id="selectCurrentId" resultType="long">
+        select last_insert_id();
+    </select>
+
+    <update id="updateById">
+        update tbl_post
+        set
+            post_title = #{postTitle},
+            post_content = #{postContent},
+            updated_date = current_timestamp
+        where id = #{id}
+    </update>
+
+    <update id="updateStatusById">
+        update tbl_post
+        set post_status = #{postStatus}
+        where id = #{id}
+    </update>
+
+    <select id="selectTotalByPostType" resultType="int">
+        select COUNT(*)
+        from tbl_post
+        where post_type = #{postType}
+          and post_status = 'VISIBLE'
+    </select>
+
+</mapper>

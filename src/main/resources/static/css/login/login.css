@@ -1,0 +1,408 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+@import url("https://fonts.googleapis.com/earlyaccess/notosanskr.css");
+@import url("https://cdn.rawgit.com/theeluwin/NotoSansKR-Hestia/master/stylesheets/NotoSansKR-Hestia.css");
+body, html {
+    font-family: 'Noto Sans KR', 'Noto Sans Korean', 'AppleSDGothicNeo-Regular', 'Malgun Gothic', '맑은 고딕', dotum, '돋움', sans-serif !important;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    unicode-bidi: isolate;
+}
+ol, ul {
+    list-style: none;
+}
+
+a, body, button, input, select, sub, textarea {
+    font-family: "Pretendard" !important;
+    color: #777;
+    -moz-osx-font-smoothing: grayscale;
+}
+body {
+    font-size: 1.4rem;
+    color: #272727;
+    -webkit-font-smoothing: antialiased;
+}
+:root {
+    --swiper-navigation-size: 44px;
+    --swiper-theme-color: #007aff;
+}
+html {
+    font-size: 10px;
+    box-sizing: border-box;
+}
+.wrap.palm-leaf {
+    background: #f9fafb;
+}
+.wrap {
+    position: relative; 
+    z-index: 0;
+    width: 100%;
+    background: #fff;
+}
+.main-register-wrap{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-right-area{
+    position: relative;
+    padding: 90px 160px;
+    align-items: center;
+    width: 640px;
+    display: flex;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 32px;
+}
+.login-right-area.login-login-wrap {
+    width: 100%;
+    margin: auto;
+}
+.main-register-wrap {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+.login-right-area .login-login-wrap {
+    width: 100%;
+    margin: auto;
+}
+.header {
+    text-align: center;
+}
+header {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+.header .logo.loud {
+    display: inline-block;
+    background: url(/images/onjung-logo.png) 50% 0 no-repeat;
+    background-size: contain;
+}
+.header .logo, .header .logo.loud {
+    image-rendering: -webkit-optimize-contrast;
+}
+.header .logo {
+    display: inline-block;
+    background: url(https://accounts-front.stunning.kr/assets/img/common/ico-stunning-basic.png) 50% 0 no-repeat;
+    background-size: contain;
+    width: 220px;
+    height: 32px;
+    padding-bottom: 20px;
+}
+
+form[name=login-form] {
+    padding-top: 33px;
+}
+.login-form-input-box {
+    position: relative;
+    padding-top: 16px;
+}
+.label-text {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 140%;
+    display: flex;
+    align-items: center;
+    letter-spacing: -.5px;
+    color: #0d0d0d;
+}
+p{
+    word-break: keep-all;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+
+input:not([type="image" i], [type="range" i], [type="checkbox" i], [type="radio" i]) {
+    overflow-clip-margin: 0px !important;
+    overflow: clip !important;
+}
+input[type="text" i] {
+    padding-block: 1px;
+    padding-inline: 2px;
+}
+input:not([type="file" i], [type="image" i], [type="checkbox" i], [type="radio" i]) {
+}
+input {
+    text-rendering: auto;
+    color: fieldtext;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    background-color: field;
+    margin: 0em;
+    padding: 1px 0px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+    padding-block: 1px;
+    padding-inline: 2px;
+}
+input {
+    position: relative;
+    margin-top: 8px;
+    padding: 10px 12px;
+    width: 100%;
+    height: 42px;
+    -webkit-appearance: none;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    letter-spacing: -.5px;
+    color: #0d0d0d;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+    vertical-align: middle;
+}
+.login-form-input-box span {
+    display: none;
+}
+h3, h4, h5, li, p, span {
+    word-break: keep-all;
+}
+
+.login-form-input-box {
+    position: relative;
+    padding-top: 16px;
+}
+.password-show-btn {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    top: 55px;
+    right: 11px;
+}
+button, img, input, select, text-area {
+    vertical-align: middle;
+}
+img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
+.login-form-popask-btn {
+    margin-top: 37px;
+    position: relative;
+    display: block;
+}
+.classic-black-btn {
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: -.5px;
+    border-radius: 4px;
+    color: #fff;
+    background: #0d0d0d;
+    border: none;
+    cursor: pointer;
+    height: 50px;
+    line-height: 50px;
+}
+.login-form-others{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 13px;
+    position: relative;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    letter-spacing: -.5px;
+    color: #0d0d0d;
+}
+.login-form-others input {
+    display: none;
+}
+.login-form-others label {
+    display: inline-block;
+    position: relative;
+    padding-left: 23px;
+    cursor: pointer;
+}
+.login-form-others input:checked+label:before {
+    border-color: #000;
+    background: #000 url(https://accounts-front.stunning.kr/assets/img/common/ic-check-w@2x.png) 50% 50% no-repeat;
+    background-size: 8px 6px;
+}
+.login-form-others label:before {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    display: block;
+    content: "";
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border: 1px solid #a6a6a6;
+    border-radius: 1px;
+    box-sizing: border-box;
+}
+.login-form-others .login-form-find-account {
+    height: 36px;
+    padding-right: 23px;
+    background: url(https://accounts-front.stunning.kr/assets/img/common/ic-arrows-right20.png) right 52% no-repeat;
+    background-size: 20px 20px;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 36px;
+    image-rendering: -webkit-optimize-contrast;
+    letter-spacing: -.5px;
+    color: #0d0d0d;
+}
+a:active, a:focus, a:hover, a:link, a:visited {
+    text-decoration: none;
+}
+.social-social-login-box {
+    padding: 55px 0 72px;
+    text-align: center;
+}
+.social-social-login-box p {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 140%;
+    margin-bottom: 22px;
+    letter-spacing: -.2px;
+    color: #4b4b4b;
+}
+.social-social-login-box {
+    padding: 55px 0 72px;
+    text-align: center;
+}
+.social-social-login-box ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.social-social-login-box ul li {
+    margin: 0 2.5%;
+}
+.social-social-login-box ul li.social-kakao a {
+    background: #fee500 url(https://accounts-front.stunning.kr/assets/img/login/ico-kakao.png) 50% 50% no-repeat;
+    background-size: 24px;
+}
+.social-social-login-box ul li a {
+    position: relative;
+    display: block;
+    width: 48px;
+    height: 48px;
+    font-size: 0;
+    border-radius: 50%;
+    overflow: hidden;
+}
+a {
+    color: #333;
+}
+.login-right-area .login-join-area .login-join-box {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 140%;
+}
+.login-right-area .login-join-area .login-find-account a, .login-right-area .login-join-area div {
+    padding: 0 5px;
+    color: #666;
+    font-weight: 500;
+}
+.login-right-area .login-join-area div {
+    display: inline-block;
+    line-height: 34px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.login-right-area .login-join-area .login-join-box a {
+    position: relative;
+    display: block;
+    color: #000;
+    color: initial;
+}
+.login-right-area .login-join-area {
+    text-align: center;
+}
+.login-right-area .login-join-area .login-join-box span:first-child {
+    padding-right: 16px;
+    letter-spacing: -.2px;
+    color: #4b4b4b;
+}
+.login-right-area .login-join-area .login-join-box span:nth-child(2) {
+    letter-spacing: -.5px;
+    color: #0d0d0d;
+    text-decoration: underline;
+    text-underline-position: under;
+}
+input:focus {
+    border-color:blue; 
+    outline: none;
+}
+body form[name=login-form] .warning-msg {
+    display: block;
+    font-size: 12px;
+    color: #f21724;
+    white-space: break-spaces;
+    background: url(https://accounts-front.stunning.kr/assets/img/common/ico-caution.png) 0 0 no-repeat;
+    background-size: 12px 12px;
+    padding-left: 15px;
+    margin-top: 12px;
+}
+
+input.warning {
+    border-color: #f21724;
+    padding-right: 8%;
+}
+/* 비밀번호 입력 필드의 스타일을 통일 */
+input[type="password"],
+input[type="text"] {
+    font-family: inherit; 
+    padding-left: 10px; 
+}
+#real-login{
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: -.5px;
+    border-radius: 4px;
+    color: #fff;
+    background: #0d0d0d;
+    border: none;
+    cursor: pointer;
+    height: 50px;
+    line-height: 50px;
+    margin-bottom: 10px;
+}

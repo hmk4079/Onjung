@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.review.ReviewMapper">
+    <insert id="insert">
+        insert into tbl_review(id, vt_group_name, review_star_rate) values (#{id}, #{vtGroupName}, #{reviewStarRate})
+    </insert>
+
+    <select id="selectAll" resultType="reviewDTO">
+        select r.id, r.review_star_rate, r.vt_group_name, p.post_title, p.post_content, p.member_id, p.created_date, p.updated_date, m.member_nickname
+        from tbl_review r join tbl_post p
+            on r.id = p.id
+        join tbl_member m
+            on p.member_id = m.id
+        order by created_date desc, r.id desc
+        limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+    <select id="selectById" resultType="reviewDTO">
+        select r.id, r.review_star_rate, r.vt_group_name, p.post_title, p.post_content, p.member_id, p.created_date, m.member_nickname
+        from tbl_review r join tbl_post p
+            on r.id = p.id
+        join tbl_member m
+            on p.member_id = m.id
+        where r.id = #{id}
+    </select>
+
+    <update id="update" parameterType="reviewDTO">
+        UPDATE tbl_review
+        SET vt_group_name = #{vtGroupName},
+            review_star_rate = #{reviewStarRate}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from tbl_review
+        where id = #{id}
+    </delete>
+
+    <select id="selectByMemberId" parameterType="long" resultType="reviewDTO">
+        select r.id, r.vt_group_name, r.review_star_rate,
+               p.id as postId, p.member_id as memberId,
+               p.post_title, p.post_content, p.created_date, p.updated_date, p.post_type, p.post_status
+        from tbl_review r
+                 join tbl_post p on r.id = p.id
+        where p.member_id = #{memberId}
+        order by p.created_date DESC
+    </select>
+
+    <select id="selectByMemberIdAndDateRange" resultType="reviewDTO">
+        select r.id, r.vt_group_name, r.review_star_rate,
+               p.id as postId, p.member_id as memberId,
+               p.post_title, p.post_content, p.created_date, p.updated_date, p.post_type, p.post_status
+        from tbl_review r
+                 join tbl_post p on r.id = p.id
+        where p.member_id = #{memberId}
+          and p.created_date between #{startDate} and #{endDate} + interval '1' DAY
+        order by p.created_date DESC
+    </select>
+
+    <select id="selectTop10Reviews" resultType="reviewDTO">
+        select r.id,
+               r.review_star_rate,
+               r.vt_group_name,
+               p.post_title,
+               p.post_summary,
+               p.post_type,
+               p.post_content,
+               p.created_date,
+               p.member_id,
+               m.member_nickname,
+               a.attachment_file_name,
+               a.attachment_file_path,
+               a.attachment_file_size,
+               a.attachment_file_type,
+               a.attachment_file_real_name,
+               pr.profile_file_name,
+               pr.profile_file_path,
+               pr.profile_file_size,
+               pr.profile_file_type
+        from tbl_review r
+                 join tbl_post p on r.id = p.id
+                 left join tbl_attachment a on p.id = a.post_id
+                 left join tbl_profile pr on p.member_id = pr.member_id
+                 left join tbl_member m on p.member_id = m.id
+        order by p.created_date DESC
+            limit 10
+    </select>
+
+
+
+</mapper>

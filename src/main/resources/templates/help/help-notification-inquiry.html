@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="/css/help/help-notification-inquiry.css"
+        />
+        <link
+                rel="icon"
+                href="/images/favicon.png"
+        />
+        <title>공지사항 조회</title>
+    </head>
+    <body>
+        <main role="main">
+            <div class="app-divider"></div>
+            <div class="app">
+                <div class="app-inner">
+                    <nav class="sub-nav">
+                        <ol class="breadcrumbs">
+                            <li title="온정 고객센터">
+                                <a href="https://help.loud.kr/hc/ko"
+                                    >온정 고객센터</a
+                                >
+                            </li>
+                            <li title="온정 공지사항">온정 공지사항</li>
+                        </ol>
+                        <div class="search-container">
+                            <form
+                                action="/help/help-notification-list"
+                                class="search"
+                                accept-charset="UTF-8"
+                                method="get"
+                            >
+                                <input
+                                    name="utf-8"
+                                    type="hidden"
+                                    value="✓"
+                                    autocomplete="off"
+                                />
+                                <input
+                                    type="search"
+                                    name="keyword"
+                                    id="query"
+                                    placeholder="검색"
+                                    role="combobox"
+                                />
+                                <input
+                                    type="submit"
+                                    name="commit"
+                                    value="검색"
+                                />
+                            </form>
+                        </div>
+                    </nav>
+                    <div class="notification-wrap">
+                        <section class="sidebar-container">
+                            <section class="sidebar">
+                                <h3 class="sidebar-title">공지사항</h3>
+                                <ul class="sidebar-wrap">
+                                </ul>
+                            </section>
+                        </section>
+                        <article class="notification-container">
+                            <header class="notification-header">
+                                <h1 th:text="${notice.postTitle}" style="font-size: 20px"></h1>
+                            </header>
+                            <section class="notification-info">
+                                <div class="notification-content">
+                                    <div class="notification-body" th:utext="${notice.postContent}"></div>
+                                    <div class="notification-attachments">
+                                        <ul class="attachments"></ul>
+                                    </div>
+                                </div>
+                            </section>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+    <script th:inline="javascript">
+        const notices = [[${notices}]];
+        const search = [[${search}]];
+    </script>
+    <script src="/js/help/help-notification-inquiry.js"></script>
+</html>

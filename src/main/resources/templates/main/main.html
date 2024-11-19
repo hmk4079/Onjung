@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>메인</title>
+        <link rel="stylesheet" href="/css/main/main.css" />
+        <link rel="stylesheet" href="/css/main/rank-for-main.css" />
+        <link rel="stylesheet" href="/css/main/basic-header.css" />
+        <link rel="stylesheet" href="/css/main/footer.css"/>
+        <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
+        <link
+                rel="icon"
+                href="/images/favicon.png"
+        />
+
+    </head>
+    <body>
+    <div th:if="${isLogin}">
+        <th:block th:replace="~{main/login-header-no-noti :: header}"></th:block>
+    </div>
+    <div th:if="${!isLogin}">
+        <th:block th:replace="~{main/basic-header :: header}"></th:block>
+    </div>
+
+    <div id="root">
+            <div id="app" class="bfedap app">
+                <div class="wrap">
+                    <div class="eucbbu content">
+                        <div class="giosf">
+                            <div class="page-content">
+                                <section class="cqiqxf">
+                                    <div class="fkweeb main-slider" width="100%" overflow="hidden">
+                                        <div class="slick-slider slick-initialized" dir="ltr">
+                                            <div data-role="none" class="slick-arrow slick-prev" style="display: block">
+                                                <svg color="#000000" viewBox="0 0 24 24" class="cafwxx">
+                                                    <path
+                                                            fill-rule="evenodd"
+                                                            clip-rule="evenodd"
+                                                            d="M7.97113 22.0001C8.19513 22.0001 8.41713 21.9061 8.58713 21.7191L16.7471 12.7161C17.0841 12.3451 17.0841 11.7451 16.7471 11.3741L8.48613 2.28013C8.14713 1.90813 7.59713 1.90613 7.25613 2.27713C6.91613 2.64813 6.91413 3.25113 7.25313 3.62413L14.9051 12.0471L7.35413 20.3771C7.01513 20.7501 7.01713 21.3531 7.35813 21.7241C7.52813 21.9081 7.74913 22.0001 7.97113 22.0001Z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+
+                                            <div class="slick-list" style="padding: 0px 50px">
+                                                <div class="slick-track" style="width: 100%;">
+                                                </div>
+                                            </div>
+
+                                            <div data-role="none" class="slick-arrow slick-next" style="display: block">
+                                                <svg color="#000000" viewBox="0 0 24 24" class="cafwxx">
+                                                    <path
+                                                            fill-rule="evenodd"
+                                                            clip-rule="evenodd"
+                                                            d="M7.97113 22.0001C8.19513 22.0001 8.41713 21.9061 8.58713 21.7191L16.7471 12.7161C17.0841 12.3451 17.0841 11.7451 16.7471 11.3741L8.48613 2.28013C8.14713 1.90813 7.59713 1.90613 7.25613 2.27713C6.91613 2.64813 6.91413 3.25113 7.25313 3.62413L14.9051 12.0471L7.35413 20.3771C7.01513 20.7501 7.01713 21.3531 7.35813 21.7241C7.52813 21.9081 7.74913 22.0001 7.97113 22.0001Z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section class="top-rank">
+                                    <div class="top-rank-filter">
+                                        <section class="filter-display expert-filter">
+                                            <div class="filters">
+                                                <label class="date-input date-range" for=""
+                                                ><div class="react-datepicker-wrapper">
+                                                    <div class="react-datepicker-tab-loop">
+                                                        <div
+                                                                class="react-datepicker-tab-loop-start"
+                                                                tabindex="0"
+                                                        ></div>
+                                                        <div
+                                                                class="react-datepicker-popper"
+                                                                data-placement="bottom-start"
+                                                                style="
+                                                    position: absolute;
+                                                    inset: 0px auto auto 0px;
+                                                    transform: translate(
+                                                        18.6667px,
+                                                        30.6667px
+                                                    );
+                                                "
+                                                        >
+                                                            <div>
+                                                                <div
+                                                                        class="react-datepicker"
+                                                                >
+                                                                    <div
+                                                                            class="react-datepicker-triangle"
+                                                                            style="
+                                                                position: absolute;
+                                                                left: 0px;
+                                                                transform: translate(
+                                                                    0px,
+                                                                    0px
+                                                                );
+                                                            "
+                                                                    ></div>
+                                                                    <button
+                                                                            type="button"
+                                                                            class="react-datepicker-navigation react-datepicker-navigation-previous"
+                                                                            aria-label="Previous Year"
+                                                                    >
+                                                            <span
+                                                                    class="react-datepicker-navigation-icon react-datepicker-navigation-icon-previous"
+                                                            ><svg
+                                                                    viewBox="0 0 12 12"
+                                                                    class="sc-gKXOVf iFpvod"
+                                                            >
+                                                                    <path
+                                                                            fill-rule="evenodd"
+                                                                            clip-rule="evenodd"
+                                                                            d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+                                                                    ></path>
+                                                                    <defs></defs>
+                                                                </svg>
+                                                            </span>
+                                                                    </button>
+                                                                    <div
+                                                                            class="react-datepicker-month-container"
+                                                                    >
+                                                                        <div
+                                                                                class="react-datepicker-header react-datepicker-year-header"
+                                                                        >
+                                                                            2024
+                                                                        </div>
+                                                                        <div
+                                                                                class="react-datepicker-month react-datepicker-monthPicker"
+                                                                                aria-label="month  2024-09"
+                                                                                role="listbox"
+                                                                        >
+                                                                            <div
+                                                                                    class="react-datepicker-month-wrapper"
+                                                                            >
+                                                                                <div
+                                                                                        tabindex="-1"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-0"
+                                                                                        role="option"
+                                                                                        aria-label="Choose January 2024"
+                                                                                        aria-selected="false"
+                                                                                >
+                                                                                    1월
+                                                                                </div>
+                                                                                <div
+                                                                                        tabindex="-1"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-1"
+                                                                                        role="option"
+                                                                                        aria-label="Choose February 2024"
+                                                                                        aria-selected="false"
+                                                                                >
+                                                                                    2월
+                                                                                </div>
+                                                                                <div
+                                                                                        tabindex="-1"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-2"
+                                                                                        role="option"
+                                                                                        aria-label="Choose March 2024"
+                                                                                        aria-selected="false"
+                                                                                >
+                                                                                    3월
+                                                                                </div>
+                                                                                <div
+                                                                                        tabindex="-1"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-3"
+                                                                                        role="option"
+                                                                                        aria-label="Choose April 2024"
+                                                                                        aria-selected="false"
+                                                                                >
+                                                                                    4월
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                    class="react-datepicker-month-wrapper"
+                                                                            >
+                                                                                <div
+                                                                                        tabindex="-1"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-4"
+                                                                                        role="option"
+                                                                                        aria-label="Choose May 2024"
+                                                                                        aria-selected="false"
+                                                                                >
+                                                                                    5월
+                                                                                </div>
+                                                                                <div
+                                                                                        tabindex="-1"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-5"
+                                                                                        role="option"
+                                                                                        aria-label="Choose June 2024"
+                                                                                        aria-selected="false"
+                                                                                >
+                                                                                    6월
+                                                                                </div>
+                                                                                <div
+                                                                                        tabindex="-1"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-6"
+                                                                                        role="option"
+                                                                                        aria-label="Choose July 2024"
+                                                                                        aria-selected="false"
+                                                                                >
+                                                                                    7월
+                                                                                </div>
+                                                                                <div
+                                                                                        tabindex="-1"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-7"
+                                                                                        role="option"
+                                                                                        aria-label="Choose August 2024"
+                                                                                        aria-selected="false"
+                                                                                >
+                                                                                    8월
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                    class="react-datepicker-month-wrapper"
+                                                                            >
+                                                                                <div
+                                                                                        tabindex="0"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-8 react-datepicker-month-selected datepicker-month-text-keyboard-selected"
+                                                                                        role="option"
+                                                                                        aria-label="Choose September 2024"
+                                                                                        aria-selected="true"
+                                                                                >
+                                                                                    9월
+                                                                                </div>
+                                                                                <div
+                                                                                        tabindex="-1"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-9 react-datepicker-month-disabled react-datepicker-month-text-today"
+                                                                                        role="option"
+                                                                                        aria-label="Not available October 2024"
+                                                                                        aria-current="date"
+                                                                                        aria-selected="false"
+                                                                                >
+                                                                                    10월
+                                                                                </div>
+                                                                                <div
+                                                                                        tabindex="-1"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-10 react-datepicker-month-disabled"
+                                                                                        role="option"
+                                                                                        aria-label="Not available November 2024"
+                                                                                        aria-selected="false"
+                                                                                >
+                                                                                    11월
+                                                                                </div>
+                                                                                <div
+                                                                                        tabindex="-1"
+                                                                                        class="react-datepicker-month-text react-datepicker-month-11 react-datepicker-month-disabled"
+                                                                                        role="option"
+                                                                                        aria-label="Not available December 2024"
+                                                                                        aria-selected="false"
+                                                                                >
+                                                                                    12월
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                                class="react-datepicker-tab-loop-end"
+                                                                tabindex="0"
+                                                        ></div>
+                                                    </div>
+                                                    <div
+                                                            class="react-datepicker-input-container"
+                                                    >
+                                                        <input
+                                                                type="text" id="selected-month"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                    <svg
+                                                            class="date-range-icon"
+                                                            viewBox="0 0 24 24"
+                                                    >
+                                                        <rect
+                                                                x="3.6"
+                                                                y="6.6"
+                                                                width="16.8"
+                                                                height="13.8"
+                                                                rx="1.4"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                stroke-width="1.2"
+                                                        ></rect>
+                                                        <path
+                                                                d="M7.5 6V4.5"
+                                                                stroke="currentColor"
+                                                                stroke-width="1.2"
+                                                                stroke-linecap="round"
+                                                        ></path>
+                                                        <path
+                                                                d="M16.5 6V4.5"
+                                                                stroke="currentColor"
+                                                                stroke-width="1.2"
+                                                                stroke-linecap="round"
+                                                        ></path>
+                                                        <path
+                                                                d="M4.5 10.5H21"
+                                                                stroke="currentColor"
+                                                                stroke-width="1.2"
+                                                        ></path>
+                                                        <rect
+                                                                x="7.5"
+                                                                y="13.5"
+                                                                width="3"
+                                                                height="3"
+                                                                rx="0.5"
+                                                                fill="currentColor"
+                                                        ></rect>
+                                                        <defs></defs>
+                                                    </svg>
+                                                </label>
+                                                <input type="hidden" id="month">
+                                            </div>
+                                        </section>
+                                        <h2>TOP 랭킹</h2>
+                                    </div>
+                                    <div class="rank-cards">
+                                        <article class="rank-img-size expert-rank-card">
+                                            <h3>
+                                                <img
+                                                        name="SparklingHeart"
+                                                        src="https://cdn-dantats.stunning.kr/static/emoji/SparklingHeart32px.png"
+                                                />
+                                                봉사 활동을 많이 했어요!
+                                            </h3>
+                                            <img
+                                                    class="rank-image"
+                                                    id="image.expert.rank.christykulas"
+                                                    src="https://cdn-dantats.stunning.kr/static/feature/expert/rank/pc_like.png"
+                                            />
+                                            <ul class="rank-list praise-rank-list"></ul>
+                                        </article>
+                                        <article class="rank-img-size expert-rank-card">
+                                            <h3>
+                                                <img
+                                                        name="Trophy"
+                                                        src="https://cdn-dantats.stunning.kr/static/emoji/Trophy32px.png"
+                                                />
+                                                후원을 많이 했어요!
+                                            </h3>
+                                            <img
+                                                    class="rank-image"
+                                                    id="image.expert.rank.garryfadel"
+                                                    src="https://cdn-dantats.stunning.kr/static/feature/expert/rank/pc_contest.png"
+                                            />
+                                            <ul class="rank-list contest-rank-list"></ul>
+                                        </article>
+                                        <article class="rank-img-size expert-rank-card">
+                                            <h3>
+                                                <img
+                                                        name="ShoppingBags"
+                                                        src="https://cdn-dantats.stunning.kr/static/emoji/ShoppingBags32px.png"
+                                                />
+                                                기부를 많이 했어요!
+                                            </h3>
+                                            <img
+                                                    class="rank-image"
+                                                    id="image.expert.rank.rhondaschneider"
+                                                    src="https://cdn-dantats.stunning.kr/static/feature/expert/rank/pc_market.png"
+                                            />
+                                            <ul class="rank-list sales-rank-list"></ul>
+                                        </article>
+                                    </div>
+                                </section>
+                                <div class="jmqkoz">
+                                    <div class="review-title animate">
+                                        <p>기부 성공율 98.7%</p>
+                                        <h2>봉사 단체의 이유있는 선택</h2>
+                                    </div>
+                                    <div class="inner max-inner">
+                                        <div class="user-review-title">
+                                            <h4>최근 후기</h4>
+                                            <label class="gqdbhp">4.9점</label>
+                                        </div>
+                                        <a href="" class="jgkeau">
+                                            <button class="dyqswd getttp">
+                                                더보기<svg
+                                                    class="ifpvod icon"
+                                                    type="arrow12"
+                                                    color="#8E94A0"
+                                                    viewBox="0 0 12 12"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        clip-rule="evenodd"
+                                                        d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+                                                    ></path>
+                                                </svg>
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div class="hjwjst review-slider">
+                                        <div
+                                                class="rfm-marquee-container"
+                                                style="
+                                                    --pause-on-hover: paused;
+                                                    --pause-on-click: paused;
+                                                    --width: 100%;
+                                                    --transform: none;
+        "
+                                        >
+                                            <div class="rfm-marquee">
+                                                <div class="rfm-initial-child-container">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="~{main/footer :: footer}"></div>
+    </body>
+    <script th:if="${member != null}">
+        let memberId = [[${member.id}]];
+    </script>
+        <script src="/js/main/main.js"></script>
+        <script src="/js/main/login-header.js"></script>
+
+
+</html>

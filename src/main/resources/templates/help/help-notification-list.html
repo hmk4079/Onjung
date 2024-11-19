@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="/css/help/help-notification-list.css"
+        />
+        <link
+                rel="icon"
+                href="/images/favicon.png"
+        />
+        <title>공지사항 목록</title>
+    </head>
+    <body>
+        <main role="main">
+            <div class="app-divider"></div>
+            <div class="app">
+                <div class="app-inner">
+                    <nav class="sub-nav">
+                        <ol class="breadcrumbs">
+                            <li title="온정 고객센터">
+                                <a href="https://help.loud.kr/hc/ko"
+                                    >온정 고객센터</a
+                                >
+                            </li>
+                            <li title="온정 공지사항">온정 공지사항</li>
+                        </ol>
+                        <div class="search-container">
+<!--                            <form-->
+<!--                                action="/help/notification/search"-->
+<!--                                class="search"-->
+<!--                                accept-charset="UTF-8"-->
+<!--                                method="get"-->
+<!--                            >-->
+<!--                                <input-->
+<!--                                    name="utf-8"-->
+<!--                                    type="hidden"-->
+<!--                                    value="✓"-->
+<!--                                    autocomplete="off"-->
+<!--                                />-->
+<!--                                <input-->
+<!--                                    type="search"-->
+<!--                                    name="query"-->
+<!--                                    id="query"-->
+<!--                                    placeholder="검색"-->
+<!--                                    role="combobox"-->
+<!--                                />-->
+<!--                                <input-->
+<!--                                    type="submit"-->
+<!--                                    name="commit"-->
+<!--                                    value="검색"-->
+<!--                                />-->
+<!--                            </form>-->
+                            <form
+                                    action="/help/help-notification-list"
+                                    class="search"
+                                    accept-charset="UTF-8"
+                                    method="get"
+                            >
+                                <input
+                                        name="utf-8"
+                                        type="hidden"
+                                        value="✓"
+                                        autocomplete="off"
+                                />
+                                <input
+                                        type="search"
+                                        name="keyword"
+                                        id="query"
+                                        placeholder="검색"
+                                        role="combobox"
+                                />
+                                <input
+                                        type="submit"
+                                        name="commit"
+                                        value="검색"
+                                />
+                            </form>
+                        </div>
+                    </nav>
+                    <h1>온정 공지사항</h1>
+                    <div class="notification-list">
+                        <div class="list-top">
+                            <div class="category-notification-num">번호</div>
+                            <div class="category-notification-title">제목</div>
+                            <div class="category-notification-date">작성일</div>
+                        </div>
+                        <ul class="notification-wrap"></ul>
+                        <nav class="pagination-wrap">
+                            <div class="pagination-container">
+                                <div class="pagination-num-container">
+                                    <a class="pagination-num active" href=""
+                                        >1</a
+                                    >
+                                </div>
+                                <div class="pagination-num-container">
+                                    <a class="pagination-num" href="">2</a>
+                                </div>
+                                <div class="pagination-num-container">
+                                    <a class="pagination-num" href="">3</a>
+                                </div>
+                                <div class="pagination-num-container">
+                                    <a class="pagination-num" href="">4</a>
+                                </div>
+                                <div class="pagination-num-container">
+                                    <a class="pagination-num" href="">5</a>
+                                </div>
+                                <div>
+                                    <a class="next-button" href=""
+                                        ><svg
+                                            viewBox="0 0 12 12"
+                                            class="iFpvod"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                clip-rule="evenodd"
+                                                d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+                                            ></path>
+                                            <defs></defs></svg
+                                    ></a>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+    <script th:inline="javascript">
+        const notices = [[${notices}]];
+        const pagination = [[${pagination}]];
+        const search = [[${search}]];
+    </script>
+    <script src="/js/help/help-notification-list.js"></script>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>봉사 모집 게시판 페이지 - 목록</title>
+        <link
+            rel="stylesheet"
+            href="/css/volunteer/volunteer-list.css"
+        />
+    </head>
+    <body>
+        <div class="main-container content">
+            <main class="section-container">
+                <section>
+                    <aside class="status-wrap">
+                        <div
+                            id="contest-list-aside-state"
+                            class="accordion-container contest-list-filters"
+                            type="box"
+                        >
+                            <div class="write-introduce" th:if="${memberType == 'ORGANIZATION'}">
+                                <div class="title">편하게 작성하세요!</div>
+                                <div class="desc">
+                                    사소한 도움이라도 괜찮아요. 우리가 나누는
+                                    작은 마음들이 모여 더 큰 기적을 만듭니다.
+                                </div>
+                                <button class="write-button">
+                                    <a href="/volunteer/volunteer-write" class="visual-correction">작성하기</a>
+                                </button>
+                            </div>
+                        </div>
+                        <div
+                            width="100%"
+                            height="32px"
+                            class="list-divider"
+                        ></div>
+                    </aside>
+                    <div class="list-wrapper">
+                        <section>
+                            <div class="filter-container">
+                                <div class="action-filter">
+                                    <div class="right-filter-container">
+                                        <div class="right-filter">
+                                            <div class="header-wrap">
+                                                <div class="wrap-title"></div>
+                                                <input
+                                                    type="text"
+                                                    readonly=""
+                                                    value="최신등록순"
+                                                /><svg
+                                                    class="icon-filter-arrow arrow"
+                                                    viewBox="0 0 12 12"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        clip-rule="evenodd"
+                                                        d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+                                                    ></path>
+                                                    <defs></defs>
+                                                </svg>
+                                            </div>
+                                            <div class="bottom-wrap">
+                                                <div width="100%" height="8px" class="bottom-drop-down"></div>
+                                                <div class="list-wrap">
+                                                    <div onclick="setOrder('recent')" class="item">최신등록순</div>
+                                                    <div onclick="setOrder('viewCount')" class="item">조회순</div>
+                                                    <div onclick="setOrder('endingSoon')" class="item">마감임박순</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <article class="ul-container">
+                            <ul id="contest-list">
+                                <li></li>
+                            </ul>
+                        </article>
+                        <nav class="page-container paginator" id="paging">
+                        </nav>
+<!--                        <a class="next-page-btn">-->
+<!--                            <svg viewBox="0 0 12 12" class="icon-default">-->
+<!--                                <path-->
+<!--                                        fill-rule="evenodd"-->
+<!--                                        clip-rule="evenodd"-->
+<!--                                        d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"-->
+<!--                                ></path>-->
+<!--                                <defs></defs>-->
+<!--                            </svg>-->
+<!--                        </a>-->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </body>
+    <script th:inline="javascript">
+        const lists = [[${lists}]];
+        const pagination = [[${pagination}]];
+    </script>
+    <script src="/js/volunteer/service/volunteer-list-service.js"></script>
+    <script src="/js/volunteer/layout/volunteer-list-layout.js" ></script>
+    <script src="/js/volunteer/event/volunteer-list-event.js"></script>
+</html>

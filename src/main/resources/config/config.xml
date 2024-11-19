@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0/EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="com.app.back.domain.alarm.AlarmVO" alias="alarmVO"/>
+        <typeAlias type="com.app.back.domain.alarm.AlarmDTO" alias="alarmDTO"/>
+        <typeAlias type="com.app.back.domain.member.MemberVO" alias="memberVO"/>
+        <typeAlias type="com.app.back.domain.member.MemberDTO" alias="memberDTO"/>
+        <typeAlias type="com.app.back.domain.post.PostVO" alias="postVO"/>
+        <typeAlias type="com.app.back.domain.post.PostDTO" alias="postDTO"/>
+        <typeAlias type="com.app.back.domain.review.ReviewVO" alias="reviewVO"/>
+        <typeAlias type="com.app.back.domain.review.ReviewDTO" alias="reviewDTO"/>
+        <typeAlias type="com.app.back.domain.volunteer.VolunteerVO" alias="volunteerVO"/>
+        <typeAlias type="com.app.back.domain.volunteer.VolunteerDTO" alias="volunteerDTO"/>
+        <typeAlias type="com.app.back.domain.donation.DonationVO" alias="donationVO"/>
+        <typeAlias type="com.app.back.domain.donation.DonationDTO" alias="donationDTO"/>
+        <typeAlias type="com.app.back.domain.notice.NoticeVO" alias="noticeVO"/>
+        <typeAlias type="com.app.back.domain.notice.NoticeDTO" alias="noticeDTO"/>
+        <typeAlias type="com.app.back.domain.attachment.AttachmentVO" alias="attachmentVO"/>
+        <typeAlias type="com.app.back.domain.attachment.AttachmentDTO" alias="attachmentDTO"/>
+        <typeAlias type="com.app.back.domain.inquiry.InquiryVO" alias="inquiryVO"/>
+        <typeAlias type="com.app.back.domain.inquiry.InquiryDTO" alias="inquiryDTO"/>
+        <typeAlias type="com.app.back.domain.inquiry_answer.InquiryAnswerVO" alias="inquiryAnswerVO"/>
+        <typeAlias type="com.app.back.domain.inquiry_answer.InquiryAnswerDTO" alias="inquiryAnswerDTO"/>
+        <typeAlias type="com.app.back.domain.donation_record.DonationRecordDTO" alias="donationRecordDTO"/>
+        <typeAlias type="com.app.back.domain.donation_record.DonationRecordVO" alias="donationRecordVO"/>
+        <typeAlias type="com.app.back.domain.support_record.SupportRecordDTO" alias="supportRecordDTO"/>
+        <typeAlias type="com.app.back.domain.support_record.SupportRecordVO" alias="supportRecordVO"/>
+        <typeAlias type="com.app.back.domain.profile.ProfileVO" alias="profileVO"/>
+        <typeAlias type="com.app.back.domain.profile.ProfileDTO" alias="profileDTO"/>
+        <typeAlias type="com.app.back.domain.vt_record.VtRecordVO" alias="vtRecordVO"/>
+        <typeAlias type="com.app.back.domain.vt_record.VtRecordVO" alias="vtRecordDTO"/>
+        <typeAlias type="com.app.back.domain.vt_application.VtApplicationVO" alias="vtApplicationVO"/>
+        <typeAlias type="com.app.back.domain.vt_application.VtApplicationDTO" alias="vtApplicationDTO"/>
+        <typeAlias type="com.app.back.domain.payment.PaymentVO" alias="paymentVO"/>
+        <typeAlias type="com.app.back.domain.payment.PaymentDTO" alias="paymentDTO"/>
+        <typeAlias type="com.app.back.domain.support.SupportVO" alias="supportVO"/>
+        <typeAlias type="com.app.back.domain.support.SupportDTO" alias="supportDTO"/>
+        <typeAlias type="com.app.back.domain.reply.ReplyVO" alias="replyVO"/>
+        <typeAlias type="com.app.back.domain.reply.ReplyDTO" alias="replyDTO"/>
+        <typeAlias type="com.app.back.domain.report.ReportVO" alias="reportVO"/>
+        <typeAlias type="com.app.back.domain.report.ReportDTO" alias="reportDTO"/>
+
+
+
+    </typeAliases>
+</configuration>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>이메일로 가입하기</title>
+        <link rel="stylesheet" href="/css/login/email.css" />
+        <link
+                rel="icon"
+                href="/images/favicon.png"
+        />
+    </head>
+    <body>
+        <div class="root">
+            <div class="wrap register-wrap palm-leaf">
+                <div class="main-container">
+                    <div class="main-register-wrap">
+                        <div class="right-right-area-register">
+                            <header class="header">
+                                <div
+                                    class="logo loud"
+                                    style="
+                                        height: 20px;
+                                        width: 124px;
+                                        padding-bottom: 16px;
+                                    "
+                                ></div>
+                            </header>
+                            <div
+                                class="right-join-wrap"
+                                style="padding-top: 0px"
+                            >
+                                <div class="register-register-area">
+                                    <h1 style="text-align: center">
+                                        이메일로 가입하기
+                                    </h1>
+
+                                </div>
+                                <p class="register-txt"></p>
+                            </div>
+                            <form
+                                    name="register-form"
+                                    class="register-register-form"
+                                    action="/member/email"
+                                    method="post"
+                            >
+                                <div
+                                    class="stunning-box register-stunning-form loud"
+                                >
+                                    <div
+                                        class="register-input-box register-with-btn-box input-box"
+                                    >
+                                        <p class="label-text">이름</p>
+                                        <div class="register-flex-div">
+                                            <input
+                                                class="false input-has-no-value false"
+                                                type="text"
+                                                name="memberName"
+                                                id="name"
+                                                autocomplete="off"
+                                                value
+                                            />
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="register-input-box register-with-btn-box input-box"
+                                    >
+                                        <p class="label-text">전화번호</p>
+                                        <div class="register-flex-div">
+                                            <input
+                                                class="false input-has-no-value false"
+                                                type="text"
+                                                name="memberPhone"
+                                                id="phone-number"
+                                                autocomplete="off"
+                                                value
+                                            />
+                                            <button
+                                                type="button"
+                                                class="button-btn-send-phone"
+                                                style="
+                                                    margin-top: 8px;
+                                                    margin-left: 8px;
+                                                "
+                                            >
+                                                인증
+                                            </button>
+                                        </div>
+                                        <span
+                                            class="desc-span successmsg-msg"
+                                            style="display: none"
+                                            >전화번호 형식이 올바르지
+                                            않습니다.</span
+                                        >
+                                        <span class="desc-span successmsg-msg"
+                                            >인증번호가 발송되었습니다.</span
+                                        >
+                                    </div>
+                                    <div
+                                        class="register-phone-code-box register-input-box register-with-btn-box input-box false"
+                                        style="display: none"
+                                    >
+                                        <p class="label-text">인증번호 입력</p>
+                                        <div class="register-flex-div">
+                                            <input
+                                                class="warning false"
+                                                type="text"
+                                                name="phone-code"
+                                                id="phone-code"
+                                                autocomplete="off"
+                                                value
+                                            />
+                                            <button
+                                                type="button"
+                                                class="button-btn-send-phone"
+                                                style="
+                                                    margin-top: 8px;
+                                                    margin-left: 8px;
+                                                "
+                                            >
+                                                인증 완료
+                                            </button>
+                                            <strong id="countdown-timer-phone"
+                                                >10:00</strong
+                                            >
+                                        </div>
+                                        <span
+                                            class="desc-span warning-msg"
+                                            style="display: none"
+                                            >인증번호가 일치하지 않습니다.</span
+                                        >
+                                        <span
+                                            class="desc-span warning-msg"
+                                            style="display: none"
+                                            >입력 시간을 초과하였습니다.</span
+                                        >
+                                        <span class="desc-span successmsg-msg"
+                                            >인증되었습니다.</span
+                                        >
+                                    </div>
+                                    <div
+                                        class="register-input-box register-with-btn-box input-box"
+                                    >
+                                        <p class="label-text">이메일 주소</p>
+                                        <div class="register-flex-div">
+                                            <input
+                                                class="false input-has-no-value false"
+                                                type="text"
+                                                name="memberEmail"
+                                                id="email"
+                                                autocomplete="off"
+                                                value
+                                            />
+                                            <button
+                                                type="button"
+                                                class="button-btn-send"
+                                                style="
+                                                    margin-top: 8px;
+                                                    margin-left: 8px;
+                                                "
+                                            >
+                                                인증
+                                            </button>
+                                        </div>
+                                        <img class="loading-img" src="/images/loading-img.gif">
+                                        <span
+                                            class="desc-span successmsg-msg"
+                                            style="display: none"
+                                            >이메일 형식이 올바르지
+                                            않습니다.</span
+                                        >
+                                        <span class="desc-span successmsg-msg"
+                                            >인증 번호가 발송되었습니다.</span
+                                        >
+                                    </div>
+                                    <div
+                                        class="register-email-code-box register-input-box register-with-btn-box input-box false"
+                                        style="display: none"
+                                    >
+                                        <p class="label-text">인증번호 입력</p>
+                                        <div class="register-flex-div">
+                                            <input
+                                                class="warning false"
+                                                type="text"
+                                                name="email-code"
+                                                id="email-code"
+                                                autocomplete="off"
+                                                value
+                                            />
+                                            <button
+                                                type="button"
+                                                class="button-btn-send"
+                                                style="
+                                                    margin-top: 8px;
+                                                    margin-left: 8px;
+                                                "
+                                            >
+                                                인증 완료
+                                            </button>
+                                            <strong id="countdown-timer"
+                                                >10:00</strong
+                                            >
+                                        </div>
+                                        <span
+                                            class="desc-span warning-msg"
+                                            style="display: none"
+                                            >인증번호가 일치하지 않습니다.</span
+                                        >
+                                        <span
+                                            class="desc-span warning-msg"
+                                            style="display: none"
+                                            >입력 시간을 초과하였습니다.</span
+                                        >
+                                        <span class="desc-span successmsg-msg"
+                                            >인증되었습니다.</span
+                                        >
+                                    </div>
+                                    <div class="register-input-box input-box">
+                                        <p class="label-text">비밀번호</p>
+                                        <input
+                                            class="false"
+                                            type="password"
+                                            name="memberPassword"
+                                            id="password"
+                                            placeholder="6자 이상"
+                                            autocomplete="new-password"
+                                        />
+                                        <span
+                                            class="desc-span password-warning-msg"
+                                            style="display: none"
+                                        ></span>
+                                        <!-- 경고 메시지 표시할 span 추가 -->
+                                        <label for="password-confirm"></label>
+                                        <img
+                                            class="password-show-btn"
+                                            src="https://accounts-front.stunning.kr/assets/img/login/ico-hidden.png"
+                                        />
+                                    </div>
+                                    <div class="register-input-box input-box">
+                                        <p class="label-text">비밀번호 확인</p>
+                                        <input
+                                            class="false"
+                                            type="password"
+                                            name="passwordConfirm"
+                                            id="password-confirm"
+                                            placeholder="6자 이상"
+                                            autocomplete="new-password"
+                                        />
+                                        <label for="password-confirm"></label>
+                                        <img
+                                            class="password-show-btn"
+                                            src="https://accounts-front.stunning.kr/assets/img/login/ico-hidden.png"
+                                        />
+                                    </div>
+                                    <span
+                                        class="desc-span password-warning-msg2"
+                                        style="display: none"
+                                        >비밀번호가 일치하지 않습니다.</span
+                                    >
+                                    <div
+                                        class="agree-box register-agree-box loud"
+                                    >
+                                        <div
+                                            class="register-flex-div"
+                                            style="
+                                                justify-content: space-between;
+                                            "
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                id="chk-agree"
+                                                name="chk-agree"
+                                                checked
+                                            />
+                                            <label for="chk-agree"
+                                                >온정 가입 약관에 모두
+                                                동의합니다.</label
+                                            >
+                                        </div>
+                                        <p class="register-txt-tiny">
+                                            온정 이용약관(필수),
+                                            개인정보취급방침(필수), 마케팅정보
+                                            수집동의(선택)
+                                        </p>
+                                        <span
+                                            class="desc-span warning-msg2"
+                                            id="checkbox-warning"
+                                        >
+                                            이용약관에 동의해야합니다.
+                                        </span>
+                                    </div>
+                                    <div
+                                        class="register-flex-div"
+                                        style="margin-top: 48px"
+                                    >
+                                        <button class="register-btn-previous">
+                                            이전
+                                        </button>
+                                        <button type="submit" class="register-btn-complete false">
+                                            완료
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/js/login/email.js"></script>
+    </body>
+</html>

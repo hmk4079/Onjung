@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Onjung-프로필 수정</title>
+        <link
+            rel="stylesheet"
+            href="/css/mypage/mypage-profile-edit.css"
+        />
+        <link
+                rel="icon"
+                href="/images/favicon.png"
+        />
+
+        <style>
+            @import url(https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap);
+        </style>
+        <link
+            rel="preconnect"
+            href="https://fonts.googleapis.com"
+            crossorigin=""
+        />
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin=""
+        />
+    </head>
+    <body>
+        <div id="root">
+            <div id="app" class="app">
+                <div class="wrap">
+                    <div class="FPdYO content">
+                        <main class="hIMFnk">
+                            <form
+                                    id="profileForm"
+                                    action="/profile/upload"
+                                    method="POST"
+                                    enctype="multipart/form-data"
+                            >
+                            <div class="cRFSjf">
+                                <div class="ekUKKX profile-info">
+                                    <div class="edit-content-content-title">
+                                        프로필 수정
+                                    </div>
+                                    <div class="profile-info--wrapper">
+                                        <div class="profile-info--image-wrapper">
+                                            <img
+                                                    th:src="'/profile/display?memberId=' + ${member.id}"
+                                                    class="hdWpKs"
+                                                    id="profileImagePreview"
+                                                    alt="Profile Image"
+                                            />
+                                            <div class="edit-btn">
+                                                <input
+                                                        accept="image/*"
+                                                        type="file"
+                                                        name="file"
+                                                        id="profileImageInput"
+                                                        class="iBfDiv"
+                                                        multiple
+                                                />
+                                                <label for="profileImageInput" class="kHfLkV">
+                                                    <img
+                                                            src="https://cdn-dantats.stunning.kr/client/73287d9/static/media/ico-pen-edit-gray.d058146f.svg"
+                                                            class="edit-img"
+                                                    />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="profile-info--content">
+                                            <div>
+                                                <div
+                                                    class="edit-content-input-label"
+                                                    style="margin-bottom: 50px"
+                                                >
+                                                    <h2>
+                                                        <span class="bluestar"
+                                                            >*</span
+                                                        >&nbsp; 닉네임은&nbsp;
+                                                        필수&nbsp; 입력&nbsp;
+                                                        항목입니다.<br />
+                                                    </h2>
+                                                </div>
+                                                <div
+                                                    class="edit-content-input-label"
+                                                >
+                                                    <span>닉네임</span
+                                                    ><span class="bluestar"
+                                                        >*</span
+                                                    >
+                                                </div>
+                                                <label
+                                                    id="inputLabel"
+                                                    class="ijBQbT nickName"
+                                                >
+                                                    <input
+                                                        id="inputField"
+                                                        class="nickName content-textarea1"
+                                                        maxlength="10"
+                                                        value="동양적인퍼플"
+                                                    />
+                                                    <div class="max-length36">
+                                                        <span
+                                                            id="word-length1"
+                                                        ></span>
+                                                    </div>
+                                                </label>
+                                                <div
+                                                    id="nickNameCheck1"
+                                                    style="display: none"
+                                                >
+                                                    <img
+                                                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAHUSURBVHgBtVVdTsJAEJ5ZVtQHtX0RH2siiY96ArmB3kA9AXgC4AbcAI6gN9ATwKOJJPQRfKEqiT9sO84UIREKLFq+pEm73Z2/ne8bhAUgx3MGWV0EhAIBerzijX5AgAitCOAui+Z2u+v782xg0uL7wbFnyNQJoAAWUISNjBpWkxyp6YVBLl8cRqZpa1wQIV0NSTdfckel6X+/MnjbPyoTQgX+ASSo7Dy3qzMOJPIIqAYpgLO/2eu1axMHUnMpC385kA6CDTSncifxHQyjsGJjPERzGKI+hOVwDOm6vGAcPZnO8jPo7/aeYuOvuXxn0rKLAvo0rvoicwFrgtrSJcU1Ooc1QRGcKSI4gTVB2K9S7JwkF56Cv4DIOigt3WHTEbJnsJ+vR8IdtHYQaATymXmezW7RHFgBzOKWihAerE+wTI8ytoPIOfZZ8zObum+xP2DixETLZHXHlvnKDfyAU7mH5XD0lj6Rx6rzEBsua1Esdn2Wi0yaYselDJU5dcdi53YffZ4DVUgJYsv9mW4THoh+p+FEbIxngWBmJsvY46lUXrlcXJZp44kOBHInCsIKEl2CBaRJDJprN2Ho46KDsSOWc1HcWBQnWaEvBBUORR+mJp04z8Y3CPfJeR0EPhwAAAAASUVORK5CYII="
+                                                        class="error-image"
+                                                    />
+                                                    <span
+                                                        id="error-message"
+                                                        class="error-message"
+                                                        style="
+                                                            color: rgb(
+                                                                242,
+                                                                23,
+                                                                36
+                                                            );
+                                                        "
+                                                        >필수항목입니다.</span
+                                                    >
+                                                </div>
+                                                <div
+                                                    id="nickNameCheck2"
+                                                    style="display: none"
+                                                >
+                                                    <img
+                                                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAHUSURBVHgBtVVdTsJAEJ5ZVtQHtX0RH2siiY96ArmB3kA9AXgC4AbcAI6gN9ATwKOJJPQRfKEqiT9sO84UIREKLFq+pEm73Z2/ne8bhAUgx3MGWV0EhAIBerzijX5AgAitCOAui+Z2u+v782xg0uL7wbFnyNQJoAAWUISNjBpWkxyp6YVBLl8cRqZpa1wQIV0NSTdfckel6X+/MnjbPyoTQgX+ASSo7Dy3qzMOJPIIqAYpgLO/2eu1axMHUnMpC385kA6CDTSncifxHQyjsGJjPERzGKI+hOVwDOm6vGAcPZnO8jPo7/aeYuOvuXxn0rKLAvo0rvoicwFrgtrSJcU1Ooc1QRGcKSI4gTVB2K9S7JwkF56Cv4DIOigt3WHTEbJnsJ+vR8IdtHYQaATymXmezW7RHFgBzOKWihAerE+wTI8ytoPIOfZZ8zObum+xP2DixETLZHXHlvnKDfyAU7mH5XD0lj6Rx6rzEBsua1Esdn2Wi0yaYselDJU5dcdi53YffZ4DVUgJYsv9mW4THoh+p+FEbIxngWBmJsvY46lUXrlcXJZp44kOBHInCsIKEl2CBaRJDJprN2Ho46KDsSOWc1HcWBQnWaEvBBUORR+mJp04z8Y3CPfJeR0EPhwAAAAASUVORK5CYII="
+                                                        class="error-image"
+                                                    />
+                                                    <span
+                                                        id="error-message"
+                                                        class="error-message"
+                                                        style="
+                                                            color: rgb(
+                                                                242,
+                                                                23,
+                                                                36
+                                                            );
+                                                        "
+                                                        >특수문자는 _ 이외 사용
+                                                        불가합니다. (한글, 영문,
+                                                        숫자, 공백 사용
+                                                        가능)</span
+                                                    >
+                                                </div>
+                                                <div
+                                                    width="100%"
+                                                    height="40px"
+                                                    class="hZUXyV"
+                                                ></div>
+                                            </div>
+                                            <div>
+                                                <div
+                                                    class="edit-content-input-label"
+                                                >
+                                                    한줄 프로필
+                                                </div>
+                                                <label
+                                                    class="ijBQbT geHalw oneLine"
+                                                >
+                                                    <input
+                                                        id="inputField"
+                                                        class="oneLine content-textarea2"
+                                                        maxlength="20"
+                                                        placeholder="예시) 봉사심이 투철한 퍼플입니다."
+                                                        value=""
+                                                    />
+                                                    <div class="max-length20">
+                                                        <span
+                                                            id="word-length2"
+                                                        ></span>
+                                                    </div>
+                                                </label>
+
+                                                <div
+                                                    width="100%"
+                                                    height="40px"
+                                                    class="hZUXyV"
+                                                ></div>
+                                            </div>
+                                            <div class="height128">
+                                                <div
+                                                    class="edit-content-input-label"
+                                                >
+                                                    <span>이름</span>
+                                                    <span class="orangestar"
+                                                        >*</span
+                                                    >&nbsp;&nbsp;&nbsp;
+                                                    <span
+                                                        style="color: #afaeaef6"
+                                                        >이름, 전화번호 변경은
+                                                        고객센터로
+                                                        문의해주세요.</span
+                                                    >
+                                                </div>
+                                                <label
+                                                    id="inputLabel"
+                                                    class="ijBQbT name"
+                                                >
+                                                    <input
+                                                        id="inputField"
+                                                        class="name"
+                                                        maxlength="5"
+                                                        value="한민규"
+                                                        oninput="validateInput()"
+                                                        readonly
+                                                    />
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <div
+                                                    class="edit-content-input-label"
+                                                >
+                                                    <span>전화번호</span>
+                                                    <span class="orangestar"
+                                                        >*</span
+                                                    >
+                                                </div>
+                                                <label
+                                                    id="inputLabel"
+                                                    class="ijBQbT phoneNumber"
+                                                >
+                                                    <input
+                                                        id="inputField"
+                                                        class="phoneNumber"
+                                                        maxlength="11"
+                                                        value="01019181716"
+                                                        oninput="validateInput()"
+                                                        readonly
+                                                    />
+                                                </label>
+                                            </div>
+                                            <div
+                                                class="edit-content-input-label"
+                                                style="
+                                                    margin-bottom: 20px;
+                                                    margin-top: 20px;
+                                                "
+                                            ></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="edit-content-update-btns">
+                                    <button
+                                        id="disableButton"
+                                        class="dnkuMk"
+                                        width="0"
+                                        height="46"
+                                        type="submit"
+                                    >
+                                        저장하기
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        </main>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div
+                class="modal"
+                style="
+                    position: fixed;
+                    top: 0px;
+                    left: 0px;
+                    width: 100%;
+                    height: 100%;
+                    display: none;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10000;
+                "
+            >
+                <div
+                    style="
+                        transform: translate3d(0px, 0px, 0px);
+                        z-index: 10002;
+                        box-sizing: border-box;
+                        transition: transform 500ms cubic-bezier(0, 0, 0.25, 1),
+                            opacity 500ms cubic-bezier(0, 0, 0.25, 1);
+                    "
+                >
+                    <div
+                        class="alert-modal-inner-1u03v alert-modal"
+                        style="width: 365px"
+                    >
+                        <div class="alert-txt-box-2bji8">
+                            <span class="alert-ico-1mtdg"></span>
+                            <p>성공적으로 프로필이 수정되었습니다.</p>
+                            <button
+                                class="alert-btn-complete-1qcb1"
+                                id="closeModal"
+                            >
+                                확인
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="last-modal"
+                    style="
+                        position: fixed;
+                        top: 0px;
+                        left: 0px;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.7);
+                        z-index: 10001;
+                    "
+                ></div>
+            </div>
+        </div>
+    </body>
+    <script src="/js/mypage/mypage-profile-edit.js"></script>
+</html>

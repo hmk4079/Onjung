@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.volunteer.VolunteerMapper">
+    <insert id="insert">
+    insert into tbl_vt(id,recruitment_count,vt_s_date,vt_e_date)
+    values(#{id}, #{recruitmentCount}, #{vtSDate}, #{vtEDate})
+    </insert>
+
+    <insert id="insertApplication">
+        insert into tbl_vt_application (application_status, vt_id, member_id)
+        values (#{applicationStatus}, #{vtId}, #{memberId})
+    </insert>
+
+    <select id="selectAll" resultType="volunteerDTO">
+        select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
+        pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
+        v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
+        from tbl_vt v
+        left join tbl_post p on v.id = p.id
+        left join tbl_member m on p.member_id = m.id
+        left join tbl_profile pf on p.member_id = pf.id
+        <where>
+            <if test="pagination.postType == 'VOLUNTEER'">
+                p.post_type = #{pagination.postType}
+            </if>
+            <if test="pagination.order == 'endingSoon'">
+                and v.vt_e_date >= curdate()
+            </if>
+        </where>
+        order by
+        <choose>
+            <when test="pagination.order == 'recent'">p.created_date desc, v.id</when>
+            <when test="pagination.order == 'viewCount'">p.post_view_count desc, p.created_date desc, v.id</when>
+            <when test="pagination.order == 'endingSoon'">v.vt_e_date asc, p.created_date desc, v.id</when>
+            <otherwise>p.created_date desc, v.id</otherwise>
+        </choose>
+        limit #{pagination.startRow}, #{pagination.rowCount}
+    </select>
+
+    <select id="selectTotal">
+        select count(*) from tbl_vt
+    </select>
+
+    <select id="selectById" resultType="VolunteerDTO">
+        select v.id, v.recruitment_count, p.id as post_id, p.post_title, m.member_nickname, p.post_status,
+               at.attachment_file_name, at.attachment_file_path, at.attachment_file_size, at.attachment_file_type,
+               v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
+        from tbl_vt v
+                 join tbl_post p on v.id = p.id
+                 join tbl_member m on p.member_id = m.id
+                 join tbl_attachment at on at.post_id = p.id
+        where v.id = #{id}
+    </select>
+
+    <update id="updateNowRecruitment">
+        update tbl_vt
+        set  now_recruitment_count = tbl_vt.now_recruitment_count + 1
+        where id = #{id}
+    </update>
+
+    <update id="updatePost">
+        update tbl_post
+        set id = #{id},
+            post_title = #{postTitle},
+            post_summary = #{postSummary},
+            post_content = #{postContent},
+            updated_date = #{updatedDate}
+            WHERE ID = #{id}
+    </update>
+
+    <update id="updateVt">
+        update tbl_vt
+        set id = #{id},
+            recruitment_count = #{recruitmentCount},
+            vt_s_date = #{vtSDate},
+            vt_e_date = #{vtEDate}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="update">
+        update tbl_post
+        set id = #{id},
+            post_title = #{postTitle},
+            post_summary = #{postSummary},
+            post_content = #{postContent},
+            updated_date = #{updatedDate}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateAttachment">
+        update tbl_attachment
+        set attachment_file_name = #{attachmentFileName},
+            attachment_file_path = #{attachmentFilePath},
+            attachment_file_size = #{attachmentFileSize},
+            attachment_file_type = #{attachmentFileType},
+            created_date = #{createdDate}
+        where post_id = #{postId}
+    </update>
+
+
+    <delete id="delete">
+        delete from tbl_vt
+        WHERE ID = #{id}
+    </delete>
+
+    <select id="findByMemberId" parameterType="long" resultType="VolunteerDTO">
+        SELECT * FROM tbl_post WHERE member_id = #{memberId}
+    </select>
+
+</mapper>
+        <!--    <select id="selectByViewCount" resultType="volunteerDTO">-->
+        <!--        select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,-->
+        <!--        pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,-->
+        <!--        v.vt_s_date, v.vt_e_date,p.post_view_count, p.post_type, p.post_summary, p.created_date-->
+        <!--        from tbl_vt v-->
+        <!--        join tbl_post p on v.id = p.id-->
+        <!--        join tbl_member m on p.member_id = m.id-->
+        <!--        join tbl_profile pf on p.member_id = pf.id-->
+        <!--        order by-->
+        <!--        <choose>-->
+        <!--            <otherwise>p.post_view_count desc</otherwise>-->
+        <!--        </choose>-->
+        <!--        limit #{pagination.startRow}, #{pagination.rowCount}-->
+        <!--    </select>-->
+
+
+
+        <!--<select id="selectByDeadline" resultType="volunteerDTO">-->
+        <!--select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,-->
+        <!--pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,-->
+        <!--v.vt_s_date, v.vt_e_date,p.post_view_count, p.post_type, p.post_summary, p.created_date-->
+        <!--from tbl_vt v-->
+        <!--join tbl_post p on v.id = p.id-->
+        <!--join tbl_member m on p.member_id = m.id-->
+        <!--join tbl_profile pf on p.member_id = pf.id-->
+        <!--<where>-->
+        <!--    <if test="pagination.order == 'endingSoon'">-->
+        <!--        v.vt_e_date >= current_date-->
+        <!--    </if>-->
+        <!--</where>-->
+        <!--order by-->
+        <!--<choose>-->
+        <!--    <otherwise>v.vt_e_date asc</otherwise>-->
+        <!--</choose>-->
+        <!--limit #{pagination.startRow}, #{pagination.rowCount}-->
+        <!--</select>-->
+
+
+

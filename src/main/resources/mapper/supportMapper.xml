@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.support.SupportMapper">
+
+    <select id="selectTop10Supports" resultType="supportDTO">
+        select s.id,
+           s.goal_point,
+           s.support_s_date,
+           s.support_e_date,
+           p.post_title,
+           p.post_content,
+           a.attachment_file_name,
+           a.attachment_file_path,
+           a.attachment_file_size,
+           a.attachment_file_type
+        from tbl_support s
+                join tbl_post p on s.id = p.id
+                left join tbl_attachment a on p.id = a.post_id
+    </select>
+
+    <update id="updateCurrentPoint" parameterType="supportDTO">
+        update tbl_support
+        set current_point = #{currentPoint}
+        where id = #{id}
+    </update>
+
+</mapper>

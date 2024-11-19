@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.payment.PaymentMapper">
+
+    <insert id="insert" parameterType="paymentDTO">
+        insert into tbl_payment(payment_status,payment_amount,member_id,created_date,updated_date)
+        values (#{paymentStatus},#{paymentAmount},#{memberId},current_timestamp,current_timestamp)
+    </insert>
+
+    <select id="selectById" parameterType="long" resultType="paymentDTO">
+        SELECT
+            id, payment_status, payment_amount, member_id, created_date, updated_date
+        FROM
+            tbl_payment
+        WHERE
+            id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="paymentDTO">
+        SELECT
+            id, payment_status, payment_amount, member_id, created_date, updated_date
+        FROM
+            tbl_payment
+        ORDER BY
+            created_date DESC
+    </select>
+
+    <update id="update" parameterType="paymentDTO">
+        UPDATE tbl_payment
+        SET
+            payment_status = #{paymentStatus},
+            payment_amount = #{paymentAmount},
+            member_id = #{memberId},
+            updated_date = CURRENT_TIMESTAMP
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM tbl_payment
+        WHERE
+            id = #{id}
+    </delete>
+
+    <select id="selectTotalPaymentByMemberId" resultType="int">
+        SELECT COALESCE(SUM(payment_amount), 0)
+        FROM tbl_payment
+        WHERE member_id = #{memberId} and payment_status = "COMPLETED"
+    </select>
+
+    <select id="selectByMemberId" parameterType="long" resultType="paymentDTO">
+        SELECT
+            id, payment_status, payment_amount, member_id, created_date, updated_date
+        FROM
+            tbl_payment
+        WHERE
+            member_id = #{memberId}
+        ORDER BY
+            id DESC
+    </select>
+
+    <select id="selectByMemberIdAndDateRange" parameterType="map" resultType="paymentDTO">
+        SELECT
+            id, payment_status, payment_amount, member_id, created_date, updated_date
+        FROM
+            tbl_payment
+        WHERE
+            member_id = #{memberId}
+          AND created_date BETWEEN #{startDate} AND #{endDate} + INTERVAL '1' DAY
+        ORDER BY
+            created_date DESC
+    </select>
+
+</mapper>

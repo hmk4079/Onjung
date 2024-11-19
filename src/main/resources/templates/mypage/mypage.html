@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Onjung - 마이페이지</title>
+        <link rel="stylesheet" href="/css/mypage/mypage.css" />
+        <link rel="stylesheet" href="/css/main/footer.css"/>
+        <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
+        <link
+                rel="icon"
+                href="/images/favicon.png"
+        />
+        <style>
+            @import url(https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap);
+        </style>
+    </head>
+    <body>
+    <div>
+        <th:block th:replace="~{main/login-header-no-noti :: header}"></th:block>
+    </div>
+        <div id="root">
+            <div id="app" class="app">
+                <div class="wrap">
+                    <div class="wrap-div">
+                        <div class="contest-manage">
+                            <div class="contest-deal-manage-wrap">
+                                <div class="mypage-whole">
+                                    <div class="mypage-whole-wrap">
+                                        <div class="mypage-box">
+                                            <div
+                                                class="mypage-wrap mypage-left-area"
+                                            >
+                                                <div
+                                                    class="mypage-member-container"
+                                                >
+                                                    <div
+                                                        class="mypage-member-info"
+                                                    >
+                                                        <div class="profile-thumb-img">
+                                                            <div class="member-thumb member-thumb2" id="mainProfileThumbnail"
+                                                                 th:style="'background-image: url(\'/profile/display?memberId=' + ${member.id} + '\');'">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="member-id">
+                                                            <div class="info-role" id="memberType"></div>
+                                                            <div class="info-nick" id="memberName"></div>
+                                                            <div class="info-email" id="memberEmail"></div>
+                                                        </div>
+                                                        <a
+                                                            class="profile-edit-button share-btn"
+                                                            href="/mypage/mypage-profile-edit"
+                                                        >
+                                                            프로필 수정
+                                                            <svg
+                                                                viewBox="0 0 12 12"
+                                                                class="iFpvod"
+                                                            >
+                                                                <path
+                                                                    fill-rule="evenodd"
+                                                                    clip-rule="evenodd"
+                                                                    d="M9.65772 1.14943L10.8506 2.34227C11.0498 2.5415 11.0498 2.8659 10.8506 3.06513L9.9157 4L8 2.08429L8.93486 1.14943C9.13409 0.950192 9.45849 0.950192 9.65772 1.14943ZM1 11V8.97503L6.97502 3L9 5.02497L3.02498 11H1Z"
+                                                                ></path>
+                                                                <defs></defs>
+                                                            </svg>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 사이드 배너 -->
+
+                                                <div class="side-baner-wrap">
+                                                    <div
+                                                        class="side-baner-header"
+                                                        style="width: 217px"
+                                                    >
+                                                        <div
+                                                            class="lnb-title"
+                                                            style="width: 217px"
+                                                        >
+                                                            <img
+                                                                id="image.system.emoji.drannehyattdvm"
+                                                                src="https://cdn-dantats.stunning.kr/static/emoji/ArtistPalette32px.png"
+                                                                class="i hkAQYM"
+                                                            />프로필 관리
+                                                        </div>
+                                                        <div
+                                                            class="side-baner-content-wrap"
+                                                            style="
+                                                                margin-bottom: -15px;
+                                                            "
+                                                        >
+                                                            <div
+                                                                class="lnb-item active"
+                                                            >
+                                                                <a
+                                                                    href="#"
+                                                                    class="side-baner-content"
+                                                                    onclick="showTab('mypage', this)"
+                                                                >
+                                                                    마이 프로필
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="side-baner-header"
+                                                        style="
+                                                            width: 217px;
+                                                            padding-top: 0px;
+                                                        "
+                                                    >
+                                                        <div
+                                                            class="lnb-title"
+                                                            style="width: 217px"
+                                                        >
+                                                            <img
+                                                                id="image.system.emoji.cindyhilll"
+                                                                src="https://cdn-dantats.stunning.kr/static/emoji/CreditCard36px.png"
+                                                                class="hkAQYM"
+                                                            />결제 관리
+                                                        </div>
+                                                        <div
+                                                            class="side-baner-content-wrap"
+                                                        >
+                                                            <div
+                                                                class="lnb-item"
+                                                                id="payment-tab"
+                                                            >
+                                                                <a
+                                                                    href="#"
+                                                                    class="side-baner-content"
+                                                                    onclick="showTab('payment', this)"
+                                                                    >결제
+                                                                    내역</a
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="lnb-item"
+                                                            >
+                                                                <a
+                                                                    href="#"
+                                                                    class="side-baner-content"
+                                                                    onclick="showTab('boost', this)"
+                                                                    >후원
+                                                                    내역</a
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="lnb-item"
+                                                            >
+                                                                <a
+                                                                    href="#"
+                                                                    class="side-baner-content"
+                                                                    onclick="showTab('donation', this)"
+                                                                    >기부
+                                                                    내역</a
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="lnb-item"
+                                                                id="charge-tab"
+                                                            >
+                                                                <a
+                                                                    href="#"
+                                                                    class="side-baner-content"
+                                                                    onclick="showTab('charge', this)"
+                                                                    >충전
+                                                                    하기</a
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="side-baner-header"
+                                                        style="width: 217px"
+                                                    >
+                                                        <div
+                                                            class="lnb-title"
+                                                            style="width: 217px"
+                                                        >
+                                                            <img
+                                                                id="image.system.emoji.cindyhagenes"
+                                                                src="https://cdn-dantats.stunning.kr/static/emoji/PageFacingUp36px.png"
+                                                                class="hkAQYM"
+                                                            />히스토리
+                                                        </div>
+                                                        <div
+                                                            class="side-baner-content-wrap"
+                                                        >
+                                                            <div
+                                                                class="lnb-item"
+                                                            >
+                                                                <a
+                                                                    href="#"
+                                                                    class="side-baner-content"
+                                                                    onclick="showTab('notice', this)"
+                                                                    >내 알림</a
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="lnb-item"
+                                                            >
+                                                                <a
+                                                                    href="#"
+                                                                    class="side-baner-content"
+                                                                    onclick="showTab('volunteer-record', this)"
+                                                                    >봉사 활동
+                                                                    내역</a
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="lnb-item"
+                                                            >
+                                                                <a
+                                                                    href="#"
+                                                                    class="side-baner-content"
+                                                                    onclick="showTab('inquiry', this)"
+                                                                    >내 문의</a
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="lnb-item"
+                                                            >
+                                                                <a
+                                                                    href="#"
+                                                                    class="side-baner-content"
+                                                                    onclick="showTab('postscript', this)"
+                                                                    >내 봉사
+                                                                    활동 후기
+                                                                </a>
+                                                            </div>
+                                                            <div
+                                                                class="lnb-item"
+                                                                style="width: 0px;"
+                                                            >
+                                                                <a
+                                                                    href="#"
+                                                                    class="side-baner-content"
+                                                                    style="display: none;"
+                                                                    onclick="showTab('gratitude', this)"
+                                                                    >기부 감사
+                                                                    인사</a
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="lnb-item"
+                                                            >
+                                                                <a
+                                                                    href="#"
+                                                                    class="side-baner-content"
+                                                                    onclick="showTab('application', this)"
+                                                                    >봉사 활동
+                                                                    신청 현황</a
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="mypage-wrap mypage-right-area"
+                                            >
+                                                <!-- 마이프로필     -->
+
+                                                <section
+                                                    id="mypage"
+                                                    class="profile-main tab-content active"
+                                                >
+                                                    <div
+                                                        class="profile-page-wrap"
+                                                    >
+                                                        <div
+                                                            class="profile-page-contents"
+                                                        >
+                                                            <div
+                                                                class="profile-page-self-introduction"
+                                                            >
+
+                                                                <div
+                                                                    class="sub-title1"
+                                                                    style="
+                                                                        margin-top: 10%;
+                                                                        margin-left: 35%;
+                                                                        width: 700px;
+                                                                        font-size: 30px;
+                                                                    "
+                                                                >
+                                                                    <span id="profileName"></span>님의 프로필
+                                                                </div>
+
+                                                                <div id="profileIntroduction" class="content empty" style="margin-top: 5%; margin-left: 35%; font-size: 15px; height: 100px;">
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="info-wrap"
+                                                            >
+                                                                <div
+                                                                    class="profile-page-content career-info"
+                                                                    style="
+                                                                        margin-left: 220px;
+                                                                    "
+                                                                >
+                                                                    <svg
+                                                                        viewBox="0 0 24 24"
+                                                                        class="profile-page-svg"
+                                                                    >
+                                                                        <path
+                                                                            fill-rule="evenodd"
+                                                                            clip-rule="evenodd"
+                                                                            d="M15.5253 21.0004C17.8865 21.0004 19.8006 19.0862 19.8006 16.725C19.8006 14.3638 17.8865 12.4497 15.5253 12.4497C13.1641 12.4497 11.25 14.3638 11.25 16.725C11.25 19.0862 13.1641 21.0004 15.5253 21.0004ZM13.3656 17.3002C13.1898 17.1244 13.1898 16.8395 13.3656 16.6637C13.5413 16.488 13.8263 16.488 14.002 16.6637L14.956 17.6177L17.1837 15.39C17.3595 15.2143 17.6444 15.2143 17.8202 15.39C17.9959 15.5657 17.9959 15.8507 17.8202 16.0264L15.2951 18.5515C15.2886 18.5589 15.2819 18.566 15.2749 18.573C15.2679 18.58 15.2607 18.5868 15.2534 18.5932L14.9562 18.8904L14.6485 18.5828L14.6385 18.573L13.3656 17.3002Z"
+                                                                        ></path>
+                                                                        <path
+                                                                            fill-rule="evenodd"
+                                                                            clip-rule="evenodd"
+                                                                            d="M17.101 3.75H4.5V19.5H10.6317C10.1665 18.6812 9.90088 17.7343 9.90088 16.7253C9.90088 13.6184 12.4195 11.0999 15.5263 11.0999C16.0729 11.0999 16.6013 11.1778 17.101 11.3232V3.75Z"
+                                                                        ></path>
+                                                                        <defs></defs>
+                                                                    </svg>
+                                                                    <div
+                                                                        class="sub-title2"
+                                                                    >
+                                                                        총
+                                                                        봉사활동
+                                                                        횟수
+                                                                    </div>
+                                                                    <div class="h1 career-info-content" id="vtCount"></div>
+                                                                </div>
+                                                                <div
+                                                                    class="profile-page-content career-info"
+                                                                    style="
+                                                                        margin-left: 15px;
+                                                                    "
+                                                                >
+                                                                    <svg
+                                                                        viewBox="0 0 24 24"
+                                                                        class="profile-page-svg"
+                                                                    >
+                                                                        <path
+                                                                            fill-rule="evenodd"
+                                                                            clip-rule="evenodd"
+                                                                            d="M15.5253 21.0004C17.8865 21.0004 19.8006 19.0862 19.8006 16.725C19.8006 14.3638 17.8865 12.4497 15.5253 12.4497C13.1641 12.4497 11.25 14.3638 11.25 16.725C11.25 19.0862 13.1641 21.0004 15.5253 21.0004ZM13.3656 17.3002C13.1898 17.1244 13.1898 16.8395 13.3656 16.6637C13.5413 16.488 13.8263 16.488 14.002 16.6637L14.956 17.6177L17.1837 15.39C17.3595 15.2143 17.6444 15.2143 17.8202 15.39C17.9959 15.5657 17.9959 15.8507 17.8202 16.0264L15.2951 18.5515C15.2886 18.5589 15.2819 18.566 15.2749 18.573C15.2679 18.58 15.2607 18.5868 15.2534 18.5932L14.9562 18.8904L14.6485 18.5828L14.6385 18.573L13.3656 17.3002Z"
+                                                                        ></path>
+                                                                        <path
+                                                                            fill-rule="evenodd"
+                                                                            clip-rule="evenodd"
+                                                                            d="M17.101 3.75H4.5V19.5H10.6317C10.1665 18.6812 9.90088 17.7343 9.90088 16.7253C9.90088 13.6184 12.4195 11.0999 15.5263 11.0999C16.0729 11.0999 16.6013 11.1778 17.101 11.3232V3.75Z"
+                                                                        ></path>
+                                                                        <defs></defs>
+                                                                    </svg>
+                                                                    <div
+                                                                        class="sub-title2"
+                                                                    >
+                                                                        총
+                                                                        봉사활동
+                                                                        시간
+                                                                    </div>
+                                                                    <div class="h1 career-info-content" id="totalVtTime"></div>
+
+                                                                </div>
+                                                                <div
+                                                                    class="profile-page-content career-info"
+                                                                >
+                                                                    <svg
+                                                                        viewBox="0 0 24 24"
+                                                                        class="profile-page-svg"
+                                                                    >
+                                                                        <path
+                                                                            d="M19.2857 18.75H4.71429L3 8.73387L8.14286 13.5242L12 5.25L15.8571 13.5242L21 8.73387L19.2857 18.75Z"
+                                                                        ></path>
+                                                                        <defs></defs>
+                                                                    </svg>
+                                                                    <div
+                                                                        class="sub-title2"
+                                                                    >
+                                                                        총 기부
+                                                                        포인트
+                                                                        <div
+                                                                            class="fpiAVl tooltip"
+                                                                        ></div>
+                                                                    </div>
+                                                                    <div class="h1 career-info-content" style="font-size: 19px">
+                                                                        <span id="memberPoint"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="profile-page-content career-info"
+                                                                >
+                                                                    <svg
+                                                                        viewBox="0 0 24 24"
+                                                                        class="profile-page-svg"
+                                                                    >
+                                                                        <path
+                                                                            d="M19.2857 18.75H4.71429L3 8.73387L8.14286 13.5242L12 5.25L15.8571 13.5242L21 8.73387L19.2857 18.75Z"
+                                                                        ></path>
+                                                                        <defs></defs>
+                                                                    </svg>
+                                                                    <div
+                                                                        class="sub-title2"
+                                                                    >
+                                                                        총 후원
+                                                                        정 수
+                                                                    </div>
+                                                                    <div class="h1 career-info-content" style="font-size: 19px">
+                                                                        <span id="memberJung"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+
+                                                <!-- 결제 내역 -->
+
+                                                <div id="payment" class="profile-contents-box-wrap tab-content">
+                                                    <main class="right-contents-main">
+                                                        <header class="right-contents-header">
+                                                            <div class="kBJTCS">
+                                                                <div class="header-title">결제 내역</div>
+                                                                <div class="header-desc">
+                                                                    <span class="fendym">결제 이용내역을 확인하실 수 있습니다.</span>
+                                                                </div>
+                                                            </div>
+                                                        </header>
+
+                                                        <!-- 날짜 필터 -->
+                                                        <div class="date-filter">
+                                                            <div class="title">결제 / 취소 일시</div>
+                                                            <div class="option date-container">
+                                                                <span class="date-span">날짜지정</span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="start-date-payments" placeholder="시작 날짜를 선택하세요" onchange="updateDateRangePayments()" />
+                                                                </label>
+                                                                <span class="then"><strong>-</strong></span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="end-date-payments" placeholder="종료 날짜를 선택하세요" onchange="updateDateRangePayments()" />
+                                                                </label>
+                                                            </div>
+
+                                                            <!-- 필터 버튼 -->
+                                                            <div class="date-button">
+                                                                <label class="fItXBi toggle" style="margin-left: 15px;">
+                                                                    <input type="checkbox" id="filter-1year-payment" onchange="applyFilterPayments(memberId, 12)" />최근 1년
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-1month-payment" onchange="applyFilterPayments(memberId, 1)" />1개월
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-3months-payment" onchange="applyFilterPayments(memberId, 3)" />3개월
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-6months-payment" onchange="applyFilterPayments(memberId, 6)" />6개월
+                                                                </label>
+                                                                <button id="Initialization-payment" class="gPdSFi">
+                                                                    <svg viewBox="0 0 12 12" class="refresh-svg">
+                                                                        <path d="M5.792 9.584C3.698 9.584 2 7.886 2 5.792C2 3.698 3.698 2 5.792 2C7.887 2 9.584 3.698 9.584 5.792"
+                                                                              stroke-width="1.2" stroke-linecap="round" fill="#ffffff"></path>
+                                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                              d="M9.5976 6.91949L10.9586 5.17549C11.0586 5.04849 10.9676 4.86349 10.8066 4.86349H8.0826C7.9216 4.86349 7.8306 5.04849 7.9306 5.17549L9.2916 6.91949C9.3696 7.01849 9.5196 7.01849 9.5976 6.91949Z"></path>
+                                                                        <defs></defs>
+                                                                    </svg>
+                                                                    <span>초기화</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- 탭 메뉴 -->
+                                                        <div class="cKhWaV">
+                                                            <div class="tab-wrap">
+                                                                <div class="bqkLME tabs">
+                                                                    <div class="tab active">
+                                                                        <div class="item-wrap">
+                                                                            <div class="item-name">전체</div>
+                                                                            <label id="payment-totalCount" class="ezikFA">0</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- 결제 내역 리스트 -->
+                                                        <div class="content-inner">
+                                                            <div id="payment-list" class="payment-list"></div>
+                                                            <div class="empty-component" style="display: none;">
+                                                                <div class="kjzWjC empty">
+                                                                    <div class="empty-image">
+                                                                        <img name="SlightlySmilingFace" src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png" class="hkAQYM" style="margin-left: 45px"/>
+                                                                        <h4><span class="fendym"><b>결제 내역이 없습니다.</b></span></h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </main>
+                                                </div>
+
+                                                <!-- 후원 내역 -->
+                                                <div id="boost" class="profile-contents-box-wrap tab-content">
+                                                    <main class="right-contents-main">
+                                                        <header class="right-contents-header">
+                                                            <div class="kBJTCS">
+                                                                <div class="header-title">후원 내역</div>
+                                                                <div class="header-desc">
+                                                                    <span class="fendym">후원 내역을 확인하실 수 있습니다.</span>
+                                                                </div>
+                                                            </div>
+                                                        </header>
+
+                                                        <div class="date-filter">
+                                                            <div class="title">후원 / 취소일시</div>
+                                                            <div class="option date-container">
+                                                                <span class="date-span">날짜지정</span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="start-date-boost" placeholder="시작 날짜를 선택하세요" onchange="updateDateRangeBoostRecords()" />
+                                                                </label>
+                                                                <span class="then"><strong>-</strong></span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="end-date-boost" placeholder="종료 날짜를 선택하세요" onchange="updateDateRangeBoostRecords()" />
+                                                                </label>
+                                                            </div>
+
+                                                            <!-- 필터 옵션 -->
+                                                            <div class="date-button">
+                                                                <label class="fItXBi toggle" style="margin-left: 15px;">
+                                                                    <input type="checkbox" id="filter-1year-boost" value="" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"></path>
+                                                                    </svg>
+                                                                    최근 1년
+                                                                </label>
+                                                                <label class="fItXBi toggle"><input type="checkbox" id="filter-1month-boost" value="" /> 1개월</label>
+                                                                <label class="fItXBi toggle"><input type="checkbox" id="filter-3months-boost" value="" /> 3개월</label>
+                                                                <label class="fItXBi toggle"><input type="checkbox" id="filter-6months-boost" value="" /> 6개월</label>
+                                                            </div>
+
+                                                            <!-- 초기화 버튼 -->
+                                                            <button id="Initialization-boost" class="gPdSFi">
+                                                                <svg viewBox="0 0 12 12" class="refresh-svg">
+                                                                    <path d="M5.792 9.584C3.698 9.584 2 7.886 2 5.792C2 3.698 3.698 2 5.792 2C7.887 2 9.584 3.698 9.584 5.792"></path>
+                                                                </svg>
+                                                                <span>초기화</span>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="cKhWaV">
+                                                            <div class="tab-wrap">
+                                                                <div class="bqkLME tabs">
+                                                                    <div class="tab active">
+                                                                        <div class="item-wrap">
+                                                                            <div class="item-name">전체</div>
+                                                                            <label id="boost-totalCount" class="ezikFA">0</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- 후원 내역 목록 -->
+                                                        <div class="content-inner">
+                                                            <div id="boost-list" class="boost-list" style="display: block;"></div>
+                                                            <div class="empty-component" style="display: none;">
+                                                                <div class="empty-image">
+                                                                    <img src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png" class="hkAQYM" alt="No Boost Records" />
+                                                                    <h4><span class="fendym"><b>후원 내역이 없습니다.</b></span></h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </main>
+                                                </div>
+
+
+                                                <!-- 기부 내역 -->
+                                                <div id="donation" class="profile-contents-box-wrap tab-content">
+                                                    <main class="right-contents-main">
+                                                        <header class="right-contents-header">
+                                                            <div class="kBJTCS">
+                                                                <div class="header-title">기부 내역</div>
+                                                                <div class="header-desc">
+                                                                    <span class="fendym">기부 내역을 확인하실 수 있습니다.</span>
+                                                                </div>
+                                                            </div>
+                                                        </header>
+
+                                                        <div class="date-filter">
+                                                            <div class="title">기부 / 취소일시</div>
+                                                            <div class="option date-container">
+                                                                <span class="date-span">날짜지정</span>
+                                                                <label class="company-name">
+                                                                    <input
+                                                                            type="date"
+                                                                            id="start-date-donation"
+                                                                            placeholder="시작 날짜를 선택하세요"
+                                                                            onchange="updateDateRangeDonations()"
+                                                                    />
+                                                                </label>
+                                                                <span class="then"><strong>-</strong></span>
+                                                                <label class="company-name">
+                                                                    <input
+                                                                            type="date"
+                                                                            id="end-date-donation"
+                                                                            placeholder="종료 날짜를 선택하세요"
+                                                                            onchange="updateDateRangeDonations()"
+                                                                    />
+                                                                </label>
+                                                            </div>
+
+                                                            <!-- 필터 버튼 -->
+                                                            <div class="date-button">
+                                                                <label class="fItXBi toggle" style="margin-left: 15px;">
+                                                                    <input type="checkbox" id="filter-1year-donation" value="" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 24 24" width="16" height="16">
+                                                                        <path d="M20.285,6.709c-0.391-0.391-1.023-0.391-1.414,0L9,16.586l-4.871-4.871
+                                 c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l5.578,5.578c0.391,0.391,1.023,0.391,1.414,0l10.578-10.578
+                                 C20.676,7.732,20.676,7.1,20.285,6.709z"/>
+                                                                    </svg>
+                                                                    최근 1년
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-1months-donation" value="" />
+                                                                    <!-- SVG 아이콘 삽입 -->
+                                                                    <svg class="iFpvod check" viewBox="0 0 24 24" width="16" height="16">
+                                                                        <path d="M20.285,6.709c-0.391-0.391-1.023-0.391-1.414,0L9,16.586l-4.871-4.871
+                                 c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l5.578,5.578c0.391,0.391,1.023,0.391,1.414,0l10.578-10.578
+                                 C20.676,7.732,20.676,7.1,20.285,6.709z"/>
+                                                                    </svg>
+                                                                    1개월
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-3months-donation" value="" />
+                                                                    <!-- SVG 아이콘 삽입 -->
+                                                                    <svg class="iFpvod check" viewBox="0 0 24 24" width="16" height="16">
+                                                                        <path d="M20.285,6.709c-0.391-0.391-1.023-0.391-1.414,0L9,16.586l-4.871-4.871
+                                 c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l5.578,5.578c0.391,0.391,1.023,0.391,1.414,0l10.578-10.578
+                                 C20.676,7.732,20.676,7.1,20.285,6.709z"/>
+                                                                    </svg>
+                                                                    3개월
+                                                                </label>
+
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-6months-donation" value="" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 24 24" width="16" height="16">
+                                                                        <path d="M20.285,6.709c-0.391-0.391-1.023-0.391-1.414,0L9,16.586l-4.871-4.871
+                                 c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l5.578,5.578c0.391,0.391,1.023,0.391,1.414,0l10.578-10.578
+                                 C20.676,7.732,20.676,7.1,20.285,6.709z"/>
+                                                                    </svg>
+                                                                    6개월
+                                                                </label>
+
+
+                                                                <button id="Initialization-donation" class="gPdSFi">
+                                                                    <!-- SVG 아이콘 삽입 -->
+                                                                    <svg viewBox="0 0 24 24" width="16" height="16" class="refresh-svg">
+                                                                        <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.41 3.59 8 8 8s8-3.59 8-8-3.59-8-8-8z"/>
+                                                                    </svg>
+                                                                    초기화
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="cKhWaV">
+                                                            <div class="tab-wrap">
+                                                                <div class="bqkLME tabs">
+                                                                    <div class="tab active">
+                                                                        <div class="item-wrap">
+                                                                            <div class="item-name">전체</div>
+                                                                            <label id="donation-totalCount" class="ezikFA">0</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="content-inner">
+                                                            <div class="donation-list" style="display: block;"></div>
+                                                            <div class="empty-component">
+                                                                <div class="kjzWjC empty" style="display: none;">
+                                                                    <div class="empty-image">
+                                                                        <img
+                                                                                name="SlightlySmilingFace"
+                                                                                src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png"
+                                                                                class="hkAQYM"
+                                                                                alt="No Donations"
+                                                                        />
+                                                                        <h4>
+                                                                            <span class="fendym"><b>기부 내역이 없습니다.</b></span>
+                                                                        </h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </main>
+                                                </div>
+
+
+                                                <!--충전하기-->
+                                                <div
+                                                    id="charge"
+                                                    class="profile-contents-box-wrap tab-content"
+                                                >
+                                                    <section class="iOhuaS">
+                                                        <header
+                                                            class="right-contents-header"
+                                                        >
+                                                            <div class="kBJTCS">
+                                                                <div
+                                                                    class="header-title"
+                                                                >
+                                                                    충전 하기
+                                                                </div>
+                                                                <div
+                                                                    class="header-desc"
+                                                                >
+                                                                    <span
+                                                                        class="fendym"
+                                                                        >지급된
+                                                                        상금
+                                                                        내역을
+                                                                        확인하고,
+                                                                        잔액을
+                                                                        관리하세요.</span
+                                                                    >
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="gwjPhp"
+                                                            ></div>
+                                                        </header>
+                                                        <div
+                                                            color="#DBDEE2"
+                                                            class="bbgnEP"
+                                                        ></div>
+                                                        <section class="dGtdjO">
+                                                            <div
+                                                                class="withdraw-input"
+                                                            >
+                                                                <span
+                                                                    class="fendym"
+                                                                >
+                                                                    <strong>
+                                                                        동양적인퍼플3324</strong
+                                                                    >
+                                                                    님의 현재
+                                                                    잔액
+                                                                </span>
+
+                                                                <div
+                                                                    class="input-box"
+                                                                >
+                                                                    <p>
+                                                                        가상계좌
+                                                                        잔액
+                                                                    </p>
+                                                                    <span id="account-balance"
+                                                                        ></span
+                                                                    >
+                                                                </div>
+                                                                <div
+                                                                        class="input-box"
+                                                                >
+                                                                    <p>
+                                                                        충전할 금액
+                                                                    </p>
+                                                                    <input type="text" id="payment-amount"/>
+                                                                    <span>원</span>
+                                                                </div>
+                                                                <button
+                                                                    class="jNNRuG withdraw-btn"
+                                                                >
+                                                                    <span
+                                                                        class="visual-correction"
+                                                                        >충전
+                                                                        하기</span
+                                                                    >
+                                                                </button>
+                                                            </div>
+                                                            <div
+                                                                class="withdraw-info"
+                                                            >
+                                                                <ul>
+                                                                    충전 신청
+                                                                    안내
+                                                                    <li>
+                                                                        충전
+                                                                        신청은
+                                                                        1,000원
+                                                                        단위로
+                                                                        가능합니다.
+                                                                    </li>
+                                                                    <li>
+                                                                        <span
+                                                                            class="fendym"
+                                                                            >월/수
+                                                                            오후
+                                                                            5시까지
+                                                                            출금신청
+                                                                            건은
+                                                                            화/목
+                                                                            오후
+                                                                            3시에
+                                                                            지급
+                                                                            처리됩니다.</span
+                                                                        >
+                                                                    </li>
+                                                                    <li>
+                                                                        중복으로
+                                                                        신청은
+                                                                        불가하며,
+                                                                        충전이
+                                                                        완료된
+                                                                        다음
+                                                                        신청
+                                                                        가능합니다.
+                                                                    </li>
+                                                                    <li>
+                                                                        <a
+                                                                            href="https://cdn-dantats.stunning.kr/static/download/vbank/bankinformation_20230717.pdf"
+                                                                            target="_blank"
+                                                                            class="side-baner-content"
+                                                                            >사업자
+                                                                            출금
+                                                                            가이드
+                                                                            확인하기</a
+                                                                        >
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </section>
+                                                    </section>
+                                                    <div class="content-inner">
+                                                        <div
+                                                            id="charge-list"
+                                                            class="charge-list"
+                                                            style="
+                                                                display: block;
+                                                            "
+                                                        ></div>
+                                                        <div
+                                                            class="empty-component"
+                                                        >
+                                                            <div
+                                                                class="kjzWjC empty"
+                                                                style="
+                                                                    display: none;
+                                                                "
+                                                            >
+                                                                <div
+                                                                    class="empty-image"
+                                                                >
+                                                                    <img
+                                                                        name="SlightlySmilingFace"
+                                                                        src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png"
+                                                                        class="hkAQYM"
+                                                                    />
+                                                                    <h4>
+                                                                        <span
+                                                                            class="fendym"
+                                                                            ><b
+                                                                                >충전
+                                                                                내역이
+                                                                                없습니다.</b
+                                                                            >
+                                                                        </span>
+                                                                    </h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <section class="ejrtXD">
+                                                        <ul>
+                                                            <li>
+                                                                온정 가상계좌
+                                                                충전 내역을
+                                                                확인하실 수
+                                                                있습니다.
+                                                            </li>
+                                                            <li>
+                                                                결제내역 조회를
+                                                                원하시는
+                                                                경우에는 [결제
+                                                                관리 &gt; 결제
+                                                                내역]을
+                                                                참고해주세요.
+                                                            </li>
+                                                        </ul>
+                                                    </section>
+                                                </div>
+
+                                                <!-- 알림 섹션 -->
+                                                <div id="notice" class="profile-contents-box-wrap tab-content">
+                                                    <main class="fErMe">
+                                                        <header class="right-contents-header">
+                                                            <div class="kBJTCS" style="position: relative;">
+                                                                <div class="header-title">알림 센터</div>
+                                                                <div class="header-desc">
+                                                                    <span class="fendym">최근 10개의 알림까지 보여집니다.<br /></span>
+                                                                    <span class="star" style="top: 63px; left: -3px;">*</span>
+                                                                    <span class="announcement">&nbsp;은(는) 읽지 않은 알림입니다.</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="gwjPhp"></div>
+                                                        </header>
+                                                        <div class="bqkLME tabs">
+                                                            <div class="active tab">
+                                                                <div class="tab-item">
+                                                                    전체
+                                                                    <label id="notice-totalCount" class="gQDBHp">0</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="kjzWjC empty">
+                                                            <div class="content-inner" style="margin: 0px;">
+                                                                <div id="notice-list" class="notice-list" style="display: block;">
+                                                                </div>
+                                                                <div class="empty-component" id="alarms-empty" style="display: none;">
+                                                                    <div class="kjzWjC empty">
+                                                                        <div class="empty-image">
+                                                                            <img name="SlightlySmilingFace" src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png" class="hkAQYM"/>
+                                                                        </div>
+                                                                        <h4>
+                                                                            <span class="fendym"><b>아직까지 새로운 알림이 없습니다. 새소식이 있을 때 바로 알려드릴게요.</b></span>
+                                                                        </h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </main>
+                                                </div>
+
+                                                <!-- 봉사 활동 내역 섹션 -->
+                                                <div
+                                                        id="volunteer-record"
+                                                        class="profile-contents-box-wrap tab-content"
+                                                >
+                                                    <main class="right-contents-main">
+                                                        <header class="right-contents-header">
+                                                            <div class="kBJTCS">
+                                                                <div class="header-title">
+                                                                    봉사 활동 내역
+                                                                </div>
+                                                                <div class="header-desc">
+                                                                    <span class="fendym">봉사 활동 내역을 확인하실 수 있습니다.</span>
+                                                                </div>
+                                                            </div>
+                                                        </header>
+                                                        <div class="date-filter">
+                                                            <div class="title">문의 작성 일시</div>
+                                                            <div class="option date-container">
+                                                                <span class="date-span">날짜지정</span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="start-date-volunteer" placeholder="시작 날짜를 선택하세요" onchange="updateDateRangeInquiries()">
+                                                                </label>
+                                                                <span class="then"><strong>-</strong></span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="end-date-volunteer" placeholder="종료 날짜를 선택하세요" onchange="updateDateRangeInquiries()">
+                                                                </label>
+                                                            </div>
+
+                                                            <!-- 필터 체크박스 -->
+                                                            <div class="date-button">
+                                                                <label class="fItXBi toggle" style="margin-left: 15px;">
+                                                                    <input type="checkbox" id="filter-1year-volunteer">
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"></path>
+                                                                    </svg>
+                                                                    최근 1년
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-1month-volunteer">
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"></path>
+                                                                    </svg>
+                                                                    1개월
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-3months-volunteer">
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"></path>
+                                                                    </svg>
+                                                                    3개월
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-6months-volunteer">
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"></path>
+                                                                    </svg>
+                                                                    6개월
+                                                                </label>
+                                                            </div>
+                                                            <button id="Initialization-volunteer" class="gPdSFi">
+                                                                <svg viewBox="0 0 12 12" class="refresh-svg">
+                                                                    <path d="M5.792 9.584C3.698 9.584 2 7.886 2 5.792C2 3.698 3.698 2 5.792 2C7.887 2 9.584 3.698 9.584 5.792" stroke-width="1.2" stroke-linecap="round" fill="#ffffff"></path>
+                                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.5976 6.91949L10.9586 5.17549C11.0586 5.04849 10.9676 4.86349 10.8066 4.86349H8.0826C7.9216 4.86349 7.8306 5.04849 7.9306 5.17549L9.2916 6.91949C9.3696 7.01849 9.5196 7.01849 9.5976 6.91949Z"></path>
+                                                                </svg>
+                                                                <span>초기화</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="cKhWaV">
+                                                            <div class="tab-wrap">
+                                                                <div class="bqkLME tabs">
+                                                                    <div class="tab active">
+                                                                        <div class="item-wrap">
+                                                                            <div class="item-name">전체</div>
+                                                                            <label id="volunteer-totalCount" class="ezikFA">0</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="content-inner">
+                                                            <div id="volunteer-list" class="volunteer-list" style="display: block;"></div>
+                                                            <div class="empty-component">
+                                                                <div class="kjzWjC empty">
+                                                                    <div class="empty-image">
+                                                                        <img
+                                                                                name="SlightlySmilingFace"
+                                                                                src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png"
+                                                                                class="hkAQYM"
+                                                                        />
+                                                                        <h4>
+                                                                            <span class="fendym"><b>봉사 활동 내역이 없습니다.</b></span>
+                                                                        </h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </main>
+                                                </div>
+
+
+                                                <!-- 내 문의 -->
+                                                <div id="inquiry" class="profile-contents-box-wrap tab-content">
+                                                    <main class="right-contents-main">
+                                                        <header class="right-contents-header">
+                                                            <div class="kBJTCS">
+                                                                <div class="header-title">문의 내역</div>
+                                                                <div class="header-desc">
+                                                                    <span class="fendym">문의 내역을 확인하실 수 있습니다.</span>
+                                                                </div>
+                                                            </div>
+                                                        </header>
+                                                        <div class="date-filter">
+                                                            <div class="title">문의 작성 일시</div>
+                                                            <div class="option date-container">
+                                                                <span class="date-span">날짜지정</span>
+                                                                <label class="company-name">
+                                                                    <input
+                                                                            type="date"
+                                                                            id="start-date-inquiry"
+                                                                            placeholder="시작 날짜를 선택하세요"
+                                                                            onchange="updateDateRangeInquiries()"
+                                                                    />
+                                                                </label>
+                                                                <span class="then"><strong>-</strong></span>
+                                                                <label class="company-name">
+                                                                    <input
+                                                                            type="date"
+                                                                            id="end-date-inquiry"
+                                                                            placeholder="종료 날짜를 선택하세요"
+                                                                            onchange="updateDateRangeInquiries()"
+                                                                    />
+                                                                </label>
+                                                            </div>
+
+                                                            <!-- 필터 체크박스 -->
+                                                            <div class="date-button">
+                                                                <label class="fItXBi toggle" style="margin-left: 15px;">
+                                                                    <input type="checkbox" id="filter-1year-inquiry" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path
+                                                                                d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"
+                                                                        ></path>
+                                                                    </svg>
+                                                                    최근 1년
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-1month-inquiry" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path
+                                                                                d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"
+                                                                        ></path>
+                                                                    </svg>
+                                                                    1개월
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-3months-inquiry" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path
+                                                                                d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"
+                                                                        ></path>
+                                                                    </svg>
+                                                                    3개월
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-6months-inquiry" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path
+                                                                                d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"
+                                                                        ></path>
+                                                                    </svg>
+                                                                    6개월
+                                                                </label>
+                                                            </div>
+                                                            <button id="Initialization-inquiry" class="gPdSFi">
+                                                                <svg viewBox="0 0 12 12" class="refresh-svg">
+                                                                    <path
+                                                                            d="M5.792 9.584C3.698 9.584 2 7.886 2 5.792C2 3.698 3.698 2 5.792 2C7.887 2 9.584 3.698 9.584 5.792"
+                                                                            stroke-width="1.2"
+                                                                            stroke-linecap="round"
+                                                                            fill="#ffffff"
+                                                                    ></path>
+                                                                    <path
+                                                                            fill-rule="evenodd"
+                                                                            clip-rule="evenodd"
+                                                                            d="M9.5976 6.91949L10.9586 5.17549C11.0586 5.04849 10.9676 4.86349 10.8066 4.86349H8.0826C7.9216 4.86349 7.8306 5.04849 7.9306 5.17549L9.2916 6.91949C9.3696 7.01849 9.5196 7.01849 9.5976 6.91949Z"
+                                                                    ></path>
+                                                                </svg>
+                                                                <span>초기화</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="cKhWaV">
+                                                            <div class="tab-wrap">
+                                                                <div class="bqkLME tabs">
+                                                                    <div class="tab active">
+                                                                        <div class="item-wrap">
+                                                                            <div class="item-name">전체</div>
+                                                                            <label id="inquiry-totalCount" class="ezikFA">0</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="content-inner">
+                                                            <div id="inquiry-list" class="inquiry-list" style="display: block;">
+                                                            </div>
+                                                            <div class="empty-component" style="display: none;">
+                                                                <div class="kjzWjC empty">
+                                                                    <div class="empty-image">
+                                                                        <img
+                                                                                name="SlightlySmilingFace"
+                                                                                src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png"
+                                                                                class="hkAQYM"
+                                                                        />
+                                                                        <h4>
+                                                                            <span class="fendym">
+                                                                                <b>문의 활동 내역이 없습니다.</b>
+                                                                            </span>
+                                                                        </h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </main>
+                                                </div>
+
+                                                <!-- 내 봉사 활동 후기 -->
+                                                <div id="postscript" class="profile-contents-box-wrap tab-content">
+                                                    <main class="right-contents-main">
+                                                        <header class="right-contents-header">
+                                                            <div class="kBJTCS">
+                                                                <div class="header-title">
+                                                                    봉사 활동 후기 내역
+                                                                </div>
+                                                                <div class="header-desc">
+                                                                    <span class="fendym">후기 내역을 확인하실 수 있습니다.</span>
+                                                                </div>
+                                                            </div>
+                                                        </header>
+                                                        <div class="date-filter">
+                                                            <div class="title">
+                                                                후기 작성 일시
+                                                            </div>
+                                                            <div class="option date-container">
+                                                                <span class="date-span">날짜지정</span>
+                                                                <label class="company-name">
+                                                                    <input
+                                                                            type="date"
+                                                                            id="start-date-review"
+                                                                            placeholder="시작 날짜를 선택하세요"
+                                                                            onchange="updateDateRangeReviews()"
+                                                                    />
+                                                                </label>
+                                                                <span class="then"><strong>-</strong></span>
+                                                                <label class="company-name">
+                                                                    <input
+                                                                            type="date"
+                                                                            id="end-date-review"
+                                                                            placeholder="종료 날짜를 선택하세요"
+                                                                            onchange="updateDateRangeReviews()"
+                                                                    />
+                                                                </label>
+                                                            </div>
+
+                                                            <!-- 필터 버튼 -->
+                                                            <div class="date-button">
+                                                                <label class="fItXBi toggle" style="margin-left: 15px;">
+                                                                    <input type="checkbox" id="filter-1year-review" value="" />
+                                                                    <!-- SVG 아이콘 삽입 -->
+                                                                    <svg class="iFpvod check" viewBox="0 0 24 24" width="16" height="16">
+                                                                        <path d="M20.285,6.709c-0.391-0.391-1.023-0.391-1.414,0L9,16.586l-4.871-4.871
+                                 c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l5.578,5.578c0.391,0.391,1.023,0.391,1.414,0l10.578-10.578
+                                 C20.676,7.732,20.676,7.1,20.285,6.709z"/>
+                                                                    </svg>
+                                                                    최근 1년
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-1month-review" value="" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 24 24" width="16" height="16">
+                                                                        <path d="M20.285,6.709c-0.391-0.391-1.023-0.391-1.414,0L9,16.586l-4.871-4.871
+                                 c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l5.578,5.578c0.391,0.391,1.023,0.391,1.414,0l10.578-10.578
+                                 C20.676,7.732,20.676,7.1,20.285,6.709z"/>
+                                                                    </svg>
+                                                                    1개월
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-3months-review" value="" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 24 24" width="16" height="16">
+                                                                        <path d="M20.285,6.709c-0.391-0.391-1.023-0.391-1.414,0L9,16.586l-4.871-4.871
+                                 c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l5.578,5.578c0.391,0.391,1.023,0.391,1.414,0l10.578-10.578
+                                 C20.676,7.732,20.676,7.1,20.285,6.709z"/>
+                                                                    </svg>
+                                                                    3개월
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" id="filter-6months-review" value="" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 24 24" width="16" height="16">
+                                                                        <path d="M20.285,6.709c-0.391-0.391-1.023-0.391-1.414,0L9,16.586l-4.871-4.871
+                                 c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l5.578,5.578c0.391,0.391,1.023,0.391,1.414,0l10.578-10.578
+                                 C20.676,7.732,20.676,7.1,20.285,6.709z"/>
+                                                                    </svg>
+                                                                    6개월
+                                                                </label>
+                                                                <button id="Initialization-review" class="gPdSFi">
+                                                                    <svg viewBox="0 0 24 24" width="16" height="16" class="refresh-svg">
+                                                                        <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.41 3.59 8 8 8s8-3.59 8-8-3.59-8-8-8z"/>
+                                                                    </svg>
+                                                                    초기화
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="cKhWaV">
+                                                            <div class="tab-wrap">
+                                                                <div class="bqkLME tabs">
+                                                                    <div class="tab active">
+                                                                        <div class="item-wrap">
+                                                                            <div class="item-name">전체</div>
+                                                                            <label id="postscript-totalCount" class="ezikFA">0</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="content-inner">
+                                                            <div class="postscript-list" style="display: block;">
+                                                            </div>
+                                                            <div class="empty-component">
+                                                                <div class="kjzWjC empty" style="display: none;">
+                                                                    <div class="empty-image">
+                                                                        <img
+                                                                                name="SlightlySmilingFace"
+                                                                                src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png"
+                                                                                class="hkAQYM"
+                                                                                alt="No Reviews"
+                                                                        />
+                                                                        <h4>
+                                                                            <span class="fendym"><b>봉사 활동 후기 내역이 없습니다.</b></span>
+                                                                        </h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </main>
+                                                </div>
+                                                <!-- 기부 감사 인사 -->
+                                                <div id="gratitude" class="profile-contents-box-wrap tab-content">
+                                                    <main class="right-contents-main">
+                                                        <header class="right-contents-header">
+                                                            <div class="kBJTCS">
+                                                                <div class="header-title">기부 감사 인사 내역</div>
+                                                                <div class="header-desc">
+                                                                    <span class="fendym">기부 감사 인사 내역을 확인하실 수 있습니다.</span>
+                                                                </div>
+                                                            </div>
+                                                        </header>
+
+                                                        <div class="date-filter">
+                                                            <div class="title">인사 작성 일시</div>
+                                                            <div class="date-input" style="display: flex;">
+                                                                <span class="date-span">날짜지정</span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="start-date-gratitude" placeholder="시작 날짜를 선택하세요" />
+                                                                </label>
+                                                                <span class="then"><strong>-</strong></span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="end-date-gratitude" placeholder="종료 날짜를 선택하세요" />
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="date-button">
+                                                                <label class="fItXBi toggle" id="filter-1year-gratitude">
+                                                                    <input type="checkbox" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"></path>
+                                                                    </svg>
+                                                                    최근 1년
+                                                                </label>
+
+                                                                <label class="fItXBi toggle" id="filter-1month-gratitude">
+                                                                    <input type="checkbox" />
+                                                                    1개월
+                                                                </label>
+
+                                                                <label class="fItXBi toggle" id="filter-3months-gratitude">
+                                                                    <input type="checkbox" />
+                                                                    3개월
+                                                                </label>
+
+                                                                <label class="fItXBi toggle" id="filter-6months-gratitude">
+                                                                    <input type="checkbox" />
+                                                                    6개월
+                                                                </label>
+                                                            </div>
+
+                                                            <button class="gPdSFi" id="Initialization-gratitude">
+                                                                <svg viewBox="0 0 12 12" class="refresh-svg">
+                                                                    <path
+                                                                            d="M5.792 9.584C3.698 9.584 2 7.886 2 5.792C2 3.698 3.698 2 5.792 2C7.887 2 9.584 3.698 9.584 5.792"
+                                                                            stroke-width="1.2" stroke-linecap="round" fill="#ffffff"></path>
+                                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                          d="M9.5976 6.91949L10.9586 5.17549C11.0586 5.04849 10.9676 4.86349 10.8066 4.86349H8.0826C7.9216 4.86349 7.8306 5.04849 7.9306 5.17549L9.2916 6.91949C9.3696 7.01849 9.5196 7.01849 9.5976 6.91949Z"></path>
+                                                                </svg>
+                                                                <span>초기화</span>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="cKhWaV">
+                                                            <div class="tab-wrap">
+                                                                <div class="bqkLME tabs">
+                                                                    <div class="active tab">
+                                                                        <div class="item-wrap">
+                                                                            <div class="item-name">전체</div>
+                                                                            <label id="gratitude-totalCount" class="ezikFA">0</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <a class="jBsNEF btn-request btn-request-case-2 btn-gowrite" href="#">
+                                                                        <span class="visual-correction">인사 작성하기</span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="content-inner">
+                                                            <div id="gratitude-list" class="gratitude-list" style="display: block;"></div>
+                                                            <div class="empty-component">
+                                                                <div class="kjzWjC empty" style="display: none;">
+                                                                    <div class="empty-image">
+                                                                        <img src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png" />
+                                                                        <h4><b>기부 감사 인사 내역이 없습니다.</b></h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </main>
+                                                </div>
+
+                                                <!-- 봉사 신청 현황 -->
+                                                <div id="application" class="profile-contents-box-wrap tab-content">
+                                                    <main class="right-contents-main">
+                                                        <header class="right-contents-header">
+                                                            <div class="kBJTCS">
+                                                                <div class="header-title">
+                                                                    봉사 활동 신청 현황
+                                                                </div>
+                                                                <div class="header-desc">
+                                                                    <span class="fendym">봉사 활동 신청 현황을 확인하실 수 있습니다.</span>
+                                                                </div>
+                                                            </div>
+                                                        </header>
+                                                        <div class="date-filter">
+                                                            <div class="title">신청 날짜 일시</div>
+                                                            <div class="option date-container">
+                                                                <span class="date-span">날짜지정</span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="start-date-application" placeholder="시작 날짜를 선택하세요" onchange="updateDateRangeApplications()" />
+                                                                </label>
+                                                                <span class="then"><strong>-</strong></span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="end-date-application" placeholder="종료 날짜를 선택하세요" onchange="updateDateRangeApplications()" />
+                                                                </label>
+                                                            </div>
+
+                                                            <!-- 필터 버튼 -->
+                                                            <div class="date-button">
+                                                                <label class="fItXBi toggle" style="margin-left: 15px;">
+                                                                    <input type="checkbox" value="" id="filter-1year-application" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"></path>
+                                                                        <defs></defs>
+                                                                    </svg>
+                                                                    최근 1년
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" value="" id="filter-1month-application" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"></path>
+                                                                        <defs></defs>
+                                                                    </svg>
+                                                                    1개월
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" value="" id="filter-3months-application" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"></path>
+                                                                        <defs></defs>
+                                                                    </svg>
+                                                                    3개월
+                                                                </label>
+                                                                <label class="fItXBi toggle">
+                                                                    <input type="checkbox" value="" id="filter-6months-application" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"></path>
+                                                                        <defs></defs>
+                                                                    </svg>
+                                                                    6개월
+                                                                </label>
+                                                                <button id="Initialization-application" class="gPdSFi">
+                                                                    <svg viewBox="0 0 12 12" class="refresh-svg">
+                                                                        <path
+                                                                                d="M5.792 9.584C3.698 9.584 2 7.886 2 5.792C2 3.698 3.698 2 5.792 2C7.887 2 9.584 3.698 9.584 5.792"
+                                                                                stroke-width="1.2"
+                                                                                stroke-linecap="round"
+                                                                                fill="#ffffff"
+                                                                        ></path>
+                                                                        <path
+                                                                                fill-rule="evenodd"
+                                                                                clip-rule="evenodd"
+                                                                                d="M9.5976 6.91949L10.9586 5.17549C11.0586 5.04849 10.9676 4.86349 10.8066 4.86349H8.0826C7.9216 4.86349 7.8306 5.04849 7.9306 5.17549L9.2916 6.91949C9.3696 7.01849 9.5196 7.01849 9.5976 6.91949Z"
+                                                                        ></path>
+                                                                        <defs></defs>
+                                                                    </svg>
+                                                                    <span>초기화</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="cKhWaV">
+                                                            <div class="tab-wrap">
+                                                                <div class="bqkLME tabs">
+                                                                    <div class="tab active">
+                                                                        <div class="item-wrap">
+                                                                            <div class="item-name">전체</div>
+                                                                            <label id="application-totalCount" class="ezikFA">0</label>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="content-inner">
+                                                            <div id="application-list" class="application-list" style="display: block;"></div>
+                                                            <div class="empty-component">
+                                                                <div class="kjzWjC empty" style="display: none;">
+                                                                    <div class="empty-image">
+                                                                        <img
+                                                                                name="SlightlySmilingFace"
+                                                                                src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png"
+                                                                                class="hkAQYM"
+                                                                        />
+                                                                        <h4>
+                                                                            <span class="fendym"><b>봉사 활동 내역이 없습니다.</b></span>
+                                                                        </h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </main>
+                                                </div>
+
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <!-- 승인 모달 -->
+            <div class="approvemodal" style="
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;">
+                <div style="
+        transform: translate3d(0px, 0px, 0px);
+        z-index: 10002;
+        box-sizing: border-box;
+        transition: transform 500ms cubic-bezier(0, 0, 0.25, 1),
+            opacity 500ms cubic-bezier(0, 0, 0.25, 1);">
+                    <div class="alert-modal-inner-1u03v alert-modal" style="width: 365px">
+                        <div class="alert-txt-box-2bji8">
+                            <span class="alert-ico-1mtdg"></span>
+                            <p>봉사 활동 신청을 승인하시겠습니까?</p>
+                            <button
+                                    class="alert-btn-complete-1qcb1"
+                                    id="confirmApprove"
+                            >
+                                확인
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <div
+                        class="last-modal"
+                        style="
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 10001;
+        "
+                ></div>
+            </div>
+        </div>
+        <div>
+            <!-- 거절 모달 -->
+            <div class="refusemodal" style="
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;">
+                <div style="
+        transform: translate3d(0px, 0px, 0px);
+        z-index: 10002;
+        box-sizing: border-box;
+        transition: transform 500ms cubic-bezier(0, 0, 0.25, 1),
+            opacity 500ms cubic-bezier(0, 0, 0.25, 1);">
+                    <div class="alert-modal-inner-1u03v alert-modal" style="width: 365px">
+                        <div class="alert-txt-box-2bji8">
+                            <span class="alert-ico-1mtdg"></span>
+                            <p>봉사 활동 신청을 거절하시겠습니까?</p>
+                            <button
+                                    class="alert-btn-complete-1qcb1"
+                                    id="confirmRefuse"
+                            >
+                                확인
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div
+                        class="last-modal"
+                        style="
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 10001;
+        "
+                ></div>
+            </div>
+        </div>
+        </div>
+    <div th:replace="~{main/footer :: footer}"></div>
+
+    </body>
+    <script th:inline="javascript">
+        const member = [[${member}]];
+        const isCharge = [[${charge}]];
+        const donationAmount = [[${donationAmount}]];
+    </script>
+    <script
+            src="https://js.bootpay.co.kr/bootpay-5.0.1.min.js"
+            type="application/javascript"
+    ></script>
+    <script src="/js/mypage/mypage.js"></script>
+    <script src="/js/mypage/mypage-event.js"></script>
+    <script src="/js/payment/payment.js"></script>
+    <script src="/js/main/login-header.js"></script>
+</html>

@@ -1,0 +1,34 @@
+server:
+  port: 10000
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test2?serverTimezone=Asia/Seoul
+    username: gb
+    password: 1234
+
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: 40MB
+      max-file-size: 40MB
+      file-size-threshold: 100MB
+
+mybatis:
+  config-location: classpath:/config/config.xml
+  mapper-locations: classpath*:/mapper/*.xml
+
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: 40MB
+      max-file-size: 40MB
+      file-size-threshold: 100MB
+
+sms:
+  api:
+    key: NCSOJNIITHN8WGRB
+    secret: WKFYHGTY3ZR0UHGG9GDYNQXLAEMILPKC
+  from:
+    number: 01053929712

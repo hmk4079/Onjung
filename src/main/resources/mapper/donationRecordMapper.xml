@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.donation_record.DonationRecordMapper">
+
+    <insert id="insert" parameterType="donationRecordDTO">
+        INSERT INTO tbl_donation_record (
+            donation_amount, created_date, member_id, donation_id
+        ) VALUES (
+                     #{donationAmount},CURRENT_TIMESTAMP, #{memberId}, #{donationId}
+                 )
+    </insert>
+
+
+    <select id="selectById" parameterType="long" resultType="donationRecordDTO">
+        SELECT
+            id, donation_amount, created_date, member_id, donation_id
+        FROM
+            tbl_donation_record
+        WHERE
+            id = #{id}
+    </select>
+
+
+    <select id="selectAll" resultType="donationRecordDTO">
+        SELECT
+            id, donation_amount, created_date, member_id, donation_id
+        FROM
+            tbl_donation_record
+        ORDER BY
+            created_date DESC
+    </select>
+
+
+    <update id="update" parameterType="donationRecordDTO">
+        UPDATE tbl_donation_record
+        SET
+            donation_amount = #{donationAmount},
+            member_id = #{memberId},
+            donation_id = #{donationId}
+        WHERE
+            id = #{id}
+    </update>
+
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM tbl_donation_record
+        WHERE
+            id = #{id}
+    </delete>
+
+    <select id="selectTotalDonationByMemberId" resultType="int">
+        SELECT COALESCE(SUM(donation_amount), 0)
+        FROM tbl_donation_record
+        WHERE member_id = #{memberId}
+    </select>
+    <select id="selectByMemberId" parameterType="long" resultType="donationRecordDTO">
+        SELECT
+            id, donation_amount, created_date,member_id, donation_id
+        FROM
+            tbl_donation_record
+        WHERE
+            member_id = #{memberId}
+        ORDER BY
+            id DESC
+    </select>
+    <select id="selectByMemberIdAndDateRange" resultType="donationRecordDTO">
+        SELECT
+            id, donation_amount, created_date, member_id, donation_id
+        FROM
+            tbl_donation_record
+        WHERE
+            member_id = #{memberId}
+          AND created_date BETWEEN #{startDate} AND #{endDate} + INTERVAL '1' DAY
+        ORDER BY
+            created_date DESC
+    </select>
+
+
+</mapper>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>후원 게시판 수정</title>
+        <link rel="stylesheet" href="/static/css/support/support-update.css" />
+        <link
+            rel="icon"
+            href="https://cdn-dantats.stunning.kr/static/feature/loudFavicon/loud-favicon-32-new.png"
+        />
+    </head>
+    <body>
+        <div class="content-wrapper">
+            <div class="content-container contents">
+                <main class="content-form contest-launch form">
+                    <div class="section-divider"></div>
+                    <h3 class="write-introduce">✍🏻 후원 게시판 수정</h3>
+                    <div class="form">
+                        <div class="write-info" direction="row">
+                            <div class="option">
+                                <p>
+                                    <span>
+                                        <span class="blue"
+                                            >후원 게시판을 수정</span
+                                        >해주세요.</span
+                                    >
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            type="MOBILE_DIVIDER"
+                            class="section-divider"
+                        ></div>
+                        <div class="company-name-wrap" direction="row">
+                            <div class="header">
+                                <div>
+                                    <h4 class="label required">
+                                        <span>제목</span>
+                                    </h4>
+                                </div>
+                                <div></div>
+                            </div>
+                            <div class="option">
+                                <label class="company-name">
+                                    <input
+                                        type="text"
+                                        placeholder="제목"
+                                        maxlength="19"
+                                        value=""
+                                        oninput="updateCharCount(this)"
+                                    />
+                                    <div class="max-length">
+                                        <span id="charCount">0</span>/20
+                                    </div>
+                                </label>
+                                <p class="company-info status-text">
+                                    <span class="status-icon"
+                                        ><svg
+                                            viewBox="0 0 12 12"
+                                            class="svg-img"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                clip-rule="evenodd"
+                                                d="M7.527 6.124C7.439 6.247 7.273 6.404 7.029 6.596L6.787 6.784C6.654 6.887 6.568 7.006 6.523 7.143C6.496 7.229 6.482 7.364 6.48 7.546H5.552C5.566 7.161 5.603 6.895 5.662 6.748C5.722 6.601 5.875 6.432 6.119 6.24L6.369 6.046C6.449 5.984 6.515 5.917 6.566 5.844C6.656 5.719 6.701 5.581 6.701 5.431C6.701 5.257 6.652 5.1 6.55 4.957C6.449 4.814 6.263 4.743 5.996 4.743C5.732 4.743 5.545 4.831 5.435 5.007C5.324 5.182 5.269 5.364 5.269 5.554H4.281C4.308 4.904 4.537 4.443 4.963 4.173C5.23 3.999 5.562 3.913 5.953 3.913C6.468 3.913 6.896 4.036 7.236 4.282C7.578 4.528 7.748 4.893 7.748 5.376C7.748 5.672 7.673 5.922 7.527 6.124ZM5.529 9.002H6.55V8.015H5.529V9.002ZM6 0C2.686 0 0 2.686 0 6C0 9.313 2.686 12 6 12C9.313 12 12 9.313 12 6C12 2.686 9.313 0 6 0Z"
+                                            ></path>
+                                            <defs></defs></svg></span
+                                    >부적절한 제목은 관리자에 의해 삭제될 수
+                                    있습니다.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="menu-container" direction="row">
+                            <div class="header">
+                                <div>
+                                    <h4 class="label required">
+                                        <span>한 줄 소개</span>
+                                    </h4>
+                                </div>
+                                <div></div>
+                            </div>
+                            <div class="option">
+                                <label class="service-contents">
+                                    <textarea
+                                        placeholder="내용을 한 줄로 소개해주세요!"
+                                        maxlength="300"
+                                    ></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="menu-container" direction="row">
+                            <div class="header">
+                                <div>
+                                    <h4 class="label required">
+                                        <span>목표 포인트 설정</span>
+                                    </h4>
+                                </div>
+                                <div></div>
+                            </div>
+                            <div class="option">
+                                <label class="company-name">
+                                    <input
+                                        type="text"
+                                        placeholder="숫자만 입력 가능합니다."
+                                        value=""
+                                        oninput="validateAndDisplayNumber(this)"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="menu-container" direction="row">
+                            <div class="header">
+                                <div>
+                                    <h4 class="label required">
+                                        <span>목표 날짜 범위 설정</span>
+                                    </h4>
+                                </div>
+                                <div></div>
+                            </div>
+
+                            <div class="option date-container">
+                                <span class="date-span">시작일</span>
+                                <label class="company-name">
+                                    <input
+                                        type="date"
+                                        id="start-date"
+                                        onchange="updateDateRange()"
+                                    />
+                                </label>
+                                <span class="date-span">종료일</span>
+                                <label class="company-name">
+                                    <input
+                                        type="date"
+                                        id="end-date"
+                                        onchange="updateDateRange()"
+                                    />
+                                </label>
+                                <div class="date-period">
+                                    기간은
+                                    <span id="date-count">0</span>일 입니다.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="review-wrap" direction="column">
+                            <div class="header">
+                                <div>
+                                    <h4 class="label required">
+                                        <span>내용</span>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <div class="kpdMUe">
+                                <textarea
+                                    id="briefing"
+                                    aria-hidden="true"
+                                    placeholder="내용을 자세히 작성해주세요!"
+                                ></textarea>
+
+                                <input
+                                    id="multipulfile-briefing"
+                                    type="file"
+                                    multiple=""
+                                    accept="image/jpeg, image/jpg, image/png, image/webp"
+                                    hidden=""
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-container" direction="row">
+                        <div class="header">
+                            <div>
+                                <h4 class="label">
+                                    <span>첨부파일</span>
+                                </h4>
+                            </div>
+                            <div></div>
+                        </div>
+                        <div class="option">
+                            <section class="attach-file-container file-section">
+                                <div class="attach-file-zone drop-zone">
+                                    <input
+                                        type="file"
+                                        id="drop-zone-input"
+                                        class="attach-file-zone2"
+                                    /><svg
+                                        viewBox="0 0 24 24"
+                                        class="attach-file-img"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M19.8345 7.06657C19.831 6.9495 19.7849 6.83528 19.6996 6.74907L15.1374 2.13715L15.1368 2.13668C15.053 2.05223 14.9374 2 14.8099 2H5.97524C5.43746 2 5 2.44219 5 2.98582V21.0142C5 21.5578 5.43742 22 5.9752 22H18.86C19.3978 22 19.8352 21.5578 19.8352 21.0142V7.08017C19.8353 7.07683 19.835 7.07357 19.8348 7.0703L19.8348 7.07028L19.8345 7.06657ZM15.2731 3.59887L18.2537 6.61197H15.4686C15.3608 6.61197 15.2731 6.52333 15.2731 6.41435V3.59887ZM18.8601 21.0635C18.8869 21.0635 18.9088 21.0414 18.9088 21.0142H18.9089V7.54852H15.4686C14.8499 7.54852 14.3466 7.03969 14.3466 6.41433V2.93655H5.97523C5.94838 2.93655 5.92651 2.95866 5.92651 2.98581V21.0142C5.92651 21.0414 5.94838 21.0635 5.97523 21.0635H18.8601Z"
+                                        ></path>
+                                        <defs></defs>
+                                    </svg>
+                                    <p>파일을 드래그 해주세요</p>
+                                    <label
+                                        class="attach-file file-button"
+                                        for="drop-zone-input"
+                                        ><span class="visual-correction"
+                                            >파일 선택하기</span
+                                        ></label
+                                    >
+                                </div>
+                                <div class="file-section-list"><ul></ul></div>
+                            </section>
+                            <ul class="attach-info comment">
+                                <li>
+                                    <span
+                                        >최대 <b>20mb, 10개의 파일</b> 업로드
+                                        가능합니다.</span
+                                    >
+                                </li>
+                                <li>
+                                    <span
+                                        >되도록 <b>이미지</b> 파일만 업로드
+                                        해주세요.</span
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="submit-button-container">
+                        <button id="submit-review" class="submit-button">
+                            수정 완료
+                        </button>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </body>
+    <script src="/static/js/support/support-update.js"></script>
+</html>

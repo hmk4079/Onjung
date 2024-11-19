@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.donation.DonationMapper">
+    <insert id="insert">
+        insert into tbl_donation(id, goal_point, donation_s_date, donation_e_date)
+        values (#{id}, #{goalPoint}, #{donationSDate}, #{donationEDate})
+    </insert>
+
+    <select id="selectAll" resultType="donationDTO">
+        select d.id, d.goal_point, d.donation_s_date, d.donation_e_date, p.post_title, p.post_content, p.post_summary, p.post_view_count, p.member_id, p.created_date, p.updated_date, m.member_nickname
+        from tbl_donation d join tbl_post p
+                                 on d.id = p.id
+                            join tbl_member m
+                                 on p.member_id = m.id
+        where d.donation_e_date >= DATE(current_timestamp)
+        order by p.created_date desc, d.id desc
+        limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+    <select id="selectFilterAll" resultType="donationDTO">
+        select d.id, d.goal_point, d.donation_s_date, d.donation_e_date, p.post_title, p.post_content, p.post_summary, p.post_view_count, p.member_id, p.created_date, p.updated_date, m.member_nickname
+        from tbl_donation d join tbl_post p
+        on d.id = p.id
+        join tbl_member m
+        on p.member_id = m.id
+        where d.donation_e_date >= DATE(current_timestamp)
+        order by
+        <choose>
+            <when test="pagination.order = '조회순'.toString()">p.post_view_count</when>
+            <otherwise>d.donation_e_date</otherwise>
+        </choose>
+        desc
+        limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+    <select id="selectById" resultType="donationDTO">
+        select d.id, p.post_title, p.post_content, p.post_view_count, p.post_summary, p.member_id, p.created_date, d.current_point, d.goal_point, d.donation_s_date, d.donation_e_date, m.member_nickname
+        from tbl_donation d join tbl_post p
+                                 on d.id = p.id
+                            join tbl_member m
+                                 on p.member_id = m.id
+        where d.id = #{id}
+    </select>
+
+    <update id="update">
+        update tbl_donation
+        set goal_point = #{goalPoint},
+            donation_s_date = #{donationSDate},
+            donation_e_date = #{donationEDate}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from tbl_donation
+        where id = #{id}
+    </delete>
+
+    <select id="selectByMemberId" parameterType="long" resultType="donationDTO">
+        SELECT
+            d.id,
+            p.post_title,
+            p.post_content,
+            p.member_id,
+            p.created_date,
+            d.goal_point,
+            d.donation_s_date,
+            d.donation_e_date
+        FROM tbl_donation d
+                 JOIN tbl_post p ON d.id = p.id
+        WHERE p.member_id = #{memberId}
+    </select>
+
+    <select id="selectByMemberIdAndDateRange" parameterType="map" resultType="donationDTO">
+        SELECT
+            d.id,
+            p.post_title,
+            p.post_content,
+            p.member_id,
+            p.created_date,
+            d.goal_point,
+            d.donation_s_date,
+            d.donation_e_date
+        FROM tbl_donation d
+                 JOIN tbl_post p ON d.id = p.id
+        WHERE p.member_id = #{memberId}
+          and p.created_date between #{startDate} and #{endDate} + interval '1' day
+        order by
+            p.created_date desc
+    </select>
+
+    <update id="updateCurrentPoint" parameterType="donationDTO">
+        update tbl_donation
+        set current_point = #{currentPoint}
+        where id = #{id}
+    </update>
+</mapper>

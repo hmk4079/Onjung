@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.member.MemberMapper">
+    <insert id="insert">
+        <choose>
+            <when test="memberPassword != null">
+                insert into tbl_member (
+                member_email, member_name, member_phone, member_password,
+                member_nickname, member_jung, member_point,
+                 created_date, updated_date
+                ) values (
+                #{memberEmail}, #{memberName}, #{memberPhone}, #{memberPassword},
+                #{memberNickName}, #{memberJung}, #{memberPoint},
+                 CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+                )
+            </when>
+            <otherwise>
+                insert into tbl_member (
+                kakao_email, kakao_profile_url, kakao_nickname, member_name,
+                member_type, member_login_type, member_jung, member_point,
+                created_date, updated_date
+                ) values (
+                #{kakaoEmail}, #{kakaoProfileURL}, #{kakaoNickName}, #{memberName},
+                #{memberType}, #{memberLoginType}, #{memberJung}, #{memberPoint},
+                CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+                )
+            </otherwise>
+        </choose>
+    </insert>
+
+
+    <select id="selectByMemberKakaoEmail" parameterType="string" resultType="memberVO">
+        select id, kakao_email, kakao_profile_url, kakao_nickname, member_star_rate, member_introduction,
+               member_name, member_phone, member_password, member_nickname, member_jung,
+               member_point, member_type, member_login_type, created_date, updated_date
+        from tbl_member
+        where kakao_email = #{memberKakaoEmail}
+    </select>
+
+    <select id="selectByMemberEmailAndMemberPassword" parameterType="map" resultType="memberVO">
+        select
+            m.id,
+            m.member_email,
+            m.member_star_rate,
+            m.member_introduction,
+            m.member_name,
+            m.member_phone,
+            m.member_password,
+            m.member_nickname,
+            m.member_jung,
+            m.member_point,
+            m.member_type,
+            m.member_login_type,
+            m.created_date,
+            m.updated_date,
+            p.profile_file_name,
+            p.profile_file_path,
+            p.profile_file_size,
+            p.profile_file_type
+        from tbl_member m
+                 left join tbl_profile p on m.id = p.member_id
+        where m.member_email = #{memberEmail}
+          and m.member_password = #{memberPassword}
+    </select>
+
+    <update id="update">
+        update tbl_member
+        set member_email = #{memberEmail}, member_name = #{memberName}, reset_uuid = #{resetUuid}
+        where id = #{id}
+    </update>
+
+    <select id="selectByResetUuid" parameterType="string" resultType="memberVO">
+        select * from tbl_member where reset_uuid = #{uuid}
+    </select>
+
+    <select id="selectByMemberEmail" parameterType="string" resultType="memberVO">
+        select * from tbl_member where member_email = #{memberEmail}
+    </select>
+
+    <update id="updatePassword" parameterType="memberVO">
+        update tbl_member
+        set member_password = #{memberPassword}, reset_uuid = NULL
+        where member_email = #{memberEmail}
+    </update>
+
+    <select id="findByResetUuid" parameterType="string" resultType="memberVO">
+        select * from tbl_member where reset_uuid = #{uuid}
+    </select>
+
+    <update id="updateProfile" parameterType="memberVO">
+        UPDATE tbl_member
+        SET
+            member_nickname = #{memberNickName},
+            member_introduction = #{memberIntroduction},
+            updated_date = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectAllVolunteerGroup" resultType="memberDTO">
+        select mr.id, mr.member_nickname, mr.member_introduction, mr.member_star_rate, mr.created_date, mr.count_r_id as count_review
+        from tbl_post p join (
+        select m.id, m.member_nickname, count(r.id) as count_r_id, m.member_star_rate, m.member_introduction, m.created_date
+        from tbl_member m join tbl_review r
+        on m.member_nickname = r.vt_group_name and m.member_type = "ORGANIZATION"
+        group by m.id
+        ) as mr
+        on p.member_id = mr.id and p.post_type = "VOLUNTEER"
+        group by mr.id
+        order by
+        <choose>
+            <when test="pagination.order == '별점순'.toString()">mr.member_star_rate</when>
+            <otherwise>count_review</otherwise>
+        </choose>
+        desc, mr.created_date asc
+    </select>
+
+    <select id="selectTop100VolunteerGroup" resultType="memberDTO">
+        SELECT
+        mr.id,
+        mr.member_nickname,
+        mr.member_introduction,
+        mr.member_star_rate,
+        mr.created_date,
+        mr.count_r_id AS count_review,
+        tp.profile_file_name,
+        tp.profile_file_path,
+        tp.profile_file_size,
+        tp.profile_file_type
+        FROM tbl_post p
+        JOIN (
+        SELECT
+        m.id,
+        m.member_nickname,
+        COUNT(r.id) AS count_r_id,
+        m.member_star_rate,
+        m.member_introduction,
+        m.created_date
+        FROM tbl_member m
+        JOIN tbl_review r ON m.member_nickname = r.vt_group_name
+        AND m.member_type = "ORGANIZATION"
+        GROUP BY m.id
+        ) AS mr ON p.member_id = mr.id
+        AND p.post_type = "VOLUNTEER"
+        LEFT JOIN tbl_profile tp ON mr.id = tp.member_id
+        GROUP BY mr.id
+        ORDER BY
+        <choose>
+            <when test="pagination.order == '별점순'.toString()">mr.member_star_rate</when>
+            <otherwise>count_review</otherwise>
+        </choose> DESC,
+        mr.created_date ASC
+        LIMIT #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+
+
+
+    <select id="selectTop5ByVt" resultType="memberDTO">
+        select
+            m.id,
+            m.member_nickname,
+            m.created_date,
+            ar.sum_vt_time,
+            p.profile_file_name,
+            p.profile_file_path,
+            p.profile_file_size,
+            p.profile_file_type
+        from tbl_member m
+                 join (
+            select
+                a.member_id,
+                sum(r.vt_time) as sum_vt_time
+            from tbl_vt_application a
+                     join tbl_vt_record r on a.id = r.id
+                and month(r.vt_date) = #{month}
+            group by a.member_id
+        ) ar on m.id = ar.member_id
+                 left join tbl_profile p on m.id = p.member_id
+        group by m.id
+        order by ar.sum_vt_time desc, m.created_date asc
+            limit 5;
+    </select>
+
+
+    <select id="selectTop5BySupport" resultType="memberDTO">
+        select
+            m.id,
+            m.member_nickname,
+            m.created_date,
+            sum(s.support_amount) as sum_support_amount,
+            p.profile_file_name,
+            p.profile_file_path,
+            p.profile_file_size,
+            p.profile_file_type
+        from tbl_member m
+                 join tbl_support_record s on m.id = s.member_id
+            and month(s.created_date) = #{month}
+                 left join tbl_profile p on m.id = p.member_id
+        group by m.id
+        order by sum(s.support_amount) desc, m.created_date asc
+            limit 5;
+    </select>
+
+
+    <select id="selectTop5ByDonation" resultType="memberDTO">
+        select
+            m.id,
+            m.member_nickname,
+            m.created_date,
+            sum(d.donation_amount) as sum_donation_amount,
+            p.profile_file_name,
+            p.profile_file_path,
+            p.profile_file_size,
+            p.profile_file_type
+        from tbl_member m
+                 join tbl_donation_record d on m.id = d.member_id
+            and month(d.created_date) = #{month}
+                 left join tbl_profile p on m.id = p.member_id
+        group by m.id
+        order by sum(donation_amount) desc, m.created_date asc
+            limit 5;
+    </select>
+
+</mapper>

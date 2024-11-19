@@ -1,0 +1,2521 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- 관리자 홈 -->
+        <link
+            rel="stylesheet"
+            href="/css/admin_page/amdin_main/sub_main.css"
+        />
+        <link
+            rel="stylesheet"
+            href="/css/admin_page/amdin_main/common_main.css"
+        />
+        <link rel="stylesheet" href="/css/admin.css">
+        <!-- 회원 목록 -->
+        <link
+            rel="stylesheet"
+            href="/css/admin_page/admin_user_list/common_user_list.css"
+        />
+        <link
+            rel="stylesheet"
+            href="/css/admin_page/admin_user_list/sub_user_list.css"
+        />
+        <link
+            rel="stylesheet"
+            href="/css/admin_page/admin_user_list/modal_user.css"
+        />
+        <!-- 공지사항 목록 -->
+        <link
+            rel="stylesheet"
+            href="/css/help/help-notification-list.css"
+        />
+        <!-- 공지사항 조회 -->
+        <link
+            rel="stylesheet"
+            href="/css/help/help-notification-inquiry.css"
+        />
+        <!-- 고객센터 문의 목록 -->
+        <link rel="stylesheet" href="/css/admin/admin.css" />
+        <link rel="stylesheet" href="/admin/admin.css">
+        <!-- 고객센터 문의 답변 -->
+        <link rel="stylesheet" href="/css/help/help-write.css" />
+        <!-- 게시글 목록 -->
+        <link
+            rel="stylesheet"
+            href="/css/admin_page/admin_service/sub_service.css"
+        />
+        <link
+            rel="stylesheet"
+            href="/css/admin_page/admin_service/main_service.css"
+        />
+        <!-- 게시글 조회 -->
+        <link
+            rel="stylesheet"
+            href="/css/donation/donation-inquiry.css"
+        />
+
+        <link rel="stylesheet" href="/css/admin_new.css">
+
+        <title>관리자 페이지</title>
+    </head>
+    <body>
+        <div id="root">
+            <div id="AppLayot_Container" class="app-layout-container">
+                <div class="GNB-bar-container">
+                    <div class="GNB-bar-flex">
+                        <div class="studio-logo-container">
+                            <button
+                                class="studio-logo"
+                                type="button"
+                                aria-label="로고버튼"
+                            >온정 관리자 페이지</button>
+                            <div class="admin-page-logo"></div>
+                        </div>
+                        <!-- <div class="StudioStatus_stateBox">
+                            <span class="StudioStatus_state">작업 중</span>
+                        </div> -->
+                    </div>
+                    <div class="GNB-bar-flex GNB-bar-rightBox">
+                        <div class="project-info-container">
+                            <button
+                                class="project-info-button"
+                                type="button"
+                                aria-controls="project-info-box"
+                                aria-expanded="true"
+                            >
+                                관리자 ID:
+                                <span class="project-info-emphasis" id="admin-id-wrap"></span>
+                                <!-- <span class="ProjectInfo_text_info">정보</span> -->
+                                <!-- <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    focusable="false"
+                                    role="presentation"
+                                    class="withIcon_icon"
+                                    aria-hidden="true"
+                                    style="height: 12px"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        clip-rule="evenodd"
+                                        d="M2.576 7.924l.848-.848L12 15.652l8.576-8.576.848.848L12 17.35 2.576 7.924z"
+                                    ></path>
+                                </svg> -->
+                            </button>
+                            <!-- <div
+                                class="ProjectInfo_infoBox"
+                                role="region"
+                                aria-labelledby="project-info"
+                            >
+                                <dl>
+                                   
+                                    <dd class="ProjectInfo_content">
+                                        
+                                        <span
+                                            class="Avatar_avatar Avatar_img_admin ProjectInfo_profileImage_admin"
+                                        >
+                                            <span class="Avatar_inner">
+                                                <img
+                                                    src="https://static.wadiz.kr/studio/funding/static/media/default-zingugi.de76a099.svg"
+                                                    alt=""
+                                                />
+                                            </span>
+                                        </span>
+                                       
+                                        <span class="ProjectInfo_makerName">
+                                            관리자: "이름"
+                                        </span>
+                                    </dd>
+                                    
+                                    <dt class="BlindText_textHidden">상태</dt>
+                                    <dd
+                                        class="ProjectInfo_content ProjectInfo_stateBox_1"
+                                    >
+                                       
+                                        <span class="ProjectInfo_state-1"
+                                            >작업 중</span
+                                        >
+                                    </dd>
+                                </dl>
+                                
+                            </div> -->
+                        </div>
+                        <!-- <div class="AnnouncementButton_container_1-1">
+                           
+                            <img
+                                class="AnnouncementButton_icon"
+                                src="https://static.wadiz.kr/studio/funding/static/media/announcement.56f4b8e3.svg"
+                                alt=""
+                                aria-hidden="true"
+                            />
+                            <span
+                                class="Badge_container AnnouncementButton_badge"
+                            ></span>
+                        </div> -->
+                        <!-- 미리보기/로그아웃 버튼/ 로그아웃 버튼은 로그아웃 버튼으로 변경 /미리보기 미정-->
+                        <div class="exit-buttons-container">
+                            <!-- <button class="Button_button PreviewExitButtons_button" type="button"><span><span class="Button_children">미리보기</span></span></button> -->
+                            <button
+                                class="button-button exit-buttons-button"
+                                type="button"
+                            >
+                                <span
+                                    ><span class="button-children"
+                                        >로그아웃</span
+                                    ></span
+                                >
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 메인컨텐츠 영역 -->
+                <div class="sidebar-layout-wrap">
+                    <!-- 사이드바 영역 -->
+                    <div class="sidebar-layout-container">
+                        <div class="sidebar-layout-content">
+                            <!-- 관리자페이지 서비스 기능 카테고리 -->
+                            <div class="MenuItems_section">
+                                <!-- 대카테고리 -->
+
+
+                                <!-- 대카테고리 -->
+                                <a
+                                    aria-current="page"
+                                    class="MenuItems_menu MenuItems_hasSubmenu MenuItems_active"
+                                    
+                                >
+                                    <span class="MenuItems_label">
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            focusable="false"
+                                            role="presentation"
+                                            class="withIcon_icon"
+                                            aria-hidden="true"
+                                        >
+                                            <!-- 이미지 -->
+                                            <path
+                                                fill-rule="evenodd"
+                                                clip-rule="evenodd"
+                                                d="M6.656 3.944a1.4 1.4 0 0 1 .92-.344h9.448c.375 0 .735.15.998.417l2.84 2.883H3.258l3.398-2.956zM2.6 8.1V19A1.4 1.4 0 0 0 4 20.4h16a1.4 1.4 0 0 0 1.4-1.4V8.1H2.6zm4.976-5.7a2.6 2.6 0 0 0-1.706.638L2.293 6.15a2.6 2.6 0 0 0-.894 1.962V19A2.6 2.6 0 0 0 4 21.6h16a2.6 2.6 0 0 0 2.6-2.6V8.02a2.6 2.6 0 0 0-.747-1.825l-2.976-3.02a2.6 2.6 0 0 0-1.852-.775h-9.45zM9.4 12a.6.6 0 0 1 .6-.6h4a.6.6 0 1 1 0 1.2h-4a.6.6 0 0 1-.6-.6z"
+                                            ></path>
+                                        </svg>
+                                        <!-- 기획안 대로 카테고리 변경 -->
+                                        고객 지원
+                                        <!-- 클릭이벤트 이미지 -->
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            focusable="false"
+                                            role="presentation"
+                                            class="withIcon_icon MenuItems_downIcon MenuItems_open_1"
+                                            aria-hidden="true"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                clip-rule="evenodd"
+                                                d="M2.576 7.924l.848-.848L12 15.652l8.576-8.576.848.848L12 17.35 2.576 7.924z"
+                                            ></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                                <!-- 중카테고리 -->
+                                <div class="MenuItems_submenuContainer">
+                                    <!-- <a class="MenuItems_submenu" >문의 답변</a> -->
+                                    <a class="MenuItems_submenu" 
+                                        >공지사항 목록</a
+                                    >
+                                    <a class="MenuItems_submenu" 
+                                        >고객센터 문의 목록</a
+                                    >
+                                </div>
+
+                                <!-- 대카테고리 -->
+                                <a
+                                    aria-current="page"
+                                    class="MenuItems_menu MenuItems_hasSubmenu MenuItems_active"
+                                    
+                                >
+                                    <span class="MenuItems_label">
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            focusable="false"
+                                            role="presentation"
+                                            class="withIcon_icon"
+                                            aria-hidden="true"
+                                        >
+                                            <!-- 이미지 -->
+                                            <path
+                                                fill-rule="evenodd"
+
+                                                clip-rule="evenodd"
+                                                d="M6.656 3.944a1.4 1.4 0 0 1 .92-.344h9.448c.375 0 .735.15.998.417l2.84 2.883H3.258l3.398-2.956zM2.6 8.1V19A1.4 1.4 0 0 0 4 20.4h16a1.4 1.4 0 0 0 1.4-1.4V8.1H2.6zm4.976-5.7a2.6 2.6 0 0 0-1.706.638L2.293 6.15a2.6 2.6 0 0 0-.894 1.962V19A2.6 2.6 0 0 0 4 21.6h16a2.6 2.6 0 0 0 2.6-2.6V8.02a2.6 2.6 0 0 0-.747-1.825l-2.976-3.02a2.6 2.6 0 0 0-1.852-.775h-9.45zM9.4 12a.6.6 0 0 1 .6-.6h4a.6.6 0 1 1 0 1.2h-4a.6.6 0 0 1-.6-.6z"
+                                            ></path>
+                                        </svg>
+                                        <!-- 기획안 대로 카테고리 변경 -->
+                                        게시판 관리
+                                        <!-- 클릭이벤트 이미지 -->
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            focusable="false"
+                                            role="presentation"
+                                            class="withIcon_icon MenuItems_downIcon MenuItems_open_1"
+                                            aria-hidden="true"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                clip-rule="evenodd"
+                                                d="M2.576 7.924l.848-.848L12 15.652l8.576-8.576.848.848L12 17.35 2.576 7.924z"
+                                            ></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                                <!-- 중카테고리 -->
+                                <div class="MenuItems_submenuContainer">
+                                    <a class="MenuItems_submenu" 
+                                        >게시글 목록</a
+                                    >
+                                    <!-- <a class="MenuItems_submenu" >게시판 수정</a>
+                                    <a class="MenuItems_submenu" >댓글 수정</a> -->
+                                </div>
+
+                                <!-- 대카테고리 -->
+                                <a
+                                    aria-current="page"
+                                    class="MenuItems_menu MenuItems_hasSubmenu MenuItems_active"
+                                    
+                                >
+                                    <span class="MenuItems_label">
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            focusable="false"
+                                            role="presentation"
+                                            class="withIcon_icon"
+                                            aria-hidden="true"
+                                        >
+                                            <!-- 이미지 -->
+                                            <path
+                                                fill-rule="evenodd"
+                                                clip-rule="evenodd"
+                                                d="M6.656 3.944a1.4 1.4 0 0 1 .92-.344h9.448c.375 0 .735.15.998.417l2.84 2.883H3.258l3.398-2.956zM2.6 8.1V19A1.4 1.4 0 0 0 4 20.4h16a1.4 1.4 0 0 0 1.4-1.4V8.1H2.6zm4.976-5.7a2.6 2.6 0 0 0-1.706.638L2.293 6.15a2.6 2.6 0 0 0-.894 1.962V19A2.6 2.6 0 0 0 4 21.6h16a2.6 2.6 0 0 0 2.6-2.6V8.02a2.6 2.6 0 0 0-.747-1.825l-2.976-3.02a2.6 2.6 0 0 0-1.852-.775h-9.45zM9.4 12a.6.6 0 0 1 .6-.6h4a.6.6 0 1 1 0 1.2h-4a.6.6 0 0 1-.6-.6z"
+                                            ></path>
+                                        </svg>
+                                        <!-- 기획안 대로 카테고리 변경 -->
+                                        신고 관리
+                                        <!-- 클릭이벤트 이미지 -->
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            focusable="false"
+                                            role="presentation"
+                                            class="withIcon_icon MenuItems_downIcon MenuItems_open_1"
+                                            aria-hidden="true"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                clip-rule="evenodd"
+                                                d="M2.576 7.924l.848-.848L12 15.652l8.576-8.576.848.848L12 17.35 2.576 7.924z"
+                                            ></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                                <!-- 중카테고리 -->
+                                <div class="MenuItems_submenuContainer">
+                                    <a class="MenuItems_submenu" 
+                                        >신고 목록</a
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        id="AppLayout_Contents"
+                        class="AppLayout_contents_mainContent"
+                    >
+                        <section
+                            class="admin-page selected"
+                            data-value="관리자 홈"
+                        ></section>
+
+                        <section
+                            class="admin-page"
+                            data-value="공지사항 목록"
+                        >
+                        <div style="max-width: 1080px; margin: 24px 16px 0;">
+                            <div class="notification-list notification-table">
+                                <div class="ServiceHeader_container">
+                                    <h2 class="ServiceHeader_title">공지사항 목록</h2>
+                                    <div class="action-buttons-wrap">
+                                        <button id="notification-write-button" class="deleteSelectedBtn">작성하기</button>
+                                        <div class="action-buttons">
+                                            <button
+                                                    id="deleteSelectedBtn"
+                                                    class="deleteSelectedBtn notice-delete"
+                                            >
+                                                게시글 삭제
+                                            </button>
+                                            <input
+                                                    type="text"
+                                                    class="Filter_searchInput notice-page-search"
+                                                    placeholder="검색어 입력"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-top">
+                                    <input type="checkbox" id="selectAllNotices" >
+                                    <div class="category-notification-num">번호</div>
+                                    <div class="category-notification-title noti-title-admin">제목</div>
+                                    <div class="category-notification-date notification-table noti-date-admin">작성일</div>
+                                </div>
+                                <ul class="notification-list-wrap" style="height:360px;"></ul>
+                                <nav class="pagination-wrap notification-table" id="noti-paging-admin">
+                                    <div class="pagination-container">
+                                        <div class="pagination-num-container">
+                                            <a class="pagination-num active" 
+                                                >1</a
+                                            >
+                                        </div>
+                                        <div class="pagination-num-container">
+                                            <a class="pagination-num" >2</a>
+                                        </div>
+                                        <div class="pagination-num-container">
+                                            <a class="pagination-num" >3</a>
+                                        </div>
+                                        <div class="pagination-num-container">
+                                            <a class="pagination-num" >4</a>
+                                        </div>
+                                        <div class="pagination-num-container">
+                                            <a class="pagination-num" >5</a>
+                                        </div>
+                                        <div>
+                                            <a class="next-button" 
+                                                ><svg
+                                                    viewBox="0 0 12 12"
+                                                    class="sc-gKXOVf iFpvod"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        clip-rule="evenodd"
+                                                        d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+                                                    ></path>
+                                                    <defs></defs></svg
+                                            ></a>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                        </section>
+                        <section class="admin-page" data-value="공지사항 작성">
+                            <div style="max-width: 1080px; margin: 24px 16px 0;">
+                                <h1>공지사항 작성</h1>
+                                <div class="form notification-write-form">
+                                    <form
+                                            class="request-form"
+                                            data-form
+                                            data-form-type="request"
+                                            action="/help/write"
+                                            accept-charset="UTF-8"
+                                            method="post"
+                                    >
+                                        <div class="form-field required">
+                                            <label for="request-title">공지사항 제목</label>
+                                            <input
+                                                    type="text"
+                                                    name="request-title"
+                                                    maxlength="150"
+                                                    size="150"
+                                                    placeholder="간단한 제목을 입력해주세요."
+                                                    value=""
+                                            />
+                                        </div>
+                                        <div class="form-field-gap"></div>
+                                        <div class="form-field required">
+                                            <label for="request-description">공지사항 내용</label>
+                                            <textarea
+                                                    name="request-description"
+                                            ></textarea>
+                                            <input
+                                                    type="hidden"
+                                                    name="request-description-input"
+                                                    value="text/plain"
+                                                    style="display: none"
+                                                    autocomplete="off"
+                                            />
+                                        </div>
+                                        <footer>
+                                            <input
+                                                    type="submit"
+                                                    name="submit"
+                                                    value="제출"
+                                            />
+                                        </footer>
+                                    </form>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="admin-page" data-value="공지사항 조회">
+                            <div class="notification-wrap">
+                                <section class="sidebar-container">
+                                    <section class="sidebar" style="width: 259.4px; margin-top: 24px;">
+                                        <h3 class="sidebar-title" style="height: 54px;">공지사항</h3>
+                                        <ul style="height: 445.4px;" class="sidebar-content">
+                                            <li>
+                                                <a
+                                                    href="/hc/ko/articles/38453158191641-%ED%95%9C%EA%B8%80%EB%82%A0%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%A0%EA%B0%9D%EC%84%BC%ED%84%B0-%EC%9A%B4%EC%98%81-%EC%95%88%EB%82%B4-10-9"
+                                                    class="sidebar-item current-notification"
+                                                    >한글날로 인한 고객센터 운영 안내
+                                                    (10/9)</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="/hc/ko/articles/38453158191641-%ED%95%9C%EA%B8%80%EB%82%A0%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%A0%EA%B0%9D%EC%84%BC%ED%84%B0-%EC%9A%B4%EC%98%81-%EC%95%88%EB%82%B4-10-9"
+                                                    class="sidebar-item"
+                                                    >한글날로 인한 고객센터 운영 안내
+                                                    (10/9)</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="/hc/ko/articles/38453158191641-%ED%95%9C%EA%B8%80%EB%82%A0%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%A0%EA%B0%9D%EC%84%BC%ED%84%B0-%EC%9A%B4%EC%98%81-%EC%95%88%EB%82%B4-10-9"
+                                                    class="sidebar-item"
+                                                    >한글날로 인한 고객센터 운영 안내
+                                                    (10/9)</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="/hc/ko/articles/38453158191641-%ED%95%9C%EA%B8%80%EB%82%A0%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%A0%EA%B0%9D%EC%84%BC%ED%84%B0-%EC%9A%B4%EC%98%81-%EC%95%88%EB%82%B4-10-9"
+                                                    class="sidebar-item"
+                                                    >한글날로 인한 고객센터 운영 안내
+                                                    (10/9)</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="/hc/ko/articles/38453158191641-%ED%95%9C%EA%B8%80%EB%82%A0%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%A0%EA%B0%9D%EC%84%BC%ED%84%B0-%EC%9A%B4%EC%98%81-%EC%95%88%EB%82%B4-10-9"
+                                                    class="sidebar-item"
+                                                    >한글날로 인한 고객센터 운영 안내
+                                                    (10/9)</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="/hc/ko/articles/38453158191641-%ED%95%9C%EA%B8%80%EB%82%A0%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%A0%EA%B0%9D%EC%84%BC%ED%84%B0-%EC%9A%B4%EC%98%81-%EC%95%88%EB%82%B4-10-9"
+                                                    class="sidebar-item"
+                                                    >한글날로 인한 고객센터 운영 안내
+                                                    (10/9)</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="/hc/ko/articles/38453158191641-%ED%95%9C%EA%B8%80%EB%82%A0%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%A0%EA%B0%9D%EC%84%BC%ED%84%B0-%EC%9A%B4%EC%98%81-%EC%95%88%EB%82%B4-10-9"
+                                                    class="sidebar-item"
+                                                    >한글날로 인한 고객센터 운영 안내
+                                                    (10/9)</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="/hc/ko/articles/38453158191641-%ED%95%9C%EA%B8%80%EB%82%A0%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%A0%EA%B0%9D%EC%84%BC%ED%84%B0-%EC%9A%B4%EC%98%81-%EC%95%88%EB%82%B4-10-9"
+                                                    class="sidebar-item"
+                                                    >한글날로 인한 고객센터 운영 안내
+                                                    (10/9)</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="/hc/ko/articles/38453158191641-%ED%95%9C%EA%B8%80%EB%82%A0%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%A0%EA%B0%9D%EC%84%BC%ED%84%B0-%EC%9A%B4%EC%98%81-%EC%95%88%EB%82%B4-10-9"
+                                                    class="sidebar-item"
+                                                    >한글날로 인한 고객센터 운영 안내
+                                                    (10/9)</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    href="/hc/ko/articles/38453158191641-%ED%95%9C%EA%B8%80%EB%82%A0%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%A0%EA%B0%9D%EC%84%BC%ED%84%B0-%EC%9A%B4%EC%98%81-%EC%95%88%EB%82%B4-10-9"
+                                                    class="sidebar-item"
+                                                    >한글날로 인한 고객센터 운영 안내
+                                                    (10/9)</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a class="more-button">+ 더보기</a>
+                                            </li>
+                                        </ul>
+                                    </section>
+                                    <div class="donation-btn-container report-wrap">
+                                        <a class="donation-btn-style2 go-update admin-btn"
+                                        ><span
+                                                class="visual-correction"
+                                        >수정하기</span
+                                        ></a
+                                        >
+                                        <div class="space"></div>
+                                        <a class="donation-btn-style2 go-delete admin-btn"
+                                        ><span
+                                                class="visual-correction"
+                                        >삭제하기</span
+                                        ></a
+                                        >
+                                    </div>
+                                </section>
+                                <article class="notification-inquiry-container" style="margin: 24px 16px;">
+                                    <header class="notification-header">
+                                        <h1 style="font-size: 20px">
+                                            10.22 사이트 업데이트 내용 및 새로운 후원
+                                            방식에 대한 소개
+                                        </h1>
+                                    </header>
+                                    <section class="notification-info">
+                                        <div class="notification-content">
+                                            <div class="notification-body">
+                                                <p>&nbsp;</p>
+                                                <p>안녕하세요! 라우드소싱입니다.</p>
+                                                <p>&nbsp;</p>
+                                                <p>
+                                                    <span class="underline"
+                                                        ><strong
+                                                            >10월 9일 수요일은 고객센터
+                                                            업무가 운영되지
+                                                            않습니다.</strong
+                                                        ></span
+                                                    >
+                                                </p>
+                                                <p>
+                                                    채팅, 전화, 이메일, 문의하기 등 답변
+                                                    및 응대가 불가한 점 양해의
+                                                    말씀드립니다.
+                                                </p>
+                                                <p>&nbsp;</p>
+                                                <p>
+                                                    미운영 시간에 남겨주신 공지사항 내용은
+                                                    다음 정상 영업일 10/10 (목) 운영
+                                                    시간 내,
+                                                </p>
+                                                <p>
+                                                    순차적으로 확인하여 최대한 신속하고
+                                                    빠른 안내 도와드리겠습니다.
+                                                </p>
+                                                <p>&nbsp;</p>
+                                                <p>감사합니다.</p>
+                                            </div>
+                                            <div class="notification-attachments">
+                                                <ul class="attachments"></ul>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </article>
+                            </div>
+                        </section>
+                        <section class="admin-page" data-value="공지사항 수정">
+                        <div style="max-width: 1080px; margin: 24px 16px 0;">
+                            <h1>공지사항 수정</h1>
+                            <div class="form notification-update-form">
+                                <form
+                                        class="request-form"
+                                        data-form
+                                        data-form-type="request"
+                                        action="/help/write"
+                                        accept-charset="UTF-8"
+                                        method="post"
+                                >
+                                    <div class="form-field required">
+                                        <label for="request-title">공지사항 제목</label>
+                                        <input
+                                                type="text"
+                                                name="request-title"
+                                                maxlength="150"
+                                                size="150"
+                                                placeholder="간단한 제목을 입력해주세요."
+                                                value=""
+                                        />
+                                    </div>
+                                    <div class="form-field-gap"></div>
+                                    <div class="form-field required">
+                                        <label for="request-description">공지사항 내용</label>
+                                        <textarea
+                                                name="request-description"
+                                        ></textarea>
+                                        <input
+                                                type="hidden"
+                                                name="request-description-input"
+                                                value="text/plain"
+                                                style="display: none"
+                                                autocomplete="off"
+                                        />
+                                    </div>
+                                    <footer>
+                                        <input
+                                                type="submit"
+                                                name="submit"
+                                                value="제출"
+                                        />
+                                    </footer>
+                                </form>
+                            </div>
+                        </div>
+                        </section>
+                        <section
+                            class="admin-page"
+                            data-value="고객센터 문의 목록"
+                            >
+                            <div style="max-width: 1080px; margin: 24px 16px 0;">
+                                <!-- body_header -->
+                                <div class="CommonHeader_container">
+                                    <h2 class="CommonHeader_title">
+                                        고객센터 문의 목록
+                                    </h2>
+                                   <p class="CommonHeader_description">
+                                    사용자의 문의 내역을 조회합니다.
+                                    </p>
+                                </div>
+
+                                <!-- body_layout -->
+                                <div class="CommonLayout_container">
+                                    <div class="filter_wrap">
+                                        <div class="SortFilterOptions">
+                                            <span
+                                                class="sort-filter-option inquiry-list selected"
+                                                >최신순</span
+                                            >
+                                            <span class="sort-filter-option inquiry-list"
+                                                >일반 문의</span
+                                            >
+                                            <span class="sort-filter-option inquiry-list"
+                                                >봉사단체 가입 문의</span
+                                            >
+                                        </div>
+                                        <!-- Action Buttons -->
+                                        <div class="action-buttons">
+                                            <input
+                                                type="text"
+                                                class="Filter_searchInput inquiry-page-search"
+                                                placeholder="검색어 입력"
+                                                name="keyword"
+                                            />
+                                            <button
+                                                    id="deleteSelectedBtn"
+                                                    class="deleteSelectedBtn inquiry-delete"
+                                            >
+                                                게시글 삭제
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!--문의 내역 테이블 -->
+                                    <div class="inquiryTable_container">
+                                        <div
+                                                class="inquiryTable_row inquiryTable_header"
+                                        >
+                                            <div
+                                                    class="inquiryTable_cell inquiry-headerCell selectAllCell"
+                                            >
+                                                <input
+                          gi                              type="checkbox"
+                                                        id="selectAllInquiries"
+                                                />
+                                            </div>
+                                            <div
+                                                    class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                문의 분류
+                                            </div>
+                                            <div
+                                                    class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                작성일
+                                            </div>
+                                            <div
+                                                    class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                문의 제목
+                                            </div>
+
+                                            <div
+                                                    class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                공지사항 내용
+                                            </div>
+                                            <div
+                                                    class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                작성자
+                                            </div>
+                                            <div
+                                                    class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                이메일
+                                            </div>
+                                            <div
+                                                    class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                상태
+                                            </div>
+                                            <div
+                                                    class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                Action
+                                            </div>
+                                        </div>
+
+                                        <!-- Example row (Initial data) -->
+                                        <div class="inquiryTable_row data_row">
+                                            <div class="inquiryTable_cell">
+                                                <input
+                                                        type="checkbox"
+                                                        class="inquiryCheckbox"
+                                                />
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_type">
+                                                일반 문의
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_date">
+                                                2024-01-01
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                회사에서 신입이 먼저 인사하는
+                                                이유가 뭔가요? 꼭그래야만
+                                                하나요?
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                궁금하네요. 인사 안하면 예의
+                                                없는 건가요..? 중고 신입인데
+                                                연봉은 해당 직종 처음이라 신입
+                                                연봉입니다. 완전 새내기 신입
+                                                대우 받고 싶지 않은데요. 하긴
+                                                제가 대우받고 싶으면 저도 남을
+                                                대우해야겠죠..?
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                불만제로
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                test@gmail.com
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                대기중
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                <button class="editBtn">
+                                                    답변하기
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="inquiryTable_row data_row">
+                                            <div class="inquiryTable_cell">
+                                                <input
+                                                        type="checkbox"
+                                                        class="inquiryCheckbox"
+                                                />
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                일반 문의
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_type">
+                                                2024-10-15
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_date">
+                                                중소기업 신입 연봉 관련
+                                                질문드립니다
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                이제 5년차 된 수산 관련 회사이고
+                                                여러 나라와 정부에 투자를 많이
+                                                받은 회사입니다 제가 받은 초봉은
+                                                3천+생산량에따른 성과금입니다
+                                                그리고 숙식제공입니다 저는
+                                                상당하게 만족합니다 단지
+                                                궁금해서 글을 씁니다 대기업
+                                                중견기업과 비교하는건 아니지만
+                                                다른 중소기업에 비해 이 금액은
+                                                많은건가요 적당한건가요
+                                                작은건가요?
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                고민중독
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                test@gmail.com
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                처리완료
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                <button class="editBtn">
+                                                    답변완료
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="inquiryTable_row data_row">
+                                            <div class="inquiryTable_cell">
+                                                <input
+                                                        type="checkbox"
+                                                        class="inquiryCheckbox"
+                                                />
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_type">
+                                                봉사단체 가입 문의
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_date">
+                                                2024-01-01
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                스펙 어디까지 준비해야 대기업
+                                                들어갈 수 있나요?
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                제곧내
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                사용자1
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                test@gmail.com
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                대기중
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                <button class="editBtn">
+                                                    답변하기
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="inquiryTable_row data_row">
+                                            <div class="inquiryTable_cell">
+                                                <input
+                                                        type="checkbox"
+                                                        class="inquiryCheckbox"
+                                                />
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_type">
+                                                일반 문의
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_date">
+                                                2024-01-01
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                2024년도 kepco 연구직 채용공고
+                                                다들 보셨나요?
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                kepco 준비시는 분들께 여쭙고
+                                                싶습니다
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                피카츄
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                test@gmail.com
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                대기중
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                <button class="editBtn">
+                                                    답변하기
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <nav class="pagination">
+                                    <ul class="pagination-list inquiry-page">
+                                        <!--                                        &lt;!&ndash; 처음 페이지로 이동하는 버튼 &ndash;&gt;-->
+                                        <!--                                        <li class="pagination-first">-->
+                                        <!--                                            <a-->
+                                        <!--                                                -->
+                                        <!--                                                class="pagination-first-link"-->
+                                        <!--                                                rel="nofollow"-->
+                                        <!--                                            >-->
+                                        <!--                                                <span-->
+                                        <!--                                                    class="pagination-first-icon"-->
+                                        <!--                                                    aria-hidden="true"-->
+                                        <!--                                                    >«</span-->
+                                        <!--                                                >-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
+                                        <!--                                        &lt;!&ndash; 이전 페이지로 이동하는 버튼 &ndash;&gt;-->
+                                        <!--                                        <li class="pagination-prev">-->
+                                        <!--                                            <a-->
+                                        <!--                                                -->
+                                        <!--                                                class="pagination-prev-link"-->
+                                        <!--                                                rel="prev nofollow"-->
+                                        <!--                                            >-->
+                                        <!--                                                <span-->
+                                        <!--                                                    class="pagination-prev-icon"-->
+                                        <!--                                                    aria-hidden="true"-->
+                                        <!--                                                    >‹</span-->
+                                        <!--                                                >-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
+                                        <!--                                        &lt;!&ndash; 페이지 번호 버튼 &ndash;&gt;-->
+                                        <!--                                        <li class="pagination-page active">-->
+                                        <!--                                            <a-->
+                                        <!--                                                -->
+                                        <!--                                                class="pagination-page-link"-->
+                                        <!--                                                >1</a-->
+                                        <!--                                            >-->
+                                        <!--                                        </li>-->
+
+                                        <!--                                        &lt;!&ndash; 다음 페이지로 이동하는 버튼 &ndash;&gt;-->
+                                        <!--                                        <li class="pagination-next">-->
+                                        <!--                                            <a-->
+                                        <!--                                                -->
+                                        <!--                                                class="pagination-next-link"-->
+                                        <!--                                                rel="next nofollow"-->
+                                        <!--                                            >-->
+                                        <!--                                                <span-->
+                                        <!--                                                    class="pagination-next-icon"-->
+                                        <!--                                                    aria-hidden="true"-->
+                                        <!--                                                    >›</span-->
+                                        <!--                                                >-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
+                                        <!--                                        &lt;!&ndash; 마지막 페이지로 이동하는 버튼 &ndash;&gt;-->
+                                        <!--                                        <li class="pagination-last">-->
+                                        <!--                                            <a-->
+                                        <!--                                                -->
+                                        <!--                                                class="pagination-last-link"-->
+                                        <!--                                                rel="nofollow"-->
+                                        <!--                                            >-->
+                                        <!--                                                <span-->
+                                        <!--                                                    class="pagination-last-icon"-->
+                                        <!--                                                    aria-hidden="true"-->
+                                        <!--                                                    >»</span-->
+                                        <!--                                                >-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
+                                    </ul>
+                                </nav>
+                            </div>
+                        </section>
+                        <section class="admin-page" data-value="고객센터 문의 답변" id="inquiry_answer">
+                            <div style="max-width: 1080px; margin: 24px 16px 0;">
+                                <h1>고객센터 문의 답변</h1>
+                    <div class="form">
+                        <form
+                            id="new-request"
+                            class="request-form"
+                            data-form
+                            data-form-type="request"
+                            action="/help/write"
+                            accept-charset="UTF-8"
+                            method="post"
+                        >
+                            <div class="form-field required">
+                                <label for="request-title">문의 제목</label>
+                                <input
+                                    type="text"
+                                    name="request-title"
+                                    id="request-title"
+                                    maxlength="150"
+                                    size="150"
+                                    placeholder="간단한 제목을 입력해주세요."
+                                    value=""
+                                />
+                            </div>
+                            <div class="form-field-gap"></div>
+                            <div class="form-field required">
+                                <label for="request-description">공지사항 내용</label>
+                                <textarea
+                                    name="request-description"
+                                    id="request-description"
+                                ></textarea>
+                                <input
+                                    type="hidden"
+                                    name="request-description-input"
+                                    id="request-description-input"
+                                    value="text/plain"
+                                    style="display: none"
+                                    autocomplete="off"
+                                />
+                            </div>
+                            <div class="form-field">
+                                <label for="request-attachments"
+                                    >첨부파일</label
+                                >
+                                <div id="upload-zone" class="upload-zone">
+                                    <input
+                                        type="file"
+                                        multiple="true"
+                                        id="attach-input"
+                                        data-fileupload="true"
+                                        data-dropzone="upload-dropzone"
+                                    />
+                                    <span>
+                                        <a>파일 추가</a>
+                                        또는 파일을 여기로 드래그
+                                    </span>
+                                </div>
+                                <ul
+                                    id="attachments-upload-pool"
+                                    class="attachments-upload-pool"
+                                ></ul>
+                            </div>
+                            <div
+                                class="form-field-agreements"
+                                style="clear: both"
+                            >
+                                <p id="request-agreements">
+                                    (주)온정은 정보통신망 이용촉진 및 정보보호
+                                    등 관한 법률을 준수하며 고객님의 개인정보를
+                                    수집하고 소중하게 다루고 있습니다. 1. 수집
+                                    및 이용 항목 : 이메일, 이름, 연락처 2. 수집
+                                    및 이용 목적 : 앱 이용 문의에 대한 답변 관련
+                                    업무 3, 보유 및 이용 기간 : 수집 목적이
+                                    달성되면 모든 개인정보를 파기합니다. 동의를
+                                    하지 않을 경우 문의한 내용에 대한 답변에
+                                    제한이 있을 수 있습니다.
+                                </p>
+                                <label for="request-agreements-check" class="checked"
+                                    >동의합니다.</label
+                                >
+                                <input
+                                    name="request-agreements-check"
+                                    type="hidden"
+                                    value="off"
+                                    autocomplete="off"
+                                />
+                                <input
+                                    type="checkbox"
+                                    value="on"
+                                    id="request-agreements-check"
+                                    name="request-agreements-check"
+                                />
+                            </div>
+                            <div class="form-field required">
+                                <label for="request-description">답변 작성</label>
+                                <textarea
+                                    name="request-description"
+                                    id="request-description"
+                                ></textarea>
+                                <input
+                                    type="hidden"
+                                    name="request-description-input"
+                                    id="request-description-input"
+                                    value="text/plain"
+                                    style="display: none"
+                                    autocomplete="off"
+                                />
+                            </div>
+                            <footer>
+                                <input
+                                    type="submit"
+                                    name="submit"
+                                    id="submit-button"
+                                    value="답변제출"
+                                    style="margin-bottom: 30px;"
+                                />
+                            </footer>
+                        </form>
+                    </div>
+                            </div>
+                        </section>
+                        <section
+                            class="admin-page"
+                            data-value="게시글 목록"
+                            >
+                            <div>
+                                <div class="Service_wrapper">
+                                    <!-- body_header -->
+                                    <div class="ServiceHeader_container">
+                                        <h2 class="ServiceHeader_title">게시글 관리</h2>
+                                        <p class="ServiceHeader_description">
+                                            게시글 목록을 조회합니다.
+                                        </p>
+                                    </div>
+                                    <hr
+                                        class="Divider_divider Divider_horizontal Divider_lightBG Divider_spacing3 Divider_caption2 FriendsList_divider"
+                                    />
+                                    <!-- body_layout -->
+                                    <div class="ServiceLayout_container post-render-container">
+                                        <div class="filter_wrap">
+                                            <div class="SortFilterOptions">
+                                                <span
+                                                    class="post-filter-option selected"
+                                                    >작성일 순</span
+                                                >/
+                                                <span class="post-filter-option"
+                                                    >조회수 순</span
+                                                >/
+                                                <span class="post-filter-option"
+                                                    >댓글수 순</span
+                                                >/
+                                                <span class="post-filter-option"
+                                                    >기부 게시글</span
+                                                >/
+                                                <span class="post-filter-option"
+                                                    >봉사활동 모집글</span
+                                                >/
+                                                <span class="post-filter-option"
+                                                    >후원 게시글</span
+                                                >/
+                                                <span class="post-filter-option"
+                                                    >이용 후기</span
+                                                >
+                                                
+                                            </div>
+                                            <!-- Action Buttons -->
+                                            <div class="action-buttons">
+                                                <input
+                                                    type="text"
+                                                    class="Filter_searchInput post-page-search"
+                                                    placeholder="검색어 입력"
+                                                />
+                                                <button
+                                                    id="deleteSelectedBtn"
+                                                    class="deleteSelectedBtn post-page-btn"
+                                                >
+                                                    게시글 삭제
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <hr
+                                            class="Divider_divider Divider_horizontal Divider_lightBG Divider_spacing3 Divider_caption2 FriendsList_divider"
+                                        />
+                                        <div class="ServiceTable_container">
+                                            <div class="header_wrapper">
+                                                <div
+                                                    class="ServiceTable_row ServiceTable_header"
+                                                >
+                                                    <div
+                                                        class="ServiceTable_cell headerCell selectAllCell"
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            id="selectAllPosts"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell headerCell"
+                                                        style=
+                                                    >
+                                                        ID
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell headerCell"
+                                                    >
+                                                        작성자
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell headerCell"
+                                                    >
+                                                        작성일
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell headerCell"
+                                                    >
+                                                        게시글 제목
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell headerCell"
+                                                    >
+                                                        조회수
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell headerCell"
+                                                        style="padding-left: 8px;"
+                                                    >
+                                                        댓글수
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell headerCell"
+                                                        
+                                                    >
+                                                        유형
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell headerCell"
+                                                        style="padding-left: 62px;"
+                                                    >
+                                                        Actions
+                                                    </div>
+                                                </div>
+                                            </div>
+        
+                                            <!-- 목록 리스트 -->
+                                            <div class="ServiceTable_row_wrapper post-filter-wrapper">
+                                                <div class="ServiceTable_row">
+                                                    <div class="ServiceTable_cell">
+                                                        <input
+                                                            type="checkbox"
+                                                            class="postCheckbox"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_ID"
+                                                        
+                                                    >
+                                                        1
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell user_name"
+                                                    >
+                                                        John Doe
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell Join_date"
+                                                    >
+                                                        2024-08-20
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_title"
+                                                    >
+                                                        어제 챔스 하이라이트 봄?
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell hit_ctn"
+                                                    >
+                                                        152
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell reply_ctn"
+                                                    >
+                                                        56
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_kind"
+                                                        
+                                                    >
+                                                        기부 게시글
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell editBtn"
+                                                    >
+                                                        <button class="inquiry-button">조회</button>
+                                                    </div>
+                                                </div>
+                                                <div class="ServiceTable_row">
+                                                    <div class="ServiceTable_cell">
+                                                        <input
+                                                            type="checkbox"
+                                                            class="userCheckbox"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_ID "
+                                                        
+                                                    >
+                                                        2
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell user_name"
+                                                    >
+                                                        도우너
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell Join_date"
+                                                    >
+                                                        2024-08-21
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_title"
+                                                    >
+                                                        XXX팀 여기 들어갈만 한가요?
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell hit_ctn"
+                                                    >
+                                                        22
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell reply_ctn"
+                                                    >
+                                                        3
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_kind"
+                                                        
+                                                    >
+                                                        봉사활동 모집글
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell editBtn"
+                                                    >
+                                                    <button class="inquiry-button">조회</button>
+                                                    </div>
+                                                </div>
+                                                <div class="ServiceTable_row">
+                                                    <div class="ServiceTable_cell">
+                                                        <input
+                                                            type="checkbox"
+                                                            class="userCheckbox"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_ID"
+                                                        
+                                                    >
+                                                        3
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell user_name"
+                                                    >
+                                                        둘리
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell Join_date"
+                                                    >
+                                                        2024-08-23
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_title"
+                                                    >
+                                                        송파 배드민턴장 대여 후기
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell hit_ctn"
+                                                    >
+                                                        98
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell reply_ctn"
+                                                    >
+                                                        13
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_kind"
+                                                        
+                                                    >
+                                                        이용 후기
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell editBtn"
+                                                    >
+                                                    <button class="inquiry-button">조회</button>
+                                                    </div>
+                                                </div>
+                                                <div class="ServiceTable_row">
+                                                    <div class="ServiceTable_cell">
+                                                        <input
+                                                            type="checkbox"
+                                                            class="userCheckbox"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_ID"
+                                                        
+                                                    >
+                                                        4
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell user_name"
+                                                    >
+                                                        고길동
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell Join_date"
+                                                    >
+                                                        2024-08-25
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_title"
+                                                    >
+                                                        어제 둘리팀이랑 경기하고 왔습니다.
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell hit_ctn"
+                                                    >
+                                                        43
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell reply_ctn"
+                                                    >
+                                                        22
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_kind"
+                                                        
+                                                    >
+                                                        후원 게시글
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell editBtn"
+                                                    >
+                                                    <button class="inquiry-button">조회</button>
+                                                    </div>
+                                                </div>
+                                                <div class="ServiceTable_row">
+                                                    <div class="ServiceTable_cell">
+                                                        <input
+                                                            type="checkbox"
+                                                            class="userCheckbox"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_ID"
+                                                        
+                                                    >
+                                                        5
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell user_name"
+                                                    >
+                                                        마이콜
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell Join_date"
+                                                    >
+                                                        2024-08-27
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_title"
+                                                    >   
+                                                        로또 3등 당첨됨 asdfasdfasdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                                    
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell hit_ctn"
+                                                    >
+                                                        98
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell reply_ctn"
+                                                    >
+                                                        54
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell post_kind"
+                                                        
+                                                    >
+                                                        이용 후기
+                                                    </div>
+                                                    <div
+                                                        class="ServiceTable_cell editBtn"
+                                                    >
+                                                    <button class="inquiry-button">조회</button>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+        
+                                                <!-- 목록 리스트 -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <nav class="pagination">
+                                        <ul class="pagination-list post-page">
+                                            <!-- 처음 페이지로 이동하는 버튼 -->
+                                            <li class="pagination-first">
+                                                <a
+                                                    
+                                                    class="pagination-first-link"
+                                                    rel="nofollow"
+                                                >
+                                                    <span
+                                                        class="pagination-first-icon"
+                                                        aria-hidden="true"
+                                                        >«</span
+                                                    >
+                                                </a>
+                                            </li>
+                                            <!-- 이전 페이지로 이동하는 버튼 -->
+                                            <li class="pagination-prev">
+                                                <a
+                                                    
+                                                    class="pagination-prev-link"
+                                                    rel="prev nofollow"
+                                                >
+                                                    <span
+                                                        class="pagination-prev-icon"
+                                                        aria-hidden="true"
+                                                        >‹</span
+                                                    >
+                                                </a>
+                                            </li>
+                                            <!-- 페이지 번호 버튼 -->
+                                            <li class="pagination-page active">
+                                                <a  class="pagination-page-link"
+                                                    >1</a
+                                                >
+                                            </li>
+                                            <li class="pagination-page">
+                                                <a  class="pagination-page-link"
+                                                    >2</a
+                                                >
+                                            </li>
+                                            <li class="pagination-page">
+                                                <a  class="pagination-page-link"
+                                                    >3</a
+                                                >
+                                            </li>
+                                            <li class="pagination-page">
+                                                <a  class="pagination-page-link"
+                                                    >4</a
+                                                >
+                                            </li>
+                                            <li class="pagination-page">
+                                                <a  class="pagination-page-link"
+                                                    >5</a
+                                                >
+                                            </li>
+                                            <li class="pagination-page">
+                                                <a  class="pagination-page-link"
+                                                    >6</a
+                                                >
+                                            </li>
+                                            <li class="pagination-page">
+                                                <a  class="pagination-page-link"
+                                                    >7</a
+                                                >
+                                            </li>
+                                            <li class="pagination-page">
+                                                <a  class="pagination-page-link"
+                                                    >8</a
+                                                >
+                                            </li>
+                                            <li class="pagination-page">
+                                                <a  class="pagination-page-link"
+                                                    >9</a
+                                                >
+                                            </li>
+                                            <li class="pagination-page">
+                                                <a  class="pagination-page-link"
+                                                    >10</a
+                                                >
+                                            </li>
+                                            <!-- 다음 페이지로 이동하는 버튼 -->
+                                            <li class="pagination-next">
+                                                <a
+                                                    
+                                                    class="pagination-next-link"
+                                                    rel="next nofollow"
+                                                >
+                                                    <span
+                                                        class="pagination-next-icon"
+                                                        aria-hidden="true"
+                                                        >›</span
+                                                    >
+                                                </a>
+                                            </li>
+                                            <!-- 마지막 페이지로 이동하는 버튼 -->
+                                            <li class="pagination-last">
+                                                <a
+                                                    
+                                                    class="pagination-last-link"
+                                                    rel="nofollow"
+                                                >
+                                                    <span
+                                                        class="pagination-last-icon"
+                                                        aria-hidden="true"
+                                                        >»</span
+                                                    >
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <!-- 이용후기 모달창 -->
+                                <!-- 이용후기 모달창 -->
+                                <div id="review-modal" class="modal">
+                                    <div class="modal-content-wrapper">
+                                        <span class="close-btn" onclick="closeModal()">&times;</span>
+                                        <div class="modal-title"></div>
+                                        <div class="modal-body"></div>
+                                        <div class="modal-rating"></div>
+                                    </div>
+                                </div>
+                                <!-- 모달창 -->
+                            <!-- <div id="editModal" class="modal">
+                                <div class="modal-content" style="max-height: 80vh; overflow-y: auto; display: flex; flex-direction: column;">
+                                    <span class="close-button" style="align-self: flex-end;">&times;</span>
+                                    <h2 style="text-align: center;">게시글 수정</h2>
+                                    <form id="editForm" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                                        <div style="flex-grow: 1; overflow-y: auto; margin-bottom: 20px;">
+                                            <label for="editPostTitle">게시글 제목:</label>
+                                            <input
+                                                type="text"
+                                                id="editPostTitle"
+                                                name="editPostTitle"
+                                                style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #999;"
+                                            />
+                                        
+                                            <label for="editPostContent">게시글 내용:</label>
+                                            <textarea
+                                                id="editPostContent"
+                                                name="editPostContent"
+                                                style="width: 100%; height: 200px; padding: 8px; margin-bottom: 10px; border: 1px solid #999;"
+                                            ></textarea>
+                                        
+                                            <label for="editFiles">첨부파일:</label>
+                                            <input
+                                                type="file"
+                                                id="editFiles"
+                                                name="editFiles"
+                                                accept="image/*, video/*"
+                                                multiple
+                                                style="width: 100%; padding: 8px; margin-bottom: 10px;"
+                                            /> -->
+                                        
+                                            <!-- 첨부된 이미지/동영상 미리보기 -->
+                                            <!-- <div id="filePreviewContainer" style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px;"></div>
+                                        
+                                            <h3 style="margin-top: 30px;">댓글 목록</h3>
+                                            <ul id="commentList" style="list-style-type: none; padding: 0; min-height: 200px; overflow-y: auto; max-height: 300px;"></ul>
+                                        </div> -->
+                                    
+                                    <!-- </form> -->
+                                <!-- </div>
+                            </div>   -->
+                            </div>
+                        </section>
+                        <section
+                            class="admin-page"
+                            data-value="신고 목록"
+                        >
+                        <div class="Service_wrapper">
+                            <!-- body_header -->
+                            <div class="ServiceHeader_container">
+                                <h2 class="ServiceHeader_title">
+                                    신고 내역 관리
+                                </h2>
+                                <p class="ServiceHeader_description">
+                                    신고 내역 목록을 조회합니다.
+                                </p>
+                            </div>
+                            <hr
+                                class="Divider_divider Divider_horizontal Divider_lightBG Divider_spacing3 Divider_caption2 FriendsList_divider"
+                            />
+                            <!-- body_layout -->
+                            <div class="ServiceLayout_container ">
+                                <div class="filter_wrap">
+                                    <div class="SortFilterOptions">
+                                        <span
+                                            class="sort-filter-option report-list selected"
+                                            >신고일 순</span
+                                        >/
+                                        <span class="sort-filter-option report-list"
+                                            >신고 처리 완료</span
+                                        >/
+                                        <span class="sort-filter-option report-list"
+                                            >신고 처리 대기중</span
+                                        >
+                                    </div>
+                                    <!-- Action Buttons -->
+                                    <div class="action-buttons">
+                                        <input
+                                            type="text"
+                                            class="Filter_searchInput report-page-search"
+                                            placeholder="검색어 입력"
+                                        />
+                                        <button
+                                            id="addServiceBtn"
+                                            class="addServiceBtn"
+                                        >
+                                            상태 변경
+                                        </button>
+                                        <button
+                                            id="deleteSelectedBtn"
+                                            class="deleteSelectedBtn report-delete"
+                                        >
+                                            게시글 삭제
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr
+                                    class="Divider_divider Divider_horizontal Divider_lightBG Divider_spacing3 Divider_caption2 FriendsList_divider"
+                                />
+                                <div class="ServiceTable_container report-page">
+                                    <div class="header_wrapper">
+                                        <div
+                                            class="ServiceTable_row ServiceTable_header"
+                                        >
+                                            <div
+                                                class="ServiceTable_cell headerCell selectAllCell"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    id="selectAllReports"
+                                                />
+                                            </div>
+                                            <div class="ServiceTable_cell
+                                            headerCell reportTable"> 신고 번호
+                                            </div>
+                                            <div
+                                                class="ServiceTable_cell headerCell reportTable"
+                                            >
+                                                신고 날짜
+                                            </div>
+                                            <div
+                                                class="ServiceTable_cell headerCell reportTable"
+                                            >
+                                                신고한 사용자
+                                            </div>
+                                            <div
+                                                class="ServiceTable_cell headerCell reportTable"
+                                            >
+                                                신고된 사용자
+                                            </div>
+                                            <div
+                                                class="ServiceTable_cell headerCell reportTable"
+                                            >
+                                                신고된 게시글 제목
+                                            </div>
+                                            <div
+                                                class="ServiceTable_cell headerCell reportTable"
+                                                style="width: 300px"
+                                            >
+                                                신고 사유
+                                            </div>
+                                            <div
+                                                class="ServiceTable_cell headerCell reportTable"
+                                                id="report_status"
+                                            >
+                                                처리 상태
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <!-- 목록 리스트 -->
+                                <div class="ServiceTable_row_wrapper">
+                                    <div class="ServiceTable_row">
+                                        <div class="ServiceTable_cell">
+                                            <input
+                                                type="checkbox"
+                                                class="reportCheckbox"
+                                            />
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell post_ID reportTable"
+                                            id="post_ID"
+                                        >
+                                            1
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell Join_date reportTable"
+                                            id="join_Date"
+                                        >
+                                            2024-08-20
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell user_name reportTable"
+                                            id="reporter_name"
+                                        >
+                                            리오날 메신
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell user_name reportTable"
+                                            id="reported_name"
+                                        >
+                                            크리스마스 호두
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell post_title reportTable"
+                                            id="post_Title"
+                                        >
+                                            어제 챔스 하이라이트
+                                            봄?12312312331323123
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell report_Cause reportTable"
+                                            id="report_Cause"
+                                        >
+                                            자기가 경기뛰고
+                                            자랑함21312313123312312312331212321123123122312313121233
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell editBtn reportTable"
+                                            id="edit_Btn"
+                                        >
+                                            <button class="">처리완료</button>
+                                        </div>
+                                    </div>
+                                    <div class="ServiceTable_row">
+                                        <div class="ServiceTable_cell">
+                                            <input
+                                                type="checkbox"
+                                                class="userCheckbox"
+                                            />
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell post_ID reportTable"
+                                            id="post_ID"
+                                        >
+                                            1
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell Join_date reportTable"
+                                            id="join_Date"
+                                        >
+                                            2024-08-20
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell user_name reportTable"
+                                            id="reporter_name"
+                                        >
+                                            리오날 메신
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell user_name reportTable"
+                                            id="reported_name"
+                                        >
+                                            크리스마스 호두
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell post_title reportTable"
+                                            id="post_Title"
+                                        >
+                                            어제 챔스 하이라이트
+                                            봄?12312312331323123
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell report_Cause reportTable"
+                                            id="report_Cause"
+                                        >
+                                            자기가 경기뛰고
+                                            자랑함21312313123312312312331212321123123122312313121233
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell editBtn reportTable"
+                                            id="edit_Btn"
+                                        >
+                                            <button class="">대기중</button>
+                                        </div>
+                                    </div>
+                                    <div class="ServiceTable_row">
+                                        <div class="ServiceTable_cell">
+                                            <input
+                                                type="checkbox"
+                                                class="userCheckbox"
+                                            />
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell post_ID reportTable"
+                                            id="post_ID"
+                                        >
+                                            1
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell Join_date reportTable"
+                                            id="join_Date"
+                                        >
+                                            2024-08-20
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell user_name reportTable"
+                                            id="reporter_name"
+                                        >
+                                            리오날 메신
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell user_name reportTable"
+                                            id="reported_name"
+                                        >
+                                            크리스마스 호두
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell post_title reportTable"
+                                            id="post_Title"
+                                        >
+                                            어제 챔스 하이라이트
+                                            봄?12312312331323123
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell report_Cause reportTable"
+                                            id="report_Cause"
+                                        >
+                                            자기가 경기뛰고
+                                            자랑함21312313123312312312331212321123123122312313121233
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell editBtn reportTable"
+                                            id="edit_Btn"
+                                        >
+                                            <button class="">처리완료</button>
+                                        </div>
+                                    </div>
+                                    <div class="ServiceTable_row">
+                                        <div class="ServiceTable_cell">
+                                            <input
+                                                type="checkbox"
+                                                class="userCheckbox"
+                                            />
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell post_ID reportTable"
+                                            id="post_ID"
+                                        >
+                                            1
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell Join_date reportTable"
+                                            id="join_Date"
+                                        >
+                                            2024-08-20
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell user_name reportTable"
+                                            id="reporter_name"
+                                        >
+                                            리오날 메신
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell user_name reportTable"
+                                            id="reported_name"
+                                        >
+                                            크리스마스 호두
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell post_title reportTable"
+                                            id="post_Title"
+                                        >
+                                            어제 챔스 하이라이트
+                                            봄?12312312331323123
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell report_Cause reportTable"
+                                            id="report_Cause"
+                                        >
+                                            자기가 경기뛰고
+                                            자랑함21312313123312312312331212321123123122312313121233
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell editBtn reportTable"
+                                            id="edit_Btn"
+                                        >
+                                            <button class="">처리완료</button>
+                                        </div>
+                                    </div>
+                                    <div class="ServiceTable_row">
+                                        <div class="ServiceTable_cell">
+                                            <input
+                                                type="checkbox"
+                                                class="userCheckbox"
+                                            />
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell post_ID reportTable"
+                                            id="post_ID"
+                                        >
+                                            5
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell Join_date reportTable"
+                                            id="join_Date"
+                                        >
+                                            2024-08-24
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell user_name reportTable"
+                                            id="reporter_name"
+                                        >
+                                            허리케인
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell user_name reportTable"
+                                            id="reported_name"
+                                        >
+                                            손옹정
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell post_title reportTable"
+                                            id="post_Title"
+                                        >
+                                            말씀중에 죄송합니다 흥민이
+                                            월드클래스 아닙니다.
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell report_Cause reportTable"
+                                            id="report_Cause"
+                                        >
+                                            자기가 경기뛰고
+                                            자랑함21312313123312312312331212321123123122312313121233
+                                        </div>
+                                        <div
+                                            class="ServiceTable_cell editBtn reportTable"
+                                            id="edit_Btn"
+                                        >
+                                            <button class="">대기중</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 목록 리스트 -->
+                                </div>
+                            </div>
+                        </div>
+                        <nav class="pagination">
+                            <ul class="pagination-list report-page">
+                                <!-- 처음 페이지로 이동하는 버튼 -->
+                                <li class="pagination-first">
+                                    <a
+                                        
+                                        class="pagination-first-link"
+                                        rel="nofollow"
+                                    >
+                                        <span
+                                            class="pagination-first-icon"
+                                            aria-hidden="true"
+                                            >«</span
+                                        >
+                                    </a>
+                                </li>
+                                <!-- 이전 페이지로 이동하는 버튼 -->
+                                <li class="pagination-prev">
+                                    <a
+                                        
+                                        class="pagination-prev-link"
+                                        rel="prev nofollow"
+                                    >
+                                        <span
+                                            class="pagination-prev-icon"
+                                            aria-hidden="true"
+                                            >‹</span
+                                        >
+                                    </a>
+                                </li>
+                                <!-- 페이지 번호 버튼 -->
+                                <li class="pagination-page active">
+                                    <a  class="pagination-page-link"
+                                        >1</a
+                                    >
+                                </li>
+                                <li class="pagination-page">
+                                    <a  class="pagination-page-link"
+                                        >2</a
+                                    >
+                                </li>
+                                <li class="pagination-page">
+                                    <a  class="pagination-page-link"
+                                        >3</a
+                                    >
+                                </li>
+                                <li class="pagination-page">
+                                    <a  class="pagination-page-link"
+                                        >4</a
+                                    >
+                                </li>
+                                <li class="pagination-page">
+                                    <a  class="pagination-page-link"
+                                        >5</a
+                                    >
+                                </li>
+                                <li class="pagination-page">
+                                    <a  class="pagination-page-link"
+                                        >6</a
+                                    >
+                                </li>
+                                <li class="pagination-page">
+                                    <a  class="pagination-page-link"
+                                        >7</a
+                                    >
+                                </li>
+                                <li class="pagination-page">
+                                    <a  class="pagination-page-link"
+                                        >8</a
+                                    >
+                                </li>
+                                <li class="pagination-page">
+                                    <a  class="pagination-page-link"
+                                        >9</a
+                                    >
+                                </li>
+                                <li class="pagination-page">
+                                    <a  class="pagination-page-link"
+                                        >10</a
+                                    >
+                                </li>
+                                <!-- 다음 페이지로 이동하는 버튼 -->
+                                <li class="pagination-next">
+                                    <a
+                                        
+                                        class="pagination-next-link"
+                                        rel="next nofollow"
+                                    >
+                                        <span
+                                            class="pagination-next-icon"
+                                            aria-hidden="true"
+                                            >›</span
+                                        >
+                                    </a>
+                                </li>
+                                <!-- 마지막 페이지로 이동하는 버튼 -->
+                                <li class="pagination-last">
+                                    <a
+                                        
+                                        class="pagination-last-link"
+                                        rel="nofollow"
+                                    >
+                                        <span
+                                            class="pagination-last-icon"
+                                            aria-hidden="true"
+                                            >»</span
+                                        >
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                        </section>
+                        <section class="admin-page" data-value="게시글 조회">
+                            <div class="content-container-maincontent">
+                                <div class="thumbnail-background" style="position: relative">
+                                    <main class="container-main-body">
+                                        <section class="main-info-wrap">
+                                            <section class="main-info">
+                                                <section class="left">
+                                                    <div class="content-wrapper">
+                                                        <div class="main-thumbnail-container">
+                                                            <div
+                                                                class="main-thumbnail"
+                                                                width="100%"
+                                                            >
+                                                                <div>
+                                                                    <div class="observer"></div>
+                                                                    <img
+                                                                        src="https://cdn-dantats.stunning.kr/prod/portfolios/392c3bf2-da4c-4128-a5fc-79951fd565aa/covers/nLf7dPQ2YQQbDZzf.s1.jpg.small?s=998x998&amp;e=1x1&amp;t=crop&amp;q=80&amp;f=webp"
+                                                                        alt="큰나무이비인후과 로고 콘테스트 우승작 이미지 1"
+                                                                        format="webp"
+                                                                        style="
+                                                                            width: 570px;
+                                                                            height: 570px;
+                                                                        "
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="tabs-navigation-wrapper tab-wrapper"
+                                                        style="top: 0;"
+                                                    >
+                                                        <div class="tab-style tabs">
+                                                            <div class="active tab">내용</div>
+                                                            <div class="tab">
+                                                                댓글<label class="tab-sticker"
+                                                                    >2</label
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="content-wrap">
+                                                        <section class="content-container">
+                                                            <section class="content-introduce">
+                                                                <div
+                                                                    class="content-title row-title"
+                                                                >
+                                                                    한 줄 요약
+                                                                </div>
+                                                                <div
+                                                                    class="content-content row-content"
+                                                                >
+                                                                    신규로 개원하는 이비인후과
+                                                                    입니다. 어지러움 검사(달팽이관),
+                                                                    코 수술(코끼리) 등의 전문진료를
+                                                                    표방하는 이비인후과를
+                                                                    추구합니다. 춘천
+                                                                    큰나무이비인후과(본원)에서
+                                                                    사용한 로고가 있으나 이와
+                                                                    유사하게 또는 개선된 방향으로
+                                                                    새로이 로고를 제작하려고 합니다.
+                                                                </div>
+                                                            </section>
+                                                        </section>
+                                                        <section class="content-title-container">
+                                                            <div class="content-title row-title">
+                                                                목표 포인트
+                                                            </div>
+                                                            <div
+                                                                class="content-content row-content"
+                                                            >
+                                                                50000
+                                                            </div>
+                                                        </section>
+                                                        <section class="content-title-container">
+                                                            <div class="content-title row-title">
+                                                                내용
+                                                            </div>
+                                                            <div
+                                                                class="content-content row-content"
+                                                            >
+                                                                <p>
+                                                                    파주에 신규로 개원하는
+                                                                    이비인후과 입니다. 어지러움
+                                                                    진료(달팽이관), 코 수술(코끼리)
+                                                                    등의 전문진료를 표방하는
+                                                                    이비인후과를 추구합니다. 춘천
+                                                                    큰나무이비인후과(본원)에서
+                                                                    사용한 로고가 있어 아래에
+                                                                    첨부합니다. 이와 유사하게 또는
+                                                                    개선된 방향으로 새로이 제작
+                                                                    부탁드립니다.
+                                                                </p>
+                                                                <p><br /></p>
+                                                                <p>
+                                                                    *브랜드 의미 : 큰나무(신뢰,
+                                                                    휴식)의 이미지가 강조된
+                                                                    이비인후과 이며, 어지러움
+                                                                    진료(달팽이), 코 수술(코끼리)의
+                                                                    이미지를 동시에 표현하려고
+                                                                    합니다.<br />*선호 이미지 :
+                                                                    업로드 된 춘천 큰나무이비인후과
+                                                                    본원의 이미지와 큰 틀에서는
+                                                                    유사했으면 좋겠습니다. 색상,
+                                                                    글꼴 등의 디테일은 변형
+                                                                    가능합니다.<br />*표현하고 싶은
+                                                                    컨셉 : 귀와 코 전문 진료가
+                                                                    가능한 전문 이비인후과 의원<br />*피하고
+                                                                    싶은 스타일 : 너무 복잡하거나
+                                                                    한눈에 알아보기 어려운 이미지는
+                                                                    지양합니다.
+                                                                </p>
+                                                                <p><br /></p>
+                                                                <p>
+                                                                    <br /><img
+                                                                        src="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/briefingcontents/emLoA2eZLMHsrPWj.1725933473451-0.jpg"
+                                                                        alt="emLoA2eZLMHsrPWj.1725933473451-0.jpg"
+                                                                    />
+                                                                </p>
+                                                                <p>
+                                                                    <img
+                                                                        src="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/briefingcontents/HNSdX7AK9ZoMg5cb.1725938690846%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.jpg"
+                                                                    />
+                                                                </p>
+                                                                <p></p>
+                                                            </div>
+                                                        </section>
+                                                        <section class="attach-title-container">
+                                                            <div class="content-title row-title">
+                                                                첨부파일<button
+                                                                    class="download-all-btn"
+                                                                >
+                                                                    <span class="visual-correction"
+                                                                        >전체 받기</span
+                                                                    >
+                                                                </button>
+                                                            </div>
+                                                            <div
+                                                                class="content-content row-content"
+                                                            >
+                                                                <ul class="attach-list attachments">
+                                                                    <li>
+                                                                        <p
+                                                                            class="file-name"
+                                                                            title="1725938690846 - 복사본.jpg"
+                                                                        >
+                                                                            1725938690846 -
+                                                                            복사본.jpg
+                                                                        </p>
+                                                                        <span class="file-download"
+                                                                            ><span class="size"
+                                                                                >35.2 KB</span
+                                                                            ><a
+                                                                                href="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/attachments/hD5PPtSDg34YNR3m/1725938690846%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.jpg"
+                                                                                download="1725938690846 - 복사본.jpg"
+                                                                                class="attach-save"
+                                                                                ><span
+                                                                                    class="visual-correction"
+                                                                                    >저장</span
+                                                                                ></a
+                                                                            ></span
+                                                                        >
+                                                                    </li>
+                                                                    <li>
+                                                                        <p
+                                                                            class="file-name"
+                                                                            title="1725933473451-0.jpg"
+                                                                        >
+                                                                            1725933473451-0.jpg
+                                                                        </p>
+                                                                        <span class="file-download"
+                                                                            ><span class="size"
+                                                                                >42.8 KB</span
+                                                                            ><a
+                                                                                href="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/attachments/dfiQd4P4mfYFmBaa/1725933473451-0.jpg"
+                                                                                download="1725933473451-0.jpg"
+                                                                                class="attach-save"
+                                                                                ><span
+                                                                                    class="visual-correction"
+                                                                                    >저장</span
+                                                                                ></a
+                                                                            ></span
+                                                                        >
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </section>
+                                                    </div>
+                                                    <div class="comment-wrap-fr">
+                                                        <section>
+                                                            <div class="comment-wrap">
+                                                                <section
+                                                                    class="comment-section"
+                                                                    id="comment-section"
+                                                                ></section>
+                                                            </div>
+                                                        </section>
+                    ㄹ
+                                                        <section
+                                                            class="contest-comment-input"
+                                                            style="width: 500px"
+                                                        >
+                                                            <textarea
+                                                                class="comment-textarea"
+                                                                id="comment-content"
+                                                                placeholder="댓글을 입력하세요."
+                                                            ></textarea>
+                                                            <button
+                                                                class="submit-comment-button"
+                                                                disabled
+                                                            >
+                                                                댓글 작성
+                                                            </button>
+                                                        </section>
+                                                    </div>
+                                                </section>
+                                                <div class="space"></div>
+                                                <section class="right">
+                                                    <div class="sticky-box">
+                                                        <div class="right-title-wrap end">
+                                                            <div class="right-title-container">
+                                                                <h2 class="title">
+                                                                    기부 게시판 제목
+                                                                </h2>
+                                                                <div class="user-info">
+                                                                    <a
+                                                                        href="/m/megakukjin2297"
+                                                                        class="avatar-container avatar"
+                                                                        ><img
+                                                                            src="https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&amp;f=webp&amp;t=crop&amp;s=256x256"
+                                                                    /></a>
+                                                                    <div
+                                                                        class="user-info-text-wrapper"
+                                                                    >
+                                                                        <p
+                                                                            class="user-nick-container company"
+                                                                            title="큰나무이비인후과"
+                                                                        >
+                                                                            <a
+                                                                                class="user-nick nick"
+                                                                                href="/m/megakukjin2297"
+                                                                                >사용자 닉네임</a
+                                                                            >
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <section class="prize-wrap prize">
+                                                                <div class="help">
+                                                                    <p>목표 포인트</p>
+                                                                </div>
+                                                                <div class="total-prize"></div>
+                                                                <ul class="prizes">
+                                                                    <div class="graph-wrap">
+                                                                        <div class="graph-status">
+                                                                            <span
+                                                                                ><strong
+                                                                                    class="num"
+                                                                                ></strong
+                                                                                >%</span
+                                                                            >
+                                                                        </div>
+                                                                        <div class="graph-bar">
+                                                                            <span></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </ul>
+                                                            </section>
+                                                            <div class="row-line"></div>
+                                                            <section
+                                                                class="info-box-container meta"
+                                                            >
+                                                                <div
+                                                                    class="right-info-style info-box"
+                                                                >
+                                                                    <div class="title">
+                                                                        모금 기간
+                                                                    </div>
+                                                                    <div class="content">6일</div>
+                                                                    <div class="sub-content">
+                                                                        <span
+                                                                            >24.10.05 ~
+                                                                            24.10.11</span
+                                                                        >
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="right-info-style info-box"
+                                                                >
+                                                                    <div class="title">
+                                                                        참여 인원 수
+                                                                    </div>
+                                                                    <div class="content">3명</div>
+                                                                </div>
+                                                                <div
+                                                                    class="right-info-style info-box"
+                                                                >
+                                                                    <div class="title">조회수</div>
+                                                                    <div class="content">759</div>
+                                                                </div>
+                                                            </section>
+                                                            <div class="donation-btn-wrap">
+                                                                <div
+                                                                    class="donation-btn-container tooltip"
+                                                                >
+                                                                    <a class="donation-btn-style"
+                                                                        ><span
+                                                                            class="visual-correction"
+                                                                            >기부하기</span
+                                                                        ></a
+                                                                    >
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </section>
+                                        </section>
+                                    </main>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <!-- 관리자 홈 -->
+<script th:inline="javascript">
+    const member = [[${session.loginMember}]];
+</script>
+    <script src="/js/admin/admin_service.js"></script>
+    <script src="/js/admin/admin_layout.js"></script>
+    <script src="/js/admin.js"></script>
+
+    <script src="/js/adminPage/admin_page/admin.js"></script>
+    <!-- 회원 목록 -->
+<!--    <script src="/js/adminPage/admin_user/admin_user.js"></script>-->
+<!--    <script src="/js/adminPage/admin_page/admin.js"></script>-->
+<!--    <script src="/js/adminPage/admin_user/modal_user.js"></script>-->
+    <!-- 공지사항 목록 -->
+    <!--     <script src="/static/js/admin.js"> -->
+    <!-- 공지사항 조회 -->
+    <script src="/js/help/help-notification-inquiry.js"></script>
+    <!-- 고객센터 문의 목록 -->
+
+    <!-- 고객센터 문의 답변 -->
+    <script src="/js/help/help-write.js"></script>
+    <!-- 게시글 목록 -->
+    <script src="/js/adminPage/admin_service/service_Main.js"></script>
+    <script src="/js/adminPage/admin_post/postList_filter.js"></script>
+    <!-- 게시글 조회 -->
+    <script src="/js/donation/donation-inquiry.js"></script>
+
+    <script src="/js/admin_new.js"></script>
+</html>

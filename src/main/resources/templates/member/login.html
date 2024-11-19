@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>로그인</title>
+        <link rel="stylesheet" href="/css/login/login.css" />
+        <link
+                rel="icon"
+                href="/images/favicon.png"
+        />
+    </head>
+    <body>
+        <div id="root">
+            <div class="wrap palm-leaf">
+                <div class="main-container">
+                    <div class="main-register-wrap">
+                        <div class="login-right-area">
+                            <div class="login-login-wrap">
+                                <div class="login-login-title">
+                                    <header class="header">
+                                        <div class="logo loud"></div>
+                                    </header>
+                                </div>
+                                <div class="wrap-box loud">
+                                    <form
+                                        name="login-form"
+                                        method="post"
+                                        action="/member/login"
+                                    >
+                                        <div
+                                            class="login-form-input-box false id-input-box input-box"
+                                        >
+                                            <p class="label-text">이메일</p>
+                                            <input
+                                                type="text"
+                                                id="id-info"
+                                                name="memberEmail"
+                                                class="form-input"
+                                            />
+                                            <span class="false"></span>
+                                        </div>
+                                        <div
+                                            class="login-form-input-box undfined false input-box"
+                                        >
+                                            <p class="label-text">비밀번호</p>
+                                            <input
+                                                type="password"
+                                                id="pass-info"
+                                                name="memberPassword"
+                                                class="form-input"
+                                                value
+                                            />
+                                            <img
+                                                class="password-show-btn"
+                                                src="https://accounts-front.stunning.kr/assets/img/login/ico-hidden.png"
+                                                onclick="togglePasswordVisibility()"
+                                            />
+                                            <span
+                                                class="warning-msg"
+                                                style="display: none"
+                                                >가입되어 있지 않은 계정이거나,
+                                                이메일 또는 비밀번호가 일치하지
+                                                않습니다.</span
+                                            >
+                                        </div>
+                                        <div
+                                            id="login-btn"
+                                            class="classic-black-btn login-form-popask-btn false"
+                                        >
+                                            <button type="submit" id="real-login">로그인</button>
+                                        </div>
+                                        <div
+                                            class="login-keep-box login-form-others loud"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                id="login-keep"
+                                                name="login-keep"
+                                            />
+
+                                            <a
+                                                class="find-account login-form-find-account loud"
+                                                href="/member/password"
+                                                >비밀번호 찾기</a
+                                            >
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="social-social-login-box">
+                                    <p>카카오톡 로그인 하기</p>
+                                    <ul>
+                                        <li class="social-kakao">
+                                            <a href="https://kauth.kakao.com/oauth/authorize?client_id=ebd5fc7a83ce64e3914000e4b3ac6cc7&redirect_uri=http://localhost:10000/kakao/login&response_type=code">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="login-join-area">
+                                    <div class="login-join-box">
+                                        <a href="/member/signup">
+                                            <span
+                                                >아직 온정 회원이
+                                                아니세요?</span
+                                            >
+                                            <span>회원가입 하기</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/js/login/login.js"></script>
+
+    </body>
+</html>

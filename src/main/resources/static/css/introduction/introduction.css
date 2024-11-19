@@ -1,0 +1,369 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+@import url("https://fonts.googleapis.com/earlyaccess/notosanskr.css");
+@import url("https://cdn.rawgit.com/theeluwin/NotoSansKR-Hestia/master/stylesheets/NotoSansKR-Hestia.css");
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body,
+html {
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    text-size-adjust: none;
+    background-color: #fff;
+    font: 12px / 18px "Noto Sans KR", NanumGothic, "나눔고딕", "Nanum Gothic",
+        "맑은 고딕", "Malgun Gothic", Dotum;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+}
+
+body {
+    color: #101c33;
+    font-size: 14px;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+.app-inner {
+    min-width: 1200px;
+    width: 100%;
+}
+
+.main-wrap {
+    position: relative;
+    min-height: 100vh;
+    background-color: white;
+}
+
+.main {
+    min-height: 1082px;
+}
+
+img {
+    vertical-align: bottom;
+}
+
+p {
+    font-family: inherit;
+    margin-bottom: 0;
+}
+
+.promotion-section {
+    position: relative;
+    width: 100%;
+    min-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    overflow: hidden;
+    background: rgb(1, 10, 41);
+}
+
+/* .promotion-section * {
+    word-break: keep-all;
+    white-space: pre-wrap;
+} */
+
+.head-text {
+    width: 100%;
+    text-align: center;
+    padding: 80px 0px;
+}
+
+.sub-text {
+    margin-bottom: 30px;
+    background: linear-gradient(
+            315deg,
+            rgb(0, 210, 84) 0%,
+            rgb(67, 187, 255) 100%
+        )
+        text;
+    -webkit-text-fill-color: transparent;
+    font-size: 26px;
+    line-height: 100%;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+}
+
+.sub-title-container {
+    color: rgb(255, 255, 255);
+    font-size: 44px;
+    line-height: 100%;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+}
+
+.sub-title-inner {
+    display: inline-block;
+    margin-top: 16px;
+}
+
+.bar-text {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    background: linear-gradient(
+        315deg,
+        rgb(21, 255, 115) 0%,
+        rgb(1, 131, 252) 100%
+    );
+    color: rgb(255, 255, 255);
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+}
+
+.achievement-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 1062px;
+    padding: 100px 0px;
+}
+
+.achievement-area-inner {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-around;
+}
+
+.achievement-item {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    width: calc(25% - 150px);
+    flex-shrink: 0;
+    margin-right: 160px;
+    margin-bottom: 0px;
+}
+
+.achievement-item:last-of-type {
+    margin-right: 0;
+}
+
+.achievement-img {
+    width: 120px;
+    height: 120px;
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    text-align: center;
+    background: rgb(23, 30, 54);
+}
+
+.achievement-img-inner {
+    width: 70px;
+    height: 70px;
+}
+
+.achievement-count {
+    margin-bottom: 24px;
+    font-size: 43px;
+    line-height: 44px;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+}
+
+.achievement-desc {
+    width: max-content;
+    font-size: 18px;
+    line-height: 26px;
+    letter-spacing: -0.5px;
+    font-weight: 400;
+}
+
+.video-section {
+    width: 100%;
+    min-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    height: calc(-192px + 100vh);
+    color: rgb(255, 255, 255);
+}
+
+.video-section * {
+    word-break: keep-all;
+}
+
+.bg-img {
+    position: absolute;
+    top: 379px;
+    min-width: 1200px;
+    width: 100%;
+    height: 58%;
+    z-index: 1;
+    background: linear-gradient(
+        360deg,
+        rgb(1, 10, 41) 0%,
+        rgba(1, 10, 41, 0) 100%
+    );
+    text-align: center;
+}
+
+.video-section > video {
+    min-width: 1200px;
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+}
+
+.content-text {
+    position: absolute;
+    bottom: 100px;
+    z-index: 2;
+    font-size: 62px;
+    line-height: 100%;
+    letter-spacing: -1px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.content-text > span > p {
+    margin-top: 12px;
+    background: linear-gradient(
+            315deg,
+            rgb(47, 231, 165) 0%,
+            rgb(22, 143, 255) 100%
+        )
+        text;
+    -webkit-text-fill-color: transparent;
+}
+
+.introduction-section {
+    position: relative;
+    width: 100%;
+    min-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 100px 16px;
+}
+
+.introduction-section * {
+    word-break: keep-all;
+}
+
+.introduction-section h2.sub-title-container {
+    text-align: center;
+    margin-bottom: 64px;
+    font-size: 44px;
+    line-height: 100%;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    font-family: inherit;
+    color: #101c33;
+}
+
+.introduction-section h2.sub-title-container > .sub-title {
+    white-space: nowrap;
+}
+
+.introduction-section h2.sub-title-container > span > .sub-title-inner {
+    background: linear-gradient(
+            315deg,
+            rgb(47, 231, 165) 0%,
+            rgb(22, 143, 255) 100%
+        )
+        text;
+    -webkit-text-fill-color: transparent;
+}
+
+.introduction-section h2.sub-title-container > span > p {
+    padding: 16px 0px;
+}
+
+.introduction-section .bg-img {
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 5px 24px 0px;
+    border: 1px solid rgb(233, 235, 237);
+    position: static;
+    background: none;
+    width: 1000px;
+    min-width: 1000px;
+}
+
+.introduction-section .bg-img img {
+    width: 100%;
+    max-width: 1062px;
+    border-radius: 16px;
+}
+
+.introduction-tabs {
+    position: sticky;
+    top: 111px;
+    z-index: 11;
+    padding: 0px 80px;
+    margin-bottom: 1px;
+    -webkit-box-pack: center;
+    justify-content: center;
+    background: rgb(255, 255, 255);
+    display: flex;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    color: rgb(142, 148, 160);
+    box-sizing: border-box;
+    border-bottom: 2px solid rgb(245, 246, 247);
+}
+
+.introduction-tabs .tab {
+    width: 50%;
+    max-width: 544px;
+    text-align: center;
+    margin-right: 0px;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 16px 0px;
+}
+
+.introduction-tabs .tab.active {
+    position: relative;
+    color: rgb(16, 28, 51);
+}
+
+.introduction-tabs .tab.active::after {
+    position: absolute;
+    display: block;
+    width: 100%;
+    left: 0px;
+    bottom: -2px;
+    content: "";
+    border-bottom: 2px solid rgb(16, 28, 51);
+}
+
+.introduction-tabs .tab:last-child {
+    margin-right: 0px;
+}

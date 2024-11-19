@@ -1,0 +1,572 @@
+:root {
+    --zd-font-family-monospace: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    --zd-font-family-system: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+    --zd-font-size-xs: 10px;
+    --zd-font-size-sm: 12px;
+    --zd-font-size-md: 14px;
+    --zd-font-size-lg: 18px;
+    --zd-font-size-xl: 22px;
+    --zd-font-size-xxl: 26px;
+    --zd-font-size-xxxl: 36px;
+    --zd-font-size-sm-monospace: 11px;
+    --zd-font-size-md-monospace: 13px;
+    --zd-font-size-lg-monospace: 17px;
+    --zd-font-weight-thin: 100;
+    --zd-font-weight-extralight: 200;
+    --zd-font-weight-light: 300;
+    --zd-font-weight-regular: 400;
+    --zd-font-weight-medium: 500;
+    --zd-font-weight-semibold: 600;
+    --zd-font-weight-bold: 700;
+    --zd-font-weight-extrabold: 800;
+    --zd-font-weight-black: 900;
+    --zd-font-weight-ultralight: 200;
+    --zd-font-weight-ultrabold: 800;
+    --zd-font-weight-heavy: 900;
+    --zd-line-height-sm: 16px;
+    --zd-line-height-md: 20px;
+    --zd-line-height-lg: 24px;
+    --zd-line-height-xl: 28px;
+    --zd-line-height-xxl: 32px;
+    --zd-line-height-xxxl: 44px;
+    --zd-spacing-xxs: 4px;
+    --zd-spacing-xs: 8px;
+    --zd-spacing-sm: 12px;
+    --zd-spacing: 20px;
+    --zd-spacing-lg: 32px;
+    --zd-spacing-xl: 40px;
+    --zd-spacing-xxl: 48px;
+    --wysiwyg-image-spacing: 1.5em;
+    --wysiwyg-inline-image-spacing: calc(var(--wysiwyg-image-spacing) / 2);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    text-size-adjust: none;
+    background-color: #fff;
+    font: 12px / 18px "Noto Sans KR", NanumGothic, "나눔고딕", "Nanum Gothic", "맑은 고딕", "Malgun Gothic", Dotum;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+    color: #101c33;
+    font-family: 'Noto Sans KR', 'Noto Sans Korean', 'AppleSDGothicNeo-Regular', 'Malgun Gothic', '맑은 고딕', dotum, '돋움', sans-serif !important;
+    height: 100%;
+    overflow: auto;
+}
+
+#root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: auto;
+}
+
+a, address, article, aside, audio, b, big, blockquote, body, button, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, input, label, legend, li, mark, menu, nav, object, ol, p, pre, section, select, small, span, strike, strong, sub, summary, sup, table, tbody, td, textarea, tfoot, th, thead, time, tr, u, ul, var, video {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+.app-layout-container {
+    overflow-y: auto;
+    position: relative;
+}
+
+
+
+.GNB-bar-container {
+    box-shadow: 0 1px 0 0 rgba(10, 22, 70, .06);
+    display: -ms-flexbox;
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    z-index: 16;
+    background-color: #fff;
+    padding: 0 16px;
+    width: 100%;
+    height: 72px;
+}
+
+.GNB-bar-flex {
+    display: flex;
+    flex: 1 1;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.studio-logo-container {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    min-width: 240px
+}
+
+button:not(:disabled) {
+    cursor: pointer;
+}
+
+.studio-logo {
+    background-image: url(/static/images/corporation/saramin.svg);
+    width: 142px;
+    height: 35px;
+    display: block;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    outline: 0;
+    background-size: cover;
+}
+
+button, input, optgroup, select, textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+}
+
+button {
+    background: transparent;
+    border: none;
+}
+
+.admin-page-logo {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-right: 8px;
+    color: #868e96;
+}
+
+.GNB-bar-rightBox {
+    justify-content: flex-end;
+    grid-gap: 24px;
+    gap: 24px;
+}
+
+.project-info-container {
+    padding: 0;
+    position: relative;
+    margin-right: 0;
+}
+
+.project-info-button {
+    height: 37px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid #f2f4f6;
+    background-color: #f9fafb;
+    padding: 0 16px;
+    width: 100%;
+    color: #868e96;
+    gap: 4px;
+}
+
+.project-info-button .project-info-emphasis {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #00c4c4;
+}
+
+button, input, span, textarea {
+    font-family: inherit;
+}
+
+.exit-buttons-container {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+}
+
+.exit-buttons-container .exit-buttons-button[class*=button-button]:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+.exit-buttons-container .exit-buttons-button[class*=button-button] {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    display: block;
+    border-color: #e9ecef;
+    padding: 8px 24px;
+    height: auto;
+    color: #495057;
+}
+
+.button-button span {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: top;
+}
+
+.button-button .button-children {
+    vertical-align: top;
+}
+
+/* 사이드바 영역 */
+
+.app-layout-container .sidebar-layout-wrap {
+    display: flex;
+    padding-top: 72px;
+    height: 100%;
+}
+
+.sidebar-layout-container {
+    display: flex;
+    position: relative;
+    transform: none;
+    transition: none;
+    z-index: 0;
+    width: 240px;
+    height: 100%;
+    min-width: 240px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    flex-flow: column;
+    background-color: #fff;
+}
+
+.sidebar-layout-content {
+    padding-bottom: 80px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.menu-items-section {
+    padding: 0;
+}
+
+.menu-items-section:first-of-type, .menu-items-section:nth-of-type(2) {
+    border-bottom: 1px solid #f2f4f6;
+}
+
+.MenuItems_menu.MenuItems_hasSubmenu {
+    display: block;
+    outline: none;
+    border: none;
+    width: 100%;
+}
+
+.MenuItems_menu {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    padding: 12px 16px;
+    width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    background-color: transparent;
+    touch-action: manipulation;
+}
+
+.MenuItems_active .MenuItems_label {
+    color: #212529;
+    font-weight: 700;
+}
+
+.MenuItems_menu .MenuItems_label {
+    font-size: 14px;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.MenuItems_menu .MenuItems_label svg {
+    width: 16px;
+    height: 16px;
+}
+
+.withIcon_icon {
+    display: block;
+    transform: scale(1);
+    transition: transform 0.3s ease-out;
+    fill: currentColor;
+}
+
+.MenuItems_menu.MenuItems_hasSubmenu .MenuItems_downIcon.MenuItems_open_1 {
+    transform: rotate(0deg);
+}
+
+.MenuItems_menu.MenuItems_hasSubmenu .MenuItems_downIcon {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    margin-top: -8px;
+    color: #adb5bd;
+}
+
+.MenuItems_menu .MenuItems_label svg {
+    width: 16px;
+    height: 16px;
+}
+
+.MenuItems_submenuContainer {
+    transition: max-height 0.3s ease-out;
+    max-height: 0;
+    overflow-y: hidden;
+    height: 0;
+}
+
+.MenuItems_submenuContainer .MenuItems_submenu {
+    display: block;
+    background-color: #f9fafb;
+    cursor: pointer;
+    padding: 12px 16px 12px 44px;
+    color: #495057;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.donation-btn-container {
+    position: relative;
+    display: flex;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: -0.25px;
+}
+
+.donation-btn-style2 {
+    margin-top: 10px;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 0px;
+    text-align: center;
+    box-sizing: border-box;
+    color: rgb(38, 86, 246);
+    border: 1px solid rgb(38, 86, 246);
+    padding: 11px 20px;
+    font-size: 15px;
+    line-height: 23px;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    width: 100%;
+}
+
+.donation-btn-style2:hover {
+    background-color: rgb(244, 245, 248);
+}
+
+.space {
+    width: 40px;
+}
+
+.form footer input[type="submit"] {
+    min-width: auto;
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    padding: 0;
+    background-color: rgba(31, 77, 234, 1);
+    border: 0;
+    color: #FFFFFF;
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+.form footer input[type="submit"]:hover {
+    background-color: #0e2d95;
+}
+
+.list-top {
+    width: 920px;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    background-color: rgb(245, 248, 255);
+    color: rgb(64, 74, 92);
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+    padding: 12px 44px 12px 24px;
+    border-bottom: 1px solid rgb(233, 235, 237);
+}
+
+.notification.noit-admin {
+    height: 44px;
+}
+
+.notification {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    height: 72px;
+    padding: 12px;
+}
+
+.category-notification-num {
+    width: 120px;
+    padding-left: 24px;
+}
+
+.category-notification-title {
+    padding-left: 70px;
+    text-align: center;
+    width: 389px;
+}
+
+.category-notification-date.notification-table {
+    width: 546px;
+    text-align: end;
+}
+
+.notification-list-wrap {
+    height: 360px;
+}
+
+.notification-container {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgb(233, 235, 237);
+}
+
+.notification-list-checkbox {
+    margin-left: 24px;
+}
+
+.notification-num {
+    font-size: 15px;
+    line-height: 23px;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+    color: rgb(111, 119, 133);
+    width: 188px;
+    padding-left: 4px;
+}
+
+.notification-title {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    width: 520px;
+    margin: 0;
+}
+
+.notification-date {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.25px;
+    font-weight: 500;
+    color: rgb(142, 148, 160);
+    width: 112px;
+    text-align: center;
+    margin-left: 23px;
+}
+
+.action-buttons-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.action-buttons {
+    display: flex;
+    width: 398px;
+    gap: 8px;
+}
+
+.ServiceLayout_container {
+    width: 1200px;
+}
+
+.ServiceTable_header {
+    display: flex
+;
+    background-color: #f8f9fa;
+    font-weight: bold;
+    gap: 20px;
+}
+
+.headerCell:nth-child(1), .ServiceTable_cell:nth-child(1) {
+    width: 80px;
+}
+
+.ServiceTable_cell {
+    width: 320px;
+    display: table-cell;
+    padding: 10px 4px 10px 4px;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid #dee2e6;
+    line-height: 32px;
+}
+
+.headerCell:nth-child(2), .ServiceTable_cell:nth-child(2) {
+    width: 76px;
+}
+
+.ServiceTable_header, .ServiceTable_row {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+@media (min-width: 1024px) {
+    .notification-wrap {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        width: 920px;
+    }
+}
+
+.notification-inquiry-container {
+    gap: 16px;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgb(233, 235, 237);
+}
+
+.notification-write-form, .notification-update-form {
+    margin-top: 40px;
+}
+#report_status {
+    padding-right: 20px;
+    padding-left: 10px;
+}

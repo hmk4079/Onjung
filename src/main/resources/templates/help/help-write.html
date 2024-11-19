@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/help/help-write.css" />
+        <link
+                rel="icon"
+                href="/images/favicon.png"
+        />
+        <title>문의 작성</title>
+    </head>
+    <body>
+        <header class="header-wrap">
+            <div class="header-container">
+                <div class="header">
+                    <div class="help-logo">
+                        <a href="/help/help">
+                            <img
+                                src="https://help.loud.kr/hc/theming_assets/01HZKZ8AF22DN6ZA42CE4143EF"
+                                alt="온정 고객센터 페이지"
+                            />
+                        </a>
+                        <span>
+                            <a
+                                title="고객센터 홈"
+                                href="/help/help"
+                                >고객센터</a
+                            >
+                        </span>
+                    </div>
+                    <div class="go-to-write-button-container">
+                        <a href="/help/help-write" class="go-to-write-button">문의하기</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main role="main">
+            <div class="app-divider"></div>
+            <div class="app">
+                <div class="app-inner">
+                    <nav class="sub-nav">
+                        <ol class="breadcrumbs">
+                            <li title="온정 고객센터">
+                                <a href="/help/help"
+                                    >온정 고객센터</a
+                                >
+                            </li>
+                            <li title="문의 등록">문의 등록</li>
+                        </ol>
+                        <div></div>
+                    </nav>
+                    <h1>문의 등록</h1>
+                    <div class="form">
+                        <form th:action="@{/help/help-write}"
+                            id="new-request"
+                            class="request-form"
+                            data-form
+                            data-form-type="request"
+                            accept-charset="UTF-8"
+                            method="post"
+                            enctype="multipart/form-data"
+                            name="help-write-form"
+                        >
+                            <div class="form-field" style="position: relative">
+                                <label for="request-type-select">
+                                    문의항목을 선택해주세요.
+                                </label>
+                                <a
+                                    class="request-type-input"
+                                    tabindex="0"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    aria-controls="request-type-area"
+                                    aria-label="문의항목을 선택해주세요."
+                                    style="max-width: 100%"
+                                    >-</a
+                                >
+                                <select
+                                    name="inquiryType"
+                                    id="request-type-select"
+                                    aria-label="문의항목을 선택해주세요."
+                                    autofocus="autofocus"
+                                    style="display: none"
+                                >
+                                    <option selected="selected" value="-">
+                                        -
+                                    </option>
+                                    <option value="일반 문의">일반 문의</option>
+                                    <option value="봉사단체 가입 문의">
+                                        봉사단체 가입 문의
+                                    </option>
+                                </select>
+                                <div id="request-type-area">
+                                    <div value="일반 문의">&nbsp;일반 문의</div>
+                                    <div value="봉사단체 가입 문의">
+                                        &nbsp;봉사단체 가입 문의
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field required">
+                                <label for="requester-email">
+                                    이메일 주소
+                                </label>
+                                <input
+                                    type="text"
+                                    name="inquiryEmail"
+                                    id="requester-email"
+                                    placeholder="이메일 주소를 입력해주세요."
+                                />
+                            </div>
+                            <div class="form-field">
+                                <label for="requester-phone">연락처</label>
+                                <input
+                                    type="text"
+                                    name="inquiryPhone"
+                                    id="requester-phone"
+                                />
+                            </div>
+                            <div class="form-field required">
+                                <label for="request-title">제목</label>
+                                <input
+                                    type="text"
+                                    name="postTitle"
+                                    id="request-title"
+                                    maxlength="150"
+                                    size="150"
+                                    placeholder="간단한 제목을 입력해주세요."
+                                />
+                            </div>
+                            <div class="form-field-gap"></div>
+                            <div class="form-field required">
+                                <label for="request-description">설명</label>
+                                <textarea
+                                    name="postContent"
+                                    id="request-description"
+                                ></textarea>
+                                <input
+                                    type="hidden"
+                                    name="request-description-input"
+                                    id="request-description-input"
+                                    value="text/plain"
+                                    style="display: none"
+                                    autocomplete="off"
+                                />
+                            </div>
+
+                            <div
+                                class="form-field-agreements"
+                                style="clear: both"
+                            >
+                                <p id="request-agreements">
+                                    (주)온정은 정보통신망 이용촉진 및 정보보호
+                                    등 관한 법률을 준수하며 고객님의 개인정보를
+                                    수집하고 소중하게 다루고 있습니다. 1. 수집
+                                    및 이용 항목 : 이메일, 이름, 연락처 2. 수집
+                                    및 이용 목적 : 앱 이용 문의에 대한 답변 관련
+                                    업무 3, 보유 및 이용 기간 : 수집 목적이
+                                    달성되면 모든 개인정보를 파기합니다. 동의를
+                                    하지 않을 경우 문의한 내용에 대한 답변에
+                                    제한이 있을 수 있습니다.
+                                </p>
+                                <label for="request-agreements-check"
+                                    >동의합니다.</label
+                                >
+                                <input
+                                    name="request-agreements-check"
+                                    type="hidden"
+                                    value="off"
+                                    autocomplete="off"
+                                />
+                                <input
+                                    type="checkbox"
+                                    value="on"
+                                    id="request-agreements-check"
+                                    name="request-agreements-check"
+                                />
+                            </div>
+                            <footer>
+                                <input
+                                    type="submit"
+                                    name="submit"
+                                    value="제출"
+                                />
+                            </footer>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+    <script src="/js/help/help-write.js"></script>
+</html>

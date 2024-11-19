@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.vt_application.VtApplicationMapper">
+
+    <insert id="insert" parameterType="vtApplicationDTO">
+        INSERT INTO tbl_vt_application(
+            id,
+            application_status,
+            vt_id,
+            member_id
+        ) VALUES (
+                     #{id},
+                     #{applicationStatus},
+                     #{vtId},
+                     #{memberId}
+                 )
+    </insert>
+
+    <select id="selectById" parameterType="long" resultType="vtApplicationDTO">
+        SELECT
+        a.id,
+        p.created_date AS applicationDate,
+        a.application_status AS applicationStatus,
+        a.vt_id AS vtId,
+        a.member_id AS memberId
+        FROM
+        tbl_vt_application a
+        JOIN tbl_vt v ON a.vt_id = v.id
+        JOIN tbl_post p ON v.id = p.id
+        WHERE
+        a.id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="vtApplicationDTO">
+        SELECT
+        a.id,
+        p.created_date AS applicationDate,
+        a.application_status AS applicationStatus,
+        a.vt_id AS vtId,
+        a.member_id AS memberId
+        FROM
+        tbl_vt_application a
+        JOIN tbl_vt v ON a.vt_id = v.id
+        JOIN tbl_post p ON v.id = p.id
+    </select>
+
+    <update id="update" parameterType="vtApplicationDTO">
+        UPDATE tbl_vt_application
+        SET
+            application_status = #{applicationStatus},
+            vt_id = #{vtId},
+            member_id = #{memberId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM tbl_vt_application
+        WHERE id = #{id}
+    </delete>
+
+
+    <select id="selectByVtId" parameterType="long" resultType="vtApplicationDTO">
+        SELECT
+        a.id,
+        p.created_date AS applicationDate,
+        a.application_status AS applicationStatus,
+        a.vt_id AS vtId,
+        a.member_id AS memberId
+        FROM
+        tbl_vt_application a
+        JOIN tbl_vt v ON a.vt_id = v.id
+        JOIN tbl_post p ON v.id = p.id
+        WHERE
+        a.vt_id = #{vtId}
+        ORDER BY
+        p.created_date DESC
+    </select>
+
+    <select id="countByVtId" parameterType="long" resultType="int">
+        SELECT COUNT(*) FROM tbl_vt_application WHERE vt_id = #{vtId}
+    </select>
+
+    <update id="updateApplicationStatus" parameterType="map">
+        UPDATE tbl_vt_application
+        SET application_status = #{status}
+        WHERE id = #{applicationId}
+    </update>
+
+    <select id="selectByMemberIdAndDateRange" resultType="vtApplicationDTO">
+        SELECT
+            a.id,
+            p.created_date AS applicationDate,
+            p.post_title,
+            a.application_status AS applicationStatus,
+            a.vt_id AS vtId,
+            a.member_id AS memberId,
+            m.member_name AS memberName
+        FROM
+            tbl_vt_application a
+                JOIN tbl_vt v ON a.vt_id = v.id
+                JOIN tbl_post p ON v.id = p.id
+                JOIN tbl_member m ON a.member_id = m.id
+        WHERE
+            p.member_id = #{memberId}
+          AND p.created_date BETWEEN #{startDate} AND #{endDate} + INTERVAL '1' DAY
+        ORDER BY
+            p.created_date DESC
+    </select>
+
+
+    <select id="selectByMemberId" resultType="vtApplicationDTO">
+        SELECT
+            a.id,
+            p.created_date AS applicationDate,
+            p.post_title,
+            a.application_status,
+            a.vt_id,
+            a.member_id,
+            m.member_name
+        FROM
+            tbl_vt_application a
+                JOIN tbl_vt v ON a.vt_id = v.id
+                JOIN tbl_post p ON v.id = p.id
+                JOIN tbl_member m ON a.member_id = m.id
+        WHERE
+            p.member_id = #{memberId}
+        ORDER BY
+            p.created_date DESC
+    </select>
+
+    <select id="findMemberIdByApplicationId" parameterType="long" resultType="long">
+        SELECT member_id
+        FROM tbl_vt_application
+        WHERE id = #{applicationId}
+    </select>
+
+</mapper>
