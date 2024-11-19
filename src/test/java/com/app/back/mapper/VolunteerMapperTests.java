@@ -1,5 +1,6 @@
 package com.app.back.mapper;
 
+import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.domain.volunteer.VolunteerVO;
 import com.app.back.mapper.volunteer.VolunteerMapper;
@@ -58,7 +59,6 @@ public class VolunteerMapperTests {
 
         log.info("{}",foundVolunteer);
     }
-
 
 //    봉사 승인 인원 증가
 //    @Test

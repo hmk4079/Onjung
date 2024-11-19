@@ -51,7 +51,7 @@ const showList = ({ lists, pagination }) => {
                                 />
                             </div>
                             <div class="contest-info-bottom-user-nick">
-                                ${list.memberNickName || '닉네임없음'}
+                                ${list.memberName || '닉네임없음'}
                             </div>
                             <div class="contest-info-bottom-view-icon">
                                 <svg type="eye16" color="#8E94A0" viewBox="0 0 16 16" class="trophy-svg">

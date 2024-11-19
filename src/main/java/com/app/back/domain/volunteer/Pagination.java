@@ -50,7 +50,7 @@ public class Pagination {
         // 다음 페이지 블록 존재 여부 설정
         this.next = endPage < realEnd;
         // limit 문법에서 시작 인덱스는 0부터 시작하기 때문에 1 감소해준다.
-        this.startRow--;
+        this.startRow = Math.max(0, this.startRow - 1);
 
         log.info("Pagination 계산 결과 - 현재 페이지: {}, 시작 페이지: {}, 끝 페이지: {}, 실제 마지막 페이지: {}, 총 게시물 수: {}",
                 page, startPage, endPage, realEnd, total);

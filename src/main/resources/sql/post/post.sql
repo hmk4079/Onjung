@@ -336,5 +336,5 @@ INSERT INTO tbl_notice (id) VALUES
                                 (179),
                                 (180);
 
-
+delete from tbl_post id:1L;
 

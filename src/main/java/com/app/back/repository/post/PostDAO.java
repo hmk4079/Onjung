@@ -45,6 +45,7 @@ public class PostDAO {
     public void delete(Long id) {
         updateStatus(id, AdminPostStatus.DELETED);  // 상태 업데이트
     }
+
     public void increaseViewCount(Long id){postMapper.increaseViewCountById(id);}
 
     //    게시글 전체 조회

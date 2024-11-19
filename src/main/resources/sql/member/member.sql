@@ -109,9 +109,14 @@ insert into tbl_member (member_email,member_name, member_phone,member_password, 
 values ('xs12f6@naver.com','세이브더칠드런','010-8888-8888', 1234567, 'ORGANIZATION');
 insert into tbl_member (member_email,member_name, member_phone,member_password, member_type)
 values ('554ds8fx@naver.com','밀알복지재단','010-9999-9999', 1234567, 'ORGANIZATION');
+
+
+
 insert into tbl_member (member_email,member_name, member_phone,member_password, member_type)
-values ('vd8e7d@naver.com','국제구호개발기구','010-1010-1010', 1234567, 'ORGANIZATION');
+values ('soccer@naver.com','대한축구협회','010-1010-1010', 123123, 'ORGANIZATION');
 
 
 delete from tbl_member
 where member_email = 'ljm21000@gmail.com';
+
+truncate table test2.tbl_member;

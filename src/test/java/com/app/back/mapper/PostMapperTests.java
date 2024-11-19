@@ -45,7 +45,7 @@ public class PostMapperTests {
     // ID로 게시글 삭제 테스트
     @Test
     public void testDeleteById() {
-        Long id = 109L; // 삭제할 게시글 ID (예시)
+        Long id = 1L; // 삭제할 게시글 ID (예시)
         postMapper.deleteById(id);
         log.info("게시글이 삭제되었습니다. ID: {}", id);
 

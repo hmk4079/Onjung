@@ -35,7 +35,6 @@ function setOrder(order, page = 1, category = '') {
 const fetchVolunteers = async (order = "recent", page = 1, category = "") => {
     console.log("주어진 order:", order);
     console.log("주어진 page:", page);
-    console.log("주어진 category:", category);
 
     const url = `/volunteer/volunteer-info?order=${order}&page=${page}&category=${encodeURIComponent(category)}`;
     console.log("요청 URL:", url);

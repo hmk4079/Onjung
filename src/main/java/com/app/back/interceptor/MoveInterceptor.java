@@ -17,13 +17,21 @@ public class MoveInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        MemberDTO loginMember = (MemberDTO) request.getSession().getAttribute("loginMember");
+        String loginMember = (String) request.getSession().getAttribute("loginMember");
+        if (!"ORGANIZATION".equals(loginMember)) {
+            String requestURI = request.getRequestURI(); // 현재 요청된 URI 확인
 
-        if (!loginMember.equals("ORGANIZATION")){
-            response.sendRedirect(request.getContextPath() + "/volunteer/volunteer-list");
+            if (requestURI.contains("volunteer-write")) {
+                response.sendRedirect(request.getContextPath() + "/volunteer/volunteer-list");
+            } else if (requestURI.contains("support-write")) {
+                response.sendRedirect(request.getContextPath() + "/support/support-list");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/");
+            }
             return false;
         }
         return true;
     }
+
 
 }

@@ -51,12 +51,6 @@ public class VolunteerController {
             @RequestParam("file") List<MultipartFile> files
     ) throws IOException {
         String memberId = (String) session.getAttribute("member_id");
-
-        if (memberId == null) {
-            // member_id가 세션에 없을 경우 처리 (예: 로그인 페이지로 리다이렉트)
-            return new RedirectView("/member/login");
-        }
-        // VolunteerDTO에 member_id 설정
         volunteerDTO.setMemberId(Long.valueOf(memberId));
         volunteerDTO.setPostType("VOLUNTEER");
         log.info("VolunteerDTO: {}", volunteerDTO);
@@ -98,6 +92,11 @@ public class VolunteerController {
         List<VolunteerDTO> volunteers = volunteerService.getList(pagination);
         log.info("현재 받은 데이터 갯수: {}", volunteers.size());
 
+        log.info("Progress 메서드 실행 후 Pagination 상태: {}", pagination);
+
+        log.info("Total from getTotal: {}", postService.getTotal("VOLUNTEER"));
+        log.info("List size from getList: {}", volunteerService.getList(pagination).size());
+
         model.addAttribute("volunteers", volunteers);
         return "volunteer/volunteer-list";
     }
@@ -112,6 +111,7 @@ public class VolunteerController {
             @RequestParam(value = "page", defaultValue = "1") int page) {
         log.info("받은 page 파라미터: {}", page);
         log.info("받은 order 파라미터: {}", order);
+        log.info(volunteerDTO.toString());
 
         Pagination pagination = new Pagination();
         pagination.setOrder(order);
@@ -139,7 +139,6 @@ public class VolunteerController {
     @GetMapping("/volunteer-inquiry/{postId}")
     public String goToVolunteerPath(@PathVariable("postId") Long postId, Model model) {
         Optional<VolunteerDTO> volunteerDTO = volunteerService.getById(postId);
-        log.info("{}", volunteerDTO);
         if (volunteerDTO.isPresent()) {
             model.addAttribute("volunteer", volunteerDTO.get());
             model.addAttribute("attachments", attachmentService.getList(postId));

@@ -38,8 +38,12 @@
     </select>
 
     <select id="selectTotal">
-        select count(*) from tbl_vt
+        select count(*)
+        from tbl_vt v
+        join tbl_post p on v.id = p.id
+        where p.post_type = #{postType}
     </select>
+
 
     <select id="selectById" resultType="VolunteerDTO">
         select v.id, v.recruitment_count, p.id as post_id, p.post_title, m.member_nickname, p.post_status,
