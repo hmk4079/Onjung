@@ -37,24 +37,35 @@ public class VolunteerController {
     private final VolunteerDTO volunteerDTO;
 
     @GetMapping("/volunteer-write")
-    public String goToWriteForm(VolunteerDTO volunteerDTO)
-    { return "/volunteer/volunteer-write";}
+    public String goToWriteForm(VolunteerDTO volunteerDTO){
+        return "volunteer/volunteer-write";
+    }
 
     @PostMapping("/volunteer-write")
-    public RedirectView volunteerWrite(
-            HttpSession session,
-            @ModelAttribute VolunteerDTO volunteerDTO,
-            @RequestParam("uuid") List<String> uuids,
-            @RequestParam("realName") List<String> realNames,
-            @RequestParam("path") List<String> paths,
-            @RequestParam("size") List<String> sizes,
-            @RequestParam("file") List<MultipartFile> files
-    ) throws IOException {
-        String memberId = (String) session.getAttribute("member_id");
-        volunteerDTO.setMemberId(Long.valueOf(memberId));
+    public RedirectView volunteerWrite(HttpSession session,
+                                       @ModelAttribute VolunteerDTO volunteerDTO,
+                                       @RequestParam("uuid") List<String> uuids,
+                                       @RequestParam("realName") List<String> realNames,
+                                       @RequestParam("path") List<String> paths,
+                                       @RequestParam("size") List<String> sizes,
+                                       @RequestParam("file") List<MultipartFile> files) throws IOException {
+        // 세션에서 MemberDTO 객체 가져오기
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+
+        // 세션에 로그인 정보가 없는 경우 처리
+        if (loginMember == null) {
+            log.error("로그인 정보가 없습니다.");
+            return new RedirectView("/login?alert=login-required");
+        }
+
+        // MemberDTO에서 ID를 추출하여 VolunteerDTO에 설정
+        volunteerDTO.setMemberId(loginMember.getId());
         volunteerDTO.setPostType("VOLUNTEER");
+
         log.info("VolunteerDTO: {}", volunteerDTO);
         log.info("Files: {}", files);
+
+        // 필수 데이터 확인
         if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
             log.error("필수 데이터가 없습니다.");
             return new RedirectView("/volunteer/volunteer-write");
@@ -65,6 +76,7 @@ public class VolunteerController {
 
         return new RedirectView("/volunteer/volunteer-list");
     }
+
 
     //        봉사 모집 게시글 목록
     @GetMapping("/volunteer-list")
