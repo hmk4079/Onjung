@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller // 이 클래스가 컨트롤러임을 나타냄
-@RequestMapping("/volunteer/*") // QA 관련 요청을 처리
+@RequestMapping("/volunteer/*") // 봉사모집 관련 요청을 처리
 @RequiredArgsConstructor // 생성자 자동 생성
 @Slf4j // 로깅 기능 추가
 public class VolunteerController {
@@ -36,41 +36,27 @@ public class VolunteerController {
     private final AttachmentService attachmentService;
     private final VolunteerDTO volunteerDTO;
 
-    @GetMapping("/volunteer-write")
+    @GetMapping("volunteer-write")
     public String goToWriteForm(VolunteerDTO volunteerDTO){
         return "volunteer/volunteer-write";
     }
 
-    @PostMapping("/volunteer-write")
-    public RedirectView volunteerWrite(HttpSession session,
-                                       @ModelAttribute VolunteerDTO volunteerDTO,
+    @PostMapping("volunteer-write")
+    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO,
                                        @RequestParam("uuid") List<String> uuids,
                                        @RequestParam("realName") List<String> realNames,
                                        @RequestParam("path") List<String> paths,
                                        @RequestParam("size") List<String> sizes,
                                        @RequestParam("file") List<MultipartFile> files) throws IOException {
-        // 세션에서 MemberDTO 객체 가져오기
-        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-
-        // 세션에 로그인 정보가 없는 경우 처리
-        if (loginMember == null) {
-            log.error("로그인 정보가 없습니다.");
-            return new RedirectView("/login?alert=login-required");
-        }
-
-        // MemberDTO에서 ID를 추출하여 VolunteerDTO에 설정
-        volunteerDTO.setMemberId(loginMember.getId());
-        volunteerDTO.setPostType("VOLUNTEER");
-
-        log.info("VolunteerDTO: {}", volunteerDTO);
         log.info("Files: {}", files);
-
         // 필수 데이터 확인
-        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
+        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null ||
+                volunteerDTO.getPostSummary() == null || volunteerDTO.getVtSDate() == null ||
+                volunteerDTO.getVtEDate() == null || volunteerDTO.getRecruitmentCount() <= 0) {
             log.error("필수 데이터가 없습니다.");
+
             return new RedirectView("/volunteer/volunteer-write");
         }
-
         // 데이터베이스에 게시글 저장
         volunteerService.write(volunteerDTO, uuids, realNames, paths, sizes, files);
 
@@ -79,7 +65,7 @@ public class VolunteerController {
 
 
     //        봉사 모집 게시글 목록
-    @GetMapping("/volunteer-list")
+    @GetMapping("volunteer-list")
     public String getList(HttpSession session, Pagination pagination, Model model,
                           @RequestParam(value = "order", defaultValue = "recent") String order) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
@@ -116,7 +102,7 @@ public class VolunteerController {
 
 
     // 봉사모집 게시판 json형태
-    @GetMapping("/volunteer-info")
+    @GetMapping("volunteer-info")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getListInfo(
             @RequestParam(value = "order", defaultValue = "recent") String order,
@@ -148,7 +134,7 @@ public class VolunteerController {
 
 
     // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
-    @GetMapping("/volunteer-inquiry/{postId}")
+    @GetMapping("volunteer-inquiry/{postId}")
     public String goToVolunteerPath(@PathVariable("postId") Long postId, Model model) {
         Optional<VolunteerDTO> volunteerDTO = volunteerService.getById(postId);
         if (volunteerDTO.isPresent()) {
