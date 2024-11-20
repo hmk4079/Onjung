@@ -32,9 +32,8 @@ import java.util.Optional;
 public class VolunteerController {
     private final PostService postService;
     private final VolunteerService volunteerService;
-    private final VolunteerMapper volunteerMapper;
     private final AttachmentService attachmentService;
-    private final VolunteerDTO volunteerDTO;
+//    private final VolunteerDTO volunteerDTO;
 
     @GetMapping("volunteer-write")
     public String goToWriteForm(VolunteerDTO volunteerDTO){
@@ -42,26 +41,20 @@ public class VolunteerController {
     }
 
     @PostMapping("volunteer-write")
-    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO,
-                                       @RequestParam("uuid") List<String> uuids,
-                                       @RequestParam("realName") List<String> realNames,
-                                       @RequestParam("path") List<String> paths,
-                                       @RequestParam("size") List<String> sizes,
-                                       @RequestParam("file") List<MultipartFile> files) throws IOException {
+    public String volunteerWrite(VolunteerDTO volunteerDTO,
+                                 @RequestParam("uuid") List<String> uuids,
+                                 @RequestParam("realName") List<String> realNames,
+                                 @RequestParam("path") List<String> paths,
+                                 @RequestParam("size") List<String> sizes,
+                                 @RequestParam("file") List<MultipartFile> files) throws IOException {
         log.info("Files: {}", files);
-        // 필수 데이터 확인
-        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null ||
-                volunteerDTO.getPostSummary() == null || volunteerDTO.getVtSDate() == null ||
-                volunteerDTO.getVtEDate() == null || volunteerDTO.getRecruitmentCount() <= 0) {
-            log.error("필수 데이터가 없습니다.");
-
-            return new RedirectView("/volunteer/volunteer-write");
-        }
         // 데이터베이스에 게시글 저장
         volunteerService.write(volunteerDTO, uuids, realNames, paths, sizes, files);
 
-        return new RedirectView("/volunteer/volunteer-list");
+        return "redirect:/volunteer/volunteer-list";
     }
+
+
 
 
     //        봉사 모집 게시글 목록
@@ -109,7 +102,6 @@ public class VolunteerController {
             @RequestParam(value = "page", defaultValue = "1") int page) {
         log.info("받은 page 파라미터: {}", page);
         log.info("받은 order 파라미터: {}", order);
-        log.info(volunteerDTO.toString());
 
         Pagination pagination = new Pagination();
         pagination.setOrder(order);

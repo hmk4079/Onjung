@@ -162,7 +162,7 @@ const validateAndDisplayNumber = (input) => {
     input.value = input.value.replace(/[^0-9]/, ""); // 숫자 이외 제거
 };
 
-//날짜 설정
+// 날짜 설정 함수
 const updateDateRange = () => {
     const startDateInput = document.getElementById("start-date").value;
     const endDateInput = document.getElementById("end-date").value;
@@ -185,4 +185,58 @@ const updateDateRange = () => {
     } else {
         dateCountDisplay.textContent = "X";
     }
+
+    // 날짜 범위가 변경될 때 필드 검증 실행
+    validateFields();
 };
+
+// 필수 입력 필드와 제출 버튼 가져오기
+const postTitle = document.getElementById('post-title');
+const postSummary = document.getElementById('post-summary');
+const recruitmentCount = document.getElementById('post-recruitmentCount');
+const dateCount = document.getElementById('date-count'); // <span>
+const briefing = document.getElementById('briefing');
+const submitButton = document.getElementById('submit-volunteer');
+
+// 필수 입력 필드 검증 함수
+function validateFields() {
+    const isPostTitleValid = postTitle.value.trim() !== '';
+    const isPostSummaryValid = postSummary.value.trim() !== '';
+    const isRecruitmentCountValid = parseInt(recruitmentCount.value) > 0;
+
+    // dateCount 값 검증
+    const dateCountValue = parseInt(dateCount.textContent || dateCount.innerText);
+    const isDateCountValid = !isNaN(dateCountValue) && dateCountValue >= 0;
+
+    const isBriefingValid = briefing.value.trim() !== '';
+
+    // 필드 유효성에 따라 제출 버튼 활성화 또는 비활성화
+    if (
+        isPostTitleValid &&
+        isPostSummaryValid &&
+        isRecruitmentCountValid &&
+        isDateCountValid &&
+        isBriefingValid
+    ) {
+        submitButton.disabled = false;
+        submitButton.classList.remove('disable');
+    } else {
+        submitButton.disabled = true;
+        submitButton.classList.add('disable');
+    }
+}
+
+// 입력 필드에 이벤트 리스너 추가하여 변경 시 검증 함수 호출
+postTitle.addEventListener('input', validateFields);
+postSummary.addEventListener('input', validateFields);
+recruitmentCount.addEventListener('input', validateFields);
+briefing.addEventListener('input', validateFields);
+
+// 시작일/종료일 변경 시 날짜 범위 갱신 및 검증 호출
+document.getElementById("start-date").addEventListener("input", updateDateRange);
+document.getElementById("end-date").addEventListener("input", updateDateRange);
+
+// 초기 검증 체크
+validateFields();
+
+
