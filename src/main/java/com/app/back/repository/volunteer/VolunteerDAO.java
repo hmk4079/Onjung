@@ -55,9 +55,9 @@ public class VolunteerDAO {
     }
 
     //    게시글 조회수 증가
-//    public void updatePostReadCount(Long id){
-//        volunteerMapper.updatePostReadCount(id);
-//    }
+    public void updatePostReadCount(Long id){
+        volunteerMapper.updatePostReadCount(id);
+    }
 
     public List<VolunteerDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
         return volunteerMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);

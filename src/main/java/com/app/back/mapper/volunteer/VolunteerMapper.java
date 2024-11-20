@@ -41,7 +41,7 @@ public interface VolunteerMapper {
 //    public void updateNowRecruitment(@Param("id") int id);
 
     //    조회수 증가
-//    public void updatePostReadCount(Long id);
+    public void updatePostReadCount(Long id);
 
 
 

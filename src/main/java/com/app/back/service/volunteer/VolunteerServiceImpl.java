@@ -64,7 +64,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     @Override
     public Optional<VolunteerDTO> getById(Long id) {
-//        volunteerDAO.updatePostReadCount(id);
+        volunteerDAO.updatePostReadCount(id);
         return volunteerDAO.findById(id);
     }
 

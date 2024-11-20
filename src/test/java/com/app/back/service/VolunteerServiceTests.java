@@ -32,7 +32,7 @@ public class VolunteerServiceTests {
 
     @Test
     public void testDelete() {
-        volunteerService.delete(1L);
+        volunteerService.delete(32L);
     }
 
 }

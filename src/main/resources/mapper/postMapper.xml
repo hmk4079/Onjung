@@ -149,4 +149,10 @@
           and post_status = 'VISIBLE'
     </select>
 
+    <update id="updatePostReadCount">
+        update tbl_post
+        set post_view_count = post_view_count + 1
+        where id = #{id}
+    </update>
+
 </mapper>
