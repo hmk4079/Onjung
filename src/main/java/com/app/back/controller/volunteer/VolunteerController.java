@@ -1,5 +1,6 @@
 package com.app.back.controller.volunteer;
 
+import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.member.MemberDTO;
 
 import com.app.back.domain.member.MemberVO;
@@ -33,6 +34,7 @@ public class VolunteerController {
     private final PostService postService;
     private final VolunteerService volunteerService;
     private final AttachmentService attachmentService;
+    private final VolunteerDTO volunteerDTO;
 //    private final VolunteerDTO volunteerDTO;
 
     @GetMapping("volunteer-write")
@@ -40,20 +42,30 @@ public class VolunteerController {
         return "volunteer/volunteer-write";
     }
 
+//    @PostMapping("volunteer-write")
+//    public String volunteerWrite(VolunteerDTO volunteerDTO,
+//                                 @RequestParam("uuid") List<String> uuids,
+//                                 @RequestParam("realName") List<String> realNames,
+//                                 @RequestParam("path") List<String> paths,
+//                                 @RequestParam("size") List<String> sizes,
+//                                 @RequestParam("file") List<MultipartFile> files) throws IOException {
+//        log.info("volunteerWrite 메소드 호출됨");
+//        log.info("Files: {}", files);
+//        // 데이터베이스에 게시글 저장
+//        volunteerService.write(volunteerDTO, uuids, realNames, paths, sizes, files);
+//
+//        return "redirect:/volunteer/volunteer-list";
+//    }
+
     @PostMapping("volunteer-write")
-    public String volunteerWrite(VolunteerDTO volunteerDTO,
-                                 @RequestParam("uuid") List<String> uuids,
-                                 @RequestParam("realName") List<String> realNames,
-                                 @RequestParam("path") List<String> paths,
-                                 @RequestParam("size") List<String> sizes,
-                                 @RequestParam("file") List<MultipartFile> files) throws IOException {
-        log.info("Files: {}", files);
-        // 데이터베이스에 게시글 저장
+    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, HttpSession session) throws IOException {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        volunteerDTO.setMemberId(loginMember.getId());
+        volunteerDTO.setPostType("VOLUNTEER");
         volunteerService.write(volunteerDTO, uuids, realNames, paths, sizes, files);
 
-        return "redirect:/volunteer/volunteer-list";
+        return new RedirectView("/volunteer/volunteer-list");
     }
-
 
 
 

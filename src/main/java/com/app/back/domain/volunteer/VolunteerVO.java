@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class VolunteerVO {
     private Long id;
-    private Integer recruitmentCount;
-    private Integer nowRecruitmentCount;
+    private int recruitmentCount;
+    private int nowRecruitmentCount;
     private String vtSDate;
     private String vtEDate;
 

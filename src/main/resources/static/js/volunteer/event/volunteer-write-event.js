@@ -149,9 +149,6 @@ document.getElementById("submit-volunteer").addEventListener("click", (e) => {
     }
 
     alert("게시글이 성공적으로 작성되었습니다!");
-    if (response.ok) {
-        window.location.href = "/volunteer/volunteer-list";
-    }
 });
 const updateCharCount = (input) => {
     const charCountSpan = document.getElementById("charCount");
@@ -162,7 +159,7 @@ const validateAndDisplayNumber = (input) => {
     input.value = input.value.replace(/[^0-9]/, ""); // 숫자 이외 제거
 };
 
-// 날짜 설정 함수
+// 날짜 설정
 const updateDateRange = () => {
     const startDateInput = document.getElementById("start-date").value;
     const endDateInput = document.getElementById("end-date").value;

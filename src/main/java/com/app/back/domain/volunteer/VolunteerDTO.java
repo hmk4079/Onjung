@@ -39,8 +39,8 @@ public class VolunteerDTO {
     private String attachmentFileType;
 
     private Long id;
-    private Integer recruitmentCount;
-    private Integer nowRecruitmentCount;
+    private int recruitmentCount;
+    private int nowRecruitmentCount;
     private String vtSDate;
     private String vtEDate;
 
