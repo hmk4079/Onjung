@@ -151,18 +151,18 @@ public class VolunteerController {
     }
 
 
-    @GetMapping("volunteer-update")
-    public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
-        Optional<VolunteerDTO> volunteerDTO = volunteerService.getById(postId);
-
-        if (volunteerDTO.isPresent()) {
-            model.addAttribute("volunteer", volunteerDTO.get());
-            model.addAttribute("attachments", attachmentService.getList(postId));
-        } else {
-            return "redirect:/volunteer/volunteer-inquiry?postId=" + postId;
-        }
-        return "volunteer/volunteer-update";
-    }
+//    @GetMapping("volunteer-update")
+//    public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
+//        Optional<VolunteerDTO> volunteerDTO = volunteerService.getById(postId);
+//
+//        if (volunteerDTO.isPresent()) {
+//            model.addAttribute("volunteer", volunteerDTO.get());
+//            model.addAttribute("attachments", attachmentService.getList(postId));
+//        } else {
+//            return "redirect:/volunteer/volunteer-inquiry?postId=" + postId;
+//        }
+//        return "volunteer/volunteer-update";
+//    }
 
 //    @PostMapping("donation-update")
 //    public RedirectView donationUpdate(DonationDTO donationDTO, @RequestParam("postId") Long postId, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, @RequestParam("id") List<Long> ids) throws IOException {
