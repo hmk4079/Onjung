@@ -31,6 +31,7 @@ public class VolunteerDTO {
 
     private Long memberId;
     private String memberNickName;
+    private String memberName;
 
     private String attachmentFileName;
     private String attachmentFileRealName;
