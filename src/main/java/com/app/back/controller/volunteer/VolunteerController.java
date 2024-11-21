@@ -16,10 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -138,7 +141,7 @@ public class VolunteerController {
     // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
     @GetMapping("volunteer-inquiry/{postId}")
     public String goToVolunteerPath(@PathVariable("postId") Long postId, Model model) {
-        Optional<VolunteerDTO> volunteerDTO = volunteerService.getById(postId);
+        Optional<VolunteerDTO> volunteerDTO = volunteerService.getPostById(postId);
         if (volunteerDTO.isPresent()) {
             model.addAttribute("volunteer", volunteerDTO.get());
             model.addAttribute("attachments", attachmentService.getList(postId));
@@ -147,6 +150,18 @@ public class VolunteerController {
         } else {
             return "redirect:/volunteer/volunteer-list";
         }
+    }
+
+    @GetMapping("display")
+    @ResponseBody
+    public byte[] display(@RequestParam("fileName") String fileName) throws IOException {
+        File file = new File("C:/upload", fileName);
+
+        if (!file.exists()) {
+            throw new FileNotFoundException("파일을 찾을 수 없습니다: " + fileName);
+        }
+
+        return FileCopyUtils.copyToByteArray(file);
     }
 
 

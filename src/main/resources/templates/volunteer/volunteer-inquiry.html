@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="/css/main/basic-header.css" />
     </head>
     <body style="overflow-x: hidden">
-        <div class="content-container-maincontent" th:object="${post}">
+        <div class="content-container-maincontent">
             <div class="thumbnail-background" style="position: relative">
                 <main class="container-main-body">
                     <section class="main-info-wrap">
@@ -30,15 +30,15 @@
                                         >
                                             <div>
                                                 <div class="observer"></div>
-                                                <img
-                                                    src="https://cdn-dantats.stunning.kr/prod/portfolios/392c3bf2-da4c-4128-a5fc-79951fd565aa/covers/nLf7dPQ2YQQbDZzf.s1.jpg.small?s=998x998&amp;e=1x1&amp;t=crop&amp;q=80&amp;f=webp"
-                                                    alt="큰나무이비인후과 로고 콘테스트 우승작 이미지 1"
-                                                    format="webp"
-                                                    style="
+                                                <div th:each="attachment : ${attachments}">
+                                                    <img th:src="@{'/volunteer/display?fileName=' + '/' + ${attachment.attachmentFilePath} + '/' + ${attachment.attachmentFileName} + ${attachment.attachmentFileRealName}}"
+                                                         alt="첨부 이미지"
+                                                         format="webp"
+                                                         style="
                                                         width: 570px;
                                                         height: 570px;
-                                                    "
-                                                />
+                                                    "/>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -67,16 +67,18 @@
                                             </div>
                                             <div
                                                 class="content-content row-content"
+                                                th:text="${volunteer.postSummary}"
                                             >
-                                                신규로 개원하는 이비인후과
-                                                입니다. 어지러움 검사(달팽이관),
-                                                코 수술(코끼리) 등의 전문진료를
-                                                표방하는 이비인후과를
-                                                추구합니다. 춘천
-                                                큰나무이비인후과(본원)에서
-                                                사용한 로고가 있으나 이와
-                                                유사하게 또는 개선된 방향으로
-                                                새로이 로고를 제작하려고 합니다.
+
+<!--                                                신규로 개원하는 이비인후과-->
+<!--                                                입니다. 어지러움 검사(달팽이관),-->
+<!--                                                코 수술(코끼리) 등의 전문진료를-->
+<!--                                                표방하는 이비인후과를-->
+<!--                                                추구합니다. 춘천-->
+<!--                                                큰나무이비인후과(본원)에서-->
+<!--                                                사용한 로고가 있으나 이와-->
+<!--                                                유사하게 또는 개선된 방향으로-->
+<!--                                                새로이 로고를 제작하려고 합니다.-->
                                             </div>
                                         </section>
                                     </section>
@@ -86,8 +88,8 @@
                                         </div>
                                         <div
                                             class="content-content row-content"
+                                            th:text="${volunteer.recruitmentCount}+ 명"
                                         >
-                                            50000
                                         </div>
                                     </section>
                                     <section class="content-title-container">
@@ -96,51 +98,14 @@
                                         </div>
                                         <div
                                             class="content-content row-content"
+                                            th:text="${volunteer.postContent}"
                                         >
-                                            <p>
-                                                파주에 신규로 개원하는
-                                                이비인후과 입니다. 어지러움
-                                                진료(달팽이관), 코 수술(코끼리)
-                                                등의 전문진료를 표방하는
-                                                이비인후과를 추구합니다. 춘천
-                                                큰나무이비인후과(본원)에서
-                                                사용한 로고가 있어 아래에
-                                                첨부합니다. 이와 유사하게 또는
-                                                개선된 방향으로 새로이 제작
-                                                부탁드립니다.
-                                            </p>
-                                            <p><br /></p>
-                                            <p>
-                                                *브랜드 의미 : 큰나무(신뢰,
-                                                휴식)의 이미지가 강조된
-                                                이비인후과 이며, 어지러움
-                                                진료(달팽이), 코 수술(코끼리)의
-                                                이미지를 동시에 표현하려고
-                                                합니다.<br />*선호 이미지 :
-                                                업로드 된 춘천 큰나무이비인후과
-                                                본원의 이미지와 큰 틀에서는
-                                                유사했으면 좋겠습니다. 색상,
-                                                글꼴 등의 디테일은 변형
-                                                가능합니다.<br />*표현하고 싶은
-                                                컨셉 : 귀와 코 전문 진료가
-                                                가능한 전문 이비인후과 의원<br />*피하고
-                                                싶은 스타일 : 너무 복잡하거나
-                                                한눈에 알아보기 어려운 이미지는
-                                                지양합니다.
-                                            </p>
-                                            <p><br /></p>
-                                            <p>
-                                                <br /><img
-                                                    src="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/briefingcontents/emLoA2eZLMHsrPWj.1725933473451-0.jpg"
-                                                    alt="emLoA2eZLMHsrPWj.1725933473451-0.jpg"
-                                                />
                                             </p>
                                             <p>
                                                 <img
                                                     src="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/briefingcontents/HNSdX7AK9ZoMg5cb.1725938690846%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.jpg"
                                                 />
                                             </p>
-                                            <p></p>
                                         </div>
                                     </section>
                                     <section class="attach-title-container">
@@ -389,9 +354,8 @@
         </div>
     </body>
     <script th:inline="javascript">
-        const volunteer = [[${volunteerDTO}]]
+        const volunteer = [[${volunteer}]]
         const attachments = [[${attachments}]]
-        const lists = [[${lists}]]
         const posts = [[${post}]]
     </script>
     <script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>

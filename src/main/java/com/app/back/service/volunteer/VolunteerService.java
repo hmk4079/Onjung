@@ -17,7 +17,7 @@ public interface VolunteerService {
     //    게시글 전체 개수 조회
     public int getTotal();
     //    개시글 조회
-    public Optional<VolunteerDTO> getById(Long id);
+    public Optional<VolunteerDTO> getPostById(Long id);
     //    게시글 수정
     void update(VolunteerDTO volunteerDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files, List<Long> ids) throws IOException;
     //    게시글 삭제
@@ -28,6 +28,8 @@ public interface VolunteerService {
 
     //    멤버ID가져오기
     public List<VolunteerDTO> getMemberId(Long memberId);
+
+
 
 }
 

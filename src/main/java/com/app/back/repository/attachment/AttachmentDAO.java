@@ -26,7 +26,7 @@ public class AttachmentDAO {
 
 //    파일 목록
     public List<AttachmentDTO> findAll(Long postId){
-        return attachmentMapper.selectAll(postId);
+        return attachmentMapper.findByPostId(postId);
     }
 
 //    파일 삭제

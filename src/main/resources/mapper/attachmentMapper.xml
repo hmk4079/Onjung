@@ -13,7 +13,7 @@
         where a.id = #{id}
     </select>
 
-    <select id="selectAll" resultType="attachmentDTO">
+    <select id="findByPostId" resultType="attachmentDTO">
         select a.id, a.attachment_file_name, a.attachment_file_real_name, a.attachment_file_path, a.attachment_file_size, a.attachment_file_type, a.post_id, p.created_date
         from tbl_attachment a join tbl_post p
         on a.post_id = p.id

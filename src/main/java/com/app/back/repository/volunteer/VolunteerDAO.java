@@ -24,7 +24,7 @@ public class VolunteerDAO {
         volunteerMapper.insert(volunteerVO);
     }
 
-    //    게시글 전체 개수 조회(목록 가져오기<최신순, 조회수 순, 마감 임박 순>)
+    //    게시글 전체 조회(목록 가져오기<최신순, 조회수 순, 마감 임박 순>)
     public List<VolunteerDTO> findAll(Pagination pagination) {
         return volunteerMapper.selectAll(pagination);
     }

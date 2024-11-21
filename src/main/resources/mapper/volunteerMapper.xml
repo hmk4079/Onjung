@@ -52,7 +52,7 @@
 
 
     <select id="selectById" resultType="VolunteerDTO">
-        select v.id, v.recruitment_count, p.id as post_id, p.post_title, m.member_nickname, m.member_name, p.post_status,
+        select v.id,v.now_recruitment_count, v.recruitment_count, p.id as post_id, p.post_title, p.post_content, m.member_nickname, m.member_name, p.post_status,
                at.attachment_file_name, at.attachment_file_path, at.attachment_file_size, at.attachment_file_type,
                v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
         from tbl_vt v

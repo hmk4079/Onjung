@@ -19,6 +19,8 @@ public class AttachmentDTO {
     private Long postId;
     private String createdDate;
 
+    private String fileUrl;
+
     public AttachmentVO toVO(){
         return new AttachmentVO(id, attachmentFileName, attachmentFileRealName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId, createdDate);
     }

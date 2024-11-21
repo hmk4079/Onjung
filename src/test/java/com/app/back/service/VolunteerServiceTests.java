@@ -1,5 +1,6 @@
 package com.app.back.service;
 
+import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.service.volunteer.VolunteerService;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @Slf4j
@@ -34,5 +39,15 @@ public class VolunteerServiceTests {
     public void testDelete() {
         volunteerService.delete(32L);
     }
+
+    @Test
+    public void testGetPostById() {
+        Long postId = 36L;
+        Optional<VolunteerDTO> post = volunteerService.getPostById(postId);
+        assertNotNull(post, "Post should not be null");
+        assertEquals(postId, post.get().getPostId(), "Post ID should match");
+        log.info("Post retrieved: {}", post);
+    }
+
 
 }

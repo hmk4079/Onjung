@@ -7,6 +7,7 @@ import com.app.back.service.volunteer.VolunteerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -30,4 +31,10 @@ public class WebMvcConfig  implements WebMvcConfigurer {
         registry.addInterceptor(new MoveInterceptor(volunteerService)).addPathPatterns("/support/support-write/**");
 
     }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:" + System.getProperty("user.dir") + "/uploads/");
+    }
+
 }
