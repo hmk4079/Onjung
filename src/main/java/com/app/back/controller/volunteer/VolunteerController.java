@@ -144,10 +144,10 @@ public class VolunteerController {
         if (volunteerDTO.isPresent()) {
             model.addAttribute("volunteer", volunteerDTO.get());
             model.addAttribute("attachments", attachmentService.getList(postId));
-        } else {
             return "volunteer/volunteer-inquiry";
+        } else {
+            return "redirect:/volunteer/volunteer-list";
         }
-        return "redirect:/volunteer/volunteer-list";
     }
 
 

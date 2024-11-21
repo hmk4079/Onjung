@@ -1,7 +1,5 @@
 package com.app.back.exception;
 
-public class UserNotAuthenticatedException extends Throwable {
-    public UserNotAuthenticatedException(String message) {
-        super(message);
-    }
+public class NotFoundPostException extends RuntimeException {
+    public NotFoundPostException(String message) {super(message);}
 }

@@ -4,7 +4,7 @@ package com.app.back.service.volunteer;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.exception.GlobalExceptionHandler;
-import com.app.back.exception.UserNotAuthenticatedException;
+import com.app.back.exception.NotFoundPostException;
 import com.app.back.repository.attachment.AttachmentDAO;
 import com.app.back.repository.member.MemberDAO;
 import com.app.back.repository.post.PostDAO;
@@ -113,8 +113,8 @@ public class VolunteerServiceImpl implements VolunteerService {
         } else {
             log.warn("세션에서 memberID를 찾지 못하였습니다. 로그인 페이지로 이동합니다.");
             try {
-                throw new UserNotAuthenticatedException("로그인이 필요합니다.");
-            } catch (UserNotAuthenticatedException e) {
+                throw new NotFoundPostException("로그인이 필요합니다.");
+            } catch (NotFoundPostException e) {
                 throw new RuntimeException(e);
             }
         }
