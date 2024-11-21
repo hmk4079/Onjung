@@ -12,7 +12,7 @@
     </insert>
 
     <select id="selectAll" resultType="volunteerDTO">
-        select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
+        select v.id, v.recruitment_count, p.post_title, m.member_name, p.post_status,
         pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
         v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
         from tbl_vt v

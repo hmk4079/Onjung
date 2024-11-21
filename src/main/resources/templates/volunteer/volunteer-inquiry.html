@@ -49,7 +49,8 @@
                                     <div class="tab-style tabs">
                                         <div class="active tab">내용</div>
                                         <div class="tab">
-                                            댓글<label class="tab-sticker" th:text="*{replyCount}">
+                                            댓글<label class="tab-sticker">
+<!--                                            th:text="*{replyCount}"-->
                                             0
                                         </label
                                             >
@@ -246,9 +247,8 @@
                                                     />신고하기</span
                                                 >
                                             </div>
-                                            <h2 class="title">
-                                                봉사 게시판 제목
-                                            </h2>
+<!--                                            <h2 class="title" th:text="${post.title}">-->
+<!--                                            </h2>-->
                                             <div class="user-info">
                                                 <a
                                                     href="/m/megakukjin2297"
@@ -389,9 +389,10 @@
         </div>
     </body>
     <script th:inline="javascript">
-        const volunteer = [[${volunteer}]]
+        const volunteer = [[${volunteerDTO}]]
         const attachments = [[${attachments}]]
         const lists = [[${lists}]]
+        const posts = [[${post}]]
     </script>
     <script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
     <script>let daysLeftText;

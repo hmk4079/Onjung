@@ -34,8 +34,6 @@ public class VolunteerController {
     private final PostService postService;
     private final VolunteerService volunteerService;
     private final AttachmentService attachmentService;
-    private final VolunteerDTO volunteerDTO;
-//    private final VolunteerDTO volunteerDTO;
 
     @GetMapping("volunteer-write")
     public String goToWriteForm(VolunteerDTO volunteerDTO){
@@ -145,6 +143,7 @@ public class VolunteerController {
             model.addAttribute("volunteer", volunteerDTO.get());
             model.addAttribute("attachments", attachmentService.getList(postId));
             return "volunteer/volunteer-inquiry";
+
         } else {
             return "redirect:/volunteer/volunteer-list";
         }
