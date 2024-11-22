@@ -45,14 +45,43 @@ FROM tbl_review r
 ORDER BY p.created_date DESC
 LIMIT 10;
 
+select profile_file_name from tbl_profile pf join tbl_member m on pf.member_id = m.id where member_id = 35;
 
-select v.id,v.now_recruitment_count, v.recruitment_count, p.id as post_id, p.post_title, p.post_content, m.member_nickname, m.member_name, p.post_status,
-       at.attachment_file_name, at.attachment_file_path, at.attachment_file_size, at.attachment_file_type,
-       pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
-       v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
-from tbl_vt v
-         join tbl_post p on v.id = p.id
-         join tbl_member m on p.member_id = m.id
-         join tbl_attachment at on at.post_id = p.id
-         left join tbl_profile pf on p.member_id = pf.id
-where v.id =37;
+select *
+from tbl_profile
+where member_id = (select member_id from tbl_post where id = 37);
+
+
+SELECT
+    v.id,
+    v.now_recruitment_count,
+    v.recruitment_count,
+    p.id AS postId,
+    p.post_title AS postTitle,
+    p.post_content AS postContent,
+    p.member_id AS memberId,
+    m.member_nickname AS memberNickname,
+    m.member_name AS memberName,
+    p.post_status AS postStatus,
+    at.attachment_file_name AS attachmentFileName,
+    at.attachment_file_path AS attachmentFilePath,
+    at.attachment_file_size AS attachmentFileSize,
+    at.attachment_file_type AS attachmentFileType,
+    pf.profile_file_name AS profileFileName,
+    pf.profile_file_path AS profileFilePath,
+    pf.profile_file_size AS profileFileSize,
+    pf.profile_file_type AS profileFileType,
+    v.vt_s_date AS vtSDate,
+    v.vt_e_date AS vtEDate,
+    p.post_view_count AS postViewCount,
+    p.post_type AS postType,
+    p.post_summary AS postSummary,
+    p.created_date AS createdDate
+FROM
+    tbl_vt v
+        JOIN tbl_post p ON v.id = p.id
+        JOIN tbl_member m ON m.id = p.member_id
+        JOIN tbl_attachment at ON at.post_id = p.id
+        LEFT JOIN tbl_profile pf ON pf.member_id = p.member_id
+WHERE
+    v.id = 35; -- 실제 존재하는 ID로 테스트

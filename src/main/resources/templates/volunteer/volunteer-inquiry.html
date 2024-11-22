@@ -216,22 +216,13 @@
                                     </h2>
                                     <div class="user-info">
                                         <a class="avatar-container avatar">
-                                            <img th:src="${volunteer.profileFileName != null} ? '/profile/display?memberId=' + volunteer.memberId : '/images/default-profile.png'" />
+                                            <img th:src="${volunteer.profileFileName != null ? '/profile/display?memberId=' + volunteer.memberId : '/images/default-profile.png'}" alt="프로필 이미지" />
                                         </a>
-                                        <div
-                                                class="user-info-text-wrapper"
-                                        >
-                                            <p
-                                                    class="user-nick-container company"
-                                                    title="큰나무이비인후과"
-                                            >
-                                                <a
-                                                        class="user-nick nick"
-                                                        href="/m/megakukjin2297"
-                                                        th:text="${volunteer.memberName != null ? volunteer.memberName : (volunteer.memberNickName != null ? volunteer.memberNickName : '닉네임없음')}"
-
-                                                ></a
-                                                >
+                                        <div class="user-info-text-wrapper">
+                                            <p class="user-nick-container company" title="큰나무이비인후과">
+                                                <a class="user-nick nick" href="/m/megakukjin2297"
+                                                   th:text="${volunteer.memberName != null ? volunteer.memberName : (volunteer.memberNickname != null ? volunteer.memberNickname : '닉네임없음')}"
+                                                ></a>
                                             </p>
                                         </div>
                                     </div>

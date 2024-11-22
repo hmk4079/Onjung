@@ -13,6 +13,7 @@ import com.app.back.service.volunteer.VolunteerService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -140,16 +141,17 @@ public class VolunteerController {
 
     // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
     @GetMapping("volunteer-inquiry/{postId}")
-    public String goToVolunteerPath(@PathVariable("postId") Long postId, Model model) {
-        Optional<VolunteerDTO> volunteerDTO = volunteerService.getPostById(postId);
-        if (volunteerDTO.isPresent()) {
-            model.addAttribute("volunteer", volunteerDTO.get());
-            model.addAttribute("attachments", attachmentService.getList(postId));
-            return "volunteer/volunteer-inquiry";
-
-        } else {
-            return "redirect:/volunteer/volunteer-list";
+    public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
+        VolunteerDTO volunteerDTO = volunteerService.getPostById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Volunteer with ID " + postId + " not found"));
+        if (volunteerDTO == null) {
+            log.warn("No volunteer found for postId: {}", postId);
+            throw new ResourceNotFoundException("Volunteer not found");
         }
+        model.addAttribute("volunteer", volunteerDTO);
+        model.addAttribute("attachments", attachmentService.getList(postId));
+
+        return "volunteer/volunteer-inquiry";
     }
 
     @GetMapping("display")
