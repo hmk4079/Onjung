@@ -1,370 +1,370 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>봉사 모집 조회</title>
-        <link
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>봉사 모집 조회</title>
+    <link
             rel="stylesheet"
             href="/css/support/support-inquiry.css"
-        />
-        <link
+    />
+    <link
             rel="icon"
             href="https://cdn-dantats.stunning.kr/static/feature/loudFavicon/loud-favicon-32-new.png"
-        />
-        <link rel="stylesheet" href="/css/main/basic-header.css" />
-        <link rel="stylesheet" href="/css/main/basic-header.css" />
-    </head>
-    <body style="overflow-x: hidden">
-        <div class="content-container-maincontent">
-            <div class="thumbnail-background" style="position: relative">
-                <main class="container-main-body">
-                    <section class="main-info-wrap">
-                        <section class="main-info">
-                            <section class="left">
-                                <div class="content-wrapper">
-                                    <div class="main-thumbnail-container">
-                                        <div
-                                            class="main-thumbnail"
-                                            width="100%"
-                                        >
-                                            <div>
-                                                <div class="observer"></div>
-                                                <div th:each="attachment : ${attachments}">
-                                                    <img th:src="@{'/volunteer/display?fileName=' + '/' + ${attachment.attachmentFilePath} + '/' + ${attachment.attachmentFileName} + ${attachment.attachmentFileRealName}}"
-                                                         alt="첨부 이미지"
-                                                         format="webp"
-                                                         style="
+    />
+    <link rel="stylesheet" href="/css/main/basic-header.css" />
+    <link rel="stylesheet" href="/css/main/basic-header.css" />
+</head>
+<body style="overflow-x: hidden">
+<div class="content-container-maincontent">
+    <div class="thumbnail-background" style="position: relative">
+        <main class="container-main-body">
+            <section class="main-info-wrap">
+                <section class="main-info">
+                    <section class="left">
+                        <div class="content-wrapper">
+                            <div class="main-thumbnail-container">
+                                <div
+                                        class="main-thumbnail"
+                                        width="100%"
+                                >
+                                    <div>
+                                        <div class="observer"></div>
+                                        <div th:each="attachment : ${attachments}">
+                                            <img th:src="@{'/volunteer/display?fileName=' + '/' + ${attachment.attachmentFilePath} + '/' + ${attachment.attachmentFileName} + ${attachment.attachmentFileRealName}}"
+                                                 alt="첨부 이미지"
+                                                 format="webp"
+                                                 style="
                                                         width: 570px;
                                                         height: 570px;
                                                     "/>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                                class="tabs-navigation-wrapper tab-wrapper"
+                        >
+                            <div class="tab-style tabs">
+                                <div class="active tab">내용</div>
+                                <div class="tab">
+                                    댓글<label class="tab-sticker">
+                                    <!--                                            th:text="*{replyCount}"-->
+                                    0
+                                </label
+                                >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-wrap">
+                            <section class="content-container">
+                                <section class="content-introduce">
+                                    <div
+                                            class="content-title row-title"
+                                    >
+                                        한 줄 소개
+                                    </div>
+                                    <div
+                                            class="content-content row-content"
+                                            th:text="${volunteer.postSummary}"
+                                    >
+
+                                        <!--                                                신규로 개원하는 이비인후과-->
+                                        <!--                                                입니다. 어지러움 검사(달팽이관),-->
+                                        <!--                                                코 수술(코끼리) 등의 전문진료를-->
+                                        <!--                                                표방하는 이비인후과를-->
+                                        <!--                                                추구합니다. 춘천-->
+                                        <!--                                                큰나무이비인후과(본원)에서-->
+                                        <!--                                                사용한 로고가 있으나 이와-->
+                                        <!--                                                유사하게 또는 개선된 방향으로-->
+                                        <!--                                                새로이 로고를 제작하려고 합니다.-->
+                                    </div>
+                                </section>
+                            </section>
+                            <section class="content-title-container">
+                                <div class="content-title row-title">
+                                    목표 지원자
                                 </div>
                                 <div
-                                    class="tabs-navigation-wrapper tab-wrapper"
+                                        class="content-content row-content"
+                                        th:text="${volunteer.recruitmentCount}+ 명"
                                 >
-                                    <div class="tab-style tabs">
-                                        <div class="active tab">내용</div>
-                                        <div class="tab">
-                                            댓글<label class="tab-sticker">
-<!--                                            th:text="*{replyCount}"-->
-                                            0
-                                        </label
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="content-wrap">
-                                    <section class="content-container">
-                                        <section class="content-introduce">
-                                            <div
-                                                class="content-title row-title"
-                                            >
-                                                한 줄 소개
-                                            </div>
-                                            <div
-                                                class="content-content row-content"
-                                                th:text="${volunteer.postSummary}"
-                                            >
-
-<!--                                                신규로 개원하는 이비인후과-->
-<!--                                                입니다. 어지러움 검사(달팽이관),-->
-<!--                                                코 수술(코끼리) 등의 전문진료를-->
-<!--                                                표방하는 이비인후과를-->
-<!--                                                추구합니다. 춘천-->
-<!--                                                큰나무이비인후과(본원)에서-->
-<!--                                                사용한 로고가 있으나 이와-->
-<!--                                                유사하게 또는 개선된 방향으로-->
-<!--                                                새로이 로고를 제작하려고 합니다.-->
-                                            </div>
-                                        </section>
-                                    </section>
-                                    <section class="content-title-container">
-                                        <div class="content-title row-title">
-                                            목표 지원자
-                                        </div>
-                                        <div
-                                            class="content-content row-content"
-                                            th:text="${volunteer.recruitmentCount}+ 명"
-                                        >
-                                        </div>
-                                    </section>
-                                    <section class="content-title-container">
-                                        <div class="content-title row-title">
-                                            내용
-                                        </div>
-                                        <div
-                                            class="content-content row-content"
-                                            th:text="${volunteer.postContent}"
-                                        >
-                                            </p>
-                                            <p>
-                                                <img
-                                                    src="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/briefingcontents/HNSdX7AK9ZoMg5cb.1725938690846%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.jpg"
-                                                />
-                                            </p>
-                                        </div>
-                                    </section>
-                                    <section class="attach-title-container">
-                                        <div class="content-title row-title">
-                                            첨부파일<button
-                                                class="download-all-btn"
-                                            >
-                                                <span class="visual-correction"
-                                                    >전체 받기</span
-                                                >
-                                            </button>
-                                        </div>
-                                        <div
-                                            class="content-content row-content"
-                                        >
-                                            <ul class="attach-list attachments">
-                                                <li>
-                                                    <p
-                                                        class="file-name"
-                                                        title="1725938690846 - 복사본.jpg"
-                                                    >
-                                                        1725938690846 -
-                                                        복사본.jpg
-                                                    </p>
-                                                    <span class="file-download"
-                                                        ><span class="size"
-                                                            >35.2 KB</span
-                                                        ><a
-                                                            href="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/attachments/hD5PPtSDg34YNR3m/1725938690846%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.jpg"
-                                                            download="1725938690846 - 복사본.jpg"
-                                                            class="attach-save"
-                                                            ><span
-                                                                class="visual-correction"
-                                                                >저장</span
-                                                            ></a
-                                                        ></span
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <p
-                                                        class="file-name"
-                                                        title="1725933473451-0.jpg"
-                                                    >
-                                                        1725933473451-0.jpg
-                                                    </p>
-                                                    <span class="file-download"
-                                                        ><span class="size"
-                                                            >42.8 KB</span
-                                                        ><a
-                                                            href="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/attachments/dfiQd4P4mfYFmBaa/1725933473451-0.jpg"
-                                                            download="1725933473451-0.jpg"
-                                                            class="attach-save"
-                                                            ><span
-                                                                class="visual-correction"
-                                                                >저장</span
-                                                            ></a
-                                                        ></span
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </section>
-                                </div>
-                                <div class="comment-wrap-fr">
-                                    <section>
-                                        <div class="comment-wrap">
-                                            <section
-                                                class="comment-section"
-                                                id="comment-section"
-                                            ></section>
-                                        </div>
-                                    </section>
-
-                                    <section
-                                        class="contest-comment-input"
-                                        style="width: 500px"
-                                    >
-                                        <textarea
-                                            class="comment-textarea"
-                                            id="comment-content"
-                                            placeholder="댓글을 입력하세요."
-                                        ></textarea>
-                                        <button
-                                            class="submit-comment-button"
-                                            disabled
-                                        >
-                                            댓글 작성
-                                        </button>
-                                    </section>
                                 </div>
                             </section>
-                            <div class="space"></div>
-                            <section class="right">
-                                <div class="sticky-box">
-                                    <div class="right-title-wrap end">
-                                        <div class="right-title-container">
-                                            <div class="report-container">
+                            <section class="content-title-container">
+                                <div class="content-title row-title">
+                                    내용
+                                </div>
+                                <div
+                                        class="content-content row-content"
+                                        th:text="${volunteer.postContent}"
+                                >
+                                    </p>
+                                    <p>
+                                        <img
+                                                src="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/briefingcontents/HNSdX7AK9ZoMg5cb.1725938690846%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.jpg"
+                                        />
+                                    </p>
+                                </div>
+                            </section>
+                            <section class="attach-title-container">
+                                <div class="content-title row-title">
+                                    첨부파일<button
+                                        class="download-all-btn"
+                                >
+                                                <span class="visual-correction"
+                                                >전체 받기</span
+                                                >
+                                </button>
+                                </div>
+                                <div
+                                        class="content-content row-content"
+                                >
+                                    <ul class="attach-list attachments">
+                                        <li>
+                                            <p
+                                                    class="file-name"
+                                                    title="1725938690846 - 복사본.jpg"
+                                            >
+                                                1725938690846 -
+                                                복사본.jpg
+                                            </p>
+                                            <span class="file-download"
+                                            ><span class="size"
+                                            >35.2 KB</span
+                                            ><a
+                                                    href="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/attachments/hD5PPtSDg34YNR3m/1725938690846%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.jpg"
+                                                    download="1725938690846 - 복사본.jpg"
+                                                    class="attach-save"
+                                            ><span
+                                                    class="visual-correction"
+                                            >저장</span
+                                            ></a
+                                            ></span
+                                            >
+                                        </li>
+                                        <li>
+                                            <p
+                                                    class="file-name"
+                                                    title="1725933473451-0.jpg"
+                                            >
+                                                1725933473451-0.jpg
+                                            </p>
+                                            <span class="file-download"
+                                            ><span class="size"
+                                            >42.8 KB</span
+                                            ><a
+                                                    href="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/attachments/dfiQd4P4mfYFmBaa/1725933473451-0.jpg"
+                                                    download="1725933473451-0.jpg"
+                                                    class="attach-save"
+                                            ><span
+                                                    class="visual-correction"
+                                            >저장</span
+                                            ></a
+                                            ></span
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="comment-wrap-fr">
+                            <section>
+                                <div class="comment-wrap">
+                                    <section
+                                            class="comment-section"
+                                            id="comment-section"
+                                    ></section>
+                                </div>
+                            </section>
+
+                            <section
+                                    class="contest-comment-input"
+                                    style="width: 500px"
+                            >
+                                        <textarea
+                                                class="comment-textarea"
+                                                id="comment-content"
+                                                placeholder="댓글을 입력하세요."
+                                        ></textarea>
+                                <button
+                                        class="submit-comment-button"
+                                        disabled
+                                >
+                                    댓글 작성
+                                </button>
+                            </section>
+                        </div>
+                    </section>
+                    <div class="space"></div>
+                    <section class="right">
+                        <div class="sticky-box">
+                            <div class="right-title-wrap end">
+                                <div class="right-title-container">
+                                    <div class="report-container">
                                                 <span
-                                                    class="for-report"
-                                                    id="report-btn"
-                                                    ><img
+                                                        class="for-report"
+                                                        id="report-btn"
+                                                ><img
                                                         class="img-report"
                                                         src="/images/report.png"
-                                                    />신고하기</span
+                                                />신고하기</span
                                                 >
-                                            </div>
-                                            <h2 class="title" th:text="${volunteer.postTitle}">
-                                            </h2>
-                                            <div class="user-info">
-                                                <div class="member-thumb member-thumb2" id="mainProfileThumbnail"
-                                                     th:style="'background-image: url(\'/profile/display?memberId=' + ${member.id} + '\');'">
-                                                </div>
-                                                <div
-                                                    class="user-info-text-wrapper"
-                                                >
-                                                    <p
-                                                        class="user-nick-container company"
-                                                        title="큰나무이비인후과"
-                                                    >
-                                                        <a
-                                                            class="user-nick nick"
-                                                            href="/m/megakukjin2297"
-                                                            th:text="${volunteer.memberName != null ? volunteer.memberName : (volunteer.memberNickName != null ? volunteer.memberNickName : '닉네임없음')}"
-
-                                                            ></a
-                                                        >
-                                                    </p>
-                                                </div>
-                                            </div>
+                                    </div>
+                                    <h2 class="title" th:text="${volunteer.postTitle}">
+                                    </h2>
+                                    <div class="user-info">
+                                        <div class="member-thumb member-thumb2" id="mainProfileThumbnail">
+<!--                                             th:style="'background-image: url(\'/profile/display?memberId=' + ${member.id} + '\');'">-->
                                         </div>
-                                        <section class="prize-wrap prize">
-                                            <div class="help">
-                                                <p>목표 지원자</p>
-                                            </div>
-                                            <div class="total-prize"></div>
-                                            <ul class="prizes">
-                                                <div class="graph-wrap">
-                                                    <div class="graph-status">
-                                                        <span
-                                                            ><strong
-                                                                class="num"
-                                                            ></strong
-                                                            >%</span
-                                                        >
-                                                    </div>
-                                                    <div class="graph-bar">
-                                                        <span></span>
-                                                    </div>
-                                                </div>
-                                            </ul>
-                                        </section>
-                                        <div class="row-line"></div>
-                                        <section
-                                            class="info-box-container meta"
+                                        <div
+                                                class="user-info-text-wrapper"
                                         >
-                                            <div
-                                                class="right-info-style info-box"
+                                            <p
+                                                    class="user-nick-container company"
+                                                    title="큰나무이비인후과"
                                             >
-                                                <div class="title">
-                                                    지원 기간
-                                                </div>
-                                                <div class="content">${daysLeftText}</div>
-                                                <div class="sub-content">
-                                                    <span
-                                                        >${volunteer.vtSDate || '시작시간없음'} ~ ${volunteer.vtEDate || '끝나는시간없음'} (24시까지)</span
-                                                    >
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="right-info-style info-box"
-                                            >
-                                                <div class="title">
-                                                    참여 인원 수
-                                                </div>
-                                                <div class="content">3명</div>
-                                            </div>
-                                            <div
-                                                class="right-info-style info-box"
-                                            >
-                                                <div class="title">조회수</div>
-                                                <div class="content">759</div>
-                                            </div>
-                                        </section>
-                                        <div class="donation-btn-wrap">
-                                            <div
-                                                class="donation-btn-container tooltip"
-                                            >
-                                                <a class="donation-btn-style"
-                                                    ><span
-                                                        class="visual-correction"
-                                                        >지원하기</span
-                                                    ></a
-                                                >
-                                            </div>
+                                                <a
+                                                        class="user-nick nick"
+                                                        href="/m/megakukjin2297"
+                                                        th:text="${volunteer.memberName != null ? volunteer.memberName : (volunteer.memberNickName != null ? volunteer.memberNickName : '닉네임없음')}"
 
-                                            <div class="donation-btn-container">
-                                                <a class="donation-btn-style2"
-                                                    ><span
-                                                        class="visual-correction"
-                                                        >수정하기</span
-                                                    ></a
+                                                ></a
                                                 >
-                                                <div class="space"></div>
-                                                <a class="donation-btn-style2"
-                                                    ><span
-                                                        class="visual-correction"
-                                                        >삭제하기</span
-                                                    ></a
-                                                >
-                                            </div>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                            </section>
-                        </section>
-                    </section>
-                    <div id="profileModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close"></span>
-                            <h2>게시글 신고</h2>
-                            <form id="uploadForm">
-                                <div class="btn-group">
-                                    <div>
-                                        <label for="textInput">신고사유:</label>
-                                        <input
-                                            type="text"
-                                            id="textInput"
-                                            name="textInput"
-                                            placeholder="신고 사유를 입력해주세요."
-                                        />
+                                <section class="prize-wrap prize">
+                                    <div class="help">
+                                        <p>목표 지원자</p>
+                                    </div>
+                                    <div class="total-prize"></div>
+                                    <ul class="prizes">
+                                        <div class="graph-wrap">
+                                            <div class="graph-status">
+                                                        <span
+                                                        ><strong
+                                                                class="num"
+                                                        ></strong
+                                                        >%</span
+                                                        >
+                                            </div>
+                                            <div class="graph-bar">
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </section>
+                                <div class="row-line"></div>
+                                <section
+                                        class="info-box-container meta"
+                                >
+                                    <div
+                                            class="right-info-style info-box"
+                                    >
+                                        <div class="title">
+                                            지원 기간
+                                        </div>
+                                        <div class="content">${daysLeftText}</div>
+                                        <div class="sub-content">
+                                                    <span
+                                                    >${volunteer.vtSDate || '시작시간없음'} ~ ${volunteer.vtEDate || '끝나는시간없음'} (24시까지)</span
+                                                    >
+                                        </div>
+                                    </div>
+                                    <div
+                                            class="right-info-style info-box"
+                                    >
+                                        <div class="title">
+                                            참여 인원 수
+                                        </div>
+                                        <div class="content">3명</div>
+                                    </div>
+                                    <div
+                                            class="right-info-style info-box"
+                                    >
+                                        <div class="title">조회수</div>
+                                        <div class="content">759</div>
+                                    </div>
+                                </section>
+                                <div class="donation-btn-wrap">
+                                    <div
+                                            class="donation-btn-container tooltip"
+                                    >
+                                        <a class="donation-btn-style"
+                                        ><span
+                                                class="visual-correction"
+                                        >지원하기</span
+                                        ></a
+                                        >
+                                    </div>
+
+                                    <div class="donation-btn-container">
+                                        <a class="donation-btn-style2"
+                                        ><span
+                                                class="visual-correction"
+                                        >수정하기</span
+                                        ></a
+                                        >
+                                        <div class="space"></div>
+                                        <a class="donation-btn-style2"
+                                        ><span
+                                                class="visual-correction"
+                                        >삭제하기</span
+                                        ></a
+                                        >
                                     </div>
                                 </div>
-                            </form>
-                            <button
-                                type="button"
-                                class="report-submit-btn"
-                                id="reportSubmitBtn"
-                            >
-                                신고하기
-                            </button>
+                            </div>
                         </div>
-                    </div>
-                </main>
+                    </section>
+                </section>
+            </section>
+            <div id="profileModal" class="modal">
+                <div class="modal-content">
+                    <span class="close"></span>
+                    <h2>게시글 신고</h2>
+                    <form id="uploadForm">
+                        <div class="btn-group">
+                            <div>
+                                <label for="textInput">신고사유:</label>
+                                <input
+                                        type="text"
+                                        id="textInput"
+                                        name="textInput"
+                                        placeholder="신고 사유를 입력해주세요."
+                                />
+                            </div>
+                        </div>
+                    </form>
+                    <button
+                            type="button"
+                            class="report-submit-btn"
+                            id="reportSubmitBtn"
+                    >
+                        신고하기
+                    </button>
+                </div>
             </div>
-        </div>
-    </body>
-    <script th:inline="javascript">
-        const volunteer = [[${volunteer}]]
-        const attachments = [[${attachments}]]
-        const posts = [[${post}]]
-        const member = [[${member}]]
-    </script>
-    <script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
-    <script>let daysLeftText;
-    if (list.daysLeft > 0) {
-        daysLeftText = `${list.daysLeft}일 남음`;
-    } else if (list.vtEDate === today) {
-        daysLeftText = "오늘까지";
-    } else {
-        daysLeftText = "종료됨";
-    }</script>
+        </main>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    const volunteer = [[${volunteer}]]
+    const attachments = [[${attachments}]]
+    const posts = [[${post}]]
+    const member = [[${member}]]
+</script>
+<script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
+<script>let daysLeftText;
+if (list.daysLeft > 0) {
+    daysLeftText = `${list.daysLeft}일 남음`;
+} else if (list.vtEDate === today) {
+    daysLeftText = "오늘까지";
+} else {
+    daysLeftText = "종료됨";
+}</script>
 </html>
