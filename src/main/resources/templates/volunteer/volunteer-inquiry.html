@@ -231,9 +231,13 @@
                                     <div class="help">
                                         <p>목표 지원자</p>
                                     </div>
-                                    <div class="total-prize"></div>
+                                    <div class="total-prize"
+                                         th:text="(${volunteer.nowRecruitmentCount != null ? volunteer.nowRecruitmentCount + '명' : '지원자없음'}) + ' ~ ' + (${volunteer.recruitmentCount != null ? volunteer.recruitmentCount + '명' : '목표지원수없음'})">
+                                    </div>
                                     <ul class="prizes">
-                                        <div class="graph-wrap">
+                                        <div class="graph-wrap"
+                                             data-now-recruitment-count="${volunteer.nowRecruitmentCount}"
+                                             data-recruitment-count="${volunteer.recruitmentCount}">
                                             <div class="graph-status">
                                                         <span
                                                         ><strong
@@ -258,11 +262,10 @@
                                         <div class="title">
                                             지원 기간
                                         </div>
-                                        <div class="content">${daysLeftText}</div>
+                                        <div class="content" th:text="(${volunteer.vtSDate != null ? volunteer.vtSDate : '시작시간없음'}) + ' ~ ' + (${volunteer.vtEDate != null ? volunteer.vtEDate : '끝나는시간없음'})"></div>
                                         <div class="sub-content">
-                                                    <span
-                                                    >${volunteer.vtSDate || '시작시간없음'} ~ ${volunteer.vtEDate || '끝나는시간없음'} (24시까지)</span
-                                                    >
+                                            <span>(24시까지)
+                                            </span>
                                         </div>
                                     </div>
                                     <div
@@ -271,13 +274,13 @@
                                         <div class="title">
                                             참여 인원 수
                                         </div>
-                                        <div class="content">3명</div>
+                                        <div class="content" th:text="${volunteer.nowRecruitmentCount} + 명"></div>
                                     </div>
                                     <div
                                             class="right-info-style info-box"
                                     >
                                         <div class="title">조회수</div>
-                                        <div class="content">759</div>
+                                        <div class="content" th:text="${volunteer.postViewCount}"></div>
                                     </div>
                                 </section>
                                 <div class="donation-btn-wrap">
@@ -350,12 +353,4 @@
     const member = [[${member}]]
 </script>
 <script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
-<script>let daysLeftText;
-if (list.daysLeft > 0) {
-    daysLeftText = `${list.daysLeft}일 남음`;
-} else if (list.vtEDate === today) {
-    daysLeftText = "오늘까지";
-} else {
-    daysLeftText = "종료됨";
-}</script>
 </html>

@@ -28,17 +28,29 @@ tabs[0].classList.add("active"); // 첫 번째 탭 활성화
 commentSection.style.display = "none";
 commentInputSection.style.display = "none"; // 처음에는 댓글 작성 창 숨기기
 
-// 예시로 넣은 데이터
-const totalPrize = 50000;
-const currentPrize = 30000;
+// 현재 지원자와 목표 지원자 수 를 가져와 퍼센트와 그래프 표기
+document.addEventListener("DOMContentLoaded", () => {
+    const graphWrap = document.querySelector(".graph-wrap");
 
-const percentage = Math.floor((currentPrize / totalPrize) * 100);
+    // 데이터 읽기
+    const nowRecruitmentCount = parseInt(graphWrap.dataset.nowRecruitmentCount, 10) || 0;
+    const recruitmentCount = parseInt(graphWrap.dataset.recruitmentCount, 10);
 
-document.querySelector(".graph-status .num").textContent = percentage;
-document.querySelector(".graph-bar span").style.width = `${percentage}%`;
-document.querySelector(
-    ".total-prize"
-).textContent = `${currentPrize} 명/ ${totalPrize} 명`;
+    if (isNaN(recruitmentCount)) {
+        console.error("Recruitment count is invalid:", recruitmentCount);
+        throw new Error("Recruitment count must be a valid number");
+    }
+
+    const percentage = Math.floor((nowRecruitmentCount / recruitmentCount) * 100);
+    document.querySelector(".graph-status .num").textContent = percentage;
+    document.querySelector(".graph-bar span").style.width = `${percentage}%`;
+    document.querySelector(".total-prize").textContent = `${nowRecruitmentCount}명 / ${recruitmentCount}명`;
+});
+
+
+
+
+
 
 // 예시 댓글 데이터 배열
 const comments = [
@@ -68,32 +80,6 @@ const comments = [
     },
 ];
 
-// let daysLeftText;
-// if (list.daysLeft > 0) {
-//     daysLeftText = `${list.daysLeft}일 남음`;
-// } else if (list.vtEDate === today) {
-//     daysLeftText = "오늘까지";
-// } else {
-//     daysLeftText = "종료됨";
-// }
-
-const list = {
-    daysLeft: 5, // 예: 5일 남음
-    vtEDate: '2024-04-27' // 오늘 날짜와 비교
-};
-const today = '2024-04-27'; // 오늘 날짜 (예시)
-
-let daysLeftText;
-if (list.daysLeft > 0) {
-    daysLeftText = `${list.daysLeft}일 남음`;
-} else if (list.vtEDate === today) {
-    daysLeftText = "오늘까지";
-} else {
-    daysLeftText = "종료됨";
-}
-
-// HTML 요소에 값 삽입
-document.getElementById('daysLeftText').textContent = daysLeftText;
 
 // 댓글 렌더링 함수
 const renderComments = () => {

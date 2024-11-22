@@ -138,7 +138,7 @@ public class VolunteerController {
         return ResponseEntity.ok(response);
     }
 
-
+    
     // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
     @GetMapping("volunteer-inquiry/{postId}")
     public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
