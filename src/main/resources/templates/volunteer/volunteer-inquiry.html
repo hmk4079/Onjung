@@ -232,22 +232,19 @@
                                         <p>목표 지원자</p>
                                     </div>
                                     <div class="total-prize"
-                                         th:text="(${volunteer.nowRecruitmentCount != null ? volunteer.nowRecruitmentCount + '명' : '지원자없음'}) + ' ~ ' + (${volunteer.recruitmentCount != null ? volunteer.recruitmentCount + '명' : '목표지원수없음'})">
+                                         data-now="${volunteer.nowRecruitmentCount}"
+                                         data-total="${volunteer.recruitmentCount}"
+                                         th:text="${volunteer.nowRecruitmentCount} + '명 / ' + ${volunteer.recruitmentCount} + '명'">
                                     </div>
+                                    <p th:text="${volunteer.nowRecruitmentCount}"></p>
+                                    <p th:text="${volunteer.recruitmentCount}"></p>
                                     <ul class="prizes">
-                                        <div class="graph-wrap"
-                                             data-now-recruitment-count="${volunteer.nowRecruitmentCount}"
-                                             data-recruitment-count="${volunteer.recruitmentCount}">
+                                        <div class="graph-wrap">
                                             <div class="graph-status">
-                                                        <span
-                                                        ><strong
-                                                                class="num"
-                                                        ></strong
-                                                        >%</span
-                                                        >
+                                                <span><strong class="num">0</strong>%</span>
                                             </div>
                                             <div class="graph-bar">
-                                                <span></span>
+                                                <span style="width: 0%;"></span>
                                             </div>
                                         </div>
                                     </ul>

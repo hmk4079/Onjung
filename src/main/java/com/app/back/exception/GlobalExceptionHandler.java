@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundPostException.class)
     protected RedirectView handleUserNotAuthenticatedException(NotFoundPostException e) {
         log.error("Authentication error: {}", e.getMessage());
-        return new RedirectView("/member/login?error=unauthenticated");
+        return new RedirectView("/volunteer/volunteer-list");
     }
 
 }

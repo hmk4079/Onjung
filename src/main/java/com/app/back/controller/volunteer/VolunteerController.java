@@ -6,6 +6,7 @@ import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.exception.NotFoundPostException;
 import com.app.back.mapper.volunteer.VolunteerMapper;
 import com.app.back.service.attachment.AttachmentService;
 import com.app.back.service.post.PostService;
@@ -138,21 +139,24 @@ public class VolunteerController {
         return ResponseEntity.ok(response);
     }
 
-    
+
     // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
     @GetMapping("volunteer-inquiry/{postId}")
     public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
+        // VolunteerDTO 가져오기
         VolunteerDTO volunteerDTO = volunteerService.getPostById(postId)
-                .orElseThrow(() -> new ResourceNotFoundException("Volunteer with ID " + postId + " not found"));
-        if (volunteerDTO == null) {
-            log.warn("No volunteer found for postId: {}", postId);
-            throw new ResourceNotFoundException("Volunteer not found");
-        }
+                .orElseThrow(() -> new NotFoundPostException("Volunteer with ID " + postId + " not found"));
+
+        // VolunteerDTO 확인을 위한 로그 출력
+        log.info("Fetched VolunteerDTO: {}", volunteerDTO);
+
+        // 모델에 데이터 추가
         model.addAttribute("volunteer", volunteerDTO);
         model.addAttribute("attachments", attachmentService.getList(postId));
 
         return "volunteer/volunteer-inquiry";
     }
+
 
     @GetMapping("display")
     @ResponseBody

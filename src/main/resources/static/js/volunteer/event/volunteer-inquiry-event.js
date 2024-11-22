@@ -28,29 +28,28 @@ tabs[0].classList.add("active"); // 첫 번째 탭 활성화
 commentSection.style.display = "none";
 commentInputSection.style.display = "none"; // 처음에는 댓글 작성 창 숨기기
 
-// 현재 지원자와 목표 지원자 수 를 가져와 퍼센트와 그래프 표기
-document.addEventListener("DOMContentLoaded", () => {
-    const graphWrap = document.querySelector(".graph-wrap");
+// HTML에서 데이터 읽어오기
+const totalPrizeElement = document.querySelector(".total-prize");
+console.log("현재 지원자 수:", totalPrizeElement.dataset.now);
+console.log("목표 지원자 수:", totalPrizeElement.dataset.total);
 
-    // 데이터 읽기
-    const nowRecruitmentCount = parseInt(graphWrap.dataset.nowRecruitmentCount, 10) || 0;
-    const recruitmentCount = parseInt(graphWrap.dataset.recruitmentCount, 10);
+const nowRecruitmentCount = parseInt(totalPrizeElement.dataset.now, 10) || 0;
+const recruitmentCount = parseInt(totalPrizeElement.dataset.total, 10) || 0;
 
-    if (isNaN(recruitmentCount)) {
-        console.error("Recruitment count is invalid:", recruitmentCount);
-        throw new Error("Recruitment count must be a valid number");
-    }
-
-    const percentage = Math.floor((nowRecruitmentCount / recruitmentCount) * 100);
-    document.querySelector(".graph-status .num").textContent = percentage;
-    document.querySelector(".graph-bar span").style.width = `${percentage}%`;
-    document.querySelector(".total-prize").textContent = `${nowRecruitmentCount}명 / ${recruitmentCount}명`;
-});
+console.log("현재 지원자 수 (변환 후):", nowRecruitmentCount);
+console.log("목표 지원자 수 (변환 후):", recruitmentCount);
 
 
+// 퍼센트 계산 (모집 인원 대비 퍼센트)
+let percentage = 0;
+if (recruitmentCount > 0) {
+    percentage = Math.floor((nowRecruitmentCount / recruitmentCount) * 100);
+}
 
-
-
+// 화면에 값 갱신
+totalPrizeElement.textContent = `${nowRecruitmentCount}명 / ${recruitmentCount}명`; // 모집 현황
+document.querySelector(".graph-status .num").textContent = percentage; // 퍼센트
+document.querySelector(".graph-bar span").style.width = `${percentage}%`; // 그래프 길이
 
 // 예시 댓글 데이터 배열
 const comments = [
@@ -79,7 +78,6 @@ const comments = [
         author: false,
     },
 ];
-
 
 // 댓글 렌더링 함수
 const renderComments = () => {
