@@ -54,11 +54,13 @@
     <select id="selectById" resultType="VolunteerDTO">
         select v.id,v.now_recruitment_count, v.recruitment_count, p.id as post_id, p.post_title, p.post_content, m.member_nickname, m.member_name, p.post_status,
                at.attachment_file_name, at.attachment_file_path, at.attachment_file_size, at.attachment_file_type,
+               pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
                v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
         from tbl_vt v
                  join tbl_post p on v.id = p.id
                  join tbl_member m on p.member_id = m.id
                  join tbl_attachment at on at.post_id = p.id
+                 left join tbl_profile pf on p.member_id = pf.id
         where v.id = #{id}
     </select>
 

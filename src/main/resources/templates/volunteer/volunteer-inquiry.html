@@ -215,9 +215,9 @@
                                     <h2 class="title" th:text="${volunteer.postTitle}">
                                     </h2>
                                     <div class="user-info">
-                                        <div class="member-thumb member-thumb2" id="mainProfileThumbnail">
-<!--                                             th:style="'background-image: url(\'/profile/display?memberId=' + ${member.id} + '\');'">-->
-                                        </div>
+                                        <a class="avatar-container avatar">
+                                            <img th:src="${volunteer.profileFileName != null} ? '/profile/display?memberId=' + volunteer.memberId : '/images/default-profile.png'" />
+                                        </a>
                                         <div
                                                 class="user-info-text-wrapper"
                                         >

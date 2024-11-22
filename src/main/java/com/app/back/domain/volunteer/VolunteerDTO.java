@@ -33,6 +33,11 @@ public class VolunteerDTO {
     private String memberNickName;
     private String memberName;
 
+    private String profileFileName;
+    private String profileFilePath;
+    private Long profileFileSize;
+    private String profileFileType;
+
     private String attachmentFileName;
     private String attachmentFileRealName;
     private String attachmentFilePath;
