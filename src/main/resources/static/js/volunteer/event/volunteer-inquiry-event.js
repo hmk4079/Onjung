@@ -51,33 +51,33 @@ totalPrizeElement.textContent = `${nowRecruitmentCount}명 / ${recruitmentCount}
 document.querySelector(".graph-status .num").textContent = percentage; // 퍼센트
 document.querySelector(".graph-bar span").style.width = `${percentage}%`; // 그래프 길이
 
-// 예시 댓글 데이터 배열
-const comments = [
-    {
-        user: "로고싱",
-        profile:
-            "https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&f=webp&t=crop&s=256x256",
-        date: "2024.10.06 21:53:00",
-        content: "원컬러 혹은 두컬러의 단순한 색상은 지양하실까요?",
-        author: false,
-    },
-    {
-        user: "큰나무이비인후과",
-        profile:
-            "https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&f=webp&t=crop&s=256x256",
-        date: "2024.10.06 21:59:45",
-        content: "다 가능합니다.",
-        author: true,
-    },
-    {
-        user: "이지민",
-        profile:
-            "https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&f=webp&t=crop&s=256x256",
-        date: "2024.10.06 21:59:45",
-        content: "안녕하세요",
-        author: false,
-    },
-];
+// // 예시 댓글 데이터 배열
+// const comments = [
+//     {
+//         user: "로고싱",
+//         profile:
+//             "https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&f=webp&t=crop&s=256x256",
+//         date: "2024.10.06 21:53:00",
+//         content: "원컬러 혹은 두컬러의 단순한 색상은 지양하실까요?",
+//         author: false,
+//     },
+//     {
+//         user: "큰나무이비인후과",
+//         profile:
+//             "https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&f=webp&t=crop&s=256x256",
+//         date: "2024.10.06 21:59:45",
+//         content: "다 가능합니다.",
+//         author: true,
+//     },
+//     {
+//         user: "이지민",
+//         profile:
+//             "https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&f=webp&t=crop&s=256x256",
+//         date: "2024.10.06 21:59:45",
+//         content: "안녕하세요",
+//         author: false,
+//     },
+// ];
 
 // 댓글 렌더링 함수
 const renderComments = () => {
