@@ -78,7 +78,7 @@ public class AttachmentController {
     public ResponseEntity<Resource> download(String fileName) throws IOException {
         Resource resource = new FileSystemResource("C:/upload/" + fileName);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attchment; filename=" + new String(("한동석짱_" + fileName.substring(fileName.indexOf("_") + 1)).getBytes("UTF-8"), "ISO-8859-1"));
+        headers.add("Content-Disposition", "attchment; filename=" + new String(("온정_" + fileName.substring(fileName.indexOf("_") + 1)).getBytes("UTF-8"), "ISO-8859-1"));
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
 

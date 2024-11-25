@@ -113,7 +113,7 @@
                                     첨부파일<button
                                         class="download-all-btn"
                                 >
-                                                <span class="visual-correction"
+                                                <span class="visual-correction" id="save-all-button"
                                                 >전체 받기</span
                                                 >
                                 </button>
@@ -121,50 +121,7 @@
                                 <div
                                         class="content-content row-content"
                                 >
-                                    <ul class="attach-list attachments">
-                                        <li>
-                                            <p
-                                                    class="file-name"
-                                                    title="1725938690846 - 복사본.jpg"
-                                            >
-                                                1725938690846 -
-                                                복사본.jpg
-                                            </p>
-                                            <span class="file-download"
-                                            ><span class="size"
-                                            >35.2 KB</span
-                                            ><a
-                                                    href="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/attachments/hD5PPtSDg34YNR3m/1725938690846%20-%20%EB%B3%B5%EC%82%AC%EB%B3%B8.jpg"
-                                                    download="1725938690846 - 복사본.jpg"
-                                                    class="attach-save"
-                                            ><span
-                                                    class="visual-correction"
-                                            >저장</span
-                                            ></a
-                                            ></span
-                                            >
-                                        </li>
-                                        <li>
-                                            <p
-                                                    class="file-name"
-                                                    title="1725933473451-0.jpg"
-                                            >
-                                                1725933473451-0.jpg
-                                            </p>
-                                            <span class="file-download"
-                                            ><span class="size"
-                                            >42.8 KB</span
-                                            ><a
-                                                    href="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/attachments/dfiQd4P4mfYFmBaa/1725933473451-0.jpg"
-                                                    download="1725933473451-0.jpg"
-                                                    class="attach-save"
-                                            ><span
-                                                    class="visual-correction"
-                                            >저장</span
-                                            ></a
-                                            ></span
-                                            >
-                                        </li>
+                                    <ul class="attach-list attachments" id="attach-list">
                                     </ul>
                                 </div>
                             </section>
@@ -231,20 +188,19 @@
                                     <div class="help">
                                         <p>목표 지원자</p>
                                     </div>
-                                    <div class="total-prize"
-                                         data-now="${volunteer.nowRecruitmentCount}"
-                                         data-total="${volunteer.recruitmentCount}"
-                                         th:text="${volunteer.nowRecruitmentCount} + '명 / ' + ${volunteer.recruitmentCount} + '명'">
-                                    </div>
-                                    <p th:text="${volunteer.nowRecruitmentCount}"></p>
-                                    <p th:text="${volunteer.recruitmentCount}"></p>
+                                    <div class="total-prize"></div>
                                     <ul class="prizes">
                                         <div class="graph-wrap">
                                             <div class="graph-status">
-                                                <span><strong class="num">0</strong>%</span>
+                                                        <span
+                                                        ><strong
+                                                                class="num"
+                                                        ></strong
+                                                        >%</span
+                                                        >
                                             </div>
                                             <div class="graph-bar">
-                                                <span style="width: 0%;"></span>
+                                                <span></span>
                                             </div>
                                         </div>
                                     </ul>
@@ -283,6 +239,7 @@
                                 <div class="donation-btn-wrap">
                                     <div
                                             class="donation-btn-container tooltip"
+
                                     >
                                         <a class="donation-btn-style"
                                         ><span
@@ -292,7 +249,8 @@
                                         >
                                     </div>
 
-                                    <div class="donation-btn-container">
+                                    <div class="donation-btn-container"
+                                    >
                                         <a class="donation-btn-style2"
                                         ><span
                                                 class="visual-correction"
@@ -348,6 +306,7 @@
     const attachments = [[${attachments}]]
     const posts = [[${post}]]
     const member = [[${member}]]
+    console.log(attachments)
 </script>
 <script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
 </html>

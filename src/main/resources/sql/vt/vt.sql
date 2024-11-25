@@ -5,7 +5,7 @@ create table tbl_vt(
     vt_s_date date not null,
     vt_e_date date not null,
     constraint fk_vt_post foreign key(id)
-                   references tbl_post(id)
+    references tbl_post(id)
 );
 
 select *from tbl_post order by post_view_count desc;

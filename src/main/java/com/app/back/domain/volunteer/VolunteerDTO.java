@@ -54,6 +54,8 @@ public class VolunteerDTO {
 
     private String postTypeDisplayName;
 
+    private Long authorId;
+
     //    게시글 정보
     public PostVO toPostVO() {
         return new PostVO(id, postTitle, postContent, postSummary, postType, postStatus, postViewCount, memberId, createdDate, updatedDate);
@@ -109,11 +111,6 @@ public class VolunteerDTO {
             this.postTypeDisplayName = "알 수 없는 타입"; // Enum에 없는 값인 경우 기본값 설정
         }
     }
-    public boolean isEmpty() {
-        return false;
-    }
-
-
 }
 
 

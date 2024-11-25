@@ -1,5 +1,6 @@
 package com.app.back.controller.volunteer;
 
+import com.app.back.domain.attachment.AttachmentDTO;
 import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.member.MemberDTO;
 
@@ -9,12 +10,19 @@ import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.exception.NotFoundPostException;
 import com.app.back.mapper.volunteer.VolunteerMapper;
 import com.app.back.service.attachment.AttachmentService;
+import com.app.back.service.member.MemberService;
 import com.app.back.service.post.PostService;
 import com.app.back.service.volunteer.VolunteerService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnailator;
+import org.apache.catalina.User;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,11 +33,12 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Controller // 이 클래스가 컨트롤러임을 나타냄
 @RequestMapping("/volunteer/*") // 봉사모집 관련 요청을 처리
@@ -141,6 +150,7 @@ public class VolunteerController {
 
 
     // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
+    // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
     @GetMapping("volunteer-inquiry/{postId}")
     public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
         // VolunteerDTO 가져오기
@@ -152,7 +162,9 @@ public class VolunteerController {
 
         // 모델에 데이터 추가
         model.addAttribute("volunteer", volunteerDTO);
+        log.info("Fetched attachments: {}", attachmentService.getList(postId));
         model.addAttribute("attachments", attachmentService.getList(postId));
+        log.info("가져온첨부파일:{}", attachmentService.getList(postId));
 
         return "volunteer/volunteer-inquiry";
     }
@@ -169,6 +181,17 @@ public class VolunteerController {
 
         return FileCopyUtils.copyToByteArray(file);
     }
+
+    //    REST방식이 아닌 ViewResolver 방식으로 사용해야 한다.
+    @GetMapping("download")
+    public ResponseEntity<Resource> download(String fileName) throws IOException {
+        Resource resource = new FileSystemResource("C:/upload/" + fileName);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attchment; filename=" + new String(("한동석짱_" + fileName.substring(fileName.indexOf("_") + 1)).getBytes("UTF-8"), "ISO-8859-1"));
+        return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+    }
+
+
 
 
 //    @GetMapping("volunteer-update")

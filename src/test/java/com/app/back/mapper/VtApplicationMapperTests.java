@@ -23,11 +23,11 @@ private VtApplicationMapper vtApplicationMapper;
 public void testInsertSelective() {
     VtApplicationDTO vtApplicationDTO  = new VtApplicationDTO();
     // 설정할 필드 값들 설정
-    vtApplicationDTO.setId(79L);  // 신청 ID
+    vtApplicationDTO.setId(37L);  // 신청 ID
     vtApplicationDTO.setApplicationDate(LocalDateTime.now().toString());  // LocalDateTime을 String으로 변환
     vtApplicationDTO.setApplicationStatus(String.valueOf(WAITING));
-    vtApplicationDTO.setVtId(78L);  // 봉사활동 ID
-    vtApplicationDTO.setMemberId(23L);  // 신청자 ID (Long 타입으로 설정)
+    vtApplicationDTO.setVtId(37L);  // 봉사활동 ID
+    vtApplicationDTO.setMemberId(22L);  // 신청자 ID (Long 타입으로 설정)
 
     vtApplicationMapper.insert(vtApplicationDTO);
 

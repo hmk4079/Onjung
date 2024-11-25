@@ -23,33 +23,6 @@ tabs.forEach((tab, index) => {
     });
 });
 
-// 초기 상태 설정
-tabs[0].classList.add("active"); // 첫 번째 탭 활성화
-commentSection.style.display = "none";
-commentInputSection.style.display = "none"; // 처음에는 댓글 작성 창 숨기기
-
-// HTML에서 데이터 읽어오기
-const totalPrizeElement = document.querySelector(".total-prize");
-console.log("현재 지원자 수:", totalPrizeElement.dataset.now);
-console.log("목표 지원자 수:", totalPrizeElement.dataset.total);
-
-const nowRecruitmentCount = parseInt(totalPrizeElement.dataset.now, 10) || 0;
-const recruitmentCount = parseInt(totalPrizeElement.dataset.total, 10) || 0;
-
-console.log("현재 지원자 수 (변환 후):", nowRecruitmentCount);
-console.log("목표 지원자 수 (변환 후):", recruitmentCount);
-
-
-// 퍼센트 계산 (모집 인원 대비 퍼센트)
-let percentage = 0;
-if (recruitmentCount > 0) {
-    percentage = Math.floor((nowRecruitmentCount / recruitmentCount) * 100);
-}
-
-// 화면에 값 갱신
-totalPrizeElement.textContent = `${nowRecruitmentCount}명 / ${recruitmentCount}명`; // 모집 현황
-document.querySelector(".graph-status .num").textContent = percentage; // 퍼센트
-document.querySelector(".graph-bar span").style.width = `${percentage}%`; // 그래프 길이
 
 // // 예시 댓글 데이터 배열
 // const comments = [
@@ -79,70 +52,182 @@ document.querySelector(".graph-bar span").style.width = `${percentage}%`; // 그
 //     },
 // ];
 
+
+// HTML 요소에 값 삽입
+// document.getElementById('daysLeftText').textContent = daysLeftText;
+
 // 댓글 렌더링 함수
-const renderComments = () => {
-    const commentSection = document.getElementById("comment-section");
-    commentSection.innerHTML = "";
+// const renderComments = () => {
+//     const commentSection = document.getElementById("comment-section");
+//     commentSection.innerHTML = "";
+//
+//     comments.forEach((comment) => {
+//         const isAuthor = comment.author ? '<p class="comment">작성자</p>' : "";
+//
+//         const commentHTML = `
+//             <article class="comment-container">
+//                 <div class="contest-comment-show">
+//                     <div>
+//                         <div class="comment-card">
+//                             <div class="contest-comment-userinfo">
+//                                 <a href="/m/${comment.user}" class="profile-avatar-container avatar">
+//                                     <img src="${comment.profile}" />
+//                                 </a>
+//                                 <div class="nick">
+//                                     <div class="nickname-container user-nick-wrapper">
+//                                         <p class="nickname-text">
+//                                             <a class="user-nick nick" href="/m/${comment.user}">
+//                                                 ${comment.user}
+//                                             </a>
+//                                         </p>
+//                                     </div>
+//                                     ${isAuthor}
+//                                 </div>
+//                                 <p>| ${comment.date}</p>
+//                             </div>
+//                             <div class="contest-comment-content">
+//                                 <div>${comment.content}</div>
+//                             </div>
+//                         </div>
+//                     </div>
+//                     <div class="contest-comment-buttons"></div>
+//                 </div>
+//             </article>
+//         `;
+//
+//         commentSection.insertAdjacentHTML("beforeend", commentHTML);
+//     });
+// };
+//
+// // 페이지가 로드될 때 댓글 렌더링
+// renderComments();
+//
+// const commentTextarea = document.getElementById("comment-content");
+// const submitButton = document.querySelector(".submit-comment-button");
+//
+// // textarea 입력 이벤트 처리
+// commentTextarea.addEventListener("input", () => {
+//     if (commentTextarea.value.trim() !== "") {
+//         submitButton.disabled = false;
+//     } else {
+//         submitButton.disabled = true;
+//     }
+// });
+//
+// // 댓글 작성 버튼 클릭 이벤트 처리
+// submitButton.addEventListener("click", () => {
+//     const commentText = commentTextarea.value.trim();
+//     if (commentText) {
+//         alert(`댓글이 작성되었습니다: ${commentText}`);
+//         commentTextarea.value = "";
+//         submitButton.disabled = true;
+//     }
+// });
 
-    comments.forEach((comment) => {
-        const isAuthor = comment.author ? '<p class="comment">작성자</p>' : "";
 
-        const commentHTML = `
-            <article class="comment-container">
-                <div class="contest-comment-show">
-                    <div>
-                        <div class="comment-card">
-                            <div class="contest-comment-userinfo">
-                                <a href="/m/${comment.user}" class="profile-avatar-container avatar">
-                                    <img src="${comment.profile}" />
-                                </a>
-                                <div class="nick">
-                                    <div class="nickname-container user-nick-wrapper">
-                                        <p class="nickname-text">
-                                            <a class="user-nick nick" href="/m/${comment.user}">
-                                                ${comment.user}
-                                            </a>
-                                        </p>
-                                    </div>
-                                    ${isAuthor}
-                                </div>
-                                <p>| ${comment.date}</p>
-                            </div>
-                            <div class="contest-comment-content">
-                                <div>${comment.content}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contest-comment-buttons"></div>
-                </div>
-            </article>
+// 첨부파일 렌더링 함수
+const renderAttachments = ({ attachments }) => {
+    const attachList = document.getElementById("attach-list");
+
+    // DOM 요소 확인
+    if (!attachList) {
+        console.error("attach-list 요소를 찾을 수 없습니다.");
+        return;
+    }
+
+    // 데이터 확인
+    console.log("Attachments 데이터:", attachments);
+    if (!attachments || attachments.length === 0) {
+        console.warn("Attachments 데이터가 비어 있습니다.");
+        attachList.innerHTML = "<li>첨부파일이 없습니다.</li>";
+        return;
+    }
+
+    // 리스트 초기화
+    attachList.innerHTML = "";
+
+    // 데이터 반복 렌더링
+    attachments.forEach((attachment) => {
+        console.log("Attachment:", attachment); // 각 데이터 확인
+
+        const attachHTML = `
+            <li>
+                <p class="file-name">${attachment.attachmentFileRealName}</p>
+                <span class="file-download">
+                    <span class="size">${attachment.attachmentFileSize} bytes</span>
+                        <a href="/attachment/download?fileName=${attachment.attachmentFilePath + "/" + attachment.attachmentFileName + attachment.attachmentFileRealName}" 
+                           download="${attachment.attachmentFileRealName}" 
+                           class="attach-save">
+                           <span class="visual-correction">저장</span>
+                        </a>
+                </span>
+            </li>
         `;
-
-        commentSection.insertAdjacentHTML("beforeend", commentHTML);
+        attachList.insertAdjacentHTML("beforeend", attachHTML);
     });
 };
 
-// 페이지가 로드될 때 댓글 렌더링
-renderComments();
+// 전체 저장 버튼 이벤트
+document.getElementById("save-all-button").addEventListener("click", () => {
+    // 첨부파일 데이터를 수집
+    const attachments = Array.from(document.querySelectorAll("#attach-list li")).map((item) => ({
+        fileName: item.querySelector(".file-name").textContent.trim(),
+        filePath: item.querySelector(".attach-save").getAttribute("href"),
+    }));
 
-const commentTextarea = document.getElementById("comment-content");
-const submitButton = document.querySelector(".submit-comment-button");
-
-// textarea 입력 이벤트 처리
-commentTextarea.addEventListener("input", () => {
-    if (commentTextarea.value.trim() !== "") {
-        submitButton.disabled = false;
-    } else {
-        submitButton.disabled = true;
-    }
+    // 데이터를 서버로 전송
+    fetch("/attachment/download", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(attachments),
+    })
+        .then((response) => {
+            if (response.ok) {
+                alert("첨부파일이 성공적으로 저장되었습니다.");
+            } else {
+                alert("첨부파일 저장에 실패했습니다.");
+            }
+        })
+        .catch((error) => {
+            console.error("저장 중 오류 발생:", error);
+        });
 });
 
-// 댓글 작성 버튼 클릭 이벤트 처리
-submitButton.addEventListener("click", () => {
-    const commentText = commentTextarea.value.trim();
-    if (commentText) {
-        alert(`댓글이 작성되었습니다: ${commentText}`);
-        commentTextarea.value = "";
-        submitButton.disabled = true;
-    }
+// 초기 상태 설정
+tabs[0].classList.add("active"); // 첫 번째 탭 활성화
+commentSection.style.display = "none";
+commentInputSection.style.display = "none"; // 처음에는 댓글 작성 창 숨기기
+
+// 데이터 렌더링 예시 (사용자가 데이터 추가)
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Attachments 데이터:", attachments); // 데이터 확인
+    renderAttachments({ attachments });
 });
+
+const goalPerson = parseInt(volunteer.recruitmentCount);
+const nowPerson = parseInt(volunteer.nowRecruitmentCount); // 예시로 100% 이상을 넘는 값
+console.log(volunteer.nowRecruitmentCount);
+console.log(nowPerson);
+
+// 퍼센트 계산 (100% 이상일 수 있음)
+const percentage = Math.floor((nowPerson / goalPerson) * 100);
+
+document.querySelector(".graph-status .num").textContent = `${percentage}`;
+
+// 그래프의 width는 최대 100%로 제한
+document.querySelector(".graph-bar span").style.width = `${Math.min(
+    percentage,
+    100
+)}%`;
+
+document.querySelector(
+    ".total-prize"
+).textContent = `${nowPerson} 명 / ${goalPerson} 명`;
+
+
+
+
+
+
