@@ -88,9 +88,6 @@
             v.id = #{id}
     </select>
 
-
-
-
     <update id="updateNowRecruitment">
         update tbl_vt
         set  now_recruitment_count = tbl_vt.now_recruitment_count + 1

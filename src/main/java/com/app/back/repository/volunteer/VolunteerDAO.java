@@ -41,7 +41,7 @@ public class VolunteerDAO {
 
     // ID로 프로젝트 포스트 수정
     public void update(VolunteerVO volunteerVO) {
-        volunteerMapper.update(volunteerVO);
+        volunteerMapper.updateVt(volunteerVO);
     }
 
     // ID로 프로젝트 포스트 삭제
@@ -59,11 +59,11 @@ public class VolunteerDAO {
         volunteerMapper.updatePostReadCount(id);
     }
 
+    public List<VolunteerDTO> findByMemberId(Long memberId) {
+        return volunteerMapper.selectByMemberId(memberId);
+    }
     public List<VolunteerDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
         return volunteerMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 
-    public List<VolunteerDTO> findByMemberId(Long memberId) {
-        return volunteerMapper.selectByMemberId(memberId);
-    }
 }

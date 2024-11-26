@@ -131,6 +131,7 @@
         update tbl_post
         set
             post_title = #{postTitle},
+            post_summary = #{postSummary},
             post_content = #{postContent},
             updated_date = current_timestamp
         where id = #{id}

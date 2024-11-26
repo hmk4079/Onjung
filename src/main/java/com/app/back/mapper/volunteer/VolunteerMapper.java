@@ -25,7 +25,7 @@ public interface VolunteerMapper {
     //  봉사활동 게시글 조회
     public Optional<VolunteerDTO> selectById(Long id);
     //  봉사활동 게시글 수정
-    public void update(VolunteerVO volunteerVO);
+    public void updateVt(VolunteerVO volunteerVO);
     //  봉사활동 게시글 삭제
     public void deleteById(Long id);
 

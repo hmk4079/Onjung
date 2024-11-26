@@ -156,6 +156,8 @@ public class VolunteerController {
         return "volunteer/volunteer-inquiry";
     }
 
+//    @GetMapping("volunteer-inquiry/{postId}")
+
     @GetMapping("volunteer-update")
     public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
         Optional<VolunteerDTO> volunteerDTO = volunteerService.getPostById(postId);
@@ -164,7 +166,7 @@ public class VolunteerController {
             model.addAttribute("volunteer", volunteerDTO.get());
             model.addAttribute("attachments", attachmentService.getList(postId));
         } else {
-            return "redirect:/volunteer/volunteer-inquiry?postId=" + postId;
+            return "redirect:/volunteer/volunteer-inquiry/" + postId;
         }
         return "volunteer/volunteer-update";
     }
@@ -176,7 +178,8 @@ public class VolunteerController {
 
         volunteerService.update(volunteerDTO, uuids, realNames, paths, sizes, files, ids);
 
-        return new RedirectView("/volunteer/volunteer-inquiry?postId=" + postId);
+        return new RedirectView("/volunteer/volunteer-inquiry/" + postId);
+
     }
 
     @GetMapping("volunteer-delete")
