@@ -200,6 +200,17 @@ document.querySelector(
 
 
 
+const updateButton = document.querySelector("a.go-update");
+const deleteButton = document.querySelector("a.go-delete");
+
+updateButton.addEventListener("click", (e) => {
+    location.href = `/volunteer/volunteer-update?postId=${volunteer.id}`;
+});
+
+deleteButton.addEventListener("click", (e) => {
+    location.href = `/volunteer/volunteer-delete?postId=${volunteer.id}`;
+})
+
 
 
 

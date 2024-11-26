@@ -122,34 +122,6 @@ const removeFile = (file, listItem) => {
     fileList.removeChild(listItem); // 목록에서 해당 항목 제거
 };
 
-document.getElementById("submit-volunteer").addEventListener("click", (e) => {
-    // 필수 항목 선택
-    const companyName = document
-        .querySelector(".company-name input")
-        .value.trim();
-    const serviceContents = document
-        .querySelector(".service-contents textarea")
-        .value.trim();
-    const reviewContent = document.getElementById("briefing").value.trim();
-
-    // 필수 항목 검증
-    if (!companyName) {
-        alert("필수 항목을 확인해주세요.");
-        return;
-    }
-
-    if (!serviceContents) {
-        alert("한 줄 소개를 입력해주세요.");
-        return;
-    }
-
-    if (!reviewContent) {
-        alert("내용을 작성해주세요.");
-        return;
-    }
-
-    alert("게시글이 성공적으로 작성되었습니다!");
-});
 const updateCharCount = (input) => {
     const charCountSpan = document.getElementById("charCount");
     charCountSpan.textContent = input.value.length;
@@ -188,26 +160,23 @@ const updateDateRange = () => {
 };
 
 // 필수 입력 필드와 제출 버튼 가져오기
-const postTitle = document.getElementById('post-title');
-const postSummary = document.getElementById('post-summary');
-const recruitmentCount = document.getElementById('post-recruitmentCount');
-const dateCount = document.getElementById('date-count'); // <span>
-const briefing = document.getElementById('briefing');
+const postTitle = document.getElementById('post-title'); // 회사 이름
+const postSummary = document.getElementById('post-summary'); // 한 줄 소개
+const recruitmentCount = document.getElementById('post-recruitmentCount'); // 모집 인원
+const dateCount = document.getElementById('date-count'); // 남은 일수 (span)
+const briefing = document.getElementById('briefing'); // 내용
 const submitButton = document.getElementById('submit-volunteer');
 
-// 필수 입력 필드 검증 함수
+// 유효성 검사 함수
 function validateFields() {
     const isPostTitleValid = postTitle.value.trim() !== '';
     const isPostSummaryValid = postSummary.value.trim() !== '';
     const isRecruitmentCountValid = parseInt(recruitmentCount.value) > 0;
-
-    // dateCount 값 검증
     const dateCountValue = parseInt(dateCount.textContent || dateCount.innerText);
     const isDateCountValid = !isNaN(dateCountValue) && dateCountValue >= 0;
-
     const isBriefingValid = briefing.value.trim() !== '';
 
-    // 필드 유효성에 따라 제출 버튼 활성화 또는 비활성화
+    // 모든 필드가 유효한 경우
     if (
         isPostTitleValid &&
         isPostSummaryValid &&
@@ -223,11 +192,47 @@ function validateFields() {
     }
 }
 
-// 입력 필드에 이벤트 리스너 추가하여 변경 시 검증 함수 호출
+// 제출 버튼 클릭 이벤트
+submitButton.addEventListener('click', function () {
+    // 필수 항목 검증
+    if (postTitle.value.trim() === '') {
+        alert("필수 항목을 확인해주세요. (게시글 제목)");
+        return;
+    }
+
+    if (postSummary.value.trim() === '') {
+        alert("한 줄 소개를 입력해주세요.");
+        return;
+    }
+
+    if (briefing.value.trim() === '') {
+        alert("내용을 작성해주세요.");
+        return;
+    }
+
+    if (parseInt(recruitmentCount.value) <= 0) {
+        alert("모집 인원을 1명 이상 입력해주세요.");
+        return;
+    }
+
+    const dateCountValue = parseInt(dateCount.textContent || dateCount.innerText);
+    if (isNaN(dateCountValue) || dateCountValue < 0) {
+        alert("봉사 일자를 올바르게 입력해주세요.");
+        return;
+    }
+
+    // 모든 검증 통과 시 성공 메시지
+    alert("게시글이 성공적으로 작성되었습니다!");
+});
+
+// 이벤트 리스너 추가
 postTitle.addEventListener('input', validateFields);
 postSummary.addEventListener('input', validateFields);
 recruitmentCount.addEventListener('input', validateFields);
 briefing.addEventListener('input', validateFields);
+
+// 초기 유효성 검사 실행
+validateFields();
 
 // 시작일/종료일 변경 시 날짜 범위 갱신 및 검증 호출
 document.getElementById("start-date").addEventListener("input", updateDateRange);

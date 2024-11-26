@@ -500,3 +500,12 @@ ul {
 .date-container {
     display: flex;
 }
+
+.submit-button.disable {
+    color: rgb(191, 198, 210);
+    background-color: rgb(233, 235, 237);
+}
+
+.submit-button.disable:hover {
+    cursor: default;
+}

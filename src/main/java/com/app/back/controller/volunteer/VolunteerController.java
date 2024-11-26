@@ -1,24 +1,17 @@
 package com.app.back.controller.volunteer;
 
 import com.app.back.domain.attachment.AttachmentDTO;
-import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.member.MemberDTO;
-
-import com.app.back.domain.member.MemberVO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.exception.NotFoundPostException;
-import com.app.back.mapper.volunteer.VolunteerMapper;
 import com.app.back.service.attachment.AttachmentService;
-import com.app.back.service.member.MemberService;
 import com.app.back.service.post.PostService;
 import com.app.back.service.volunteer.VolunteerService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
-import org.apache.catalina.User;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -30,12 +23,10 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -134,54 +125,6 @@ public class VolunteerController {
         return ResponseEntity.ok(response);
     }
 
-
-//    // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
-//    @GetMapping("volunteer-inquiry/{postId}")
-//    public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
-//        // VolunteerDTO 가져오기
-//        VolunteerDTO volunteerDTO = volunteerService.getPostById(postId)
-//                .orElseThrow(() -> new NotFoundPostException("Volunteer with ID " + postId + " not found"));
-//
-//        // VolunteerDTO 확인을 위한 로그 출력
-//        log.info("Fetched VolunteerDTO: {}", volunteerDTO);
-//
-//        // 모델에 데이터 추가
-//        model.addAttribute("volunteer", volunteerDTO);
-//        log.info("Fetched attachments: {}", attachmentService.getList(postId));
-//        model.addAttribute("attachments", attachmentService.getList(postId));
-//        log.info("가져온첨부파일:{}", attachmentService.getList(postId));
-//
-//        return "volunteer/volunteer-inquiry";
-//    }
-
-//    @GetMapping("volunteer-inquiry/{postId}")
-//    public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
-//        // VolunteerDTO 가져오기
-//        VolunteerDTO volunteerDTO = volunteerService.getPostById(postId)
-//                .orElseThrow(() -> new NotFoundPostException("Volunteer with ID " + postId + " not found"));
-//
-//        // 세션에서 사용자 ID 가져오기
-//        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-//        // 로그인 성공 시
-//        log.info("Logged-in memberId: {}", loginMember);
-//
-//
-//        // 작성자 ID 가져오기 (memberId 사용)
-//        Long authorId = volunteerDTO.getMemberId();
-//
-//        // 사용자와 작성자 일치 여부 확인
-//        boolean isAuthor = (loginMember != null) && loginMember.equals(authorId);
-//        log.info("Author's memberId: {}", authorId);
-//        log.info("isAuthor: {}", isAuthor);
-//
-//        // 모델에 데이터 추가
-//        model.addAttribute("volunteer", volunteerDTO);
-//        model.addAttribute("attachments", attachmentService.getList(postId));
-//        model.addAttribute("isAuthor", isAuthor);
-//
-//        return "volunteer/volunteer-inquiry";
-//    }
-
     @GetMapping("volunteer-inquiry/{postId}")
     public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
         // VolunteerDTO 가져오기
@@ -213,9 +156,71 @@ public class VolunteerController {
         return "volunteer/volunteer-inquiry";
     }
 
+    @GetMapping("volunteer-update")
+    public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
+        Optional<VolunteerDTO> volunteerDTO = volunteerService.getPostById(postId);
 
+        if (volunteerDTO.isPresent()) {
+            model.addAttribute("volunteer", volunteerDTO.get());
+            model.addAttribute("attachments", attachmentService.getList(postId));
+        } else {
+            return "redirect:/volunteer/volunteer-inquiry?postId=" + postId;
+        }
+        return "volunteer/volunteer-update";
+    }
 
+    @PostMapping("volunteer-update")
+    public RedirectView volunteerUpdate(VolunteerDTO volunteerDTO, @RequestParam("postId") Long postId, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, @RequestParam("id") List<Long> ids) throws IOException {
+        volunteerDTO.setId(postId);
+        volunteerDTO.setPostId(postId);
 
+        volunteerService.update(volunteerDTO, uuids, realNames, paths, sizes, files, ids);
+
+        return new RedirectView("/volunteer/volunteer-inquiry?postId=" + postId);
+    }
+
+    @GetMapping("volunteer-delete")
+    public RedirectView reviewDelete(@RequestParam("postId") Long postId) {
+        volunteerService.delete(postId);
+        return new RedirectView("/volunteer/volunteer-list");
+    }
+
+//    첨부파일 부분
+    @PostMapping("upload")
+    @ResponseBody
+    public AttachmentDTO upload(@RequestParam("file")List<MultipartFile> files) throws IOException {
+//        String rootPath = "D:/dev/OnjungSpring/back/src/main/resources/static/files" + getPath();
+        String rootPath = "C:/upload/" + getPath();
+        log.info("{}",files.size());
+
+        AttachmentDTO attachmentDTO = new AttachmentDTO();
+        UUID uuid = UUID.randomUUID();
+
+        attachmentDTO.setAttachmentFilePath(getPath());
+
+        File directory = new File(rootPath);
+        if(!directory.exists()){
+            directory.mkdirs();
+        }
+
+        for(int i=0; i<files.size(); i++){
+            files.get(i).transferTo(new File(rootPath, uuid.toString() + "_" + files.get(i).getOriginalFilename()));
+            attachmentDTO.setAttachmentFileName(uuid.toString() + "_" + files.get(i).getOriginalFilename());
+            attachmentDTO.setAttachmentFileSize(String.valueOf(files.get(i).getSize()));
+
+            if(files.get(i).getContentType().startsWith("image")){
+                FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, "t_" + uuid.toString() + "_" + files.get(i).getOriginalFilename()));
+                Thumbnailator.createThumbnail(files.get(i).getInputStream(), fileOutputStream, 100, 100);
+                fileOutputStream.close();
+            }
+        }
+
+        return attachmentDTO;
+    }
+
+    private String getPath(){
+        return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    }
 
     @GetMapping("display")
     @ResponseBody
@@ -238,28 +243,6 @@ public class VolunteerController {
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
 
-    @GetMapping("volunteer-update")
-    public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
-        Optional<VolunteerDTO> volunteerDTO = volunteerService.getPostById(postId);
-
-        if (volunteerDTO.isPresent()) {
-            model.addAttribute("volunteer", volunteerDTO.get());
-            model.addAttribute("attachments", attachmentService.getList(postId));
-        } else {
-            return "redirect:/volunteer/volunteer-inquiry?postId=" + postId;
-        }
-        return "volunteer/volunteer-update";
-    }
-
-    @PostMapping("donation-update")
-    public RedirectView donationUpdate(DonationDTO donationDTO, @RequestParam("postId") Long postId, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, @RequestParam("id") List<Long> ids) throws IOException {
-        donationDTO.setId(postId);
-        donationDTO.setPostId(postId);
-
-        volunteerService.update(volunteerDTO, uuids, realNames, paths, sizes, files, ids);
-
-        return new RedirectView("/volunteer/volunteer-inquiry?postId=" + postId);
-    }
 
 
 
