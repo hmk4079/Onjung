@@ -90,8 +90,8 @@
 
     <update id="updateNowRecruitment">
         update tbl_vt
-        set  now_recruitment_count = tbl_vt.now_recruitment_count + 1
-        where id = #{id}
+        set now_recruitment_count = tbl_vt.now_recruitment_count + 1
+        where id = #{vtId}
     </update>
 
     <update id="updatePost">

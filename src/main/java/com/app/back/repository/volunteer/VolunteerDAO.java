@@ -8,6 +8,7 @@ import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.domain.volunteer.VolunteerVO;
 import com.app.back.mapper.volunteer.VolunteerMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -66,4 +67,7 @@ public class VolunteerDAO {
         return volunteerMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 
-}
+//    public void updateNowRecruitmentCount(Long id){volunteerMapper.updateNowRecruitment(int id);}
+
+
+    }

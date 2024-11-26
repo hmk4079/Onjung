@@ -1,6 +1,7 @@
 package com.app.back.mapper;
 
 
+import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.domain.vt_application.VtApplicationDTO;
 import com.app.back.mapper.vt_application.VtApplicationMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ private VtApplicationMapper vtApplicationMapper;
 @Test
 public void testInsertSelective() {
     VtApplicationDTO vtApplicationDTO  = new VtApplicationDTO();
+    VolunteerDTO volunteerDTO = new VolunteerDTO();
     // 설정할 필드 값들 설정
     vtApplicationDTO.setId(37L);  // 신청 ID
     vtApplicationDTO.setApplicationDate(LocalDateTime.now().toString());  // LocalDateTime을 String으로 변환
