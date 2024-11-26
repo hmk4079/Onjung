@@ -77,7 +77,6 @@ public class MemberController {
                 log.info("세션에서 가져온 로그인 정보: {}", loginMember);
             }
 
-
             // 로그 추가: 관리자 여부 확인
             String memberType = memberDTOFromVO.getMemberLoginType();
             log.info("로그인한 사용자 유형: {}", memberType);

@@ -102,4 +102,20 @@ public class PostServiceImpl implements PostService {
         // 삭제되지 않은 게시물 중 특정 필터 조건과 검색어가 적용된 결과를 가져옴
         return postDAO.findFilterAllWithNoDeleted(pagination, search, filterType.name());
     }
+
+    @Override
+    public boolean checkPermission(Long postId, String loggedInUserId) {
+        System.out.println("ServiceImpl에서 전달된 postId: " + postId);
+        System.out.println("ServiceImpl에서 전달된 loggedInUserId: " + loggedInUserId);
+
+        String postOwnerId = postDAO.findOwnerByPostId(postId);
+        System.out.println("게시글 작성자 ID: " + postOwnerId);
+
+        return postOwnerId != null && postOwnerId.equals(loggedInUserId);
+    }
+
+
+
+
+
 }

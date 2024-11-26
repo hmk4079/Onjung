@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @SpringBootTest
 @Slf4j
 public class PostMapperTests {
@@ -57,4 +59,16 @@ public class PostMapperTests {
             log.info("삭제 실패. ID {}인 게시글이 여전히 존재합니다.", id);
         }
     }
+
+
+        @Test
+        public void testFindOwnerByPostId() {
+            Long testPostId = 1L; // 테스트할 postId
+            String ownerId = postMapper.findOwnerByPostId(testPostId);
+            System.out.println("조회된 작성자 ID: " + ownerId);
+
+            assertNotNull(ownerId, "작성자 ID는 null이 아니어야 합니다.");
+        }
+
+
 }

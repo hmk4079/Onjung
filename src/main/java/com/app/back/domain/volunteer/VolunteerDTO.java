@@ -54,15 +54,13 @@ public class VolunteerDTO {
 
     private String postTypeDisplayName;
 
-    private Long authorId;
-
     //    게시글 정보
     public PostVO toPostVO() {
         return new PostVO(id, postTitle, postContent, postSummary, postType, postStatus, postViewCount, memberId, createdDate, updatedDate);
     }
 
     //    첨부파일 정보
-    public AttachmentVO toAttachmentVO(){
+    public AttachmentVO toAttachmentVO() {
         return new AttachmentVO(id, attachmentFileName, attachmentFileRealName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId, createdDate);
     }
 

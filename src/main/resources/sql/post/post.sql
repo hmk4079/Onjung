@@ -336,5 +336,12 @@ INSERT INTO tbl_notice (id) VALUES
                                 (179),
                                 (180);
 
-delete from tbl_post id:1L;
+SELECT id, member_id
+FROM tbl_post;
+
+SELECT id, member_id
+FROM tbl_post
+WHERE id = 37;
+
+
 

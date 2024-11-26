@@ -150,7 +150,6 @@ public class VolunteerController {
 
 
     // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
-    // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
     @GetMapping("volunteer-inquiry/{postId}")
     public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
         // VolunteerDTO 가져오기
@@ -168,6 +167,10 @@ public class VolunteerController {
 
         return "volunteer/volunteer-inquiry";
     }
+
+
+
+
 
 
     @GetMapping("display")
@@ -190,8 +193,6 @@ public class VolunteerController {
         headers.add("Content-Disposition", "attchment; filename=" + new String(("한동석짱_" + fileName.substring(fileName.indexOf("_") + 1)).getBytes("UTF-8"), "ISO-8859-1"));
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
-
-
 
 
 //    @GetMapping("volunteer-update")

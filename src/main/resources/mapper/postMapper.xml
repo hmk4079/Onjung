@@ -155,4 +155,10 @@
         where id = #{id}
     </update>
 
+    <select id="findOwnerByPostId" resultType="String">
+        select id, member_id
+        from tbl_post
+        where id = #{postId}
+    </select>
+
 </mapper>

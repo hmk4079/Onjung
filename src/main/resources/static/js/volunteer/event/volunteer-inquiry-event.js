@@ -167,34 +167,6 @@ const renderAttachments = ({ attachments }) => {
     });
 };
 
-// 전체 저장 버튼 이벤트
-document.getElementById("save-all-button").addEventListener("click", () => {
-    // 첨부파일 데이터를 수집
-    const attachments = Array.from(document.querySelectorAll("#attach-list li")).map((item) => ({
-        fileName: item.querySelector(".file-name").textContent.trim(),
-        filePath: item.querySelector(".attach-save").getAttribute("href"),
-    }));
-
-    // 데이터를 서버로 전송
-    fetch("/attachment/download", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(attachments),
-    })
-        .then((response) => {
-            if (response.ok) {
-                alert("첨부파일이 성공적으로 저장되었습니다.");
-            } else {
-                alert("첨부파일 저장에 실패했습니다.");
-            }
-        })
-        .catch((error) => {
-            console.error("저장 중 오류 발생:", error);
-        });
-});
-
 // 초기 상태 설정
 tabs[0].classList.add("active"); // 첫 번째 탭 활성화
 commentSection.style.display = "none";
@@ -225,6 +197,65 @@ document.querySelector(".graph-bar span").style.width = `${Math.min(
 document.querySelector(
     ".total-prize"
 ).textContent = `${nowPerson} 명 / ${goalPerson} 명`;
+
+
+// 버튼 활성화
+// document.addEventListener("DOMContentLoaded", () => {
+//     const postIdElement = document.getElementById("postId");
+//
+//     if (!postIdElement) {
+//         console.error("Error: Element with ID 'postId' not found.");
+//         return;
+//     }
+//
+//     const postId = postIdElement.value;
+//
+//     fetch(`/post/check-permission?postId=${postId}`)
+//         .then(response => {
+//             console.log("HTTP 응답 상태:", response.status); // HTTP 상태 코드 확인
+//             return response.text();
+//         })
+//         .then(result => {
+//             console.log("서버 응답:", result); // 서버에서 반환된 값 확인
+//
+//             const applyButton = document.getElementById("apply-btn");
+//             const editButtons = document.getElementById("edit-buttons");
+//
+//             if (result === "EDIT") {
+//                 applyButton.style.display = "none";
+//                 editButtons.style.display = "block";
+//             } else {
+//                 applyButton.style.display = "block";
+//                 editButtons.style.display = "none";
+//             }
+//         })
+//         .catch(error => console.error("Error fetching permission:", error));
+// });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const postIdElement = document.getElementById("postId");
+
+    if (!postIdElement) {
+        console.error("Error: Element with ID 'postId' not found.");
+        return;
+    }
+
+    const postId = postIdElement.value;
+
+    fetch(`/check-permission?postId=${postId}`)
+        .then(response => response.text())
+        .then(result => {
+            console.log("서버에서 반환된 결과:", result); // 서버 응답 확인
+        })
+        .catch(error => console.error("Error fetching permission:", error));
+});
+
+
+
+
+
+
 
 
 
