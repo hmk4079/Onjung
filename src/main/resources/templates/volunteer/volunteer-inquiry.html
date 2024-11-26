@@ -6,16 +6,23 @@
     <title>봉사 모집 조회</title>
     <link
             rel="stylesheet"
-            href="/css/support/support-inquiry.css"
+            href="/css/volunteer/volunteer-inquiry.css"
     />
+    <link rel="stylesheet" href="/css/main/basic-header.css" />
+    <link rel="stylesheet" href="/css/main/footer.css"/>
+    <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
     <link
             rel="icon"
-            href="https://cdn-dantats.stunning.kr/static/feature/loudFavicon/loud-favicon-32-new.png"
+            href="/images/favicon.png"
     />
-    <link rel="stylesheet" href="/css/main/basic-header.css" />
-    <link rel="stylesheet" href="/css/main/basic-header.css" />
 </head>
 <body style="overflow-x: hidden">
+<div th:if="${isLogin}">
+    <th:block th:replace="~{main/login-header-no-noti :: header}"></th:block>
+</div>
+<div th:if="${!isLogin}">
+    <th:block th:replace="~{main/basic-header :: header}"></th:block>
+</div>
 <div class="content-container-maincontent">
     <div class="thumbnail-background" style="position: relative">
         <main class="container-main-body">
@@ -280,6 +287,7 @@
         </main>
     </div>
 </div>
+<div th:replace="~{main/footer :: footer}"></div>
 </body>
 <script th:inline="javascript">
     const volunteer = [[${volunteer}]]
@@ -288,4 +296,5 @@
     console.log(isAuthor)
 </script>
 <script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
+<script src="/js/main/login-header.js"></script>
 </html>

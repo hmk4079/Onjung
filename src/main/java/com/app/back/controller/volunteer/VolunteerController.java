@@ -4,6 +4,7 @@ import com.app.back.domain.attachment.AttachmentDTO;
 import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.domain.volunteer.VolunteerVO;
 import com.app.back.exception.NotFoundPostException;
 import com.app.back.service.attachment.AttachmentService;
 import com.app.back.service.post.PostService;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
+import org.dom4j.rule.Mode;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +25,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.swing.text.html.StyleSheet;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -40,10 +44,18 @@ public class VolunteerController {
     private final VolunteerService volunteerService;
     private final AttachmentService attachmentService;
     private final VolunteerDTO volunteerDTO;
+    private final VolunteerVO volunteerVO;
 
     @GetMapping("volunteer-write")
-    public String goToWriteForm(VolunteerDTO volunteerDTO){
+    public String goToWriteForm(HttpSession session, VolunteerDTO volunteerDTO, Model model) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        boolean isLoggedIn = (loginMember != null);
+        model.addAttribute("isLogin", isLoggedIn);
+        if (isLoggedIn) {
+            model.addAttribute("member", loginMember);
+        }
         return "volunteer/volunteer-write";
+
     }
 
     @PostMapping("volunteer-write")
@@ -63,6 +75,11 @@ public class VolunteerController {
     public String getList(HttpSession session, Pagination pagination, Model model,
                           @RequestParam(value = "order", defaultValue = "recent") String order) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        boolean isLoggedIn = (loginMember != null);
+        model.addAttribute("isLogin", isLoggedIn);
+        if (isLoggedIn) {
+            model.addAttribute("member", loginMember);
+        }
 
         // loginMember가 null인지 확인하고 memberType을 가져옵니다.
         if (loginMember != null) {
@@ -88,8 +105,15 @@ public class VolunteerController {
 
         log.info("Total from getTotal: {}", postService.getTotal("VOLUNTEER"));
         log.info("List size from getList: {}", volunteerService.getList(pagination).size());
+        log.info("전달받은 멤버, 프로필:{},{}",volunteerDTO.getProfileFileName(),volunteerDTO.getMemberId());
 
-        model.addAttribute("volunteers", volunteers);
+
+        volunteers.forEach(volunteer -> {
+            log.info("Controller 전달받은 Profile File Name: {}", volunteer.getProfileFileName());
+            log.info("Controller 전달받은 Member ID: {}", volunteer.getMemberId());
+        });
+
+        model.addAttribute("volunteer", volunteers);
         return "volunteer/volunteer-list";
     }
 
@@ -127,12 +151,15 @@ public class VolunteerController {
 
     @GetMapping("volunteer-inquiry/{postId}")
     public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        boolean isLoggedIn = (loginMember != null);
+        model.addAttribute("isLogin", isLoggedIn);
+        if (isLoggedIn) {
+            model.addAttribute("member", loginMember);
+        }
         // VolunteerDTO 가져오기
         VolunteerDTO volunteerDTO = volunteerService.getPostById(postId)
                 .orElseThrow(() -> new NotFoundPostException("Volunteer with ID " + postId + " not found"));
-
-        // 세션에서 MemberDTO 가져오기 (속성 이름 확인)
-        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
 
         // 로그인한 사용자의 ID 가져오기
         Long userId = loginMember != null ? loginMember.getId() : null;
@@ -159,7 +186,13 @@ public class VolunteerController {
 //    @GetMapping("volunteer-inquiry/{postId}")
 
     @GetMapping("volunteer-update")
-    public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
+    public String goToUpdateForm(@RequestParam("postId") Long postId, HttpSession session , Model model) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        boolean isLoggedIn = (loginMember != null);
+        model.addAttribute("isLogin", isLoggedIn);
+        if (isLoggedIn) {
+            model.addAttribute("member", loginMember);
+        }
         Optional<VolunteerDTO> volunteerDTO = volunteerService.getPostById(postId);
 
         if (volunteerDTO.isPresent()) {
@@ -172,7 +205,8 @@ public class VolunteerController {
     }
 
     @PostMapping("volunteer-update")
-    public RedirectView volunteerUpdate(VolunteerDTO volunteerDTO, @RequestParam("postId") Long postId, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, @RequestParam("id") List<Long> ids) throws IOException {
+    public RedirectView volunteerUpdate( VolunteerDTO volunteerDTO, @RequestParam("postId") Long postId, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, @RequestParam("id") List<Long> ids) throws IOException {
+
         volunteerDTO.setId(postId);
         volunteerDTO.setPostId(postId);
 

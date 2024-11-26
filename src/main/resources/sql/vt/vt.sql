@@ -85,3 +85,14 @@ VALUES (1, 11, '2024-11-19', '2024-11-21'),
 SELECT now_recruitment_count, recruitment_count
 FROM tbl_vt
 WHERE id = 37
+
+
+SELECT
+    p.member_id,
+    pf.profile_file_name
+FROM
+    tbl_post p
+        LEFT JOIN
+    tbl_profile pf ON p.member_id = pf.member_id
+WHERE
+    p.id =37

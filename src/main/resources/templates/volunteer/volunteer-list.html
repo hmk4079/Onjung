@@ -8,8 +8,22 @@
             rel="stylesheet"
             href="/css/volunteer/volunteer-list.css"
     />
+    <link rel="stylesheet" href="/css/main/basic-header.css" />
+    <link rel="stylesheet" href="/css/main/footer.css"/>
+    <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
+    <link
+            rel="icon"
+            href="/images/favicon.png"
+    />
 </head>
 <body>
+<div th:if="${isLogin}">
+    <th:block th:replace="~{main/login-header-no-noti :: header}"></th:block>
+</div>
+<div th:if="${!isLogin}">
+    <th:block th:replace="~{main/basic-header :: header}"></th:block>
+</div>
+
 <div class="main-container content">
     <main class="section-container">
         <section>
@@ -96,6 +110,7 @@
         </section>
     </main>
 </div>
+<div th:replace="~{main/footer :: footer}"></div>
 </body>
 <script th:inline="javascript">
     const lists = [[${lists}]];
@@ -104,4 +119,5 @@
 <script src="/js/volunteer/service/volunteer-list-service.js"></script>
 <script src="/js/volunteer/layout/volunteer-list-layout.js" ></script>
 <script src="/js/volunteer/event/volunteer-list-event.js"></script>
+<script src="/js/main/login-header.js"></script>
 </html>

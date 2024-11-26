@@ -32,7 +32,7 @@ html {
     text-size-adjust: none;
     background-color: #fff;
     font: 12px / 18px "Noto Sans KR", NanumGothic, "나눔고딕", "Nanum Gothic",
-        "맑은 고딕", "Malgun Gothic", Dotum;
+    "맑은 고딕", "Malgun Gothic", Dotum;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
@@ -74,7 +74,7 @@ html {
 }
 .thumbnail-item {
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.07))
-        rgb(236, 236, 236);
+    rgb(236, 236, 236);
 }
 .slick-track::after {
     clear: both;
@@ -86,9 +86,9 @@ html {
     width: 100%;
     height: 200px;
     background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.15) 0%,
-        rgba(0, 0, 0, 0) 96.05%
+            0deg,
+            rgba(0, 0, 0, 0.15) 0%,
+            rgba(0, 0, 0, 0) 96.05%
     );
 }
 main,
@@ -291,6 +291,25 @@ img {
 .download-all-btn .visual-correction {
     padding-bottom: 1px;
 }
+#delete-btn {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 0px;
+    text-align: center;
+    box-sizing: border-box;
+    color: rgb(38, 86, 246);
+    border: 1px solid rgb(38, 86, 246);
+    font-size: 15px;
+    line-height: 23px;
+    letter-spacing: -0.5px;
+    width: 10%;
+    background-color: white;
+    left: 600px;
+}
 .attach-list {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -358,7 +377,7 @@ ul {
 .attach-save .visual-correction {
     padding-bottom: 2px;
 }
-.main-info-wrap .main-info > .space {
+.space {
     width: 40px;
 }
 .main-info-wrap .main-info > .right {
@@ -381,6 +400,7 @@ ul {
     border: 1px solid rgb(219, 222, 226);
     border-radius: 4px;
     padding: 34px;
+    padding-top: 6px;
     flex-direction: column;
 }
 .right-title-container {
@@ -599,9 +619,38 @@ a {
     width: 100%;
 }
 
+.donation-btn-style2 {
+    margin-top: 10px;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 0px;
+    text-align: center;
+    box-sizing: border-box;
+    color: rgb(38, 86, 246);
+    border: 1px solid rgb(38, 86, 246);
+    padding: 11px 20px;
+    font-size: 15px;
+    line-height: 23px;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    width: 100%;
+}
+
 .donation-btn-style:hover {
     background-color: rgb(78, 118, 249);
 }
+.donation-btn-style2:hover {
+    background-color: rgb(244, 245, 248);
+}
+#delete-btn:hover {
+    background-color: rgb(244, 245, 248);
+}
+
 .comment-wrap-fr {
     width: 100%;
     background-color: rgb(255, 255, 255);
@@ -737,10 +786,10 @@ a {
     flex-wrap: wrap;
 }
 .comment-container
-    .contest-comment-show
-    .contest-comment-userinfo
-    > div
-    .comment {
+.contest-comment-show
+.contest-comment-userinfo
+> div
+.comment {
     margin: 0px 5px;
     font-size: 12px;
     line-height: 18px;
@@ -812,4 +861,98 @@ a {
     background: rgb(38, 86, 246);
     vertical-align: top;
 }
+.report-container {
+    display: ruby;
+    text-align: right;
+}
+.for-report {
+    text-align: right;
+    font-size: 12px;
+    color: #616161;
+    padding-bottom: -10px;
+    margin-bottom: -10px;
+}
+.for-report:hover {
+    text-align: right;
+    font-size: 12px;
+    color: #616161;
+    text-decoration: underline;
+    cursor: pointer;
+}
 
+/* 모달 기본 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    min-height: 400px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    top: 200px;
+}
+
+/* 버튼을 좌측 하단에 위치시키기 위한 스타일 */
+.report-submit-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #446eab;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.report-submit-btn:hover {
+    background-color: #365e8b;
+}
+.checkbox-moa input {
+    /* 기본 체크박스 표시 설정 */
+    display: inline-block;
+    margin-right: 10px;
+    padding-bottom: 10px;
+}
+
+/* 텍스트 입력 스타일 */
+#textInput {
+    display: inline-block;
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+/* 텍스트 입력 레이블 스타일 */
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.btn-group {
+    margin-top: 20px;
+}
+.img-report {
+    width: 50px;
+    height: 50px;
+    margin: 0 -15px -14px;
+}

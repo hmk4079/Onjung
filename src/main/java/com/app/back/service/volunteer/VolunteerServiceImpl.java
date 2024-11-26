@@ -3,7 +3,6 @@ package com.app.back.service.volunteer;
 
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
-import com.app.back.exception.GlobalExceptionHandler;
 import com.app.back.exception.NotFoundPostException;
 import com.app.back.repository.attachment.AttachmentDAO;
 import com.app.back.repository.member.MemberDAO;
@@ -29,7 +28,6 @@ public class VolunteerServiceImpl implements VolunteerService {
     private final VolunteerDAO volunteerDAO;
     private final PostDAO postDAO;
     private final AttachmentDAO attachmentDAO;
-    private final MemberDAO memberDAO;
 
 
     @Override

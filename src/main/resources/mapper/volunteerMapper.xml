@@ -14,11 +14,11 @@
     <select id="selectAll" resultType="volunteerDTO">
         select v.id, v.recruitment_count, p.post_title, m.member_name, m.member_nickname, p.post_status,
         pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
-        v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
+        v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date, p.member_id
         from tbl_vt v
         left join tbl_post p on v.id = p.id
         left join tbl_member m on p.member_id = m.id
-        left join tbl_profile pf on p.member_id = pf.id
+        left join tbl_profile pf on p.member_id = pf.member_id
         <where>
             <if test="pagination.postType == 'VOLUNTEER'">
                 p.post_type = #{pagination.postType}

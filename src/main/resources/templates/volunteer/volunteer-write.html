@@ -8,12 +8,22 @@
             rel="stylesheet"
             href="/css/volunteer/volunteer-write.css"
         />
+        <link rel="stylesheet" href="/css/main/basic-header.css" />
+        <link rel="stylesheet" href="/css/main/footer.css"/>
+        <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
         <link
-            rel="icon"
-            href="https://cdn-dantats.stunning.kr/static/feature/loudFavicon/loud-favicon-32-new.png"
+                rel="icon"
+                href="/images/favicon.png"
         />
     </head>
     <body>
+    <div th:if="${isLogin}">
+        <th:block th:replace="~{main/login-header-no-noti :: header}"></th:block>
+    </div>
+    <div th:if="${!isLogin}">
+        <th:block th:replace="~{main/basic-header :: header}"></th:block>
+    </div>
+
         <div class="content-wrapper">
             <div class="content-container contents">
                 <form th:action="@{/volunteer/volunteer-write}" method="post" enctype="multipart/form-data" name="volunteer-write-form">
@@ -248,7 +258,9 @@
                 </form>
             </div>
         </div>
+    <div th:replace="~{main/footer :: footer}"></div>
     </body>
     <script src="/js/volunteer/event/volunteer-write-event.js"></script>
     <script src="/js/volunteer/service/volunteer-write-service.js"></script>
+    <script src="/js/main/login-header.js"></script>
 </html>

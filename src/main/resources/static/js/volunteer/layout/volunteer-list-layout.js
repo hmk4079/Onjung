@@ -11,6 +11,13 @@ const showList = ({ lists, pagination }) => {
         lists.forEach((list) => {
             const today = new Date().toISOString().split('T')[0];
             console.log(`ID: ${list.id}, daysLeft: ${list.daysLeft}, vtEDate: ${list.vtEDate}, today: ${today}, createdDate: ${list.createdDate}, postViewCount: ${list.postViewCount}`);
+            console.log('Profile File Name:', list.profileFileName);
+            console.log('Member ID:', list.memberId);
+
+            // 프로필 이미지 URL 처리
+            const profileImageSrc = list.memberId
+                ? `/profile/display?memberId=${list.memberId}`
+                : '/images/default-profile.png';
 
             let daysLeftText;
             if (list.daysLeft > 0) {
@@ -45,8 +52,8 @@ const showList = ({ lists, pagination }) => {
                             <div class="profile-image-wrap" style="width: 20px; height: 20px; cursor: default;">
                                 <img
                                     class="profile-image"
-                                    alt="profile-image"
-                                    src="${list.profileImage || 'https://via.placeholder.com/20'}"
+                                    src="${profileImageSrc}"
+                                    alt="프로필 이미지"
                                     style="width: 20px; height: 20px; border-radius: 50%; object-fit: cover;"
                                 />
                             </div>
@@ -162,6 +169,7 @@ const showList = ({ lists, pagination }) => {
     // 리스트 렌더링 후 페이징 버튼 생성 함수 호출
     showPaging(pagination);
 };
+
 
 // 페이징 버튼 생성 함수
 const showPaging = (pagination) => {
