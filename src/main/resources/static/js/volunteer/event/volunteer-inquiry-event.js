@@ -199,57 +199,6 @@ document.querySelector(
 ).textContent = `${nowPerson} 명 / ${goalPerson} 명`;
 
 
-// 버튼 활성화
-// document.addEventListener("DOMContentLoaded", () => {
-//     const postIdElement = document.getElementById("postId");
-//
-//     if (!postIdElement) {
-//         console.error("Error: Element with ID 'postId' not found.");
-//         return;
-//     }
-//
-//     const postId = postIdElement.value;
-//
-//     fetch(`/post/check-permission?postId=${postId}`)
-//         .then(response => {
-//             console.log("HTTP 응답 상태:", response.status); // HTTP 상태 코드 확인
-//             return response.text();
-//         })
-//         .then(result => {
-//             console.log("서버 응답:", result); // 서버에서 반환된 값 확인
-//
-//             const applyButton = document.getElementById("apply-btn");
-//             const editButtons = document.getElementById("edit-buttons");
-//
-//             if (result === "EDIT") {
-//                 applyButton.style.display = "none";
-//                 editButtons.style.display = "block";
-//             } else {
-//                 applyButton.style.display = "block";
-//                 editButtons.style.display = "none";
-//             }
-//         })
-//         .catch(error => console.error("Error fetching permission:", error));
-// });
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    const postIdElement = document.getElementById("postId");
-
-    if (!postIdElement) {
-        console.error("Error: Element with ID 'postId' not found.");
-        return;
-    }
-
-    const postId = postIdElement.value;
-
-    fetch(`/check-permission?postId=${postId}`)
-        .then(response => response.text())
-        .then(result => {
-            console.log("서버에서 반환된 결과:", result); // 서버 응답 확인
-        })
-        .catch(error => console.error("Error fetching permission:", error));
-});
 
 
 

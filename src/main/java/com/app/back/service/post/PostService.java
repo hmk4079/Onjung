@@ -43,7 +43,5 @@ public interface PostService {
 
     // 삭제된 게시글을 제외한 필터 목록
     List<PostDTO> getFilterListWithoutDeleted(Pagination pagination, Search search, AdminPostType filterType);
-
-    public boolean checkPermission(Long postId, String loggedInUserId);
 }
 

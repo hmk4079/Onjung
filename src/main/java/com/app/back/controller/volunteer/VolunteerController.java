@@ -48,26 +48,12 @@ public class VolunteerController {
     private final PostService postService;
     private final VolunteerService volunteerService;
     private final AttachmentService attachmentService;
+    private final VolunteerDTO volunteerDTO;
 
     @GetMapping("volunteer-write")
     public String goToWriteForm(VolunteerDTO volunteerDTO){
         return "volunteer/volunteer-write";
     }
-
-//    @PostMapping("volunteer-write")
-//    public String volunteerWrite(VolunteerDTO volunteerDTO,
-//                                 @RequestParam("uuid") List<String> uuids,
-//                                 @RequestParam("realName") List<String> realNames,
-//                                 @RequestParam("path") List<String> paths,
-//                                 @RequestParam("size") List<String> sizes,
-//                                 @RequestParam("file") List<MultipartFile> files) throws IOException {
-//        log.info("volunteerWrite 메소드 호출됨");
-//        log.info("Files: {}", files);
-//        // 데이터베이스에 게시글 저장
-//        volunteerService.write(volunteerDTO, uuids, realNames, paths, sizes, files);
-//
-//        return "redirect:/volunteer/volunteer-list";
-//    }
 
     @PostMapping("volunteer-write")
     public RedirectView volunteerWrite(VolunteerDTO volunteerDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, HttpSession session) throws IOException {
@@ -149,25 +135,83 @@ public class VolunteerController {
     }
 
 
-    // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
+//    // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
+//    @GetMapping("volunteer-inquiry/{postId}")
+//    public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
+//        // VolunteerDTO 가져오기
+//        VolunteerDTO volunteerDTO = volunteerService.getPostById(postId)
+//                .orElseThrow(() -> new NotFoundPostException("Volunteer with ID " + postId + " not found"));
+//
+//        // VolunteerDTO 확인을 위한 로그 출력
+//        log.info("Fetched VolunteerDTO: {}", volunteerDTO);
+//
+//        // 모델에 데이터 추가
+//        model.addAttribute("volunteer", volunteerDTO);
+//        log.info("Fetched attachments: {}", attachmentService.getList(postId));
+//        model.addAttribute("attachments", attachmentService.getList(postId));
+//        log.info("가져온첨부파일:{}", attachmentService.getList(postId));
+//
+//        return "volunteer/volunteer-inquiry";
+//    }
+
+//    @GetMapping("volunteer-inquiry/{postId}")
+//    public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
+//        // VolunteerDTO 가져오기
+//        VolunteerDTO volunteerDTO = volunteerService.getPostById(postId)
+//                .orElseThrow(() -> new NotFoundPostException("Volunteer with ID " + postId + " not found"));
+//
+//        // 세션에서 사용자 ID 가져오기
+//        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+//        // 로그인 성공 시
+//        log.info("Logged-in memberId: {}", loginMember);
+//
+//
+//        // 작성자 ID 가져오기 (memberId 사용)
+//        Long authorId = volunteerDTO.getMemberId();
+//
+//        // 사용자와 작성자 일치 여부 확인
+//        boolean isAuthor = (loginMember != null) && loginMember.equals(authorId);
+//        log.info("Author's memberId: {}", authorId);
+//        log.info("isAuthor: {}", isAuthor);
+//
+//        // 모델에 데이터 추가
+//        model.addAttribute("volunteer", volunteerDTO);
+//        model.addAttribute("attachments", attachmentService.getList(postId));
+//        model.addAttribute("isAuthor", isAuthor);
+//
+//        return "volunteer/volunteer-inquiry";
+//    }
+
     @GetMapping("volunteer-inquiry/{postId}")
     public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
         // VolunteerDTO 가져오기
         VolunteerDTO volunteerDTO = volunteerService.getPostById(postId)
                 .orElseThrow(() -> new NotFoundPostException("Volunteer with ID " + postId + " not found"));
 
-        // VolunteerDTO 확인을 위한 로그 출력
-        log.info("Fetched VolunteerDTO: {}", volunteerDTO);
+        // 세션에서 MemberDTO 가져오기 (속성 이름 확인)
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+
+        // 로그인한 사용자의 ID 가져오기
+        Long userId = loginMember != null ? loginMember.getId() : null;
+
+        // 작성자 ID 가져오기
+        Long authorId = volunteerDTO.getMemberId();
+
+        // 사용자와 작성자 일치 여부 확인
+        boolean isAuthor = userId != null && userId.equals(authorId);
+
+        // 디버깅 로그 출력
+        log.info("Logged-in userId: {}", userId);
+        log.info("Author's memberId: {}", authorId);
+        log.info("isAuthor: {}", isAuthor);
 
         // 모델에 데이터 추가
         model.addAttribute("volunteer", volunteerDTO);
-        log.info("Fetched attachments: {}", attachmentService.getList(postId));
         model.addAttribute("attachments", attachmentService.getList(postId));
-        log.info("가져온첨부파일:{}", attachmentService.getList(postId));
+        model.addAttribute("isAuthor", isAuthor);
 
         return "volunteer/volunteer-inquiry";
     }
-
 
 
 
@@ -194,29 +238,28 @@ public class VolunteerController {
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
 
+    @GetMapping("volunteer-update")
+    public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
+        Optional<VolunteerDTO> volunteerDTO = volunteerService.getPostById(postId);
 
-//    @GetMapping("volunteer-update")
-//    public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
-//        Optional<VolunteerDTO> volunteerDTO = volunteerService.getById(postId);
-//
-//        if (volunteerDTO.isPresent()) {
-//            model.addAttribute("volunteer", volunteerDTO.get());
-//            model.addAttribute("attachments", attachmentService.getList(postId));
-//        } else {
-//            return "redirect:/volunteer/volunteer-inquiry?postId=" + postId;
-//        }
-//        return "volunteer/volunteer-update";
-//    }
+        if (volunteerDTO.isPresent()) {
+            model.addAttribute("volunteer", volunteerDTO.get());
+            model.addAttribute("attachments", attachmentService.getList(postId));
+        } else {
+            return "redirect:/volunteer/volunteer-inquiry?postId=" + postId;
+        }
+        return "volunteer/volunteer-update";
+    }
 
-//    @PostMapping("donation-update")
-//    public RedirectView donationUpdate(DonationDTO donationDTO, @RequestParam("postId") Long postId, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, @RequestParam("id") List<Long> ids) throws IOException {
-//        donationDTO.setId(postId);
-//        donationDTO.setPostId(postId);
-//
-//        volunteerService.update(volunteerDTO, uuids, realNames, paths, sizes, files, ids);
-//
-//        return new RedirectView("/donation/donation-inquiry?postId=" + postId);
-//    }
+    @PostMapping("donation-update")
+    public RedirectView donationUpdate(DonationDTO donationDTO, @RequestParam("postId") Long postId, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, @RequestParam("id") List<Long> ids) throws IOException {
+        donationDTO.setId(postId);
+        donationDTO.setPostId(postId);
+
+        volunteerService.update(volunteerDTO, uuids, realNames, paths, sizes, files, ids);
+
+        return new RedirectView("/volunteer/volunteer-inquiry?postId=" + postId);
+    }
 
 
 
