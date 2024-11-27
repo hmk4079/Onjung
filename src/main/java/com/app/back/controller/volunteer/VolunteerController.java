@@ -26,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.swing.text.html.StyleSheet;
@@ -224,12 +225,14 @@ public class VolunteerController {
 
     //    지원하기
     @PostMapping("/apply")
-    public ResponseEntity<String> applyForVolunteer(HttpSession session) throws IOException{
+    public String applyForVolunteer(HttpSession session, RedirectAttributes redirectAttributes) {
         // 세션에서 로그인 사용자 정보와 vtId 가져오기
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
         Long vtId = (Long) session.getAttribute("vtId"); // vtId를 세션에서 가져옴
+
         if (loginMember == null || vtId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요하거나 모집 정보가 없습니다.");
+            // 로그인 필요 또는 모집 정보 없음
+            return "redirect:/login"; // 로그인 페이지로 리다이렉트하거나 에러 페이지로 이동
         }
 
         // VtApplicationDTO 생성
@@ -242,12 +245,18 @@ public class VolunteerController {
         // 서비스 호출
         try {
             volunteerService.applyForVolunteer(vtId, applicationDTO);
-            return ResponseEntity.ok("지원이 성공적으로 완료되었습니다.");
+            // 성공 시 마이페이지로 리다이렉트
+            return "redirect:/mypage"; // 마이페이지 경로로 수정
         } catch (Exception e) {
             log.error("지원 중 오류 발생: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("지원 중 오류가 발생했습니다.");
+            // 에러 메시지를 FlashAttribute로 추가하여 리다이렉트 시 전달
+            redirectAttributes.addFlashAttribute("errorMessage", "지원 중 오류가 발생했습니다.");
+            // 현재 페이지로 리다이렉트
+            return "redirect:/volunteer-inquiry/" + vtId;
         }
     }
+
+
 
 
 

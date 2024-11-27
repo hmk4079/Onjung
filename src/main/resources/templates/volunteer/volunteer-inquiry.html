@@ -291,16 +291,16 @@
                 <div class="modal-content">
                     <span class="close"></span>
                     <h2>게시글 신고</h2>
-                    <form id="uploadForm">
+                    <form th:action="@{/report/report-write}" method="post" name="donation-write-form" id="uploadForm">
                         <div class="btn-group">
                             <div>
                                 <label for="textInput">신고사유:</label>
-                                <input
+                                <textarea
                                         type="text"
                                         id="textInput"
-                                        name="textInput"
+                                        name="reportReason"
                                         placeholder="신고 사유를 입력해주세요."
-                                />
+                                ></textarea>
                             </div>
                         </div>
                     </form>
