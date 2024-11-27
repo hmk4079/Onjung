@@ -2,6 +2,7 @@ package com.app.back.service;
 
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.domain.vt_application.VtApplicationDTO;
 import com.app.back.service.volunteer.VolunteerService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class VolunteerServiceTests {
     @Autowired
     private VolunteerService volunteerService;
+    @Autowired
+    private VtApplicationDTO vtApplicationDTO;
 
     @Test
     public void testWrite() throws IOException {
@@ -49,5 +54,17 @@ public class VolunteerServiceTests {
         log.info("Post retrieved: {}", post);
     }
 
+    @Test
+    public void testApplyForVolunteer() {
+        VtApplicationDTO vtApplicationDTO = new VtApplicationDTO();
+        vtApplicationDTO.setVtId(40L);
+        vtApplicationDTO.setMemberId(35L);
+        vtApplicationDTO.setApplicationStatus("WAITING");
 
+        // 현재 시간을 String으로 포맷하여 설정
+        String current = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        vtApplicationDTO.setCreatedDate(current);
+
+        volunteerService.applyForVolunteer(vtApplicationDTO.getVtId(), vtApplicationDTO);
+    }
 }

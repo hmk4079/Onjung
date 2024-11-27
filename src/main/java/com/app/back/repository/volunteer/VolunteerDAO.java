@@ -18,7 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VolunteerDAO {
     private final VolunteerMapper volunteerMapper;
-    private final VolunteerVO volunteerVO;
 
     //    봉사활동모집 작성
     public void save(VolunteerVO volunteerVO) {
@@ -67,7 +66,11 @@ public class VolunteerDAO {
         return volunteerMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 
-//    public void updateNowRecruitmentCount(Long id){volunteerMapper.updateNowRecruitment(int id);}
+    // 모집 인원 증가
+    public void incrementNowRecruitment(Long vtId) {
+        volunteerMapper.updateNowRecruitment(vtId);
+    }
+
 
 
     }

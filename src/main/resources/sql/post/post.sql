@@ -344,4 +344,10 @@ FROM tbl_post
 WHERE id = 37;
 
 
+SELECT tbl_post.*, GROUP_CONCAT(at.attachment_File_Name) AS attachmentFiles
+FROM tbl_post
+         LEFT JOIN tbl_attachment at ON tbl_post.id = at.post_id
+WHERE tbl_post.id = 40
+GROUP BY tbl_post.id;
+
 

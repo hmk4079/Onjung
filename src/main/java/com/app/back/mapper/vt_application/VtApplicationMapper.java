@@ -25,5 +25,6 @@ public interface VtApplicationMapper {
     public List<VtApplicationDTO> selectByMemberIdAndDateRange(@Param("memberId") Long memberId, @Param("startDate") String startDate, @Param("endDate") String endDate);
     public Long findMemberIdByApplicationId(@Param("applicationId") Long applicationId);
 
+    public void apply(VtApplicationDTO vtApplicationDTO);
 }
 

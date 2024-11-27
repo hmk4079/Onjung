@@ -63,10 +63,6 @@
             m.member_nickname as memberNickname,
             m.member_name as memberName,
             p.post_status as postStatus,
-            at.attachment_file_name as attachmentFileName,
-            at.attachment_file_path as attachmentFilePath,
-            at.attachment_file_size as attachmentFileSize,
-            at.attachment_file_type as attachmentFileType,
             pf.profile_file_name as profileFileName,
             pf.profile_file_path as profileFilePath,
             pf.profile_file_size as profileFileSize,
@@ -81,7 +77,6 @@
             tbl_vt v
                 join tbl_post p on v.id = p.id
                 join tbl_member m on m.id = p.member_id
-                join tbl_attachment at on at.post_id = p.id
                 left join tbl_profile pf on pf.member_id = m.id
         where
             v.id = #{id}

@@ -5,6 +5,8 @@ import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.domain.volunteer.VolunteerVO;
+import com.app.back.domain.vt_application.VtApplicationDTO;
+import com.app.back.exception.ApplicationFailedException;
 import com.app.back.exception.NotFoundPostException;
 import com.app.back.service.attachment.AttachmentService;
 import com.app.back.service.post.PostService;
@@ -32,6 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -149,24 +152,60 @@ public class VolunteerController {
         return ResponseEntity.ok(response);
     }
 
+//    @GetMapping("volunteer-inquiry/{postId}")
+//    public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
+//        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+//        boolean isLoggedIn = (loginMember != null);
+//        model.addAttribute("isLogin", isLoggedIn);
+//        if (isLoggedIn) {
+//            model.addAttribute("member", loginMember);
+//        }
+//        // VolunteerDTO 가져오기
+//        VolunteerDTO volunteerDTO = volunteerService.getPostById(postId)
+//                .orElseThrow(() -> new NotFoundPostException("Volunteer with ID " + postId + " not found"));
+//
+//        // 로그인한 사용자의 ID 가져오기
+//        Long userId = loginMember != null ? loginMember.getId() : null;
+//
+//        // 작성자 ID 가져오기
+//        Long authorId = volunteerDTO.getMemberId();
+//
+//        // 사용자와 작성자 일치 여부 확인
+//        boolean isAuthor = userId != null && userId.equals(authorId);
+//
+//        // 디버깅 로그 출력
+//        log.info("Logged-in userId: {}", userId);
+//        log.info("Author's memberId: {}", authorId);
+//        log.info("isAuthor: {}", isAuthor);
+//
+//        // 모델에 데이터 추가
+//        model.addAttribute("volunteer", volunteerDTO);
+//        model.addAttribute("attachments", attachmentService.getList(postId));
+//        model.addAttribute("isAuthor", isAuthor);
+//
+//        return "volunteer/volunteer-inquiry";
+//    }
+
     @GetMapping("volunteer-inquiry/{postId}")
     public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
         boolean isLoggedIn = (loginMember != null);
         model.addAttribute("isLogin", isLoggedIn);
+
         if (isLoggedIn) {
             model.addAttribute("member", loginMember);
         }
+
         // VolunteerDTO 가져오기
         VolunteerDTO volunteerDTO = volunteerService.getPostById(postId)
                 .orElseThrow(() -> new NotFoundPostException("Volunteer with ID " + postId + " not found"));
 
+        // 조회한 VolunteerDTO의 vtId를 세션에 저장
+        session.setAttribute("vtId", volunteerDTO.getId()); // Volunteer의 ID(vtId)를 저장
         // 로그인한 사용자의 ID 가져오기
         Long userId = loginMember != null ? loginMember.getId() : null;
-
         // 작성자 ID 가져오기
         Long authorId = volunteerDTO.getMemberId();
-
         // 사용자와 작성자 일치 여부 확인
         boolean isAuthor = userId != null && userId.equals(authorId);
 
@@ -183,7 +222,35 @@ public class VolunteerController {
         return "volunteer/volunteer-inquiry";
     }
 
-//    @GetMapping("volunteer-inquiry/{postId}")
+    //    지원하기
+    @PostMapping("/apply")
+    public ResponseEntity<String> applyForVolunteer(HttpSession session) throws IOException{
+        // 세션에서 로그인 사용자 정보와 vtId 가져오기
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        Long vtId = (Long) session.getAttribute("vtId"); // vtId를 세션에서 가져옴
+        if (loginMember == null || vtId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요하거나 모집 정보가 없습니다.");
+        }
+
+        // VtApplicationDTO 생성
+        VtApplicationDTO applicationDTO = new VtApplicationDTO();
+        applicationDTO.setVtId(vtId); // 세션에서 가져온 vtId 설정
+        applicationDTO.setMemberId(loginMember.getId());
+        applicationDTO.setApplicationStatus("WAITING");
+        applicationDTO.setCreatedDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+        // 서비스 호출
+        try {
+            volunteerService.applyForVolunteer(vtId, applicationDTO);
+            return ResponseEntity.ok("지원이 성공적으로 완료되었습니다.");
+        } catch (Exception e) {
+            log.error("지원 중 오류 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("지원 중 오류가 발생했습니다.");
+        }
+    }
+
+
+
 
     @GetMapping("volunteer-update")
     public String goToUpdateForm(@RequestParam("postId") Long postId, HttpSession session , Model model) {
@@ -226,7 +293,7 @@ public class VolunteerController {
     @PostMapping("upload")
     @ResponseBody
     public AttachmentDTO upload(@RequestParam("file")List<MultipartFile> files) throws IOException {
-//        String rootPath = "D:/dev/OnjungSpring/back/src/main/resources/static/files" + getPath();
+
         String rootPath = "C:/upload/" + getPath();
         log.info("{}",files.size());
 
@@ -276,13 +343,9 @@ public class VolunteerController {
     public ResponseEntity<Resource> download(String fileName) throws IOException {
         Resource resource = new FileSystemResource("C:/upload/" + fileName);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attchment; filename=" + new String(("한동석짱_" + fileName.substring(fileName.indexOf("_") + 1)).getBytes("UTF-8"), "ISO-8859-1"));
+        headers.add("Content-Disposition", "attchment; filename=" + new String(("온정_" + fileName.substring(fileName.indexOf("_") + 1)).getBytes("UTF-8"), "ISO-8859-1"));
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
-
-
-
-
 }
 
 

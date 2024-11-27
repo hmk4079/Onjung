@@ -17,6 +17,7 @@ public class VtApplicationVO {
     private String applicationStatus;
     private Long vtId;
     private Long memberId;
+    private String createdDate;
 
     private String memberName;
     private String postTitle;
@@ -26,6 +27,7 @@ public class VtApplicationVO {
         vtApplicationDTO.setId(id);
         vtApplicationDTO.setApplicationDate(applicationDate);
         vtApplicationDTO.setApplicationStatus(applicationStatus);
+        vtApplicationDTO.setCreatedDate(createdDate);
         vtApplicationDTO.setVtId(vtId);
         vtApplicationDTO.setMemberId(memberId);
         vtApplicationDTO.setMemberName(memberName);

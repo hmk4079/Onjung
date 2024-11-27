@@ -60,10 +60,10 @@ public class VolunteerMapperTests {
         log.info("{}",foundVolunteer);
     }
 
-//    봉사 승인 인원 증가
+////    봉사 승인 인원 증가
 //    @Test
 //    public void updateNowRecruitment(){
-//        volunteerMapper.updateNowRecruitment(1);
+//        volunteerMapper.updateNowRecruitment(35);
 //        log.info("승인된 봉사인원이 증가하였습니다" + volunteerVO.getNowRecruitmentCount());
 //    }
 
@@ -115,29 +115,6 @@ public class VolunteerMapperTests {
 //}
 
 
-
-
-////  봉사 모집 게시글 조회수 순 조회
-//    @Test
-//    public void testSelectByViewCount() {
-//        Pagination pagination = new Pagination();
-//        pagination.setTotal(volunteerMapper.selectTotal());
-//        pagination.progress();
-//        log.info("{}, {}", pagination.getStartRow(), pagination.getRowCount());
-//        volunteerMapper.selectByViewCount(pagination).stream()
-//                .map(VolunteerDTO::toString).forEach(log::info);
-//    }
-//
-////    봉사모집 게시글 마감 임박 순 조회
-//@Test
-//public void testSelectByDeadline() {
-//    Pagination pagination = new Pagination();
-//    pagination.setTotal(volunteerMapper.selectTotal());
-//    pagination.progress();
-//    log.info("{}, {}", pagination.getStartRow(), pagination.getRowCount());
-//    volunteerMapper.selectByDeadline(pagination).stream()
-//            .map(VolunteerDTO::toString).forEach(log::info);
-//}
 
 
 }

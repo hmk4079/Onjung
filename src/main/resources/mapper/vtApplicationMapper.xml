@@ -15,6 +15,10 @@
                      #{memberId}
                  )
     </insert>
+    <insert id="apply" parameterType="vtApplicationDTO">
+        insert into tbl_vt_application ( id, created_date, application_status, vt_id, member_id )
+        values( #{id},#{createdDate},#{applicationStatus},#{vtId},#{memberId})
+    </insert>
 
     <select id="selectById" parameterType="long" resultType="vtApplicationDTO">
         SELECT
@@ -133,8 +137,5 @@
         FROM tbl_vt_application
         WHERE id = #{applicationId}
     </select>
-<!--    <insert>-->
-<!--        -->
-<!--    </insert>-->
 
 </mapper>

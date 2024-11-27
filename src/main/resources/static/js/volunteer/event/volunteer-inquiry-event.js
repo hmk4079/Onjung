@@ -22,7 +22,38 @@ tabs.forEach((tab, index) => {
         }
     });
 });
+// 승인 및 거절 모달 이벤트 설정
+const setupModalEvents = () => {
+    console.log("Setting up modal events...");
 
+    // 승인 모달 닫기 버튼 이벤트
+    const approveCloseModal = document.getElementById("approvecloseModal");
+    if (approveCloseModal && !approveCloseModal.dataset.listener) {
+        approveCloseModal.addEventListener("click", () => {
+            console.log("Approve modal closed");
+            document.querySelector(".approvemodal").style.display = "none";
+            currentApplicationId = null;
+        });
+        approveCloseModal.dataset.listener = "true"; // 중복 설정 방지
+    }
+
+    // 승인 확인 버튼 이벤트
+    const confirmApprove = document.getElementById("confirmApprove");
+    if (confirmApprove && !confirmApprove.dataset.listener) {
+        confirmApprove.addEventListener("click", async () => {
+            if (currentApplicationId) {
+                console.log(`Attempting to approve application ID: ${currentApplicationId}`);
+                await approveApplication(currentApplicationId);
+                document.querySelector(".approvemodal").style.display = "none";
+                currentApplicationId = null;
+            } else {
+                console.warn("No currentApplicationId set");
+            }
+        });
+        confirmApprove.dataset.listener = "true";
+        alert("신청이 완료되었습니다.")
+    }
+}
 
 // // 예시 댓글 데이터 배열
 // const comments = [
@@ -124,8 +155,16 @@ tabs.forEach((tab, index) => {
 //     }
 // });
 
+// 첨부파일 렌더링 함수(img생성)
+constrenderAttachmentsImg = ({attachments}) => {
+    const attachImgList = documnet.getElementById("")
+}
 
-// 첨부파일 렌더링 함수
+
+
+
+
+// 첨부파일 렌더링 함수(다운로드)
 const renderAttachments = ({ attachments }) => {
     const attachList = document.getElementById("attach-list");
 

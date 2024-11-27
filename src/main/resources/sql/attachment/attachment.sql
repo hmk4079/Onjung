@@ -25,3 +25,15 @@ insert into tbl_attachment(id,attachment_file_name,attachment_file_real_name,att
 values (1,'테스트이름','테스트 진짜 이름','테스트path','테스트size','테스트type',1);
 
 delete from tbl_attachment where id = 6;
+
+SELECT a.id,
+       a.attachment_file_name,
+       a.attachment_file_real_name,
+       a.attachment_file_path,
+       a.attachment_file_size,
+       a.attachment_file_type,
+       a.post_id,
+       p.created_date
+FROM tbl_attachment a
+         JOIN tbl_post p ON a.post_id = p.id
+WHERE a.post_id = 40;

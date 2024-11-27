@@ -1,7 +1,9 @@
 package com.app.back.service.volunteer;
 
+import com.app.back.domain.attachment.AttachmentDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.domain.vt_application.VtApplicationDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -28,6 +30,8 @@ public interface VolunteerService {
 
     //    멤버ID가져오기
     public List<VolunteerDTO> getMemberId(Long memberId);
+
+    public void applyForVolunteer(Long vtId, VtApplicationDTO vtApplicationDTO);
 
 
 

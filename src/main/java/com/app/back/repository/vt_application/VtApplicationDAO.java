@@ -58,4 +58,9 @@ public class VtApplicationDAO {
         return vtApplicationMapper.findMemberIdByApplicationId(applicationId);
     }
 
+    // 신청 데이터 삽입
+    public void insertApplication(VtApplicationDTO vtApplicationDTO) {
+        vtApplicationMapper.apply(vtApplicationDTO);
+    }
+
 }

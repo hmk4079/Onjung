@@ -20,4 +20,5 @@ public interface VtApplicationService {
     public List<VtApplicationDTO> getApplicationsByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
     public List<VtApplicationDTO> getApplicationsByMemberId(Long memberId);
 
+
 }

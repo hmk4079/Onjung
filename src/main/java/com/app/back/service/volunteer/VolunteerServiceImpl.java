@@ -1,13 +1,16 @@
 package com.app.back.service.volunteer;
 
 
+import com.app.back.domain.attachment.AttachmentDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.domain.vt_application.VtApplicationDTO;
 import com.app.back.exception.NotFoundPostException;
 import com.app.back.repository.attachment.AttachmentDAO;
 import com.app.back.repository.member.MemberDAO;
 import com.app.back.repository.post.PostDAO;
 import com.app.back.repository.volunteer.VolunteerDAO;
+import com.app.back.repository.vt_application.VtApplicationDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
@@ -28,6 +31,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     private final VolunteerDAO volunteerDAO;
     private final PostDAO postDAO;
     private final AttachmentDAO attachmentDAO;
+    private final VtApplicationDAO vtApplicationDAO;
 
 
     @Override
@@ -63,6 +67,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     @Override
     public Optional<VolunteerDTO> getPostById(Long id) {
         volunteerDAO.updatePostReadCount(id);
+
         return volunteerDAO.findById(id);
     }
 
@@ -121,6 +126,18 @@ public class VolunteerServiceImpl implements VolunteerService {
     @Override
     public List<VolunteerDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
         return volunteerDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
+    }
+
+    @Transactional
+    @Override
+    public void applyForVolunteer(Long vtId, VtApplicationDTO vtApplicationDTO) {
+        // 모집 인원 증가
+        volunteerDAO.incrementNowRecruitment(vtId);
+
+        // 신청 데이터 삽입
+        vtApplicationDAO.insertApplication(vtApplicationDTO);
+
+//        이미 신청한 아이디 입니다
     }
 
 }

@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>봉사 모집 조회</title>
-    <link
-            rel="stylesheet"
-            href="/css/volunteer/volunteer-inquiry.css"
-    />
+    <link rel="stylesheet" href="/css/volunteer/volunteer-inquiry.css"/>
     <link rel="stylesheet" href="/css/main/basic-header.css" />
     <link rel="stylesheet" href="/css/main/footer.css"/>
     <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
@@ -22,6 +19,34 @@
 </div>
 <div th:if="${!isLogin}">
     <th:block th:replace="~{main/basic-header :: header}"></th:block>
+</div>
+<div class="approvemodal" style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; z-index: 10000;">
+    <div style="
+        transform: translate3d(0px, 0px, 0px);
+        z-index: 10002;
+        box-sizing: border-box;
+        transition: transform 500ms cubic-bezier(0, 0, 0.25, 1),
+            opacity 500ms cubic-bezier(0, 0, 0.25, 1);">
+        <div class="alert-modal-inner-1u03v alert-modal" style="width: 365px">
+            <div class="alert-txt-box-2bji8">
+                <span class="alert-ico-1mtdg"></span>
+                <p>봉사 활동 신청을 하시겠습니까?</p>
+                <button class="alert-btn-complete-1qcb1" id="confirmApprove" data-listener="true">
+                    확인
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <div class="last-modal" style="
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 10001;
+        "></div>
 </div>
 <div class="content-container-maincontent">
     <div class="thumbnail-background" style="position: relative">
@@ -239,11 +264,14 @@
                                 </section>
                                 <div class="donation-btn-wrap">
 <!--                                    <div class="donation-btn-container tooltip" th:if="${!isAuthor}">-->
-                                    <div class="donation-btn-container tooltip">
-                                        <a class="donation-btn-style" id="apply-btn">
-                                            <span class="visual-correction">지원하기</span>
-                                        </a>
-                                    </div>
+                                    <form method="post" action="/volunteer/apply">
+                                        <div class="donation-btn-container tooltip">
+                                            <!-- 버튼을 사용하여 폼 제출 -->
+                                            <button type="submit" class="donation-btn-style" id="apply-btn">
+                                                <span class="visual-correction">지원하기</span>
+                                            </button>
+                                        </div>
+                                    </form>
                                     <div class="donation-btn-container" id="edit-buttons" th:if="${isAuthor}">
                                         <a class="donation-btn-style2 go-update">
                                             <span class="visual-correction">수정하기</span>

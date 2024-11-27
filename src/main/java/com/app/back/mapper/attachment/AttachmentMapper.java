@@ -18,7 +18,7 @@ public interface AttachmentMapper {
     public AttachmentDTO selectById(Long id);
 
     //  파일 목록
-    List<AttachmentDTO> findByPostId(@Param("postId") Long postId);
+    public List<AttachmentDTO> findByPostId(@Param("postId") Long postId);
 
 //  파일 삭제
     public void delete(Long id);

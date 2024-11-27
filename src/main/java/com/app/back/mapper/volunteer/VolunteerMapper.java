@@ -36,12 +36,12 @@ public interface VolunteerMapper {
             @Param("startDate") String startDate,
             @Param("endDate") String endDate
     );
-
-//    // 봉사활동 지원자 증가
-    public void updateNowRecruitment(@Param("id") int id);
-
     //    조회수 증가
     public void updatePostReadCount(Long id);
+
+//    // 봉사활동 지원자 증가
+    public void updateNowRecruitment(@Param("vtId") Long vtId);
+
 
 
 

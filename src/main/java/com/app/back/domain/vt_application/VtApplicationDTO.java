@@ -17,11 +17,12 @@ public class VtApplicationDTO {
     private String applicationStatus;
     private Long vtId;
     private Long memberId;
+    private String createdDate;
 
     private String memberName;
     private String postTitle;
 
     public VtApplicationVO toVO() {
-        return new VtApplicationVO(id,applicationDate,applicationStatus,vtId,memberId,memberName,postTitle);}
+        return new VtApplicationVO(id,applicationDate,applicationStatus,vtId,memberId,createdDate,memberName,postTitle);}
 
 }
