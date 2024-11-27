@@ -31,6 +31,8 @@
         p.post_title,
         p.post_type,
         p.created_date,
+
+        sfggdgddfg
         p.updated_date,
         p.post_view_count,
         m.member_nickname,

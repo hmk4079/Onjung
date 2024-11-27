@@ -50,7 +50,6 @@
         where p.post_type = #{postType}
     </select>
 
-
     <select id="selectById" resultType="VolunteerDTO">
         select
             v.id,
