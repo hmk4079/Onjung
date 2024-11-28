@@ -168,15 +168,16 @@ const removeFile = (file, listItem) => {
     fileList.removeChild(listItem); // 목록에서 해당 항목 제거
 };
 
-// 필수 입력 필드와 제출 버튼 가져오기
-const postTitle = document.getElementById('post-title'); // 회사 이름
+// 필수 입력 필드와 제출 버튼 가져오기(유효성 검사)
+const postTitle = document.getElementById('post-title'); // 게시글 이름
 const postSummary = document.getElementById('post-summary'); // 한 줄 소개
 const recruitmentCount = document.getElementById('post-recruitmentCount'); // 모집 인원
 const dateCount = document.getElementById('date-count'); // 남은 일수 (span)
 const briefing = document.getElementById('briefing'); // 내용
 const submitButton = document.getElementById('submit-volunteer');
+const uuidInput = document.querySelector('input[name="uuid"]');
 
-// 유효성 검사 함수
+// 삭제 버튼 존재 여부에 따라 작성 완료 버튼 상태를 갱신하는 함수
 function validateFields() {
     const isPostTitleValid = postTitle.value.trim() !== '';
     const isPostSummaryValid = postSummary.value.trim() !== '';
@@ -185,62 +186,44 @@ function validateFields() {
     const isDateCountValid = !isNaN(dateCountValue) && dateCountValue >= 0;
     const isBriefingValid = briefing.value.trim() !== '';
 
+    // 삭제 버튼(".delete-button")이 존재하는지 확인
+    const deleteButton = document.querySelector(".delete-button");
+    const isAttachmentFileValid = !!deleteButton; // 삭제 버튼이 있으면 true, 없으면 false
+
     // 모든 필드가 유효한 경우
     if (
         isPostTitleValid &&
         isPostSummaryValid &&
         isRecruitmentCountValid &&
         isDateCountValid &&
-        isBriefingValid
+        isBriefingValid &&
+        isAttachmentFileValid
     ) {
-        submitButton.disabled = false;
+        submitButton.disabled = false; // 버튼 활성화
         submitButton.classList.remove('disable');
     } else {
-        submitButton.disabled = true;
+        submitButton.disabled = true; // 버튼 비활성화
         submitButton.classList.add('disable');
     }
 }
 
-// 제출 버튼 클릭 이벤트
-submitButton.addEventListener('click', function () {
-    // 필수 항목 검증
-    if (postTitle.value.trim() === '') {
-        alert("필수 항목을 확인해주세요. (게시글 제목)");
-        return;
-    }
-
-    if (postSummary.value.trim() === '') {
-        alert("한 줄 소개를 입력해주세요.");
-        return;
-    }
-
-    if (briefing.value.trim() === '') {
-        alert("내용을 작성해주세요.");
-        return;
-    }
-
-    if (parseInt(recruitmentCount.value) <= 0) {
-        alert("모집 인원을 1명 이상 입력해주세요.");
-        return;
-    }
-
-    const dateCountValue = parseInt(dateCount.textContent || dateCount.innerText);
-    if (isNaN(dateCountValue) || dateCountValue < 0) {
-        alert("남은 일수를 올바르게 입력해주세요.");
-        return;
-    }
-
-    // 모든 검증 통과 시 성공 메시지
-    alert("게시글이 성공적으로 수정되었습니다!");
+// DOM 변경 사항을 감지하여 작성 완료 버튼 상태를 업데이트하는 로직
+const observer = new MutationObserver(() => {
+    validateFields(); // DOM 변경이 발생할 때마다 유효성 검사 호출
 });
 
-// 이벤트 리스너 추가
-postTitle.addEventListener('input', validateFields);
-postSummary.addEventListener('input', validateFields);
-recruitmentCount.addEventListener('input', validateFields);
-briefing.addEventListener('input', validateFields);
+// 감시할 영역과 옵션 설정
+observer.observe(document.body, {
+    childList: true, // 자식 노드의 추가/삭제를 감지
+    subtree: true, // 하위 노드의 변경 사항도 감지
+});
 
-// 초기 유효성 검사 실행
+// 입력 필드 변화 시 유효성 검사 연결
+[postTitle, postSummary, recruitmentCount, briefing].forEach(input => {
+    input.addEventListener("input", validateFields);
+});
+
+// 초기 유효성 검사 호출 (페이지 로드 시 상태 확인)
 validateFields();
 
 const updateCharCount = (input) => {

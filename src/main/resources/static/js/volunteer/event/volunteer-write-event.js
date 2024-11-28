@@ -159,7 +159,7 @@ const updateDateRange = () => {
     validateFields();
 };
 
-// 필수 입력 필드와 제출 버튼 가져오기
+// 필수 입력 필드와 제출 버튼 가져오기(유효성 검사)
 const postTitle = document.getElementById('post-title'); // 게시글 이름
 const postSummary = document.getElementById('post-summary'); // 한 줄 소개
 const recruitmentCount = document.getElementById('post-recruitmentCount'); // 모집 인원
@@ -216,10 +216,6 @@ observer.observe(document.body, {
 
 // 초기 유효성 검사 호출 (페이지 로드 시 상태 확인)
 validateFields();
-
-
-
-
 
 // 제출 버튼 클릭 이벤트
 submitButton.addEventListener('click', function () {
