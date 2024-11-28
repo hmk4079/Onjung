@@ -79,12 +79,6 @@ public class PostDAO {
         return postMapper.selectFilterAllWithNoDeleted(pagination, search, filterType);  // 삭제된 게시글 제외한 필터 조건에 맞는 게시글 조회
     }
 
-    public String findOwnerByPostId(Long postId) {
-        System.out.println("DAO에서 전달된 postId: " + postId);
-        String ownerId = postMapper.findOwnerByPostId(postId);
-        System.out.println("조회된 작성자 ID: " + ownerId);
-        return ownerId;
-    }
 
 
 

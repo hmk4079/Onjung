@@ -48,108 +48,6 @@ document.querySelector('.last-modal').addEventListener('click', () => {
     approveModal.style.display = 'none';
 });
 
-
-// // 예시 댓글 데이터 배열
-// const comments = [
-//     {
-//         user: "로고싱",
-//         profile:
-//             "https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&f=webp&t=crop&s=256x256",
-//         date: "2024.10.06 21:53:00",
-//         content: "원컬러 혹은 두컬러의 단순한 색상은 지양하실까요?",
-//         author: false,
-//     },
-//     {
-//         user: "큰나무이비인후과",
-//         profile:
-//             "https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&f=webp&t=crop&s=256x256",
-//         date: "2024.10.06 21:59:45",
-//         content: "다 가능합니다.",
-//         author: true,
-//     },
-//     {
-//         user: "이지민",
-//         profile:
-//             "https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&f=webp&t=crop&s=256x256",
-//         date: "2024.10.06 21:59:45",
-//         content: "안녕하세요",
-//         author: false,
-//     },
-// ];
-
-
-// HTML 요소에 값 삽입
-// document.getElementById('daysLeftText').textContent = daysLeftText;
-
-// 댓글 렌더링 함수
-// const renderComments = () => {
-//     const commentSection = document.getElementById("comment-section");
-//     commentSection.innerHTML = "";
-//
-//     comments.forEach((comment) => {
-//         const isAuthor = comment.author ? '<p class="comment">작성자</p>' : "";
-//
-//         const commentHTML = `
-//             <article class="comment-container">
-//                 <div class="contest-comment-show">
-//                     <div>
-//                         <div class="comment-card">
-//                             <div class="contest-comment-userinfo">
-//                                 <a href="/m/${comment.user}" class="profile-avatar-container avatar">
-//                                     <img src="${comment.profile}" />
-//                                 </a>
-//                                 <div class="nick">
-//                                     <div class="nickname-container user-nick-wrapper">
-//                                         <p class="nickname-text">
-//                                             <a class="user-nick nick" href="/m/${comment.user}">
-//                                                 ${comment.user}
-//                                             </a>
-//                                         </p>
-//                                     </div>
-//                                     ${isAuthor}
-//                                 </div>
-//                                 <p>| ${comment.date}</p>
-//                             </div>
-//                             <div class="contest-comment-content">
-//                                 <div>${comment.content}</div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                     <div class="contest-comment-buttons"></div>
-//                 </div>
-//             </article>
-//         `;
-//
-//         commentSection.insertAdjacentHTML("beforeend", commentHTML);
-//     });
-// };
-//
-// // 페이지가 로드될 때 댓글 렌더링
-// renderComments();
-//
-// const commentTextarea = document.getElementById("comment-content");
-// const submitButton = document.querySelector(".submit-comment-button");
-//
-// // textarea 입력 이벤트 처리
-// commentTextarea.addEventListener("input", () => {
-//     if (commentTextarea.value.trim() !== "") {
-//         submitButton.disabled = false;
-//     } else {
-//         submitButton.disabled = true;
-//     }
-// });
-//
-// // 댓글 작성 버튼 클릭 이벤트 처리
-// submitButton.addEventListener("click", () => {
-//     const commentText = commentTextarea.value.trim();
-//     if (commentText) {
-//         alert(`댓글이 작성되었습니다: ${commentText}`);
-//         commentTextarea.value = "";
-//         submitButton.disabled = true;
-//     }
-// });
-
-
 // 첨부파일 렌더링 함수(다운로드)
 const renderAttachments = ({ attachments }) => {
     const attachList = document.getElementById("attach-list");
@@ -260,17 +158,113 @@ window.onclick = (event) => {
     }
 };
 
-// "신고하기" 버튼 클릭 시 alert 실행 및 모달 닫기
-const reportSubmitBtn = document.getElementById("reportSubmitBtn");
+// HTML 요소에 값 삽입
+document.getElementById('daysLeftText').textContent = daysLeftText;
 
-reportSubmitBtn.onclick = function () {
-    alert("게시글 신고가 완료되었습니다.");
-    modal.style.display = "none"; // 신고하기 버튼 클릭 후 모달 닫기
-};
+// // 댓글 렌더링 함수
+// const renderComments = () => {
+//     const commentSection = document.getElementById("comment-section");
+//     commentSection.innerHTML = "";
+//
+//     comments.forEach((comment) => {
+//         const isAuthor = comment.author ? '<p class="comment">작성자</p>' : "";
+//
+//         const commentHTML = `
+//             <article class="comment-container">
+//                 <div class="contest-comment-show">
+//                     <div>
+//                         <div class="comment-card">
+//                             <div class="contest-comment-userinfo">
+//                                 <a href="/m/${comment.user}" class="profile-avatar-container avatar">
+//                                     <img src="${comment.profile}" />
+//                                 </a>
+//                                 <div class="nick">
+//                                     <div class="nickname-container user-nick-wrapper">
+//                                         <p class="nickname-text">
+//                                             <a class="user-nick nick" href="/m/${comment.user}">
+//                                                 ${comment.user}
+//                                             </a>
+//                                         </p>
+//                                     </div>
+//                                     ${isAuthor}
+//                                 </div>
+//                                 <p>| ${comment.date}</p>
+//                             </div>
+//                             <div class="contest-comment-content">
+//                                 <div>${comment.content}</div>
+//                             </div>
+//                         </div>
+//                     </div>
+//                     <div class="contest-comment-buttons"></div>
+//                 </div>
+//             </article>
+//         `;
+//
+//         commentSection.insertAdjacentHTML("beforeend", commentHTML);
+//     });
+// };
+//
+// // 페이지가 로드될 때 댓글 렌더링
+// renderComments();
 
+const commentTextarea = document.getElementById("comment-content");
+const submitButton = document.querySelector(".submit-comment-button");
 
+// textarea 입력 이벤트 처리
+commentTextarea.addEventListener("input", () => {
+    if (commentTextarea.value.trim() !== "") {
+        submitButton.disabled = false;
+    } else {
+        submitButton.disabled = true;
+    }
+});
 
+// 댓글 작성 버튼 클릭 이벤트 처리
+submitButton.addEventListener("click", () => {
+    const commentText = commentTextarea.value.trim();
+    if (commentText) {
+        alert(`댓글이 작성되었습니다: ${commentText}`);
+        commentTextarea.value = "";
+        submitButton.disabled = true;
+    }
+});
 
+function timeForToday(datetime) {
+    const today = new Date();
+    const date = new Date(datetime);
+
+    let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
+
+    if (gap < 1) {
+        return "방금 전";
+    }
+
+    if (gap < 60) {
+        return `${gap}분 전`;
+    }
+
+    gap = Math.floor(gap / 60);
+
+    if (gap < 24) {
+        return `${gap}시간 전`;
+    }
+
+    gap = Math.floor(gap / 24);
+
+    if (gap < 31) {
+        return `${gap}일 전`;
+    }
+
+    gap = Math.floor(gap / 31);
+
+    if (gap < 12) {
+        return `${gap}개월 전`;
+    }
+
+    gap = Math.floor(gap / 12);
+
+    return `${gap}년 전`;
+}
 
 
 

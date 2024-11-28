@@ -17,12 +17,10 @@ public class ReplyMapperTests {
     @Test
     public void testwrite() {
         ReplyDTO replyDTO = new ReplyDTO();
-        replyDTO.setId(6L);
-        replyDTO.setReplyContent("야호");
+        replyDTO.setReplyContent("댓글테스트하겠습니다");
         replyDTO.setReplyStatus("VISIBLE");
         replyDTO.setMemberId(37L);
         replyDTO.setPostId(40l);
         replyMapper.insert(replyDTO.toReplyVO());
-
     }
 }

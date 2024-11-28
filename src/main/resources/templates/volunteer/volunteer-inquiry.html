@@ -265,12 +265,13 @@
                                     </div>
                                 </section>
                                 <div class="donation-btn-wrap">
-<!--                                    <div class="donation-btn-container tooltip" th:if="${!isAuthor}">-->
-                                        <div class="donation-btn-container tooltip">
+                                    <div class="donation-btn-container tooltip" th:if="${!isAuthor}">
+<!--                                        <div class="donation-btn-container tooltip">-->
                                             <button type="submit" class="donation-btn-style" id="apply-btn">
                                                 <span class="visual-correction">지원하기</span>
                                             </button>
                                         </div>
+<!--                                    </div>-->
                                     <div class="donation-btn-container" id="edit-buttons" th:if="${isAuthor}">
                                         <a class="donation-btn-style2 go-update">
                                             <span class="visual-correction">수정하기</span>
