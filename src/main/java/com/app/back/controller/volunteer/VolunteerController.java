@@ -153,40 +153,6 @@ public class VolunteerController {
         return ResponseEntity.ok(response);
     }
 
-//    @GetMapping("volunteer-inquiry/{postId}")
-//    public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
-//        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-//        boolean isLoggedIn = (loginMember != null);
-//        model.addAttribute("isLogin", isLoggedIn);
-//        if (isLoggedIn) {
-//            model.addAttribute("member", loginMember);
-//        }
-//        // VolunteerDTO 가져오기
-//        VolunteerDTO volunteerDTO = volunteerService.getPostById(postId)
-//                .orElseThrow(() -> new NotFoundPostException("Volunteer with ID " + postId + " not found"));
-//
-//        // 로그인한 사용자의 ID 가져오기
-//        Long userId = loginMember != null ? loginMember.getId() : null;
-//
-//        // 작성자 ID 가져오기
-//        Long authorId = volunteerDTO.getMemberId();
-//
-//        // 사용자와 작성자 일치 여부 확인
-//        boolean isAuthor = userId != null && userId.equals(authorId);
-//
-//        // 디버깅 로그 출력
-//        log.info("Logged-in userId: {}", userId);
-//        log.info("Author's memberId: {}", authorId);
-//        log.info("isAuthor: {}", isAuthor);
-//
-//        // 모델에 데이터 추가
-//        model.addAttribute("volunteer", volunteerDTO);
-//        model.addAttribute("attachments", attachmentService.getList(postId));
-//        model.addAttribute("isAuthor", isAuthor);
-//
-//        return "volunteer/volunteer-inquiry";
-//    }
-
     @GetMapping("volunteer-inquiry/{postId}")
     public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
@@ -214,6 +180,7 @@ public class VolunteerController {
         log.info("Logged-in userId: {}", userId);
         log.info("Author's memberId: {}", authorId);
         log.info("isAuthor: {}", isAuthor);
+        log.info("Volunteer added to Model: {}", volunteerDTO);
 
         // 모델에 데이터 추가
         model.addAttribute("volunteer", volunteerDTO);
@@ -255,11 +222,6 @@ public class VolunteerController {
             return "redirect:/volunteer-inquiry/" + vtId;
         }
     }
-
-
-
-
-
 
     @GetMapping("volunteer-update")
     public String goToUpdateForm(@RequestParam("postId") Long postId, HttpSession session , Model model) {

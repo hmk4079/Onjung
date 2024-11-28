@@ -85,7 +85,6 @@
                                 <div class="active tab">내용</div>
                                 <div class="tab">
                                     댓글<label class="tab-sticker">
-                                    <!--                                            th:text="*{replyCount}"-->
                                     0
                                 </label
                                 >
@@ -287,11 +286,12 @@
                     </section>
                 </section>
             </section>
+            <form th:action="@{/report/report-write}" method="post" name="postReport" id="uploadForm">
+                <input type="hidden" name="postId" th:value="${volunteer.postId}">
             <div id="profileModal" class="modal">
                 <div class="modal-content">
                     <span class="close"></span>
                     <h2>게시글 신고</h2>
-                    <form th:action="@{/report/report-write}" method="post" name="donation-write-form" id="uploadForm">
                         <div class="btn-group">
                             <div>
                                 <label for="textInput">신고사유:</label>
@@ -303,9 +303,8 @@
                                 ></textarea>
                             </div>
                         </div>
-                    </form>
                     <button
-                            type="button"
+                            type="submit"
                             class="report-submit-btn"
                             id="reportSubmitBtn"
                     >
@@ -313,6 +312,7 @@
                     </button>
                 </div>
             </div>
+            </form>
         </main>
     </div>
 </div>
@@ -323,6 +323,7 @@
     const attachments = [[${attachments}]]
     const isAuthor = [[${isAuthor}]]
     console.log(isAuthor)
+    console.log("가져온 아이디는:{}",volunteer.postId)
 </script>
 <script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
 <script src="/js/main/login-header.js"></script>

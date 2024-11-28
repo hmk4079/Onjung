@@ -1,20 +1,19 @@
-package com.app.back.mapper;
+package com.app.back.service;
 
-import com.app.back.domain.report.ReportDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.Search;
+import com.app.back.domain.report.ReportDTO;
 import com.app.back.mapper.report.ReportMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
 @Slf4j
-public class ReportMapperTests {
+public class ReportServiceTests {
     @Autowired
     private ReportMapper reportMapper;
 
