@@ -20,6 +20,7 @@
 <div th:if="${!isLogin}">
     <th:block th:replace="~{main/basic-header :: header}"></th:block>
 </div>
+<form method="post" action="/volunteer/apply">
 <div class="approvemodal" style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; z-index: 10000;">
     <div style="
         transform: translate3d(0px, 0px, 0px);
@@ -46,8 +47,10 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 10001;
-        "></div>
+        ">
+    </div>
 </div>
+</form>
 <div class="content-container-maincontent">
     <div class="thumbnail-background" style="position: relative">
         <main class="container-main-body">
@@ -264,14 +267,11 @@
                                 </section>
                                 <div class="donation-btn-wrap">
 <!--                                    <div class="donation-btn-container tooltip" th:if="${!isAuthor}">-->
-                                    <form method="post" action="/volunteer/apply">
                                         <div class="donation-btn-container tooltip">
-                                            <!-- 버튼을 사용하여 폼 제출 -->
                                             <button type="submit" class="donation-btn-style" id="apply-btn">
                                                 <span class="visual-correction">지원하기</span>
                                             </button>
                                         </div>
-                                    </form>
                                     <div class="donation-btn-container" id="edit-buttons" th:if="${isAuthor}">
                                         <a class="donation-btn-style2 go-update">
                                             <span class="visual-correction">수정하기</span>

@@ -232,7 +232,7 @@ public class VolunteerController {
 
         if (loginMember == null || vtId == null) {
             // 로그인 필요 또는 모집 정보 없음
-            return "redirect:/login"; // 로그인 페이지로 리다이렉트하거나 에러 페이지로 이동
+            return "redirect:/member/login"; // 로그인 페이지로 리다이렉트하거나 에러 페이지로 이동
         }
 
         // VtApplicationDTO 생성
@@ -246,7 +246,7 @@ public class VolunteerController {
         try {
             volunteerService.applyForVolunteer(vtId, applicationDTO);
             // 성공 시 마이페이지로 리다이렉트
-            return "redirect:/mypage"; // 마이페이지 경로로 수정
+            return "redirect:/mypage/mypage"; // 마이페이지 경로로 수정
         } catch (Exception e) {
             log.error("지원 중 오류 발생: {}", e.getMessage());
             // 에러 메시지를 FlashAttribute로 추가하여 리다이렉트 시 전달

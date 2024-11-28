@@ -23,39 +23,31 @@ tabs.forEach((tab, index) => {
     });
 });
 
+// DOM 요소 가져오기
+const applyButton = document.getElementById('apply-btn');
+const approveModal = document.querySelector('.approvemodal');
+const confirmApproveButton = document.getElementById('confirmApprove');
 
-// 승인 및 거절 모달 이벤트 설정
-const setupModalEvents = () => {
-    console.log("Setting up modal events...");
+// "지원하기" 버튼 클릭 이벤트
+applyButton.addEventListener('click', () => {
+    // 모달 표시
+    approveModal.style.display = 'flex';
+});
 
-    // 승인 모달 닫기 버튼 이벤트
-    const approveCloseModal = document.getElementById("approvecloseModal");
-    if (approveCloseModal && !approveCloseModal.dataset.listener) {
-        approveCloseModal.addEventListener("click", () => {
-            console.log("Approve modal closed");
-            document.querySelector(".approvemodal").style.display = "none";
-            currentApplicationId = null;
-        });
-        approveCloseModal.dataset.listener = "true"; // 중복 설정 방지
-    }
+// "확인" 버튼 클릭 이벤트
+confirmApproveButton.addEventListener('click', () => {
+    // 모달 숨기기
+    approveModal.style.display = 'none';
+    // 여기에 확인 후 처리할 추가 작업을 작성하세요.
+    console.log('확인 버튼이 클릭되었습니다.');
+    alert("봉사 신청이 완료되었습니다.")
+});
 
-    // 승인 확인 버튼 이벤트
-    const confirmApprove = document.getElementById("confirmApprove");
-    if (confirmApprove && !confirmApprove.dataset.listener) {
-        confirmApprove.addEventListener("click", async () => {
-            if (currentApplicationId) {
-                console.log(`Attempting to approve application ID: ${currentApplicationId}`);
-                await approveApplication(currentApplicationId);
-                document.querySelector(".approvemodal").style.display = "none";
-                currentApplicationId = null;
-            } else {
-                console.warn("No currentApplicationId set");
-            }
-        });
-        confirmApprove.dataset.listener = "true";
-        alert("신청이 완료되었습니다.")
-    }
-}
+// 모달 바깥을 클릭하여 닫는 기능 추가 (선택 사항)
+document.querySelector('.last-modal').addEventListener('click', () => {
+    approveModal.style.display = 'none';
+});
+
 
 // // 예시 댓글 데이터 배열
 // const comments = [
