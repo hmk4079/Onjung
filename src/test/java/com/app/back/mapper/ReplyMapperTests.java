@@ -19,9 +19,9 @@ public class ReplyMapperTests {
         ReplyDTO replyDTO = new ReplyDTO();
         replyDTO.setId(6L);
         replyDTO.setReplyContent("야호");
-        replyDTO.setReplyStatus("@gmail.com");
-        replyDTO.setMemberId(2L);
-        replyDTO.setPostId(1l);
+        replyDTO.setReplyStatus("VISIBLE");
+        replyDTO.setMemberId(37L);
+        replyDTO.setPostId(40l);
         replyMapper.insert(replyDTO.toReplyVO());
 
     }

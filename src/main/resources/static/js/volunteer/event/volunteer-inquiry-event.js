@@ -149,14 +149,6 @@ document.querySelector('.last-modal').addEventListener('click', () => {
 //     }
 // });
 
-// 첨부파일 렌더링 함수(img생성)
-constrenderAttachmentsImg = ({attachments}) => {
-    const attachImgList = documnet.getElementById("")
-}
-
-
-
-
 
 // 첨부파일 렌더링 함수(다운로드)
 const renderAttachments = ({ attachments }) => {
@@ -241,6 +233,7 @@ updateButton.addEventListener("click", (e) => {
 });
 
 deleteButton.addEventListener("click", (e) => {
+    alert("게시물이 성공적으로 삭제되었습니다.")
     location.href = `/volunteer/volunteer-delete?postId=${volunteer.id}`;
 })
 
