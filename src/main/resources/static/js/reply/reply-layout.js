@@ -1,93 +1,75 @@
-const replyLayout = document.querySelector("#replies");
-// const replyPaging = document.querySelector("#paging");
-const moreButton = document.getElementById("more-button");
+const tabs = document.querySelectorAll(".tabs .tab");
+const contentContainer = document.querySelector(".content-wrap"); // 내용 섹션 컨테이너
+const commentSection = document.querySelector(".comment-wrap"); // 댓글 섹션
+const commentInputSection = document.querySelector(".contest-comment-input"); // 댓글 작성 창
 
-// const showListScroll = ({replies, pagination}) => {
-//     let text = ``;
-//
-//     // 다음 페이지 없을 때,
-//     if(pagination.rowCount >= replies.length){
-//         // 더 불러오지 않게 막아준다.
-//         globalThis.loadingFlag = true;
-//     }else{
-//         replies.pop();
-//     }
-//     replies.forEach((reply) => {
-//         text += `
-//             <div style="display: flex">
-//                 <div>${reply.id}</div>
-//                 <div class="reply-content-${reply.id}">${reply.replyContent}</div>
-//                 <div>${reply.memberName}</div>
-//                 <div>${timeForToday(reply.createdDate)}</div>
-//                 <button class="update reply-id-${reply.id}">수정</button> <button class="delete reply-id-${reply.id}">삭제</button>
-//             </div>
-//         `;
-//     });
-//     replyLayout.innerHTML += text;
-// }
+// 댓글 렌더링 함수
+const renderComments = () => {
+    const commentSection = document.getElementById("comment-section");
+    commentSection.innerHTML = "";
 
-// const showListMore = ({replies, pagination}) => {
-//     let text = ``;
-//
-//     // 다음 페이지 없을 때,
-//     if(pagination.rowCount >= replies.length){
-//         // 더보기 없애기
-//         moreButton.style.display = "none";
-//     }else{
-//         replies.pop();
-//     }
-//     replies.forEach((reply) => {
-//         text += `
-//             <div style="display: flex">
-//                 <div>${reply.id}</div>
-//                 <div class="reply-content-${reply.id}">${reply.replyContent}</div>
-//                 <div>${reply.memberName}</div>
-//                 <div>${timeForToday(reply.createdDate)}</div>
-//                 <button class="update reply-id-${reply.id}">수정</button> <button class="delete reply-id-${reply.id}">삭제</button>
-//             </div>
-//         `;
-//     });
-//     replyLayout.innerHTML += text;
-// }
+    comments.forEach((comment) => {
+        const isAuthorWriter = comment.author ? '<p class="comment">작성자</p>' : "";
 
-const showList = ({replies, pagination}) => {
-    let text = ``;
-    let pagingText = ``;
-
-    replies.forEach((reply) => {
-        text += `
-            <div style="display: flex">
-                <div>${reply.id}</div>
-                <div class="reply-content-${reply.id}">${reply.replyContent}</div>
-                <div>${reply.memberName}</div>
-                <div>${timeForToday(reply.createdDate)}</div>
-                <button class="update reply-id-${reply.id}">수정</button> <button class="delete reply-id-${reply.id}">삭제</button>
-            </div>
+        const commentHTML = `
+            <article class="comment-container">
+                <div class="contest-comment-show">
+                    <div>
+                        <div class="comment-card">
+                            <div class="contest-comment-userinfo">
+                                <a href="/m/${comment.user}" class="profile-avatar-container avatar">
+                                    <img src="${comment.profile}" />
+                                </a>
+                                <div class="nick">
+                                    <div class="nickname-container user-nick-wrapper">
+                                        <p class="nickname-text">
+                                            <a class="user-nick nick" href="/m/${comment.user}">
+                                                ${comment.user}
+                                            </a>
+                                        </p>
+                                    </div>
+                                    ${isAuthorWriter}
+                                </div>
+                                <p>| ${comment.date}</p>
+                            </div>
+                            <div class="contest-comment-content">
+                                <div>${comment.content}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contest-comment-buttons"></div>
+                </div>
+            </article>
         `;
+
+        commentSection.insertAdjacentHTML("beforeend", commentHTML);
     });
-    replyLayout.innerHTML = text;
+};
 
-    if(pagination.prev){
-        pagingText += `
-            <div><a href="${pagination.startPage - 1}">이전</a></div>
-        `
-    }
-    for(let i=pagination.startPage; i<=pagination.endPage; i++){
-        if(pagination.page === i){
-            pagingText += `<div style="color: red">${i}</div>`
-        }else{
-            pagingText += `<div><a href="${i}">${i}</a></div>`
-        }
-    }
+// 페이지가 로드될 때 댓글 렌더링
+renderComments();
 
-    if(pagination.next) {
-        pagingText += `
-            <div><a href="${pagination.endPage + 1}">다음</a></div>
-        `
-    }
+const commentTextarea = document.getElementById("comment-content");
+const submitButton = document.querySelector(".submit-comment-button");
 
-    replyPaging.innerHTML = pagingText;
-}
+// textarea 입력 이벤트 처리
+commentTextarea.addEventListener("input", () => {
+    if (commentTextarea.value.trim() !== "") {
+        submitButton.disabled = false;
+    } else {
+        submitButton.disabled = true;
+    }
+});
+
+// 댓글 작성 버튼 클릭 이벤트 처리
+submitButton.addEventListener("click", () => {
+    const commentText = commentTextarea.value.trim();
+    if (commentText) {
+        alert(`댓글이 작성되었습니다: ${commentText}`);
+        commentTextarea.value = "";
+        submitButton.disabled = true;
+    }
+});
 
 
 

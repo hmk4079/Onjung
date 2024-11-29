@@ -84,12 +84,12 @@
                             <div class="tab-style tabs">
                                 <div class="active tab">내용</div>
                                 <div class="tab">
-                                    댓글<label class="tab-sticker">
-                                    0
-                                </label
-                                >
+                                    댓글
+<!--                                    <label class="tab-sticker" th:text="${replyCount}"></label>-->
+                                    <label class="tab-sticker" >0</label>
                                 </div>
                             </div>
+
                         </div>
                         <div class="content-wrap">
                             <section class="content-container">
@@ -163,23 +163,17 @@
                                     ></section>
                                 </div>
                             </section>
-
-                            <section
-                                    class="contest-comment-input"
-                                    style="width: 500px"
-                            >
-                                        <textarea
-                                                class="comment-textarea"
-                                                id="comment-content"
-                                                placeholder="댓글을 입력하세요."
-                                        ></textarea>
-                                <button
-                                        class="submit-comment-button"
-                                        disabled
-                                >
+                            <section class="contest-comment-input" style="width: 500px">
+                                <textarea
+                                    class="comment-textarea"
+                                    id="reply-content"
+                                    placeholder="댓글을 입력하세요."
+                                ></textarea>
+                                <button class="submit-comment-button" id="write-button">
                                     댓글 작성
                                 </button>
                             </section>
+
                         </div>
                     </section>
                     <div class="space"></div>
@@ -323,10 +317,14 @@
     const volunteer = [[${volunteer}]]
     const attachments = [[${attachments}]]
     const isAuthor = [[${isAuthor}]]
+    // const comments = [[${comment}]]
+    // console.log(JSON.parse(comments)); // 댓글 데이터 확인
     console.log(isAuthor)
     console.log("가져온 아이디는:{}",volunteer.postId)
 </script>
 <script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
 <script src="/js/volunteer/layout/volunteer-inquiry-layout.js"></script>
 <script src="/js/main/login-header.js"></script>
+<script src="/js/reply/reply-event.js"></script>
+<script src="/js/reply/reply-service.js"></script>
 </html>

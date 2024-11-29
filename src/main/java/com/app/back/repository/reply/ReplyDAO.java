@@ -14,8 +14,8 @@ import java.util.List;
 public class ReplyDAO {
     private final ReplyMapper replyMapper;
     //    댓글 추가
-    public void save(ReplyVO replyVO) {
-        replyMapper.insert(replyVO);
+    public void insertReply(ReplyVO replyVO) {
+        replyMapper.insertReply(replyVO);
     }
     //    해당 포스트 댓글 목록
     public List<ReplyDTO> findAllByPostId(Long postId) {

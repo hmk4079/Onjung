@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReplyVO {
+    @EqualsAndHashCode.Include
     private Long id;
     private String replyContent;
     private String replyStatus;

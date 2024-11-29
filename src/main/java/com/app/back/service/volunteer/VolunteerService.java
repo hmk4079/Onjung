@@ -31,6 +31,7 @@ public interface VolunteerService {
     //    멤버ID가져오기
     public List<VolunteerDTO> getMemberId(Long memberId);
 
+    //    봉사 지원하기
     public void applyForVolunteer(Long vtId, VtApplicationDTO vtApplicationDTO);
 
 

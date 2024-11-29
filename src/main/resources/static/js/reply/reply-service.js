@@ -6,7 +6,6 @@ const replyService = (() => {
             headers: {"Content-Type": "application/json; charset=utf-8"}
         });
     }
-
     const getList = async (page, postId, callback) => {
         page = page || 1;
         const response = await fetch(`/replies/${postId}/${page}`)
@@ -34,4 +33,5 @@ const replyService = (() => {
     }
 
     return {write: write, getList: getList, update: update, remove: remove};
+    // return{write:write};
 })()

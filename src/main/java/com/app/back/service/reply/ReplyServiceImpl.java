@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,15 +18,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReplyServiceImpl implements ReplyService {
     private final ReplyDAO replyDAO;
+    private final ReplyDTO replyDTO;
 
     // 댓글 추가
     @Override
-    public void addReply(ReplyVO replyVO) {
-        replyDAO.save(replyVO);
+    public void save(ReplyVO replyVO) {
+        replyDAO.insertReply(replyVO);
     }
     // 댓글 목록 조회
     @Override
-    public ReplyListDTO getRepliesByPostId(Long postId) {
+    public ReplyListDTO getList(Long postId) {
         ReplyListDTO replyListDTO = new ReplyListDTO();
         replyListDTO.setReplies(replyDAO.findAllByPostId(postId));
         return replyListDTO;

@@ -1,9 +1,11 @@
 const writeButton = document.querySelector("#write");
 const replyContent = document.querySelector("#reply-content");
 
+// replyService.getList(postId);
 replyService.getList(1, postId, showList);
 globalThis.page = 1;
 // replyService.getList(globalThis.page, postId, showListMore);
+// replyService.getList(postId);
 replyService.getList(globalThis.page, postId, showListScroll);
 
 // replyPaging.addEventListener("click", (e) => {

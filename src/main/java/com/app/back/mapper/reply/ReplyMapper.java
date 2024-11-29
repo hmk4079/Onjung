@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface ReplyMapper {
     //    게시글 작성
-    public void insert(ReplyVO replyVO);
+    public void insertReply(ReplyVO replyVO);
     //    게시글 댓글 목록
     public List<ReplyDTO> postReplyAll(Long postId);
     //    댓글 소프트 삭제
