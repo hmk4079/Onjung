@@ -27,8 +27,6 @@ public class WebMvcConfig  implements WebMvcConfigurer {
         registry.addInterceptor(new AlarmInterceptor(alarmService)).addPathPatterns("/help/**");
         registry.addInterceptor(new AlarmInterceptor(alarmService)).addPathPatterns("/rank/**");
 
-//        registry.addInterceptor(new MoveInterceptor(volunteerService)).addPathPatterns("/volunteer/volunteer-write/**");
-//        registry.addInterceptor(new MoveInterceptor(volunteerService)).addPathPatterns("/support/support-write/**");
         registry.addInterceptor(new MoveInterceptor(volunteerService)).addPathPatterns("/volunteer/**");
         registry.addInterceptor(new MoveInterceptor(volunteerService)).addPathPatterns("/support/**");
 

@@ -3,6 +3,8 @@ package com.app.back.domain.reply;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 @Data
 @Slf4j
 public class Pagination {
@@ -55,7 +57,4 @@ public class Pagination {
         log.info("Pagination 계산 결과 - 현재 페이지: {}, 시작 페이지: {}, 끝 페이지: {}, 실제 마지막 페이지: {}, 총 게시물 수: {}",
                 page, startPage, endPage, realEnd, total);
     }
-
-
-
 }

@@ -4,6 +4,7 @@ import com.app.back.domain.Util.EmailUtil;
 import com.app.back.domain.member.LoginResponseDTO;
 import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
+import com.app.back.domain.profile.ProfileDTO;
 import com.app.back.enums.MemberLoginType;
 import com.app.back.service.donation_record.DonationRecordService;
 import com.app.back.service.member.MemberService;
@@ -33,6 +34,7 @@ public class MemberController {
     private final RankService rankService;
     private final PaymentService paymentService;
     private final DonationRecordService donationRecordService;
+    private final ProfileDTO profileDTO;
 
     @GetMapping("/member/signup")
     public String goToSignup() {

@@ -1,12 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     const writeButton = document.querySelector("#write-button");
     const commentTextarea = document.getElementById("reply-content");
-    const postId = document.querySelector(".layout")?.getAttribute("data-post-id");
+    const postIdElement = document.getElementById("post-id");
+    const postId = postIdElement ? postIdElement.value : null;
 
     if (!postId) {
-        console.error("postId가 없습니다. HTML에 data-post-id 속성을 추가하세요.");
+        console.error("postId가 없습니다. HTML에 id='post-id' 요소를 추가하세요.");
         return;
     }
+    console.log("가져온 postId:", postId);
+
 
     // 댓글 작성 이벤트 등록
     writeButton.addEventListener("click", async () => {
@@ -38,23 +41,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 댓글 렌더링 함수
     function renderComments(comments) {
+        function renderComments(comments) {
+            if (!comments) {
+                console.error("comments 데이터가 없습니다.");
+                return;
+            }
+            comments.forEach(comment => {
+                console.log(comment);
+                // 댓글 렌더링 로직
+            });
+        }
+
         const commentSection = document.getElementById("comment-section");
         commentSection.innerHTML = "";
 
         comments.forEach((comment) => {
             const commentHTML = `
                 <article class="comment-container">
-                    <div class="contest-comment-show">
+                <div class="contest-comment-show">
+                    <div>
                         <div class="comment-card">
                             <div class="contest-comment-userinfo">
-                                <p>${comment.user}</p>
+                                <a href="/m/${comment.memberNickName}" class="profile-avatar-container avatar">
+                                    <img th:src="${comment.profileFileName != null ? '/profile/display?memberId=' + comment.memberId : '/images/default-profile.png'}" alt="프로필 이미지" />
+                                </a>
+                                <div class="nick">
+                                    <div class="nickname-container user-nick-wrapper">
+                                        <p class="nickname-text">
+                                            <a class="user-nick nick" href="#">
+                                            th:text="${comment.memberName != null ? comment.memberName : (comment.memberNickname != null ? comment.memberNickname : '닉네임없음')}"
+                                            </a>
+                                        </p>
+                                    </div>
+                                    ${isAuthorWriter}
+                                </div>
+                                <p>| ${comment.createdDate}</p>
                             </div>
                             <div class="contest-comment-content">
-                                <p>${comment.content}</p>
+                                <div>${comment.replyContent}</div>
                             </div>
                         </div>
                     </div>
-                </article>
+                    <div class="contest-comment-buttons"></div>
+                </div>
+            </article>
             `;
             commentSection.insertAdjacentHTML("beforeend", commentHTML);
         });
@@ -90,17 +120,17 @@ document.addEventListener("DOMContentLoaded", () => {
         submitButton.disabled = commentTextarea.value.trim() === "";
     });
 
-    // 댓글 작성 버튼 클릭 이벤트 처리
-    submitButton.addEventListener("click", async () => {
-        const commentText = commentTextarea.value.trim();
-        if (!commentText) return;
-
-        await replyService.write({ postId, replyContent: commentText });
-        commentTextarea.value = "";
-        submitButton.disabled = true;
-
-        loadComments(globalThis.page); // 작성 후 댓글 목록 새로고침
-    });
+    // // 댓글 작성 버튼 클릭 이벤트 처리
+    // submitButton.addEventListener("click", async () => {
+    //     const commentText = commentTextarea.value.trim();
+    //     if (!commentText) return;
+    //
+    //     await replyService.write({ postId, replyContent: commentText });
+    //     commentTextarea.value = "";
+    //     submitButton.disabled = true;
+    //
+    //     loadComments(globalThis.page); // 작성 후 댓글 목록 새로고침
+    // });
 
     // 무한 스크롤 이벤트
     window.addEventListener("scroll", () => {

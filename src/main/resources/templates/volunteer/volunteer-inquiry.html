@@ -164,7 +164,7 @@
                                 </div>
                             </section>
                             <section class="contest-comment-input" style="width: 500px">
-                                <input type="hidden" id="post-id" value="${postId}" />
+                                <input type="hidden" id="post-id" th:value="${postId}" />
                                 <textarea
                                     class="comment-textarea"
                                     id="reply-content"
@@ -323,10 +323,10 @@
     console.log(isAuthor)
     console.log("가져온 아이디는:{}",volunteer.postId)
 </script>
-<script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
-<script src="/js/volunteer/layout/volunteer-inquiry-layout.js"></script>
 <script src="/js/main/login-header.js"></script>
-<script src="/js/reply/reply-event.js"></script>
-<script src="/js/reply/reply-layout.js"></script>
+<script src="/js/volunteer/layout/volunteer-inquiry-layout.js"></script>
+<script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
 <script src="/js/reply/reply-service.js"></script>
+<script src="/js/reply/reply-layout.js"></script>
+<script src="/js/reply/reply-event.js"></script>
 </html>

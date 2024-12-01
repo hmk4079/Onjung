@@ -152,10 +152,13 @@ public class VolunteerController {
     }
 
     @GetMapping("volunteer-inquiry/{postId}")
-    public String goToVolunteerPath(HttpSession session,
-                                    @PathVariable("postId") Long postId,
-                                    @RequestParam(defaultValue = "1") int page,
-                                    Model model) {
+    public String goToVolunteerPath(
+            HttpSession session,
+            @PathVariable("postId") Long postId,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            Model model
+    ) {
+        // 로그인 상태 확인
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
         boolean isLoggedIn = (loginMember != null);
         model.addAttribute("isLogin", isLoggedIn);
@@ -170,8 +173,12 @@ public class VolunteerController {
 
         // 조회한 VolunteerDTO의 vtId를 세션에 저장
         session.setAttribute("vtId", volunteerDTO.getId()); // Volunteer의 ID(vtId)를 저장
+
+        // 로그인한 사용자의 ID 가져오기
         Long userId = loginMember != null ? loginMember.getId() : null;
+        // 작성자 ID 가져오기
         Long authorId = volunteerDTO.getMemberId();
+        // 사용자와 작성자 일치 여부 확인
         boolean isAuthor = userId != null && userId.equals(authorId);
 
         // 디버깅 로그 출력
@@ -180,26 +187,25 @@ public class VolunteerController {
         log.info("isAuthor: {}", isAuthor);
         log.info("Volunteer added to Model: {}", volunteerDTO);
 
-        // Pagination 객체 생성
+        // Pagination 객체 생성 및 설정
         Pagination pagination = new Pagination();
         pagination.setPage(page);
-        pagination.setRowCount(10); // 한 페이지당 댓글 수 설정
-        int totalReplies = replyService.getTotalReplies(postId); // 전체 댓글 수
-        pagination.setTotal(totalReplies);
-        pagination.progress();
 
-        // 댓글 목록 가져오기
-        ReplyListDTO replyListDTO = replyService.getListByPostId(postId, pagination);
+        // ReplyListDTO 가져오기
+//        ReplyListDTO replyList = replyService.getListByPostId(postId, pagination);
 
         // 모델에 데이터 추가
         model.addAttribute("volunteer", volunteerDTO);
         model.addAttribute("attachments", attachmentService.getList(postId));
         model.addAttribute("isAuthor", isAuthor);
-        model.addAttribute("replies", replyListDTO.getReplies()); // 댓글 목록
-        model.addAttribute("pagination", replyListDTO.getPagination()); // 페이징 정보
+        model.addAttribute("postId", postId); // postId 추가
+//        model.addAttribute("comments", replyList.getReplies()); // 댓글 목록 추가
+//        model.addAttribute("pagination", replyList.getPagination()); // 페이징 정보 추가
 
         return "volunteer/volunteer-inquiry";
     }
+
+
 
 
     //    지원하기

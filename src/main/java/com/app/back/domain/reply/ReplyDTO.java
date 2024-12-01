@@ -19,6 +19,9 @@ public class ReplyDTO {
     private Long memberId;
     private Long postId;
 
+    private String memberNickname;
+    private String memberName;
+
     private String profileFileName;
     private String profileFilePath;
     private Long profileFileSize;

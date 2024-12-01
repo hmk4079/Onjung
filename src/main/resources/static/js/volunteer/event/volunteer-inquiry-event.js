@@ -36,19 +36,19 @@ window.onclick = (event) => {
     }
 };
 
-// 댓글 작성 이벤트
-const commentTextarea = document.getElementById("comment-content");
-const submitButton = document.querySelector(".submit-comment-button");
-
-commentTextarea.addEventListener("input", () => {
-    submitButton.disabled = commentTextarea.value.trim() === "";
-});
-
-submitButton.addEventListener("click", () => {
-    const commentText = commentTextarea.value.trim();
-    if (commentText) {
-        alert(`댓글이 작성되었습니다: ${commentText}`);
-        commentTextarea.value = "";
-        submitButton.disabled = true;
-    }
-});
+// // 댓글 작성 이벤트
+// const commentTextarea = document.getElementById("comment-content");
+// const submitButton = document.querySelector(".submit-comment-button");
+//
+// commentTextarea.addEventListener("input", () => {
+//     submitButton.disabled = commentTextarea.value.trim() === "";
+// });
+//
+// submitButton.addEventListener("click", () => {
+//     const commentText = commentTextarea.value.trim();
+//     if (commentText) {
+//         alert(`댓글이 작성되었습니다: ${commentText}`);
+//         commentTextarea.value = "";
+//         submitButton.disabled = true;
+//     }
+// });
