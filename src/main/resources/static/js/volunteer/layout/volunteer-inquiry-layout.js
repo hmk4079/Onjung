@@ -115,60 +115,6 @@ deleteButton.addEventListener("click", () => {
     location.href = `/volunteer/volunteer-delete?postId=${volunteer.id}`;
 })
 
-// const renderComments = () => {
-//     const commentSection = document.getElementById("comment-section");
-//     commentSection.innerHTML = "";
-//
-//     comments.forEach((comment) => {
-//         const isAuthorWriter = comment.author ? '<p class="comment">작성자</p>' : "";
-//
-//         const commentHTML = `
-//             <article class="comment-container">
-//                 <div class="contest-comment-show">
-//                     <div>
-//                         <div class="comment-card">
-//                             <div class="contest-comment-userinfo">
-//                                 <a href="/m/${volunteer.member}" class="profile-avatar-container avatar"
-//                                 th:text="${volunteer.memberName != null ? volunteer.memberName : (volunteer.memberNickname != null ? volunteer.memberNickname : '닉네임없음')}"
-//                                 >
-//                                     <img th:src="${volunteer.profileFileName != null ? '/profile/display?memberId=' + volunteer.memberId : '/images/default-profile.png'}" alt="프로필 이미지"  />
-//                                 </a>
-//                                 <div class="nick">
-//                                     <div class="nickname-container user-nick-wrapper">
-//                                         <p class="nickname-text">
-//                                             <a class="user-nick nick" href="/m/${comment.user}">
-//                                                 ${comment.user}
-//                                             </a>
-//                                         </p>
-//                                     </div>
-//                                     ${isAuthorWriter}
-//                                 </div>
-//                                 <p>| ${comment.date}</p>
-//                             </div>
-//                             <div class="contest-comment-content">
-//                                 <div>${comment.content}</div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                     <div class="contest-comment-buttons"></div>
-//                 </div>
-//             </article>
-//         `;
-//
-//         commentSection.insertAdjacentHTML("beforeend", commentHTML);
-//     });
-// };
-//
-// // 페이지가 로드될 때 댓글 렌더링
-// renderComments()
-//
-// const textarea = document.getElementById("comment-content");
-// const button = document.querySelector(".submit-comment-button");
-//
-// textarea.addEventListener("input", () => {
-//     button.disabled = !textarea.value.trim(); // 내용이 없으면 버튼 비활성화
-// });
-
 // 신고하기 모달
 document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("report-modal");

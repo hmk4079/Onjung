@@ -38,6 +38,36 @@ const replyService = (() => {
         }
     };
 
+    // 댓글 수정 함수
+    async function handleEdit(replyId, replyContent) {
+        const replyData = {
+            id: replyId,
+            replyContent: replyContent
+        };
+
+        try {
+            const response = await fetch('/reply/edit', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(replyData)
+            });
+
+            if (response.ok) {
+                alert('댓글이 성공적으로 수정되었습니다.');
+                location.reload(); // 페이지 새로고침
+            } else {
+                const errorMessage = await response.text();
+                alert(`댓글 수정 실패: ${errorMessage}`);
+            }
+        } catch (error) {
+            alert('댓글 수정 중 오류가 발생했습니다.');
+            console.error(error);
+        }
+    }
+
+
     // 댓글 삭제
     const remove = async (replyId) => {
         try {
@@ -111,5 +141,5 @@ const replyService = (() => {
 
 
     // 메서드들을 객체로 반환
-    return { write, getList, remove, getReplyCount };
+    return { write, getList, handleEdit, remove, getReplyCount };
 })();

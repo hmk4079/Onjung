@@ -7,19 +7,40 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
+    let currentPage = 1; // 현재 페이지를 저장할 변수
+    let isLastPage = false; // 마지막 페이지 여부 확인
+
     // 댓글 목록 로드 함수
     window.loadComments = async (page = 1, postId) => {
         try {
             console.log("댓글 새로고침 실행");
             const data = await replyService.getList(page, postId);
+
             if (data && data.replies) {
+                if (page === 1) {
+                    // 처음 로드일 경우 기존 댓글 초기화
+                    clearComments();
+                }
+
                 renderComments(data.replies);
-                updateReplyCount(postId);
+
+                // 마지막 페이지 여부 확인
+                isLastPage = data.replies.length < data.rowCount;
+
+                // "더보기" 버튼 상태 업데이트
+                toggleLoadMoreButton(!isLastPage);
+                await updateReplyCount(postId);
             }
         } catch (error) {
             console.error("댓글 목록 로딩 중 오류:", error);
         }
     };
+
+    // 댓글 초기화 함수
+    function clearComments() {
+        const commentSection = document.getElementById("comment-section");
+        commentSection.innerHTML = ""; // 기존 댓글 초기화
+    }
 
     // 댓글 렌더링 함수
     function renderComments(comments) {
@@ -29,16 +50,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const commentSection = document.getElementById("comment-section");
-        commentSection.innerHTML = ""; // 기존 댓글 초기화
 
         comments.forEach((comment) => {
-            // Null 값 처리
             const memberName = comment.memberName || comment.memberNickname || "닉네임 없음";
             const profileImage = comment.profileFileName
                 ? `/profile/display?memberId=${comment.memberId}`
                 : "/images/default-profile.png";
 
-            // 댓글 HTML 템플릿
             const commentHTML = `
     <article class="comment-container">
         <div class="contest-comment-show">
@@ -67,8 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="contest-comment-buttons">
                 <button 
                     class="edit-button" 
-                    data-reply-id="${comment.id}" 
-                    onclick="handleEdit(${comment.id})">
+                    data-reply-id="${comment.id}">
                     수정
                 </button>
                 <button 
@@ -86,6 +103,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // "더보기" 버튼 상태 업데이트
+    function toggleLoadMoreButton(show) {
+        const loadMoreButton = document.getElementById("load-more");
+        if (loadMoreButton) {
+            loadMoreButton.style.display = show ? "block" : "none";
+        }
+    }
+
     // 댓글 수 업데이트 함수
     async function updateReplyCount(postId) {
         try {
@@ -100,21 +125,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 시간 변환 함수
-    function timeForToday(datetime) {
-        const today = new Date();
-        const date = new Date(datetime);
-        let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
-
-        if (gap < 1) return "방금 전";
-        if (gap < 60) return `${gap}분 전`;
-        gap = Math.floor(gap / 60);
-        if (gap < 24) return `${gap}시간 전`;
-        gap = Math.floor(gap / 24);
-        if (gap < 31) return `${gap}일 전`;
-        gap = Math.floor(gap / 31);
-        if (gap < 12) return `${gap}개월 전`;
-        return `${Math.floor(gap / 12)}년 전`;
+    // "더보기" 버튼 클릭 이벤트
+    const loadMoreButton = document.getElementById("load-more");
+    if (loadMoreButton) {
+        loadMoreButton.addEventListener("click", () => {
+            if (!isLastPage) {
+                currentPage += 1; // 페이지 증가
+                loadComments(currentPage, postId); // 다음 페이지 댓글 로드
+            }
+        });
     }
 
     // 초기 댓글 로드

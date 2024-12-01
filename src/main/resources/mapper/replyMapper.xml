@@ -18,7 +18,6 @@
         limit #{pagination.startRow}, #{pagination.rowCount}
     </select>
 
-
     <select id="selectCount">
     select count(*) from tbl_reply
     where post_id = #{postId} and  reply_status = 'VISIBLE'

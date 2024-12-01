@@ -26,7 +26,7 @@ public class Pagination {
         // 현재 페이지 설정 (null인 경우 1로 초기화)
         this.page = page == null ? 1 : page;
         // 한 페이지에 보여줄 댓글 개수
-        this.rowCount = 10;
+        this.rowCount = 5;
         // 더보기 구현 시, 다음 페이지의 댓글 1개를 더 가져오기 위해 설정
         this.moreRowcount = rowCount + 1;
         // 한 블록에 보여줄 페이지 수 (예: 1, 2, 3, 4, 5)

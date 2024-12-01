@@ -669,6 +669,27 @@ a {
     background-color: rgb(244, 245, 248);
 }
 
+#load-more{
+    margin-top: 10px;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+    color: rgb(38, 86, 246);
+    border: 0.3px solid rgb(38, 86, 246);
+    padding: 11px 20px;
+    font-size: 15px;
+    line-height: 23px;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    width: 100%;
+    background-color:white;
+}
+
 .comment-wrap-fr {
     width: 100%;
     background-color: rgb(255, 255, 255);
@@ -836,7 +857,7 @@ a {
 }
 
 .comment-textarea {
-    width: 560px;
+    width: 760px;
     height: 80px;
     padding: 10px;
     font-size: 14px;
@@ -844,6 +865,7 @@ a {
     border-radius: 5px;
     resize: none;
     outline: none;
+    margin-top:20px;
 }
 
 .submit-comment-button {

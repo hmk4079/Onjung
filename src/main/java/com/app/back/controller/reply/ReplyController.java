@@ -5,10 +5,12 @@ import com.app.back.domain.profile.ProfileDTO;
 import com.app.back.domain.reply.Pagination;
 import com.app.back.domain.reply.ReplyDTO;
 import com.app.back.domain.reply.ReplyListDTO;
+import com.app.back.domain.reply.ReplyVO;
 import com.app.back.service.reply.ReplyService;
 import com.app.back.service.volunteer.VolunteerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -90,6 +92,17 @@ public class ReplyController {
         return ResponseEntity.ok(replyListDTO);
     }
 
+    // 댓글 수정
+    @PutMapping("/edit")
+    public ResponseEntity<String> editReply(@RequestBody ReplyVO replyVO) {
+        try {
+            replyService.editReply(replyVO);
+            return ResponseEntity.ok("댓글이 성공적으로 수정되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("댓글 수정 중 오류가 발생했습니다.");
+        }
+    }
+
 
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<?> deleteReply(@PathVariable Long id) {
@@ -101,14 +114,6 @@ public class ReplyController {
 //            log.error("댓글 삭제 중 오류 발생: {}", e.getMessage());
 //            return ResponseEntity.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR).body("댓글 삭제 중 오류가 발생했습니다.");
 //        }
-//    }
-//
-//    @GetMapping("{postId}/{page}")
-//    public ResponseEntity<ReplyListDTO> getRepliesByPostId(@PathVariable("postId") Long postId,
-//                                                           @PathVariable("page") int page,
-//                                                           Pagination pagination) {
-//        ReplyListDTO replies = replyService.selectRepliesByPostId(page, pagination, postId);
-//        return ResponseEntity.ok(replies);
 //    }
 
     // 댓글 수 조회
