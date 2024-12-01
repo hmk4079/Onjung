@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+
 
 @Slf4j
 @Service
@@ -38,17 +41,27 @@ public class ReplyServiceImpl implements ReplyService {
         ReplyListDTO replyListDTO = new ReplyListDTO();
 
         // 페이지 및 총 댓글 수 설정
-        pagination.setTotal(replyDAO.getReplyCount(postId));
+        int totalReplies = replyDAO.getReplyCount(postId);
+        pagination.setTotal(totalReplies);
         pagination.progress();
+        log.info("Pagination 설정 완료: {}", pagination);
 
-        // 댓글 리스트 및 페이징 정보 설정
+        // 댓글 리스트 가져오기
+        List<ReplyDTO> replies = replyDAO.findPagedByPostId(pagination.getPage(), postId, pagination);
+        if (replies == null || replies.isEmpty()) {
+            log.warn("댓글이 없습니다. Post ID: {}", postId);
+            replies = Collections.emptyList();
+        }
+
+        // DTO에 설정
         replyListDTO.setPagination(pagination);
-        replyListDTO.setReplies(replyDAO.findPagedByPostId(pagination.getPage(), postId, pagination));
+        replyListDTO.setReplies(replies);
 
         return replyListDTO;
     }
 
-//
+
+    //
 //    // 댓글 수정
 //    @Override
 //    public void editReply(ReplyVO replyVO) {replyDAO.update(replyVO);}

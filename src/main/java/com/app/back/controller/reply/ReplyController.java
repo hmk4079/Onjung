@@ -9,6 +9,8 @@ import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.exception.NotFoundPostException;
 import com.app.back.service.reply.ReplyService;
 import com.app.back.service.volunteer.VolunteerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/replies/*")
 @Slf4j
 @RequiredArgsConstructor
+@Tag(name="Reply", description = "Reply RESTful API")
 public class ReplyController {
 
     private final ReplyService replyService;
@@ -44,6 +47,7 @@ public class ReplyController {
         }
     }
 
+    @Operation(summary = "댓글 작성", description = "댓글 작성 시 사용하는 API")
     @PostMapping("/write")
     public ResponseEntity<?> write(@RequestBody ReplyDTO replyDTO, HttpSession session) {
         // 세션에서 사용자 정보 가져오기
@@ -53,8 +57,9 @@ public class ReplyController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
 
-        // 사용자 정보 설정
+        // 사용자 정보 및 기본 상태 설정
         replyDTO.setMemberId(loginMember.getId());
+        replyDTO.setReplyStatus("VISIBLE"); // 댓글 상태 설정
 
         // 댓글 저장
         try {
@@ -67,16 +72,24 @@ public class ReplyController {
         }
     }
 
-    @GetMapping("/list")
+
+    @Operation(summary = "댓글 목록", description = "댓글 목록 조회 시 사용하는 API")
+    @GetMapping("/{postId}/{page}")
     public ResponseEntity<ReplyListDTO> getReplies(
-            @RequestParam Long postId,
-            @RequestParam(required = false, defaultValue = "1") int page) {
+            @PathVariable Long postId,
+            @PathVariable int page) {
+        // 페이지네이션 설정
         Pagination pagination = new Pagination();
         pagination.setPage(page);
+        pagination.setRowCount(10);
 
+        // 댓글 목록 조회
         ReplyListDTO replyListDTO = replyService.getListByPostId(postId, pagination);
+
+        // 응답 반환
         return ResponseEntity.ok(replyListDTO);
     }
+
 
 
 

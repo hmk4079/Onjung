@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     const writeButton = document.querySelector("#write-button");
     const commentTextarea = document.getElementById("reply-content");
-    const postId = document.getElementById("post-id").value;
-
     const postIdElement = document.getElementById("post-id");
-    if (!postIdElement || !postIdElement.value) {
-        console.error("postId가 없습니다. HTML에 data-post-id 속성을 추가하세요.");
-        console.log("postId 요소: ", postIdElement);
+    const postId = postIdElement ? postIdElement.value : null;
+
+    if (!postId) {
+        console.error("postId가 없습니다. HTML에 id='post-id' 요소를 추가하세요.");
         return;
     }
 
+    // 댓글 작성 이벤트 등록
     writeButton.addEventListener("click", async () => {
         const replyContent = commentTextarea.value.trim();
 
@@ -19,20 +19,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
+            console.log("댓글 작성 버튼 클릭 이벤트 실행");
             await replyService.write({ postId, replyContent });
             commentTextarea.value = ""; // 입력 필드 초기화
             alert("댓글 작성이 완료되었습니다.");
-            loadComments(); // 댓글 새로고침
+            loadComments(1, postId); // 댓글 새로고침 (layout.js에 있는 함수 호출)
         } catch (error) {
             console.error("댓글 작성 중 오류:", error);
             alert("댓글 작성에 실패했습니다.");
         }
     });
 
-    function loadComments() {
-        // 댓글 새로고침 로직
-        console.log("댓글 새로고침 실행");
-        replyService.getList(postId).then(renderComments).catch(console.error);
-    }
-
+    // textarea 입력 이벤트 처리
+    const submitButton = document.getElementById("write-button");
+    commentTextarea.addEventListener("input", () => {
+        submitButton.disabled = commentTextarea.value.trim() === "";
+    });
 });

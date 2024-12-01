@@ -7,8 +7,12 @@
     </insert>
 
     <select id="postReplyPaged" resultType="ReplyDTO">
-        select id, reply_content, reply_status, created_date, updated_date, member_id, post_id
-        from tbl_reply
+        select re.id, re.reply_content, re.reply_status, re.created_date, re.updated_date, re.member_id, re.post_id,
+               pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
+               m.member_nickname, m.member_name
+        from tbl_reply re
+        left join tbl_member m on re.member_id = m.id
+        left join tbl_profile pf on re.member_id = pf.member_id
         where post_id = #{postId} and reply_status = 'VISIBLE'
         order by created_date desc
         limit #{pagination.startRow}, #{pagination.rowCount}

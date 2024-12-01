@@ -170,7 +170,7 @@
                                     id="reply-content"
                                     placeholder="댓글을 입력하세요."
                                 ></textarea>
-                                <button class="submit-comment-button" id="write-button" type="submit">
+                                <button class="submit-comment-button" id="write-button" type="submit" disabled>
                                     댓글 작성
                                 </button>
                             </section>
@@ -318,8 +318,6 @@
     const volunteer = [[${volunteer}]]
     const attachments = [[${attachments}]]
     const isAuthor = [[${isAuthor}]]
-    // const comments = [[${comment}]]
-    // console.log(JSON.parse(comments)); // 댓글 데이터 확인
     console.log(isAuthor)
     console.log("가져온 아이디는:{}",volunteer.postId)
 </script>
