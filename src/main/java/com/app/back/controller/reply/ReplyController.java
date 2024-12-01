@@ -5,8 +5,6 @@ import com.app.back.domain.profile.ProfileDTO;
 import com.app.back.domain.reply.Pagination;
 import com.app.back.domain.reply.ReplyDTO;
 import com.app.back.domain.reply.ReplyListDTO;
-import com.app.back.domain.volunteer.VolunteerDTO;
-import com.app.back.exception.NotFoundPostException;
 import com.app.back.service.reply.ReplyService;
 import com.app.back.service.volunteer.VolunteerService;
 import io.swagger.v3.oas.annotations.Operation;

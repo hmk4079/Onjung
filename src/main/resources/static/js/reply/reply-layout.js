@@ -40,34 +40,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // 댓글 HTML 템플릿
             const commentHTML = `
-                <article class="comment-container">
-                    <div class="contest-comment-show">
-                        <div>
-                            <div class="comment-card">
-                                <div class="contest-comment-userinfo">
-                                    <a href="/m/${comment.memberNickname || ""}" class="profile-avatar-container avatar">
-                                        <img src="${profileImage}" alt="프로필 이미지" />
+    <article class="comment-container">
+        <div class="contest-comment-show">
+            <div>
+                <div class="comment-card">
+                    <div class="contest-comment-userinfo">
+                        <a href="/m/${comment.memberNickname || ""}" class="profile-avatar-container avatar">
+                            <img src="${profileImage}" alt="프로필 이미지" />
+                        </a>
+                        <div class="nick">
+                            <div class="nickname-container user-nick-wrapper">
+                                <p class="nickname-text">
+                                    <a class="user-nick nick" href="#">
+                                        ${memberName}
                                     </a>
-                                    <div class="nick">
-                                        <div class="nickname-container user-nick-wrapper">
-                                            <p class="nickname-text">
-                                                <a class="user-nick nick" href="#">
-                                                    ${memberName}
-                                                </a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <p>| ${timeForToday(comment.createdDate)}</p>
-                                </div>
-                                <div class="contest-comment-content">
-                                    <div>${comment.replyContent}</div>
-                                </div>
+                                </p>
                             </div>
                         </div>
-                        <div class="contest-comment-buttons"></div>
+                        <p>| ${timeForToday(comment.createdDate)}</p>
                     </div>
-                </article>
-            `;
+                    <div class="contest-comment-content">
+                        <div>${comment.replyContent}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="contest-comment-buttons">
+                <button 
+                    class="edit-button" 
+                    data-reply-id="${comment.id}" 
+                    onclick="handleEdit(${comment.id})">
+                    수정
+                </button>
+                <button 
+                    class="delete-button" 
+                    data-reply-id="${comment.id}" 
+                    onclick="handleDelete(${comment.id})">
+                    삭제
+                </button>
+            </div>
+        </div>
+    </article>
+`;
+
             commentSection.insertAdjacentHTML("beforeend", commentHTML);
         });
     }

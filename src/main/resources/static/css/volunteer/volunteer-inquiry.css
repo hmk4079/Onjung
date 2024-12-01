@@ -590,7 +590,7 @@ a {
     font-weight: 700;
 }
 
-.donation-btn-container {
+.volunteer-btn-container {
     position: relative;
     display: flex;
     font-size: 12px;
@@ -598,15 +598,13 @@ a {
     letter-spacing: -0.25px;
 }
 
-.donation-btn-style {
+.volunteer-btn-style {
     position: relative;
     display: inline-flex;
     justify-content: center;
-
     align-items: center;
     border-radius: 4px;
     cursor: pointer;
-    border: 0px;
     text-align: center;
     box-sizing: border-box;
     background-color: rgb(38, 86, 246);
@@ -619,7 +617,7 @@ a {
     width: 100%;
 }
 
-.donation-btn-style2 {
+.volunteer-btn-style2 {
     margin-top: 10px;
     position: relative;
     display: inline-flex;
@@ -628,7 +626,6 @@ a {
     align-items: center;
     border-radius: 4px;
     cursor: pointer;
-    border: 0px;
     text-align: center;
     box-sizing: border-box;
     color: rgb(38, 86, 246);
@@ -641,10 +638,31 @@ a {
     width: 100%;
 }
 
-.donation-btn-style:hover {
+.edit-button{
+    color: rgb(38, 86, 246);
+    border: 1px solid rgb(38, 86, 246);
+    cursor: pointer;
+    border-radius: 4px;
+    background-color:white;
+}
+.delete-button{
+    color: rgb(38, 86, 246);
+    border: 1px solid rgb(38, 86, 246);
+    cursor: pointer;
+    border-radius: 4px;
+    background-color:white;
+}
+.edit-button:hover{
+    background-color: rgb(244, 245, 248);
+}
+.delete-button:hover{
+    background-color: rgb(244, 245, 248);
+}
+
+.volunteer-btn-style:hover {
     background-color: rgb(78, 118, 249);
 }
-.donation-btn-style2:hover {
+.volunteer-btn-style2:hover {
     background-color: rgb(244, 245, 248);
 }
 #delete-btn:hover {
@@ -1032,3 +1050,4 @@ p {
     font-family: "Pretendard" !important;
     -webkit-font-smoothing: antialiased;
 }
+

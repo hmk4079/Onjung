@@ -258,20 +258,20 @@
                                         <div class="content" th:text="${volunteer.postViewCount}"></div>
                                     </div>
                                 </section>
-                                <div class="donation-btn-wrap">
-                                    <div class="donation-btn-container tooltip" th:if="${!isAuthor}">
-<!--                                        <div class="donation-btn-container tooltip">-->
-                                            <button type="submit" class="donation-btn-style" id="apply-btn">
+                                <div class="volunteer-btn-wrap">
+                                    <div class="volunteer-btn-container tooltip" th:if="${!isAuthor}">
+                                        <div class="volunteer-btn-container tooltip">
+                                            <button type="submit" class="volunteer-btn-style" id="apply-btn">
                                                 <span class="visual-correction">지원하기</span>
                                             </button>
                                         </div>
-<!--                                    </div>-->
-                                    <div class="donation-btn-container" id="edit-buttons" th:if="${isAuthor}">
-                                        <a class="donation-btn-style2 go-update">
+                                    </div>
+                                    <div class="volunteer-btn-container" id="edit-buttons" th:if="${isAuthor}">
+                                        <a class="volunteer-btn-style2 go-update">
                                             <span class="visual-correction">수정하기</span>
                                         </a>
                                         <div class="space"></div>
-                                        <a class="donation-btn-style2 go-delete">
+                                        <a class="volunteer-btn-style2 go-delete">
                                             <span class="visual-correction">삭제하기</span>
                                         </a>
                                     </div>
@@ -326,4 +326,5 @@
 <script src="/js/reply/reply-service.js"></script>
 <script src="/js/reply/reply-layout.js"></script>
 <script src="/js/reply/reply-event.js"></script>
+<script src="/js/report/"></script>
 </html>
