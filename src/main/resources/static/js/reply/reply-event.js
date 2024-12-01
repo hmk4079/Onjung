@@ -1,145 +1,122 @@
-const writeButton = document.querySelector("#write");
-const replyContent = document.querySelector("#reply-content");
+document.addEventListener("DOMContentLoaded", () => {
+    const postId = document.querySelector(".layout")?.getAttribute("data-post-id");
+    if (!postId) return;
 
-// replyService.getList(postId);
-replyService.getList(1, postId, showList);
-globalThis.page = 1;
-// replyService.getList(globalThis.page, postId, showListMore);
-// replyService.getList(postId);
-replyService.getList(globalThis.page, postId, showListScroll);
+    globalThis.page = 1;
+    globalThis.loadingFlag = false;
 
-// replyPaging.addEventListener("click", (e) => {
-//     e.preventDefault();
-//     if(e.target.tagName === "A") {
-//         globalThis.page = e.target.getAttribute("href");
-//         replyService.getList(globalThis.page, postId, showList);
-//     }
-// });
+    const writeButton = document.querySelector("#write");
+    const replyContent = document.querySelector("#reply-content");
 
-writeButton.addEventListener("click", async (e) => {
-    await replyService.write({memberId: memberId, replyContent: replyContent.value, postId: postId});
-    await replyService.getList(globalThis.page, postId, showList);
+    // 댓글 목록 불러오기 함수
+    function loadReplies(page = 1) {
+        replyService.getList(page, postId, (data) => {
+            if (data && data.pagination) {
+                showList(data);
+                updateReplyCount(postId);
+            }
+        });
+    }
+
+    // 댓글 작성 이벤트
+    writeButton.addEventListener("click", async () => {
+        if (!replyContent.value.trim()) {
+            alert("댓글 내용을 입력하세요.");
+            return;
+        }
+
+        await replyService.write({
+            memberId: memberId,
+            replyContent: replyContent.value.trim(),
+            postId: postId
+        });
+
+        replyContent.value = ""; // 작성 완료 후 입력 필드 초기화
+        loadReplies(globalThis.page);
+    });
+
+    // 댓글 수정, 삭제, 취소 버튼 이벤트
+    replyLayout.addEventListener("click", async (e) => {
+        const replyId = e.target.classList[1]?.replace("reply-id-", "");
+
+        if (!replyId) return;
+
+        const action = e.target.classList[0];
+        const replyContentDiv = document.querySelector(`div.reply-content-${replyId}`);
+
+        if (action === "update") {
+            // 댓글 수정 시작
+            if (globalThis.updateFlag) {
+                alert("이미 수정 중입니다.");
+                return;
+            }
+
+            globalThis.updateFlag = true;
+            const originalText = replyContentDiv.innerText;
+            const textarea = document.createElement("textarea");
+            const updateOkButton = createButton("수정 완료", `update-ok reply-id-${replyId}`);
+            const cancelButton = createButton("취소", `cancel reply-id-${replyId}`);
+            const deleteButton = document.querySelector(`button.delete.reply-id-${replyId}`);
+
+            textarea.value = originalText;
+            textarea.className = `reply-content-${replyId}`;
+
+            replyContentDiv.replaceWith(textarea);
+            e.target.replaceWith(updateOkButton);
+            deleteButton.replaceWith(cancelButton);
+        } else if (action === "update-ok") {
+            // 댓글 수정 완료
+            const textarea = document.querySelector(`textarea.reply-content-${replyId}`);
+            await replyService.update({ id: replyId, replyContent: textarea.value.trim() });
+            globalThis.updateFlag = false;
+            loadReplies(globalThis.page);
+        } else if (action === "cancel") {
+            // 댓글 수정 취소
+            loadReplies(globalThis.page);
+            globalThis.updateFlag = false;
+        } else if (action === "delete") {
+            // 댓글 삭제
+            await replyService.remove(replyId);
+            loadReplies(globalThis.page);
+        }
+    });
+
+    // 더 보기 버튼 이벤트
+    moreButton.addEventListener("click", () => {
+        replyService.getList(++globalThis.page, postId, showListMore);
+    });
+
+    // 무한 스크롤 이벤트
+    window.addEventListener("scroll", () => {
+        if (globalThis.loadingFlag) return;
+
+        if ((window.innerHeight + window.scrollY - 10) >= document.body.offsetHeight) {
+            globalThis.loadingFlag = true;
+            replyService.getList(++globalThis.page, postId, showListScroll).finally(() => {
+                globalThis.loadingFlag = false;
+            });
+        }
+    });
+
+    // 댓글 수 업데이트 함수
+    async function updateReplyCount(postId) {
+        try {
+            const totalCount = await replyService.getReplyCount(postId);
+            document.querySelector("#total-reply-count").textContent = totalCount;
+            document.querySelector("#comment-count").textContent = totalCount;
+        } catch (error) {
+            console.error("댓글 수 업데이트 중 오류:", error);
+        }
+    }
+
+    // 버튼 생성 함수
+    function createButton(text, className) {
+        const button = document.createElement("button");
+        button.innerText = text;
+        button.className = className;
+        return button;
+    }
+
+    // 초기 댓글 목록 로드
+    loadReplies();
 });
-
-let originalText = ``;
-let updateFlag = false;
-replyLayout.addEventListener("click", async (e) => {
-    if(updateFlag && e.target.classList[0] === "update") {
-        alert("이미 수정중이잖아요 ㅎㅎ");
-        return;
-    }
-    const replyId = e.target.classList[1].replace("reply-id-", "");
-
-    if(e.target.classList[0] === "update") {
-        updateFlag = true;
-        const replyContent = document.querySelector(`div.reply-content-${replyId}`);
-        const textarea = document.createElement("textarea");
-        const updateOkButton = document.createElement("button")
-        const cancelButton = document.createElement("button")
-        const deleteButton = document.querySelector(`button.delete.reply-id-${replyId}`);
-
-        originalText = replyContent.innerText;
-
-        updateOkButton.innerText = "수정 완료";
-        updateOkButton.className = "update-ok";
-        updateOkButton.classList.add(`reply-id-${replyId}`);
-
-        cancelButton.innerText = "취소"
-        cancelButton.className = "cancel";
-        cancelButton.classList.add(`reply-id-${replyId}`);
-
-        textarea.value = replyContent.innerText;
-        textarea.className = `reply-content-${replyId}`
-
-        replyContent.replaceWith(textarea);
-        e.target.replaceWith(updateOkButton);
-        deleteButton.replaceWith(cancelButton);
-
-    } else if (e.target.classList[0] === "update-ok"){
-        const textarea = document.querySelector(`textarea.reply-content-${replyId}`)
-        const replyDiv = document.createElement("div");
-        const cancelButton = document.querySelector(`button.cancel.reply-id-${replyId}`);
-        const updateButton = document.createElement("button")
-        const deleteButton = document.createElement("button")
-
-        replyDiv.className = `reply-content-${replyId}`
-        replyDiv.innerText = textarea.value;
-
-        textarea.replaceWith(replyDiv);
-
-        updateButton.innerText = "수정";
-        updateButton.className = "update";
-        updateButton.classList.add(`reply-id-${replyId}`);
-
-        e.target.replaceWith(updateButton);
-
-        deleteButton.innerText = "삭제";
-        deleteButton.className = "delete";
-        deleteButton.classList.add(`reply-id-${replyId}`);
-
-        cancelButton.replaceWith(deleteButton);
-
-        replyService.update({id: replyId, replyContent: textarea.value});
-        updateFlag = false;
-
-    } else if (e.target.classList[0] === "cancel") {
-        const textarea = document.querySelector(`textarea.reply-content-${replyId}`)
-        const replyDiv = document.createElement("div");
-        const updateOkButton = document.querySelector(`button.update-ok.reply-id-${replyId}`);
-        const updateButton = document.createElement("button")
-        const deleteButton = document.createElement("button")
-
-        replyDiv.className = `reply-content-${replyId}`;
-        replyDiv.innerText = originalText;
-
-        textarea.replaceWith(replyDiv);
-
-        updateButton.innerText = "수정";
-        updateButton.className = "update";
-        updateButton.classList.add(`reply-id-${replyId}`);
-
-        updateOkButton.replaceWith(updateButton);
-
-        deleteButton.innerText = "삭제";
-        deleteButton.className = "delete";
-        deleteButton.classList.add(`reply-id-${replyId}`);
-
-        e.target.replaceWith(deleteButton);
-        updateFlag = false;
-    } else if (e.target.classList[0] === "delete") {
-        await replyService.remove(replyId);
-        await replyService.getList(globalThis.page, postId, showList);
-    }
-});
-
-moreButton.addEventListener("click", (e) => {
-    replyService.getList(++globalThis.page, postId, showListMore);
-});
-
-globalThis.loadingFlag = false;
-window.addEventListener("scroll", (e) => {
-    // console.log(window.innerHeight + window.scrollY)
-    // console.log(document.body.offsetHeight)
-    console.log(loadingFlag);
-    if(loadingFlag){
-        globalThis.loadingFlag = false;
-        return;
-    }
-
-    if((window.innerHeight + window.scrollY - 10) >= document.body.offsetHeight) {
-        globalThis.loadingFlag = true;
-        replyService.getList(++globalThis.page, postId, showListScroll);
-    }
-})
-
-
-
-
-
-
-
-
-
-
-
-

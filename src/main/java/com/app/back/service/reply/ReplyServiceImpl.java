@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,20 +17,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReplyServiceImpl implements ReplyService {
     private final ReplyDAO replyDAO;
-    private final ReplyDTO replyDTO;
 
     // 댓글 추가
     @Override
-    public void save(ReplyVO replyVO) {
-        replyDAO.insertReply(replyVO);
+    public void save(ReplyDTO replyDTO) {
+        replyDAO.insertReply(replyDTO);
     }
-    // 댓글 목록 조회
+
     @Override
-    public ReplyListDTO getList(Long postId) {
+    public ReplyListDTO getListByPostId(Long postId, Pagination pagination) {
+        List<ReplyDTO> replies = replyDAO.findPagedByPostId(postId, pagination);
+
         ReplyListDTO replyListDTO = new ReplyListDTO();
-        replyListDTO.setReplies(replyDAO.findAllByPostId(postId));
+        replyListDTO.setReplies(replies); // 댓글 목록 설정
+        replyListDTO.setPagination(pagination); // Pagination 설정
         return replyListDTO;
     }
+
     // 댓글 수정
     @Override
     public void editReply(ReplyVO replyVO) {replyDAO.update(replyVO);}
@@ -42,9 +44,8 @@ public class ReplyServiceImpl implements ReplyService {
     }
     // 댓글 전체 개수
     @Override
-    public int getTotal(Long postId) {
+    public int getTotalReplies(Long postId) {
         return replyDAO.getReplyCount(postId);
     }
-
 
 }

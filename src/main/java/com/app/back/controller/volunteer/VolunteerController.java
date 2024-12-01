@@ -2,20 +2,19 @@ package com.app.back.controller.volunteer;
 
 import com.app.back.domain.attachment.AttachmentDTO;
 import com.app.back.domain.member.MemberDTO;
+import com.app.back.domain.reply.ReplyListDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
-import com.app.back.domain.volunteer.VolunteerVO;
 import com.app.back.domain.vt_application.VtApplicationDTO;
-import com.app.back.exception.ApplicationFailedException;
 import com.app.back.exception.NotFoundPostException;
 import com.app.back.service.attachment.AttachmentService;
 import com.app.back.service.post.PostService;
+import com.app.back.service.reply.ReplyService;
 import com.app.back.service.volunteer.VolunteerService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
-import org.dom4j.rule.Mode;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -28,8 +27,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-
-import javax.swing.text.html.StyleSheet;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -48,7 +45,7 @@ public class VolunteerController {
     private final VolunteerService volunteerService;
     private final AttachmentService attachmentService;
     private final VolunteerDTO volunteerDTO;
-    private final VolunteerVO volunteerVO;
+    private ReplyService replyService;
 
     @GetMapping("volunteer-write")
     public String goToWriteForm(HttpSession session, VolunteerDTO volunteerDTO, Model model) {
@@ -154,7 +151,10 @@ public class VolunteerController {
     }
 
     @GetMapping("volunteer-inquiry/{postId}")
-    public String goToVolunteerPath(HttpSession session, @PathVariable("postId") Long postId, Model model) {
+    public String goToVolunteerPath(HttpSession session,
+                                    @PathVariable("postId") Long postId,
+                                    @RequestParam(defaultValue = "1") int page,
+                                    Model model) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
         boolean isLoggedIn = (loginMember != null);
         model.addAttribute("isLogin", isLoggedIn);
@@ -169,11 +169,8 @@ public class VolunteerController {
 
         // 조회한 VolunteerDTO의 vtId를 세션에 저장
         session.setAttribute("vtId", volunteerDTO.getId()); // Volunteer의 ID(vtId)를 저장
-        // 로그인한 사용자의 ID 가져오기
         Long userId = loginMember != null ? loginMember.getId() : null;
-        // 작성자 ID 가져오기
         Long authorId = volunteerDTO.getMemberId();
-        // 사용자와 작성자 일치 여부 확인
         boolean isAuthor = userId != null && userId.equals(authorId);
 
         // 디버깅 로그 출력
@@ -182,13 +179,27 @@ public class VolunteerController {
         log.info("isAuthor: {}", isAuthor);
         log.info("Volunteer added to Model: {}", volunteerDTO);
 
+        // Pagination 객체 생성
+        Pagination pagination = new Pagination();
+        pagination.setPage(page);
+        pagination.setRowCount(10); // 한 페이지당 댓글 수 설정
+        int totalReplies = replyService.getTotalReplies(postId); // 전체 댓글 수
+        pagination.setTotal(totalReplies);
+        pagination.progress();
+
+        // 댓글 목록 가져오기
+        ReplyListDTO replyListDTO = replyService.getListByPostId(postId, pagination);
+
         // 모델에 데이터 추가
         model.addAttribute("volunteer", volunteerDTO);
         model.addAttribute("attachments", attachmentService.getList(postId));
         model.addAttribute("isAuthor", isAuthor);
+        model.addAttribute("replies", replyListDTO.getReplies()); // 댓글 목록
+        model.addAttribute("pagination", replyListDTO.getPagination()); // 페이징 정보
 
         return "volunteer/volunteer-inquiry";
     }
+
 
     //    지원하기
     @PostMapping("/apply")

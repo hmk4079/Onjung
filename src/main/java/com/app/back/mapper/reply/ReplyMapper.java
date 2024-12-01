@@ -10,9 +10,9 @@ import java.util.List;
 @Mapper
 public interface ReplyMapper {
     //    게시글 작성
-    public void insertReply(ReplyVO replyVO);
+    public void insertReply(ReplyDTO replyDTO);
     //    게시글 댓글 목록
-    public List<ReplyDTO> postReplyAll(Long postId);
+    public List<ReplyDTO> postReplyPaged(Long postId, Pagination pagination);
     //    댓글 소프트 삭제
     void updateStatusById(Long id, String status);
     //    댓글 수정

@@ -19,6 +19,11 @@ public class ReplyDTO {
     private Long memberId;
     private Long postId;
 
+    private String profileFileName;
+    private String profileFilePath;
+    private Long profileFileSize;
+    private String profileFileType;
+
     public ReplyVO toReplyVO() {
         return new ReplyVO(id, replyContent, replyStatus, createdDate, updatedDate, memberId, postId);
     }

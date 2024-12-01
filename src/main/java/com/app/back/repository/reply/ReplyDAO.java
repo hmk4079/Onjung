@@ -14,13 +14,15 @@ import java.util.List;
 public class ReplyDAO {
     private final ReplyMapper replyMapper;
     //    댓글 추가
-    public void insertReply(ReplyVO replyVO) {
-        replyMapper.insertReply(replyVO);
+    public void insertReply(ReplyDTO replyDTO) {
+        replyMapper.insertReply(replyDTO);
     }
-    //    해당 포스트 댓글 목록
-    public List<ReplyDTO> findAllByPostId(Long postId) {
-        return replyMapper.postReplyAll(postId);
+
+    // 페이징된 댓글 조회
+    public List<ReplyDTO> findPagedByPostId(Long postId, Pagination pagination) {
+        return replyMapper.postReplyPaged(postId, pagination); // 개별 매개변수 전달
     }
+
     //    댓글 수정
     public void update(ReplyVO replyVO) {replyMapper.update(replyVO);}
     //    댓글 소프트 삭제

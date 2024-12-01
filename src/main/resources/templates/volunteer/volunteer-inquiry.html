@@ -164,12 +164,13 @@
                                 </div>
                             </section>
                             <section class="contest-comment-input" style="width: 500px">
+                                <input type="hidden" id="post-id" value="${postId}" />
                                 <textarea
                                     class="comment-textarea"
                                     id="reply-content"
                                     placeholder="댓글을 입력하세요."
                                 ></textarea>
-                                <button class="submit-comment-button" id="write-button">
+                                <button class="submit-comment-button" id="write-button" type="submit">
                                     댓글 작성
                                 </button>
                             </section>
@@ -326,5 +327,6 @@
 <script src="/js/volunteer/layout/volunteer-inquiry-layout.js"></script>
 <script src="/js/main/login-header.js"></script>
 <script src="/js/reply/reply-event.js"></script>
+<script src="/js/reply/reply-layout.js"></script>
 <script src="/js/reply/reply-service.js"></script>
 </html>

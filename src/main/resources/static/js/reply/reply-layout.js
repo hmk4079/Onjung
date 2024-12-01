@@ -1,113 +1,139 @@
-const tabs = document.querySelectorAll(".tabs .tab");
-const contentContainer = document.querySelector(".content-wrap"); // 내용 섹션 컨테이너
-const commentSection = document.querySelector(".comment-wrap"); // 댓글 섹션
-const commentInputSection = document.querySelector(".contest-comment-input"); // 댓글 작성 창
+document.addEventListener("DOMContentLoaded", () => {
+    const writeButton = document.querySelector("#write-button");
+    const commentTextarea = document.getElementById("reply-content");
+    const postId = document.querySelector(".layout")?.getAttribute("data-post-id");
 
-// 댓글 렌더링 함수
-const renderComments = () => {
-    const commentSection = document.getElementById("comment-section");
-    commentSection.innerHTML = "";
+    if (!postId) {
+        console.error("postId가 없습니다. HTML에 data-post-id 속성을 추가하세요.");
+        return;
+    }
 
-    comments.forEach((comment) => {
-        const isAuthorWriter = comment.author ? '<p class="comment">작성자</p>' : "";
+    // 댓글 작성 이벤트 등록
+    writeButton.addEventListener("click", async () => {
+        const commentText = commentTextarea.value.trim();
+        if (!commentText) {
+            alert("댓글 내용을 입력하세요.");
+            return;
+        }
 
-        const commentHTML = `
-            <article class="comment-container">
-                <div class="contest-comment-show">
-                    <div>
+        try {
+            await replyService.write({ postId, replyContent: commentText });
+            commentTextarea.value = ""; // 입력 필드 초기화
+            console.log("댓글 작성 성공!");
+            loadComments(); // 댓글 목록 새로 로드
+        } catch (error) {
+            console.error("댓글 작성 중 오류:", error);
+            alert("댓글 작성에 실패했습니다.");
+        }
+    });
+
+    // 댓글 목록 로드 함수
+    function loadComments() {
+        replyService.getList(1, postId, (data) => {
+            if (data && data.replies) {
+                renderComments(data.replies);
+            }
+        });
+    }
+
+    // 댓글 렌더링 함수
+    function renderComments(comments) {
+        const commentSection = document.getElementById("comment-section");
+        commentSection.innerHTML = "";
+
+        comments.forEach((comment) => {
+            const commentHTML = `
+                <article class="comment-container">
+                    <div class="contest-comment-show">
                         <div class="comment-card">
                             <div class="contest-comment-userinfo">
-                                <a href="/m/${comment.user}" class="profile-avatar-container avatar">
-                                    <img src="${comment.profile}" />
-                                </a>
-                                <div class="nick">
-                                    <div class="nickname-container user-nick-wrapper">
-                                        <p class="nickname-text">
-                                            <a class="user-nick nick" href="/m/${comment.user}">
-                                                ${comment.user}
-                                            </a>
-                                        </p>
-                                    </div>
-                                    ${isAuthorWriter}
-                                </div>
-                                <p>| ${comment.date}</p>
+                                <p>${comment.user}</p>
                             </div>
                             <div class="contest-comment-content">
-                                <div>${comment.content}</div>
+                                <p>${comment.content}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="contest-comment-buttons"></div>
-                </div>
-            </article>
-        `;
-
-        commentSection.insertAdjacentHTML("beforeend", commentHTML);
-    });
-};
-
-// 페이지가 로드될 때 댓글 렌더링
-renderComments();
-
-const commentTextarea = document.getElementById("comment-content");
-const submitButton = document.querySelector(".submit-comment-button");
-
-// textarea 입력 이벤트 처리
-commentTextarea.addEventListener("input", () => {
-    if (commentTextarea.value.trim() !== "") {
-        submitButton.disabled = false;
-    } else {
-        submitButton.disabled = true;
+                </article>
+            `;
+            commentSection.insertAdjacentHTML("beforeend", commentHTML);
+        });
     }
-});
 
-// 댓글 작성 버튼 클릭 이벤트 처리
-submitButton.addEventListener("click", () => {
-    const commentText = commentTextarea.value.trim();
-    if (commentText) {
-        alert(`댓글이 작성되었습니다: ${commentText}`);
+
+// 댓글 데이터 로드 함수
+    function loadComments(page = 1) {
+        replyService.getList(page, postId, (data) => {
+            if (data && data.replies) {
+                renderComments(data.replies);
+                updateReplyCount(postId);
+            }
+        });
+    }
+
+    // 댓글 수 업데이트 함수
+    async function updateReplyCount(postId) {
+        try {
+            const totalCount = await replyService.getReplyCount(postId);
+            const totalReplyCountElement = document.getElementById("total-reply-count");
+            const commentCountElement = document.getElementById("comment-count");
+
+            if (totalReplyCountElement) totalReplyCountElement.textContent = totalCount;
+            if (commentCountElement) commentCountElement.textContent = totalCount;
+        } catch (error) {
+            console.error("댓글 수 업데이트 중 오류:", error);
+        }
+    }
+
+    // textarea 입력 이벤트 처리
+    commentTextarea.addEventListener("input", () => {
+        submitButton.disabled = commentTextarea.value.trim() === "";
+    });
+
+    // 댓글 작성 버튼 클릭 이벤트 처리
+    submitButton.addEventListener("click", async () => {
+        const commentText = commentTextarea.value.trim();
+        if (!commentText) return;
+
+        await replyService.write({ postId, replyContent: commentText });
         commentTextarea.value = "";
         submitButton.disabled = true;
+
+        loadComments(globalThis.page); // 작성 후 댓글 목록 새로고침
+    });
+
+    // 무한 스크롤 이벤트
+    window.addEventListener("scroll", () => {
+        if (globalThis.loadingFlag) return;
+
+        if ((window.innerHeight + window.scrollY - 10) >= document.body.offsetHeight) {
+            globalThis.loadingFlag = true;
+            replyService.getList(++globalThis.page, postId, (data) => {
+                if (data && data.replies) {
+                    renderComments(data.replies);
+                }
+                globalThis.loadingFlag = false;
+            });
+        }
+    });
+
+    // 시간 변환 함수
+    function timeForToday(datetime) {
+        const today = new Date();
+        const date = new Date(datetime);
+        let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
+
+        if (gap < 1) return "방금 전";
+        if (gap < 60) return `${gap}분 전`;
+        gap = Math.floor(gap / 60);
+        if (gap < 24) return `${gap}시간 전`;
+        gap = Math.floor(gap / 24);
+        if (gap < 31) return `${gap}일 전`;
+        gap = Math.floor(gap / 31);
+        if (gap < 12) return `${gap}개월 전`;
+        return `${Math.floor(gap / 12)}년 전`;
     }
+
+    // 초기 댓글 로드
+    loadComments();
 });
-
-
-
-
-
-function timeForToday(datetime) {
-    const today = new Date();
-    const date = new Date(datetime);
-
-    let gap = Math.floor((today.getTime() - date.getTime()) / 1000 / 60);
-
-    if (gap < 1) {
-        return "방금 전";
-    }
-
-    if (gap < 60) {
-        return `${gap}분 전`;
-    }
-
-    gap = Math.floor(gap / 60);
-
-    if (gap < 24) {
-        return `${gap}시간 전`;
-    }
-
-    gap = Math.floor(gap / 24);
-
-    if (gap < 31) {
-        return `${gap}일 전`;
-    }
-
-    gap = Math.floor(gap / 31);
-
-    if (gap < 12) {
-        return `${gap}개월 전`;
-    }
-
-    gap = Math.floor(gap / 12);
-
-    return `${gap}년 전`;
-}

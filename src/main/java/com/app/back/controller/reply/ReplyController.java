@@ -1,100 +1,106 @@
 package com.app.back.controller.reply;
 
-import com.app.back.domain.post.Pagination;
+import com.app.back.domain.member.MemberDTO;
+import com.app.back.domain.profile.ProfileDTO;
 import com.app.back.domain.reply.ReplyDTO;
-import com.app.back.domain.reply.ReplyListDTO;
 import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.exception.NotFoundPostException;
 import com.app.back.service.reply.ReplyService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.app.back.service.volunteer.VolunteerService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/replies/*")
 @Slf4j
-//@Tag(name="Reply", description = "Reply RESTful API")
-//http://localhost:10000/swagger-ui/index.html
+@RequiredArgsConstructor
 public class ReplyController {
 
     private final ReplyService replyService;
+    private final HttpSession session;
+    private VolunteerService volunteerService;
 
-    // 댓글작성
-    @Operation(summary = "댓글 작성", description = "댓글 작성 시 사용하는 API")
-    @PostMapping("write")
-    public void addReply(@RequestBody ReplyDTO replyDTO) {
-        log.info("들어옴!!");
-        log.info(replyDTO.toString());
+    @ModelAttribute
+    public void setMemberInfo(HttpSession session, Model model) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        ProfileDTO memberProfile = (ProfileDTO) session.getAttribute("memberProfile");
 
-        replyService.save(replyDTO.toReplyVO());
-    }
+        boolean isLoggedIn = loginMember != null;
+        model.addAttribute("isLoggedIn", isLoggedIn);
 
-    //    댓글 조회
-    @Operation(summary = "댓글 목록", description = "댓글 목록 조회 시 사용하는 API")
-    @GetMapping("{postId}/{page}")
-    public ReplyListDTO getList(@PathVariable("postId") Long postId,
-                                @PathVariable("page") int page,
-                                Pagination pagination,
-                                Model model) {
-
-        return replyService.getList(postId);
-    }
-
-//    //    SELECT
-//    @Operation(summary = "댓글 목록", description = "댓글 목록 조회 시 사용하는 API")
-//    @GetMapping("{postId}/{page}")
-//    public ReplyListDTO getList(@PathVariable("postId") Long postId,
-//                                @PathVariable("page") int page,
-//                                Pagination pagination,
-//                                Model model) {
-//
-//        return replyService.getRepliesByPostId(postId);
-//    }
-
-    // 댓글 json형태
-    @GetMapping("reply-info")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> getReplyInfo(HttpSession session) {
-        // 샘플 ReplyDTO 생성
-        ReplyDTO sampleReply = new ReplyDTO();
-        sampleReply.setReplyContent("댓글테스트인뎁숑?");
-        sampleReply.setReplyStatus("VISIBLE");
-        sampleReply.setMemberId(35L);
-        sampleReply.setPostId(40L);
-        sampleReply.setCreatedDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
-
-        // PostId 기준으로 댓글 목록 가져오기
-        Long postId = sampleReply.getPostId(); // 예제용 PostId 사용
-        ReplyListDTO replyListDTO = replyService.getList(postId);
-
-        // 댓글 목록을 올바르게 처리
-        List<ReplyDTO> replyList;
-        if (replyListDTO != null) {
-            replyList = replyListDTO.getReplies(); // ReplyListDTO 내부에서 List<ReplyDTO> 가져오기
+        if (isLoggedIn) {
+            model.addAttribute("loginMember", loginMember);
+            model.addAttribute("memberProfile", memberProfile);
+            log.info("로그인 상태 - 사용자 ID: {}, 프로필 ID: {}", loginMember.getId(), memberProfile != null ? memberProfile.getId() : "null");
         } else {
-            replyList = List.of(); // Null 안전 처리
+            log.info("비로그인 상태입니다.");
+        }
+    }
+
+    @PostMapping("/write")
+    public ResponseEntity<?> write(@RequestBody ReplyDTO replyDTO) {
+        ProfileDTO memberProfile = (ProfileDTO) session.getAttribute("memberProfile");
+
+        // 로그인이 필요한 경우 처리
+        if (memberProfile == null) {
+            log.warn("로그인이 필요합니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
 
-        // 응답 데이터 구성
-        Map<String, Object> response = new HashMap<>();
-        response.put("sampleReply", sampleReply);
-        response.put("comments", replyList);
+        // 사용자 정보 설정
+        replyDTO.setProfileFileName(memberProfile.getProfileFileName());
+        replyDTO.setId(memberProfile.getId());
+        VolunteerDTO volunteerDTO = volunteerService.getPostById(replyDTO.getPostId())
+                .orElseThrow(() -> new NotFoundPostException("Volunteer with ID " + replyDTO.getPostId() + " not found"));
 
-        return ResponseEntity.ok(response);
+        // postId 확인 및 검증
+        if (volunteerDTO.getPostId() == null) {
+            log.error("postId가 null입니다. 요청을 확인하세요.");
+            return ResponseEntity.badRequest().body("postId는 필수 입력값입니다.");
+        } else {
+            log.info("postId를 정상적으로 받았습니다: {}", replyDTO.getPostId());
+        }
+
+        // 댓글 저장 처리
+        try {
+            replyService.save(replyDTO);
+            log.info("댓글이 성공적으로 작성되었습니다. ReplyDTO: {}", replyDTO);
+            return ResponseEntity.ok("댓글이 성공적으로 작성되었습니다.");
+        } catch (Exception e) {
+            log.error("댓글 작성 중 오류 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("댓글 작성 중 오류가 발생했습니다.");
+        }
+    }
+
+
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<?> deleteReply(@PathVariable Long id) {
+//        try {
+//            replyService.updateReplyStatus(id,);
+//            log.info("댓글이 성공적으로 삭제되었습니다. ID: {}", id);
+//            return ResponseEntity.ok("댓글이 성공적으로 삭제되었습니다.");
+//        } catch (Exception e) {
+//            log.error("댓글 삭제 중 오류 발생: {}", e.getMessage());
+//            return ResponseEntity.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR).body("댓글 삭제 중 오류가 발생했습니다.");
+//        }
+//    }
+//
+//    @GetMapping("{postId}/{page}")
+//    public ResponseEntity<ReplyListDTO> getRepliesByPostId(@PathVariable("postId") Long postId,
+//                                                           @PathVariable("page") int page,
+//                                                           Pagination pagination) {
+//        ReplyListDTO replies = replyService.selectRepliesByPostId(page, pagination, postId);
+//        return ResponseEntity.ok(replies);
+//    }
+
+    @GetMapping("/count/{postId}")
+    public ResponseEntity<Integer> getReplyCount(@PathVariable Long postId) {
+        int count = replyService.getTotalReplies(postId);
+        return ResponseEntity.ok(count);
     }
 }
-
