@@ -23,29 +23,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 댓글 렌더링 함수
     function renderComments(comments) {
-        if (!comments) {
-            console.error("comments 데이터가 없습니다.");
+        if (!comments || comments.length === 0) {
+            console.log("댓글 데이터가 없습니다.");
             return;
         }
 
         const commentSection = document.getElementById("comment-section");
-        commentSection.innerHTML = "";
+        commentSection.innerHTML = ""; // 기존 댓글 초기화
 
         comments.forEach((comment) => {
+            // Null 값 처리
+            const memberName = comment.memberName || comment.memberNickname || "닉네임 없음";
+            const profileImage = comment.profileFileName
+                ? `/profile/display?memberId=${comment.memberId}`
+                : "/images/default-profile.png";
+
+            // 댓글 HTML 템플릿
             const commentHTML = `
                 <article class="comment-container">
                     <div class="contest-comment-show">
                         <div>
                             <div class="comment-card">
                                 <div class="contest-comment-userinfo">
-                                    <a href="/m/${comment.memberNickName}" class="profile-avatar-container avatar">
-                                        <img th:src="${comment.profileFileName != null ? '/profile/display?memberId=' + comment.memberId : '/images/default-profile.png'}" alt="프로필 이미지" />
+                                    <a href="/m/${comment.memberNickname || ""}" class="profile-avatar-container avatar">
+                                        <img src="${profileImage}" alt="프로필 이미지" />
                                     </a>
                                     <div class="nick">
                                         <div class="nickname-container user-nick-wrapper">
                                             <p class="nickname-text">
                                                 <a class="user-nick nick" href="#">
-                                                ${comment.memberName != null ? comment.memberName : (comment.memberNickname != null ? comment.memberNickname : '닉네임없음')}
+                                                    ${memberName}
                                                 </a>
                                             </p>
                                         </div>

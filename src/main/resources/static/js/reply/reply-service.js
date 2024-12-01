@@ -38,27 +38,6 @@ const replyService = (() => {
         }
     };
 
-
-    // const getList = async (page, postId, callback) => {
-    //     console.log("postId 값:", postId);
-    //
-    //     try {
-    //         const response = await fetch(`/replies/${postId}/${page}`);
-    //         if (!response.ok) {
-    //             console.error("댓글 목록 불러오기 실패(service):", response.statusText);
-    //         }
-    //
-    //         const data = await response.json();
-    //         console.log("댓글 목록 불러오기 성공:", data);
-    //
-    //         if (callback) callback(data); // 콜백 실행
-    //         return data; // 데이터를 호출한 곳으로 반환
-    //     } catch (error) {
-    //         console.error("댓글 목록 로딩 중 오류:", error);
-    //         return null; // 오류 발생 시 null 반환
-    //     }
-    // };
-
     // 댓글 삭제
     const remove = async (replyId) => {
         try {
@@ -83,17 +62,53 @@ const replyService = (() => {
         try {
             const response = await fetch(`/replies/count/${postId}`);
             if (!response.ok) {
-                console.error("댓글 수 조회 실패:", response.statusText);
+                const errorText = await response.text();
+                console.error(`댓글 수 조회 실패 (Post ID: ${postId}):`, errorText);
+                return 0; // 실패 시 기본값 반환
             }
 
-            const count = await response.json();
-            console.log("댓글 수 조회 성공:", count);
+            const { count } = await response.json(); // JSON 응답에서 count 값 추출
+            console.log(`댓글 수 조회 성공 (Post ID: ${postId}):`, count);
             return count;
         } catch (error) {
-            console.error("댓글 수 조회 중 오류:", error);
-            return 0; // 오류 발생 시 댓글 수를 0으로 반환
+            console.error(`댓글 수 조회 중 오류 (Post ID: ${postId}):`, error);
+            return 0; // 오류 발생 시 기본값 반환
         }
     };
+
+// 댓글 수 업데이트 함수
+    const updateReplyCount = async (postId) => {
+        try {
+            // 댓글 수 가져오기
+            const totalCount = await getReplyCount(postId);
+
+            // 댓글 수 표시할 요소 가져오기
+            const replyCountElement = document.getElementById("reply-count");
+
+            // 요소가 존재하면 업데이트
+            if (replyCountElement) {
+                replyCountElement.textContent = totalCount; // 댓글 수 업데이트
+                console.log(`댓글 수 업데이트 완료 (Post ID: ${postId}):`, totalCount);
+            } else {
+                console.error("reply-count 요소를 찾을 수 없습니다.");
+            }
+        } catch (error) {
+            console.error(`댓글 수 업데이트 중 오류 (Post ID: ${postId}):`, error);
+        }
+    };
+
+// 페이지 로드 시 댓글 수 업데이트 실행
+    document.addEventListener("DOMContentLoaded", () => {
+        const postIdElement = document.getElementById("post-id");
+        const postId = postIdElement ? postIdElement.value : null;
+
+        if (postId) {
+            updateReplyCount(postId); // 댓글 수 업데이트 호출
+        } else {
+            console.error("postId가 없습니다. HTML에 id='post-id' 요소를 추가하세요.");
+        }
+    });
+
 
     // 메서드들을 객체로 반환
     return { write, getList, remove, getReplyCount };

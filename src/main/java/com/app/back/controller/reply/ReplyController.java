@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 @RestController
 @RequestMapping("/replies/*")
 @Slf4j
@@ -91,8 +93,6 @@ public class ReplyController {
     }
 
 
-
-
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<?> deleteReply(@PathVariable Long id) {
 //        try {
@@ -113,9 +113,15 @@ public class ReplyController {
 //        return ResponseEntity.ok(replies);
 //    }
 
-//    @GetMapping("/count/{postId}")
-//    public ResponseEntity<Integer> getReplyCount(@PathVariable Long postId) {
-//        int count = replyService.getTotalReplies(postId);
-//        return ResponseEntity.ok(count);
-//    }
+    // 댓글 수 조회
+    @GetMapping("/count/{postId}")
+    public ResponseEntity<?> getReplyCount(@PathVariable Long postId) {
+        try {
+            int count = replyService.getTotalReplies(postId);
+            return ResponseEntity.ok(Collections.singletonMap("count", count));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("error", "댓글 수 조회 실패"));
+        }
+    }
 }
