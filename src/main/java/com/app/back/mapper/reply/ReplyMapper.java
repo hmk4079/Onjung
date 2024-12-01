@@ -3,6 +3,7 @@ package com.app.back.mapper.reply;
 
 import com.app.back.domain.reply.ReplyDTO;
 import com.app.back.domain.reply.ReplyVO;
+import com.app.back.domain.reply.Pagination;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

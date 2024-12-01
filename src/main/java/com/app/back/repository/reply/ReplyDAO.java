@@ -3,6 +3,7 @@ package com.app.back.repository.reply;
 
 import com.app.back.domain.reply.ReplyDTO;
 import com.app.back.domain.reply.ReplyVO;
+import com.app.back.domain.reply.Pagination;
 import com.app.back.mapper.reply.ReplyMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

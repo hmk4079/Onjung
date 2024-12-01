@@ -3,6 +3,7 @@ package com.app.back.service.reply;
 import com.app.back.domain.reply.ReplyDTO;
 import com.app.back.domain.reply.ReplyListDTO;
 import com.app.back.domain.reply.ReplyVO;
+import com.app.back.domain.reply.Pagination;
 import com.app.back.repository.reply.ReplyDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

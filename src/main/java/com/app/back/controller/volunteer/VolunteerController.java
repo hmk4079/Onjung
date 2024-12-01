@@ -5,6 +5,7 @@ import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.reply.ReplyListDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.domain.volunteer.VolunteerVO;
 import com.app.back.domain.vt_application.VtApplicationDTO;
 import com.app.back.exception.NotFoundPostException;
 import com.app.back.service.attachment.AttachmentService;
