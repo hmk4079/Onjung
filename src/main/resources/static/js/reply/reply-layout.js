@@ -120,18 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
         submitButton.disabled = commentTextarea.value.trim() === "";
     });
 
-    // // 댓글 작성 버튼 클릭 이벤트 처리
-    // submitButton.addEventListener("click", async () => {
-    //     const commentText = commentTextarea.value.trim();
-    //     if (!commentText) return;
-    //
-    //     await replyService.write({ postId, replyContent: commentText });
-    //     commentTextarea.value = "";
-    //     submitButton.disabled = true;
-    //
-    //     loadComments(globalThis.page); // 작성 후 댓글 목록 새로고침
-    // });
-
     // 무한 스크롤 이벤트
     window.addEventListener("scroll", () => {
         if (globalThis.loadingFlag) return;
