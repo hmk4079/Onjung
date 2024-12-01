@@ -1,12 +1,10 @@
 package com.app.back.service.report;
 
-import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.Search;
 import com.app.back.domain.report.ReportDTO;
 import com.app.back.enums.AdminReportStatus;
 import com.app.back.repository.report.ReportDAO;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
