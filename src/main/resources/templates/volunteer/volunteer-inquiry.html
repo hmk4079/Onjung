@@ -32,7 +32,7 @@
             <div class="alert-txt-box-2bji8">
                 <span class="alert-ico-1mtdg"></span>
                 <p>봉사 활동 신청을 하시겠습니까?</p>
-                <button class="alert-btn-complete-1qcb1" id="confirmApprove" data-listener="true">
+                <button class="alert-btn-complete" id="confirmApprove" data-listener="true">
                     확인
                 </button>
 
@@ -185,11 +185,12 @@
                                                 <span
                                                         class="for-report"
                                                         id="report-btn"
-                                                ><img
+                                                >
+                                                    <img
                                                         class="img-report"
                                                         src="/images/report.png"
-                                                />신고하기</span
-                                                >
+                                                    />신고하기
+                                                </span>
                                     </div>
                                     <h2 class="title" th:text="${volunteer.postTitle}">
                                     </h2>
@@ -283,10 +284,10 @@
             </section>
             <form th:action="@{/report/report-write}" method="post" name="postReport" id="uploadForm">
                 <input type="hidden" name="postId" th:value="${volunteer.postId}">
-            <div id="profileModal" class="modal">
-                <div class="modal-content">
-                    <span class="close"></span>
-                    <h2>게시글 신고</h2>
+                <div id="report-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close"></span>
+                        <h2>게시글 신고</h2>
                         <div class="btn-group">
                             <div>
                                 <label for="textInput">신고사유:</label>
@@ -298,15 +299,15 @@
                                 ></textarea>
                             </div>
                         </div>
-                    <button
-                            type="submit"
-                            class="report-submit-btn"
-                            id="reportSubmitBtn"
-                    >
-                        신고하기
-                    </button>
+                        <button
+                                type="submit"
+                                class="report-submit-btn"
+                                id="reportSubmitBtn"
+                        >
+                            신고하기
+                        </button>
+                    </div>
                 </div>
-            </div>
             </form>
         </main>
     </div>
@@ -320,10 +321,11 @@
     console.log(isAuthor)
     console.log("가져온 아이디는:{}",volunteer.postId)
 </script>
-<script src="/js/main/login-header.js"></script>
-<script src="/js/volunteer/layout/volunteer-inquiry-layout.js"></script>
-<script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
-<script src="/js/reply/reply-service.js"></script>
-<script src="/js/reply/reply-layout.js"></script>
-<script src="/js/reply/reply-event.js"></script>
+<script src="/js/main/login-header.js"></script> <!-- 공통 헤더 관련 스크립트 -->
+<script src="/js/volunteer/layout/volunteer-inquiry-layout.js"></script> <!-- 자원봉사 조회 레이아웃 -->
+<script src="/js/volunteer/event/volunteer-inquiry-event.js"></script> <!-- 자원봉사 이벤트 처리 -->
+<script src="/js/reply/reply-layout.js"></script> <!-- 댓글 레이아웃 -->
+<script src="/js/reply/reply-service.js"></script> <!-- 댓글 데이터 처리 -->
+<script src="/js/reply/reply-event.js"></script> <!-- 댓글 이벤트 처리 -->
+
 </html>
