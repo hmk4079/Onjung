@@ -26,6 +26,7 @@ import java.util.Collections;
 @Slf4j
 @RequiredArgsConstructor
 @Tag(name="Reply", description = "Reply RESTful API")
+//http://localhost:10000/swagger-ui/index.html
 public class ReplyController {
 
     private final ReplyService replyService;

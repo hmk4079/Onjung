@@ -78,7 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p>| ${timeForToday(comment.createdDate)}</p>
                     </div>
                     <div class="contest-comment-content">
-                        <div>${comment.replyContent}</div>
+                        <div class="reply-content-${comment.id}">${comment.replyContent}</div>
+
                     </div>
                 </div>
             </div>
