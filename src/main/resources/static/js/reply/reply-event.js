@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const writeButton = document.querySelector("#write-button");
+    const deleteButton = document.querySelector("#delete-button");
     const commentTextarea = document.getElementById("reply-content");
     const postIdElement = document.getElementById("post-id");
     const postId = postIdElement ? postIdElement.value : null;
@@ -19,16 +20,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            console.log("댓글 작성 버튼 클릭 이벤트 실행");
-            await replyService.write({ postId, replyContent });
-            commentTextarea.value = ""; // 입력 필드 초기화
-            alert("댓글 작성이 완료되었습니다.");
-            loadComments(1, postId); // 댓글 새로고침 (layout.js에 있는 함수 호출)
+            const isSuccess = await replyService.write({ postId, replyContent });
+
+            if (isSuccess) {
+                commentTextarea.value = ""; // 입력 필드 초기화
+                alert("댓글 작성이 완료되었습니다.");
+
+                // 댓글 수 먼저 갱신
+                await replyService.updateReplyCount(postId);
+
+                // 댓글 목록 새로고침
+                await loadComments(1, postId);
+            } else {
+                alert("댓글 작성에 실패했습니다.");
+            }
         } catch (error) {
             console.error("댓글 작성 중 오류:", error);
             alert("댓글 작성에 실패했습니다.");
         }
     });
+
+
+
 
     // textarea 입력 이벤트 처리
     const submitButton = document.getElementById("write-button");
@@ -147,6 +160,38 @@ commentSection.addEventListener("click", async (e) => {
         await replyService.remove(replyId);
         await replyService.getList(globalThis.page, postId, showList);
     }
+
+    const getTotalReplies = async (postId) => {
+        try {
+            const response = await fetch(`/replies/count/${postId}`);
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error(`댓글 수 조회 실패 (Post ID: ${postId}):`, errorText);
+                return 0; // 실패 시 기본값 반환
+            }
+
+            const count = await response.json(); // 서버 응답에서 댓글 수 추출
+            console.log(`댓글 수 조회 성공 (Post ID: ${postId}):`, count);
+            return count;
+        } catch (error) {
+            console.error(`댓글 수 조회 중 오류 (Post ID: ${postId}):`, error);
+            return 0; // 오류 발생 시 기본값 반환
+        }
+    };
+
+    deleteButton.addEventListener("click", async () => {
+        const isDeleted = await replyService.remove(replyId);
+
+        if (isDeleted) {
+            alert("댓글이 삭제되었습니다.");
+            // 댓글 목록 새로고침
+            loadComments(1, postId);
+        } else {
+            alert("댓글 삭제에 실패했습니다.");
+        }
+    });
+
+
 });
 
 

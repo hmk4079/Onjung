@@ -93,6 +93,7 @@ public class ReplyController {
     }
 
     // 댓글 수정
+    @Operation(summary = "댓글 수정", description = "댓글 수정시 사용하는 API")
     @PutMapping("/edit")
     public ResponseEntity<String> editReply(@RequestBody ReplyVO replyVO) {
         try {
@@ -117,6 +118,7 @@ public class ReplyController {
 //    }
 
     // 댓글 수 조회
+    @Operation(summary = "댓글 수 조회", description = "댓글 수 조회 시 사용하는 API")
     @GetMapping("/count/{postId}")
     public ResponseEntity<?> getReplyCount(@PathVariable Long postId) {
         try {
