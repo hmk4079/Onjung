@@ -46,117 +46,110 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-let originalText = ``;
-let updateFlag = false;
 
-commentSection.addEventListener("click", async (e) => {
-    const id = e.target.dataset.id; // replyId 대신 id 사용
 
-    console.log("추출된 id:", id);
+// 댓글 수정 버튼 클릭 시 핸들러 함수
+const replyService = (() => {
+    // 댓글 수정
+    const update = async (replyId, memberId, newContent) => {
+        const url = `/community/replies-update/${replyId}`;
 
-    if (!id) {
-        console.error("id가 없습니다. data-id 속성을 확인하세요.", e.target);
-        return;
+        const replyData = {
+            replyContent: newContent,
+            memberId: memberId
+        };
+
+        try {
+            console.log("댓글 수정 요청 시작(service):", { replyId, memberId, newContent });
+
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(replyData),
+            });
+
+            console.log(`댓글 수정 응답 상태(service): ${response.status}`);
+            const contentType = response.headers.get("Content-Type");
+            console.log(`댓글 수정 Content-Type(service): ${contentType}`);
+
+            if (!response.ok) {
+                console.error("댓글 수정 실패(service):", response.statusText);
+                return false;
+            }
+
+            if (response.status === 204) {
+                console.log("댓글 수정 성공(service) - 응답 본문 없음");
+                return { replyContent: newContent };
+            }
+
+            if (contentType && contentType.includes("application/json")) {
+                const updatedReply = await response.json();
+                console.log("댓글 수정 성공(service):", updatedReply);
+                return updatedReply;
+            }
+
+            console.error("댓글 수정 실패(service) - 예상치 못한 응답");
+            return false;
+        } catch (error) {
+            console.error("댓글 수정 중 오류(service):", error);
+            return false;
+        }
+    };
+
+    return { update };
+})();
+
+// 댓글 수정 버튼 클릭 시 핸들러 함수
+function handleModifyButtonClick(postId, reply) {
+    const listItem = document.querySelector(`[data-reply-id="${reply.id}"]`).closest('li');
+    const commentTxt = listItem.querySelector('.comment-txt');
+    const modifyButton = listItem.querySelector('.btn-comment-etc-modi');
+    const modifyButtonImg = modifyButton.querySelector('img');
+
+    // 현재 버튼의 상태 확인
+    const currentState = modifyButton.getAttribute('data-state');
+
+    if (currentState === 'modify') {
+        // 수정 모드로 전환
+        const originalContent = commentTxt.textContent;
+        commentTxt.setAttribute('data-original-content', originalContent);
+
+        const textarea = document.createElement('textarea');
+        textarea.value = originalContent;
+        textarea.classList.add('modify-comment');
+
+        commentTxt.innerHTML = '';
+        commentTxt.appendChild(textarea);
+
+        // 버튼을 저장 모드로 변경
+        modifyButtonImg.src = '/images/community/save-icon.png'; // 저장 아이콘 경로
+        modifyButtonImg.alt = '저장 아이콘';
+        modifyButton.setAttribute('data-state', 'save');
+    } else if (currentState === 'save') {
+        // 저장 모드: 수정 내용 저장
+        const textarea = commentTxt.querySelector('textarea');
+        const updatedContent = textarea.value.trim();
+        const originalContent = commentTxt.getAttribute('data-original-content');
+
+        if (updatedContent === "") {
+            alert("댓글 내용을 입력해주세요.");
+            return;
+        }
+
+        if (updatedContent === originalContent) {
+            alert("수정된 내용이 없습니다.");
+            commentTxt.innerHTML = originalContent;
+            modifyButtonImg.src = '/images/community/modify-icon.png'; // 수정 아이콘 경로
+            modifyButtonImg.alt = '수정 아이콘';
+            modifyButton.setAttribute('data-state', 'modify');
+            return;
+        }
+
+        // 댓글 수정 요청
+        updateReply(postId, reply.id, reply.memberId, updatedContent);
     }
+}
 
-    if (e.target.classList.contains("edit-button")) {
-        if (updateFlag) {
-            alert("이미 수정 중입니다!");
-            return;
-        }
 
-        updateFlag = true;
 
-        const replyContent = document.querySelector(`div.reply-content-${id}`);
-        if (!replyContent) {
-            console.error(`reply-content-${id} 요소를 찾을 수 없습니다.`);
-            return;
-        }
-
-        const textarea = document.createElement("textarea");
-        textarea.value = replyContent.innerText;
-        textarea.className = `reply-content-${id}`;
-
-        const saveButton = document.createElement("button");
-        saveButton.innerText = "저장";
-        saveButton.className = "save";
-        saveButton.dataset.id = id;
-
-        const cancelButton = document.createElement("button");
-        cancelButton.innerText = "취소";
-        cancelButton.className = "cancel";
-        cancelButton.dataset.id = id;
-
-        replyContent.replaceWith(textarea);
-        e.target.replaceWith(saveButton);
-        document.querySelector(`button.delete[data-id="${id}"]`)?.replaceWith(cancelButton);
-
-    } else if (e.target.classList.contains("save")) {
-        const textarea = document.querySelector(`textarea.reply-content-${id}`);
-        if (!textarea) {
-            console.error("수정 중인 텍스트 영역을 찾을 수 없습니다.");
-            return;
-        }
-
-        const replyContent = document.createElement("div");
-        replyContent.className = `reply-content-${id}`;
-        replyContent.innerText = textarea.value;
-
-        textarea.replaceWith(replyContent);
-
-        const editButton = document.createElement("button");
-        editButton.innerText = "수정";
-        editButton.className = "edit-button";
-        editButton.dataset.id = id;
-
-        const deleteButton = document.createElement("button");
-        deleteButton.innerText = "삭제";
-        deleteButton.className = "delete";
-        deleteButton.dataset.id = id;
-
-        e.target.replaceWith(editButton);
-        document.querySelector(`button.cancel[data-id="${id}"]`)?.replaceWith(deleteButton);
-
-        // 서버에 수정 내용 전송
-        await replyService.update({ id: id, replyContent: textarea.value });
-        updateFlag = false;
-
-    } else if (e.target.classList.contains("cancel")) {
-        const textarea = document.querySelector(`textarea.reply-content-${id}`);
-        if (!textarea) {
-            console.error("취소하려는 텍스트 영역을 찾을 수 없습니다.");
-            return;
-        }
-
-        const replyContent = document.createElement("div");
-        replyContent.className = `reply-content-${id}`;
-        replyContent.innerText = originalText;
-
-        textarea.replaceWith(replyContent);
-
-        const editButton = document.createElement("button");
-        editButton.innerText = "수정";
-        editButton.className = "edit-button";
-        editButton.dataset.id = id;
-
-        const deleteButton = document.createElement("button");
-        deleteButton.innerText = "삭제";
-        deleteButton.className = "delete";
-        deleteButton.dataset.id = id;
-
-        e.target.replaceWith(editButton);
-        document.querySelector(`button.save[data-id="${id}"]`)?.replaceWith(deleteButton);
-
-        updateFlag = false;
-
-    } else if (e.target.classList.contains("delete")) {
-        const isDeleted = await replyService.remove(id);
-
-        if (isDeleted) {
-            alert("댓글이 삭제되었습니다.");
-            await loadComments(1, postId); // 댓글 목록 새로고침
-        } else {
-            alert("댓글 삭제에 실패했습니다.");
-        }
-    }
-});

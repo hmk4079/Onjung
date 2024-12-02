@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "/images/default-profile.png";
 
             const commentHTML = `
-    <article class="comment-container">
+    <li class="comment-container">
         <div class="contest-comment-show">
             <div>
                 <div class="comment-card">
@@ -84,20 +84,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             </div>
             <div class="contest-comment-buttons">
-                <button 
-                    class="edit-button" 
-                    data-reply-id="${comment.id}">
+                <button class="edit-button" data-reply-id="${comment.id}">
                     수정
                 </button>
-                <button 
-                    class="delete-button" 
-                    data-reply-id="${comment.id}" 
-                    onclick="handleDelete(${comment.id})">
+                <button class="delete-button" data-reply-id="${comment.id}">
                     삭제
                 </button>
             </div>
         </div>
-    </article>
+    </li>
 `;
 
             commentSection.insertAdjacentHTML("beforeend", commentHTML);

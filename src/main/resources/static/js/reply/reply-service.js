@@ -57,6 +57,65 @@ const replyService = (() => {
         }
     };
 
+    // 댓글 수정
+    function updateReply(postId, replyId, memberId, newContent) {
+        const url = `/community/replies-update/${replyId}`;
+
+        const replyData = {
+            replyContent: newContent,
+            memberId: memberId
+        };
+
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(replyData)
+        })
+            .then(response => {
+                console.log(`updateReply - 응답 상태: ${response.status}`);
+                const contentType = response.headers.get('Content-Type');
+                console.log(`updateReply - Content-Type: ${contentType}`);
+
+                if (response.status === 204) {
+                    // 본문이 없는 경우
+                    return null;
+                } else if (response.ok && contentType && contentType.includes('application/json')) {
+                    return response.json();
+                } else {
+                    throw new Error(`서버 응답 오류: ${response.status}`);
+                }
+            })
+            .then(updatedReply => {
+                const listItem = document.querySelector(`[data-reply-id="${replyId}"]`).closest('li');
+                const commentTxt = listItem.querySelector('.comment-txt');
+                const modifyButton = listItem.querySelector('.btn-comment-etc-modi');
+                const modifyButtonImg = modifyButton.querySelector('img');
+
+                if (updatedReply) {
+                    console.log("댓글이 수정되었습니다:", updatedReply);
+                    // DOM에서 댓글 내용 업데이트
+                    commentTxt.textContent = updatedReply.replyContent;
+                } else {
+                    // 서버가 204 No Content를 반환한 경우, newContent로 DOM 업데이트
+                    commentTxt.textContent = newContent;
+                }
+
+                // 버튼을 다시 수정 모드로 변경
+                modifyButtonImg.src = '/images/community/modify-icon.png'; // 수정 아이콘 경로
+                modifyButtonImg.alt = '수정 아이콘';
+                modifyButton.setAttribute('data-state', 'modify');
+
+                alert("댓글이 성공적으로 수정되었습니다.");
+            })
+            .catch(error => {
+                console.error("댓글 수정 중 오류 발생:", error);
+                alert(error.message || "댓글을 수정하는 데 문제가 발생했습니다.");
+            });
+    }
+
     // 댓글 수 조회
     const getReplyCount = async (postId) => {
         try {
@@ -93,7 +152,6 @@ const replyService = (() => {
         }
     };
 
-
     // 페이지 로드 시 댓글 수 업데이트
     document.addEventListener("DOMContentLoaded", () => {
         const postIdElement = document.getElementById("post-id");
@@ -108,6 +166,7 @@ const replyService = (() => {
 
     // getReplyCount의 별칭으로 getTotalReplies 추가
     const getTotalReplies = getReplyCount;
+
     // 메서드들을 객체로 반환
-    return { write, getList, remove, getReplyCount, updateReplyCount, getTotalReplies };
+    return { write, getList, remove, updateReply, getReplyCount, updateReplyCount, getTotalReplies };
 })();
