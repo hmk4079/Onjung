@@ -51,8 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // 댓글 수정 버튼 클릭 시 핸들러 함수
 const replyService = (() => {
     // 댓글 수정
-    const update = async (replyId, memberId, newContent) => {
-        const url = `/community/replies-update/${replyId}`;
+    const update = async (id, memberId, newContent) => {
+        const url = `/reply/replies-update/${replyId}`;
 
         const replyData = {
             replyContent: newContent,
@@ -60,7 +60,7 @@ const replyService = (() => {
         };
 
         try {
-            console.log("댓글 수정 요청 시작(service):", { replyId, memberId, newContent });
+            console.log("댓글 수정 요청 시작(service):", { id, memberId, newContent });
 
             const response = await fetch(url, {
                 method: "PUT",

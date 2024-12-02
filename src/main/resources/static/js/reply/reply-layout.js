@@ -84,11 +84,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             </div>
             <div class="contest-comment-buttons">
-                <button class="edit-button" data-reply-id="${comment.id}">
-                    수정
+                <button type="button" class="edit-button" data-reply-id="${comment.id}">
+                    <img src="/images/modify-icon.png" alt="수정 아이콘">
                 </button>
-                <button class="delete-button" data-reply-id="${comment.id}">
-                    삭제
+                <button type="button" class="delete-button" data-reply-id="${comment.id}">
+                    <img src="/images/delete-icon.png" alt="삭제 아이콘">
                 </button>
             </div>
         </div>
