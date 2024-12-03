@@ -52,6 +52,11 @@ public class ReplyServiceImpl implements ReplyService {
         return replyListDTO;
     }
 
+    @Override
+    public ReplyDTO getReplyById(Long id) {
+        return replyDAO.getReplyById(id);
+    }
+
     // 댓글 수정
     @Override
     public void editReply(ReplyVO replyVO) {replyDAO.update(replyVO);}

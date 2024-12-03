@@ -93,17 +93,36 @@ public class ReplyController {
         return ResponseEntity.ok(replyListDTO);
     }
 
-//    // 댓글 수정
-//    @Operation(summary = "댓글 수정", description = "댓글 수정시 사용하는 API")
-//    @PutMapping("/edit")
-//    public ResponseEntity<String> editReply(@RequestBody ReplyVO replyVO) {
-//        try {
-//            replyService.editReply(replyVO);
-//            return ResponseEntity.ok("댓글이 성공적으로 수정되었습니다.");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("댓글 수정 중 오류가 발생했습니다.");
-//        }
-//    }
+    // 댓글 수정
+    @Operation(summary = "댓글 수정", description = "댓글 수정시 사용하는 API")
+    @PutMapping("/replies-update/{replyId}")
+    public ResponseEntity<Void> updateReply(
+            @PathVariable Long replyId,
+            @RequestBody ReplyDTO replyDTO) {
+        try {
+            replyDTO.setId(replyId);
+
+            // 댓글 조회
+            ReplyDTO existingReply = replyService.getReplyById(replyId);
+            if (existingReply == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            if (!existingReply.getMemberId().equals(replyDTO.getMemberId())) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+
+            ReplyVO replyVO = replyDTO.toVO();
+
+            // 댓글 수정
+            replyService.updateReply(replyVO);
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            log.error("댓글 수정 중 오류", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 //    @PutMapping("/replies-update/{id}")
 //    public ResponseEntity<Void> updateReply(

@@ -58,42 +58,41 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "/images/default-profile.png";
 
             const commentHTML = `
-    <li class="comment-container">
-        <div class="contest-comment-show">
-            <div>
-                <div class="comment-card">
-                    <div class="contest-comment-userinfo">
-                        <a href="/m/${comment.memberNickname || ""}" class="profile-avatar-container avatar">
-                            <img src="${profileImage}" alt="프로필 이미지" />
-                        </a>
-                        <div class="nick">
-                            <div class="nickname-container user-nick-wrapper">
-                                <p class="nickname-text">
-                                    <a class="user-nick nick" href="#">
-                                        ${memberName}
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                        <p>| ${timeForToday(comment.createdDate)}</p>
-                    </div>
-                    <div class="contest-comment-content">
-                        <div class="reply-content-${comment.id}">${comment.replyContent}</div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="contest-comment-buttons">
-                <button type="button" class="edit-button" data-reply-id="${comment.id}">
-                    <img src="/images/modify-icon.png" alt="수정 아이콘">
-                </button>
-                <button type="button" class="delete-button" data-reply-id="${comment.id}">
-                    <img src="/images/delete-icon.png" alt="삭제 아이콘">
-                </button>
-            </div>
-        </div>
-    </li>
-`;
+                                       <li class="comment-container">
+                                           <div class="contest-comment-show">
+                                               <div>
+                                                   <div class="comment-card">
+                                                       <div class="contest-comment-userinfo">
+                                                           <a href="/m/${comment.memberNickname || ""}" class="profile-avatar-container avatar">
+                                                               <img src="${profileImage}" alt="프로필 이미지" />
+                                                           </a>
+                                                           <div class="nick">
+                                                               <div class="nickname-container user-nick-wrapper">
+                                                                   <p class="nickname-text">
+                                                                       <a class="user-nick nick" href="#">
+                                                                           ${memberName}
+                                                                       </a>
+                                                                   </p>
+                                                               </div>
+                                                           </div>
+                                                           <p>| ${timeForToday(comment.createdDate)}</p>
+                                                       </div>
+                                                       <div class="contest-comment-content">
+                                                           <span class="reply-content-${comment.id}">${comment.replyContent}</span>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                               <div class="contest-comment-buttons">
+                                                   <button type="button" class="edit-button" data-reply-id="${comment.id}">
+                                                       <img src="/images/modify-icon.png" alt="수정 아이콘">
+                                                   </button>
+                                                   <button type="button" class="delete-button" data-reply-id="${comment.id}">
+                                                       <img src="/images/delete-icon.png" alt="삭제 아이콘">
+                                                   </button>
+                                               </div>
+                                           </div>
+                                       </li>
+                                        `;
 
             commentSection.insertAdjacentHTML("beforeend", commentHTML);
         });

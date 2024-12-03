@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const replyService = (() => {
     // 댓글 수정
     const update = async (id, memberId, newContent) => {
-        const url = `/reply/replies-update/${replyId}`;
+        const url = `/reply/replies-update/${memberId}`;
 
         const replyData = {
             replyContent: newContent,
@@ -102,9 +102,9 @@ const replyService = (() => {
 
 // 댓글 수정 버튼 클릭 시 핸들러 함수
 function handleModifyButtonClick(postId, reply) {
-    const listItem = document.querySelector(`[data-reply-id="${reply.id}"]`).closest('li');
-    const commentTxt = listItem.querySelector('.comment-txt');
-    const modifyButton = listItem.querySelector('.btn-comment-etc-modi');
+    const listItem = document.querySelector(`.edit-button[data-reply-id="${reply.id}"]`).closest('li');
+    const commentTxt = listItem.querySelector(`.reply-content-${reply.id}`);
+    const modifyButton = listItem.querySelector('.edit-button');
     const modifyButtonImg = modifyButton.querySelector('img');
 
     // 현재 버튼의 상태 확인
@@ -123,7 +123,7 @@ function handleModifyButtonClick(postId, reply) {
         commentTxt.appendChild(textarea);
 
         // 버튼을 저장 모드로 변경
-        modifyButtonImg.src = '/images/community/save-icon.png'; // 저장 아이콘 경로
+        modifyButtonImg.src = '/images/save-icon.png'; // 저장 아이콘 경로
         modifyButtonImg.alt = '저장 아이콘';
         modifyButton.setAttribute('data-state', 'save');
     } else if (currentState === 'save') {
@@ -140,7 +140,7 @@ function handleModifyButtonClick(postId, reply) {
         if (updatedContent === originalContent) {
             alert("수정된 내용이 없습니다.");
             commentTxt.innerHTML = originalContent;
-            modifyButtonImg.src = '/images/community/modify-icon.png'; // 수정 아이콘 경로
+            modifyButtonImg.src = '/images/modify-icon.png'; // 수정 아이콘 경로
             modifyButtonImg.alt = '수정 아이콘';
             modifyButton.setAttribute('data-state', 'modify');
             return;

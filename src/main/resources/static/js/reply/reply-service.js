@@ -104,7 +104,7 @@ const replyService = (() => {
                 }
 
                 // 버튼을 다시 수정 모드로 변경
-                modifyButtonImg.src = '/images/community/modify-icon.png'; // 수정 아이콘 경로
+                modifyButtonImg.src = '/images/modify-icon.png'; // 수정 아이콘 경로
                 modifyButtonImg.alt = '수정 아이콘';
                 modifyButton.setAttribute('data-state', 'modify');
 

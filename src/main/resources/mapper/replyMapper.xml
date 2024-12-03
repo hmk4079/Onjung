@@ -18,6 +18,21 @@
         limit #{pagination.startRow}, #{pagination.rowCount}
     </select>
 
+    <select id="selectReplyById" resultType="replyDTO" parameterType="Long">
+        SELECT
+            r.id,
+            r.member_id AS memberId,
+            m.member_nickname AS memberNickname,
+            m.member_name as memberName,
+            r.post_id AS postId,
+            r.reply_content AS replyContent,
+            r.created_date AS createdDate,
+            r.updated_date AS updatedDate
+        FROM tbl_reply r
+                 INNER JOIN tbl_member m ON r.member_id = m.id
+        WHERE r.id = #{id}
+    </select>
+
     <select id="selectCount">
     select count(*) from tbl_reply
     where post_id = #{postId} and  reply_status = 'VISIBLE'
