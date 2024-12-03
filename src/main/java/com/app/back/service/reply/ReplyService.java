@@ -8,9 +8,9 @@ import com.app.back.domain.reply.Pagination;
 public interface ReplyService {
 
     // 댓글 추가
-    public void save(ReplyDTO replyDTO);
+    public void save(ReplyVO replyVO);
     // 특정 게시글의 댓글 목록 조회
-    public ReplyListDTO getListByPostId(Long postId, Pagination pagination);
+    public ReplyListDTO getListByPostId(int page, Long postId, Pagination pagination);
     // 댓글 1개
     public ReplyDTO getReplyById(Long id);
     // 댓글 수정

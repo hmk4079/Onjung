@@ -1,151 +1,129 @@
-const replyService = (() => {
-    // 댓글 작성
-    const write = async (replyData) => {
-        try {
-            const response = await fetch("/replies/write", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(replyData),
-            });
-
-            if (!response.ok) {
-                console.error("댓글 작성 실패(service):", response.statusText);
-            }
-
-            console.log("댓글 작성 성공(service)");
-            return true;
-        } catch (error) {
-            console.error("댓글 작성 중 오류(service):", error);
-            return false;
-        }
-    };
-
-    // 댓글 목록 불러오기
-    const getList = async (page, postId) => {
-        try {
-            const response = await fetch(`/replies/${postId}/${page}`);
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("댓글 목록 불러오기 실패 (응답 에러):", errorText);
-            }
-
-            const data = await response.json();
-            console.log("getList에서 로드된 데이터:", data);
-            return data;
-        } catch (error) {
-            console.error("댓글 목록 로딩 중 오류:", error);
-            return null;
-        }
-    };
-
-    // 댓글 삭제
-    const remove = async (replyId) => {
-        try {
-            const response = await fetch(`/replies/${replyId}`, {
-                method: "DELETE",
-            });
-
-            if (!response.ok) {
-                console.error("댓글 삭제 실패:", response.statusText);
-            }
-
-            console.log("댓글 삭제 성공");
-            return true;
-        } catch (error) {
-            console.error("댓글 삭제 중 오류:", error);
-            return false;
-        }
-    };
-
-    // 댓글 수정
-    const update = async (id, memberId, newContent) => {
-        // 컨트롤러 URL에 맞게 수정
-        const url = `/reply/edit`;
-
-        // 요청 본문: ReplyVO 구조에 맞게 데이터 구성
-        const replyData = {
-            id: id, // 댓글 ID
-            memberId: memberId, // 작성자 ID
-            replyContent: newContent // 수정된 댓글 내용
-        };
-
-        try {
-            console.log("댓글 수정 요청 시작(service):", replyData);
-
-            const response = await fetch(url, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify(replyData), // JSON 데이터 전송
-            });
-
-            console.log(`댓글 수정 응답 상태(service): ${response.status}`);
-            if (!response.ok) {
-                console.error("댓글 수정 실패(service):", response.statusText);
-                return false;
-            }
-
-            const result = await response.text(); // 응답 메시지를 텍스트로 처리
-            console.log("댓글 수정 성공(service):", result);
-            return true;
-        } catch (error) {
-            console.error("댓글 수정 중 오류(service):", error);
-            return false;
-        }
-    };
-
-
-    // 댓글 수 조회
-    const getReplyCount = async (postId) => {
-        try {
-            const response = await fetch(`/replies/count/${postId}`);
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error(`댓글 수 조회 실패 (Post ID: ${postId}):`, errorText);
-                return 0;
-            }
-
-            const { count } = await response.json();
-            console.log(`댓글 수 조회 성공 (Post ID: ${postId}):`, count);
-            return count;
-        } catch (error) {
-            console.error(`댓글 수 조회 중 오류 (Post ID: ${postId}):`, error);
-            return 0;
-        }
-    };
-
-    // 댓글 수 업데이트 함수
-    const updateReplyCount = async (postId) => {
-        try {
-            const totalCount = await replyService.getReplyCount(postId); // 댓글 수 조회
-            const replyCountElement = document.getElementById("reply-count");
-
-            if (replyCountElement) {
-                replyCountElement.textContent = ` ${totalCount}`; // 댓글 수 갱신
-                console.log(`댓글 수 갱신 완료: ${totalCount}`);
+// 댓글 가져오기 함수
+function fetchReplies(postId, page) {
+    const url = `/community/${postId}/${page}`;
+    return fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+        .then(response => {
+            if (response.ok && response.headers.get('Content-Type')?.includes('application/json')) {
+                return response.json();
             } else {
-                console.error("댓글 수 표시 요소(reply-count)를 찾을 수 없습니다.");
+                throw new Error(`댓글 가져오기 실패: ${response.status}`);
             }
-        } catch (error) {
-            console.error("댓글 수 갱신 중 오류:", error);
-        }
-    };
+        })
+        .catch(error => {
+            console.error("댓글 가져오기 중 오류 발생:", error);
+            alert("댓글을 불러오는 데 문제가 발생했습니다.");
+            return null;
+        });
+}
 
-    // 페이지 로드 시 댓글 수 업데이트
-    document.addEventListener("DOMContentLoaded", () => {
-        const postIdElement = document.getElementById("post-id");
-        const postId = postIdElement ? postIdElement.value : null;
+// 댓글 작성하기 함수
+function addReply(postId, replyData) {
+    const url = `/community/write`;
+    return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+            postId: postId,
+            replyContent: replyData.replyContent,
+            memberId: replyData.memberId,
+            replyStatus: "VISIBLE" // 기본 상태 설정
+        })
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else if (response.status === 401) {
+                throw new Error("로그인이 필요합니다.");
+            } else {
+                throw new Error(`댓글 추가 실패: ${response.status}`);
+            }
+        })
+        .catch(error => {
+            console.error("댓글 추가 중 오류 발생:", error);
+            alert("댓글을 추가하는 데 문제가 발생했습니다.");
+            return null;
+        });
+}
 
-        if (postId) {
-            updateReplyCount(postId);
-        } else {
-            console.error("postId가 없습니다. HTML에 id='post-id' 요소를 추가하세요.");
-        }
-    });
+// 댓글 수정하기 함수
+function updateReply(replyId, replyData) {
+    const url = `/community/replies-update/${replyId}`;
+    return fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+            replyContent: replyData.replyContent,
+            memberId: replyData.memberId
+        })
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else if (response.status === 403) {
+                throw new Error("수정 권한이 없습니다.");
+            } else if (response.status === 404) {
+                throw new Error("댓글을 찾을 수 없습니다.");
+            } else {
+                throw new Error(`댓글 수정 실패: ${response.status}`);
+            }
+        })
+        .catch(error => {
+            console.error("댓글 수정 중 오류 발생:", error);
+            alert("댓글을 수정하는 데 문제가 발생했습니다.");
+            return null;
+        });
+}
 
-    // getReplyCount의 별칭으로 getTotalReplies 추가
-    const getTotalReplies = getReplyCount;
+// 댓글 삭제하기 함수
+function deleteReply(replyId) {
+    const url = `/community/replies-delete/${replyId}`;
+    return fetch(url, {
+        method: 'DELETE',
+        credentials: 'include'
+    })
+        .then(response => {
+            if (response.ok) {
+                return true;
+            } else if (response.status === 403) {
+                throw new Error("삭제 권한이 없습니다.");
+            } else if (response.status === 404) {
+                throw new Error("댓글을 찾을 수 없습니다.");
+            } else {
+                throw new Error(`댓글 삭제 실패: ${response.status}`);
+            }
+        })
+        .catch(error => {
+            console.error("댓글 삭제 중 오류 발생:", error);
+            alert("댓글을 삭제하는 데 문제가 발생했습니다.");
+            return false;
+        });
+}
 
-    // 메서드들을 객체로 반환
-    return { write, getList, remove, update, getReplyCount, updateReplyCount, getTotalReplies };
-})();
+    // // 댓글 수 조회
+    // function getReplyCount = (postId) => {
+    //     try {
+    //         const response = await fetch(`/replies/count/${postId}`);
+    //         if (!response.ok) return 0;
+    //         const { count } = await response.json();
+    //         return count;
+    //     } catch (error) {
+    //         console.error("댓글 수 조회 중 오류:", error);
+    //         return 0;
+    //     }
+    // };
+
+    // // 댓글 수 업데이트
+    // const updateReplyCount = async (postId) => {
+    //     try {
+    //         const totalCount = await getReplyCount(postId);
+    //         const replyCountElement = document.getElementById("reply-count");
+    //         if (replyCountElement) replyCountElement.textContent = ` ${totalCount}`;
+    //     } catch (error) {
+    //         console.error("댓글 수 갱신 중 오류:", error);
+    //     }
+    // };

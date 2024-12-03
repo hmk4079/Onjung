@@ -117,8 +117,6 @@ public class VolunteerController {
         return "volunteer/volunteer-list";
     }
 
-
-
     // 봉사모집 게시판 json형태
     @GetMapping("volunteer-info")
     @ResponseBody
@@ -202,9 +200,6 @@ public class VolunteerController {
 
         return "volunteer/volunteer-inquiry";
     }
-
-
-
 
     //    지원하기
     @PostMapping("/apply")

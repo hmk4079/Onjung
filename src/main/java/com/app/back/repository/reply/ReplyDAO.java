@@ -15,8 +15,8 @@ import java.util.List;
 public class ReplyDAO {
     private final ReplyMapper replyMapper;
     //    댓글 추가
-    public void insertReply(ReplyDTO replyDTO) {
-        replyMapper.insertReply(replyDTO);
+    public void insertReply(ReplyVO replyVO) {
+        replyMapper.insertReply(replyVO);
     }
 
     //    페이징된 댓글 조회

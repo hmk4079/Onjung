@@ -30,8 +30,6 @@ import java.util.Collections;
 public class ReplyController {
 
     private final ReplyService replyService;
-    private final HttpSession session;
-    private VolunteerService volunteerService;
 
     @ModelAttribute
     public void setMemberInfo(HttpSession session, Model model) {
@@ -51,58 +49,56 @@ public class ReplyController {
     }
 
     @Operation(summary = "댓글 작성", description = "댓글 작성 시 사용하는 API")
-    @PostMapping("/write")
-    public ResponseEntity<?> write(@RequestBody ReplyDTO replyDTO, HttpSession session) {
-        // 세션에서 사용자 정보 가져오기
-        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-        if (loginMember == null) {
-            log.warn("로그인 상태가 아닙니다. 댓글 작성 요청 거부.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-        }
-
-        // 사용자 정보 및 기본 상태 설정
-        replyDTO.setMemberId(loginMember.getId());
-        replyDTO.setReplyStatus("VISIBLE"); // 댓글 상태 설정
-
-        // 댓글 저장
+    @PostMapping("/posts/{postId}/replies")
+    public ResponseEntity<ReplyDTO> addReply(
+            @PathVariable Long postId,
+            @RequestBody ReplyDTO replyDTO) {
         try {
-            replyService.save(replyDTO);
-            log.info("댓글이 성공적으로 저장되었습니다. ReplyDTO: {}", replyDTO);
-            return ResponseEntity.ok("댓글 작성 성공");
+            replyDTO.setPostId(postId);
+            Long memberId = replyDTO.getMemberId();
+            if (memberId == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+            ReplyVO replyVO = replyDTO.toReplyVO();
+
+            // 댓글 저장
+            replyService.save(replyVO);
+
+            ReplyDTO createdReplyDTO = replyService.getReplyById(replyVO.getId());
+
+            return new ResponseEntity<>(createdReplyDTO, HttpStatus.CREATED);
         } catch (Exception e) {
-            log.error("댓글 저장 중 오류 발생: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("댓글 작성 실패");
+            log.error("댓글 작성 중 오류", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-
     @Operation(summary = "댓글 목록", description = "댓글 목록 조회 시 사용하는 API")
-    @GetMapping("/{postId}/{page}")
-    public ResponseEntity<ReplyListDTO> getReplies(
-            @PathVariable Long postId,
-            @PathVariable int page) {
-        // 페이지네이션 설정
-        Pagination pagination = new Pagination();
+    @GetMapping("/posts/{postId}/replies")
+    public ReplyListDTO getReplies(
+            @PathVariable("postId") Long postId,
+            @RequestParam(defaultValue = "1") int page,
+            Pagination pagination
+    ) {
+        int totalReplies = replyService.getTotalReplies(postId);
+        pagination.setTotal(totalReplies);
         pagination.setPage(page);
-        pagination.setRowCount(10);
+        pagination.progress();
 
-        // 댓글 목록 조회
-        ReplyListDTO replyListDTO = replyService.getListByPostId(postId, pagination);
-
-        // 응답 반환
-        return ResponseEntity.ok(replyListDTO);
+        return replyService.getListByPostId(page, postId, pagination);
     }
 
     @Operation(summary = "댓글 수정", description = "댓글 수정 시 사용하는 API")
-    @PutMapping("/replies-update/{id}")
+    @PutMapping("/replies-update/{replyId}")
     public ResponseEntity<Void> updateReply(
-            @PathVariable Long id,
+            @PathVariable Long replyId,
             @RequestBody ReplyDTO replyDTO) {
         try {
-            replyDTO.setId(id);
+            replyDTO.setId(replyId);
 
             // 댓글 조회
-            ReplyDTO existingReply = replyService.getReplyById(id);
+            ReplyDTO existingReply = replyService.getReplyById(replyId);
             if (existingReply == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -123,16 +119,28 @@ public class ReplyController {
         }
     }
 
-
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteReply(@PathVariable Long id) {
+//    @Operation(summary = "댓글 소프트 삭제", description = "댓글 삭제 시 사용하는 API")
+//    @DeleteMapping("/replies-delete/{replyId}")
+//    public ResponseEntity<Void> deleteReply(
+//            @PathVariable Long replyId,
+//            @RequestParam Long memberId) { // 프론트엔드에서 memberId를 전달받음
 //        try {
-//            replyService.updateReplyStatus(id,);
-//            log.info("댓글이 성공적으로 삭제되었습니다. ID: {}", id);
-//            return ResponseEntity.ok("댓글이 성공적으로 삭제되었습니다.");
+//            // 댓글 조회
+//            ReplyDTO existingReply = replyService.getReplyById(replyId);
+//            if (existingReply == null) {
+//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            }
+//
+//            if (!existingReply.getMemberId().equals(memberId)) {
+//                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//            }
+//
+//            // 댓글 삭제
+//            replyService.updateReplyStatus(replyId);
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 //        } catch (Exception e) {
-//            log.error("댓글 삭제 중 오류 발생: {}", e.getMessage());
-//            return ResponseEntity.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR).body("댓글 삭제 중 오류가 발생했습니다.");
+//            log.error("댓글 삭제 중 오류", e);
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 //        }
 //    }
 

@@ -23,13 +23,13 @@ public class ReplyServiceImpl implements ReplyService {
 
     // 댓글 추가
     @Override
-    public void save(ReplyDTO replyDTO) {
-        replyDAO.insertReply(replyDTO);
+    public void save(ReplyVO replyVO) {
+        replyDAO.insertReply(replyVO);
     }
 
     // 댓글 조회
     @Override
-    public ReplyListDTO getListByPostId(Long postId, Pagination pagination) {
+    public ReplyListDTO getListByPostId(int page, Long postId, Pagination pagination) {
         ReplyListDTO replyListDTO = new ReplyListDTO();
 
         // 페이지 및 총 댓글 수 설정

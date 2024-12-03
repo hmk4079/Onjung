@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface ReplyMapper {
     //    게시글 작성
-    public void insertReply(ReplyDTO replyDTO);
+    public void insertReply(ReplyVO replyVO);
     //    게시글 댓글 목록
     public List<ReplyDTO> postReplyPaged(Long postId, Pagination pagination);
     //    댓글 1개
