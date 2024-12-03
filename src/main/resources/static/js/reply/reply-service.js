@@ -58,63 +58,42 @@ const replyService = (() => {
     };
 
     // 댓글 수정
-    function updateReply(postId, replyId, memberId, newContent) {
-        const url = `/community/replies-update/${replyId}`;
+    const update = async (id, memberId, newContent) => {
+        // 컨트롤러 URL에 맞게 수정
+        const url = `/reply/edit`;
 
+        // 요청 본문: ReplyVO 구조에 맞게 데이터 구성
         const replyData = {
-            replyContent: newContent,
-            memberId: memberId
+            id: id, // 댓글 ID
+            memberId: memberId, // 작성자 ID
+            replyContent: newContent // 수정된 댓글 내용
         };
 
-        fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify(replyData)
-        })
-            .then(response => {
-                console.log(`updateReply - 응답 상태: ${response.status}`);
-                const contentType = response.headers.get('Content-Type');
-                console.log(`updateReply - Content-Type: ${contentType}`);
+        try {
+            console.log("댓글 수정 요청 시작(service):", replyData);
 
-                if (response.status === 204) {
-                    // 본문이 없는 경우
-                    return null;
-                } else if (response.ok && contentType && contentType.includes('application/json')) {
-                    return response.json();
-                } else {
-                    throw new Error(`서버 응답 오류: ${response.status}`);
-                }
-            })
-            .then(updatedReply => {
-                const listItem = document.querySelector(`[data-reply-id="${replyId}"]`).closest('li');
-                const commentTxt = listItem.querySelector('.comment-txt');
-                const modifyButton = listItem.querySelector('.btn-comment-etc-modi');
-                const modifyButtonImg = modifyButton.querySelector('img');
-
-                if (updatedReply) {
-                    console.log("댓글이 수정되었습니다:", updatedReply);
-                    // DOM에서 댓글 내용 업데이트
-                    commentTxt.textContent = updatedReply.replyContent;
-                } else {
-                    // 서버가 204 No Content를 반환한 경우, newContent로 DOM 업데이트
-                    commentTxt.textContent = newContent;
-                }
-
-                // 버튼을 다시 수정 모드로 변경
-                modifyButtonImg.src = '/images/modify-icon.png'; // 수정 아이콘 경로
-                modifyButtonImg.alt = '수정 아이콘';
-                modifyButton.setAttribute('data-state', 'modify');
-
-                alert("댓글이 성공적으로 수정되었습니다.");
-            })
-            .catch(error => {
-                console.error("댓글 수정 중 오류 발생:", error);
-                alert(error.message || "댓글을 수정하는 데 문제가 발생했습니다.");
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(replyData), // JSON 데이터 전송
             });
-    }
+
+            console.log(`댓글 수정 응답 상태(service): ${response.status}`);
+            if (!response.ok) {
+                console.error("댓글 수정 실패(service):", response.statusText);
+                return false;
+            }
+
+            const result = await response.text(); // 응답 메시지를 텍스트로 처리
+            console.log("댓글 수정 성공(service):", result);
+            return true;
+        } catch (error) {
+            console.error("댓글 수정 중 오류(service):", error);
+            return false;
+        }
+    };
+
 
     // 댓글 수 조회
     const getReplyCount = async (postId) => {
@@ -168,5 +147,5 @@ const replyService = (() => {
     const getTotalReplies = getReplyCount;
 
     // 메서드들을 객체로 반환
-    return { write, getList, remove, updateReply, getReplyCount, updateReplyCount, getTotalReplies };
+    return { write, getList, remove, update, getReplyCount, updateReplyCount, getTotalReplies };
 })();

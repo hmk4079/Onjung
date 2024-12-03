@@ -43,58 +43,101 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 댓글 렌더링 함수
-    function renderComments(comments) {
-        if (!comments || comments.length === 0) {
-            console.log("댓글 데이터가 없습니다.");
+    function renderReplies(currentMemberId, replies, postId) {
+        const commentSection = document.getElementById("comment-section");
+        console.log(`댓글 렌더링 중: 게시글 ID ${postId}`);
+
+        if (!replies || replies.length === 0) {
+            if (commentSection.childElementCount === 0) {
+                const noRepliesMessage = document.createElement('li');
+                noRepliesMessage.textContent = "댓글이 없습니다.";
+                commentSection.appendChild(noRepliesMessage);
+            }
             return;
         }
 
-        const commentSection = document.getElementById("comment-section");
-
-        comments.forEach((comment) => {
-            const memberName = comment.memberName || comment.memberNickname || "닉네임 없음";
-            const profileImage = comment.profileFileName
-                ? `/profile/display?memberId=${comment.memberId}`
+        replies.forEach((reply) => {
+            const memberName = reply.memberName || reply.memberNickname || "닉네임 없음";
+            const profileImage = reply.profileFileName
+                ? `/profile/display?memberId=${reply.memberId}`
                 : "/images/default-profile.png";
 
             const commentHTML = `
-                                       <li class="comment-container">
-                                           <div class="contest-comment-show">
-                                               <div>
-                                                   <div class="comment-card">
-                                                       <div class="contest-comment-userinfo">
-                                                           <a href="/m/${comment.memberNickname || ""}" class="profile-avatar-container avatar">
-                                                               <img src="${profileImage}" alt="프로필 이미지" />
-                                                           </a>
-                                                           <div class="nick">
-                                                               <div class="nickname-container user-nick-wrapper">
-                                                                   <p class="nickname-text">
-                                                                       <a class="user-nick nick" href="#">
-                                                                           ${memberName}
-                                                                       </a>
-                                                                   </p>
-                                                               </div>
-                                                           </div>
-                                                           <p>| ${timeForToday(comment.createdDate)}</p>
-                                                       </div>
-                                                       <div class="contest-comment-content">
-                                                           <span class="reply-content-${comment.id}">${comment.replyContent}</span>
-                                                       </div>
-                                                   </div>
-                                               </div>
-                                               <div class="contest-comment-buttons">
-                                                   <button type="button" class="edit-button" data-reply-id="${comment.id}">
-                                                       <img src="/images/modify-icon.png" alt="수정 아이콘">
-                                                   </button>
-                                                   <button type="button" class="delete-button" data-reply-id="${comment.id}">
-                                                       <img src="/images/delete-icon.png" alt="삭제 아이콘">
-                                                   </button>
-                                               </div>
-                                           </div>
-                                       </li>
-                                        `;
+            <li class="comment-container">
+                <div class="contest-comment-show">
+                    <div>
+                        <div class="comment-card">
+                            <div class="contest-comment-profile">
+                                <a href="/m/${reply.memberId}">
+                                    <img src="${profileImage}" alt="${memberName}">
+                                </a>
+                                <div class="nick">
+                                    <div class="nick-info">
+                                        <p class="name">
+                                            <a class="nickname">${memberName}</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <p>| ${timeForToday(reply.createdDate)}</p>
+                            </div>
+                            <div class="contest-comment-content">
+                                <span class="reply-content">${reply.content}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contest-comment-buttons">
+                        <button type="button" class="edit-button" data-reply-id="${reply.id}">
+                            <img src="/images/modify-icon.png" alt="수정 아이콘">
+                        </button>
+                        <button type="button" class="delete-button" data-reply-id="${reply.id}">
+                            <img src="/images/delete-icon.png" alt="삭제 아이콘">
+                        </button>
+                    </div>
+                </div>
+            </li>
+        `;
 
-            commentSection.insertAdjacentHTML("beforeend", commentHTML);
+            const listItem = document.createElement('li');
+            let innerHTML = commentHTML;
+
+            // 현재 사용자가 작성자인 경우 수정 및 삭제 버튼 추가
+            if (reply.memberId === currentMemberId) {
+                console.log(`사용자 ${currentMemberId}가 댓글 ${reply.id}를 수정/삭제할 수 있습니다.`);
+                innerHTML += `
+                <div class="contest-comment-buttons">
+                    <button type="button" class="edit-button" data-reply-id="${reply.id}">
+                        <img src="/images/modify-icon.png" alt="수정 아이콘">
+                    </button>
+                    <button type="button" class="delete-button" data-reply-id="${reply.id}">
+                        <img src="/images/delete-icon.png" alt="삭제 아이콘">
+                    </button>
+                </div>
+            `;
+            } else {
+                console.log(`사용자 ${currentMemberId}가 댓글 ${reply.id}를 수정/삭제할 수 없습니다.`);
+            }
+
+            innerHTML += `</div>`; // wrap-comment 닫기
+            listItem.innerHTML = innerHTML;
+            commentSection.appendChild(listItem);
+        });
+
+        // 각 댓글에 대한 이벤트 리스너 추가
+        replies.forEach((reply) => {
+            if (reply.memberId === currentMemberId) {
+                const modifyButton = document.querySelector(`[data-reply-id="${reply.id}"]`);
+                const deleteButton = document.querySelector(`[data-reply-id="${reply.id}"]`);
+
+                modifyButton.addEventListener('click', function () {
+                    handleModifyButtonClick(postId, reply);
+                });
+
+                deleteButton.addEventListener('click', function () {
+                    handleDeleteButtonClick(postId, reply);
+                });
+
+                console.log(`댓글 ID: ${reply.id}에 대한 이벤트 리스너가 추가되었습니다.`);
+            }
         });
     }
 
@@ -134,3 +177,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // 초기 댓글 로드
     loadComments(1, postId);
 });
+

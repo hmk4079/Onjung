@@ -93,17 +93,16 @@ public class ReplyController {
         return ResponseEntity.ok(replyListDTO);
     }
 
-    // 댓글 수정
-    @Operation(summary = "댓글 수정", description = "댓글 수정시 사용하는 API")
-    @PutMapping("/replies-update/{replyId}")
+    @Operation(summary = "댓글 수정", description = "댓글 수정 시 사용하는 API")
+    @PutMapping("/replies-update/{id}")
     public ResponseEntity<Void> updateReply(
-            @PathVariable Long replyId,
+            @PathVariable Long id,
             @RequestBody ReplyDTO replyDTO) {
         try {
-            replyDTO.setId(replyId);
+            replyDTO.setId(id);
 
             // 댓글 조회
-            ReplyDTO existingReply = replyService.getReplyById(replyId);
+            ReplyDTO existingReply = replyService.getReplyById(id);
             if (existingReply == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -112,10 +111,10 @@ public class ReplyController {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
 
-            ReplyVO replyVO = replyDTO.toVO();
+            ReplyVO replyVO = replyDTO.toReplyVO();
 
             // 댓글 수정
-            replyService.updateReply(replyVO);
+            replyService.editReply(replyVO);
 
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -123,35 +122,6 @@ public class ReplyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-//    @PutMapping("/replies-update/{id}")
-//    public ResponseEntity<Void> updateReply(
-//            @PathVariable Long id,
-//            @RequestBody ReplyDTO replyDTO) {
-//        try {
-//            replyDTO.setId(id);
-//
-//            // 댓글 조회
-//            ReplyDTO existingReply = replyService.getListByPostId(id);
-//            if (existingReply == null) {
-//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//            }
-//
-//            if (!existingReply.getMemberId().equals(replyDTO.getMemberId())) {
-//                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//            }
-//
-//            ReplyVO replyVO = replyDTO.toReplyVO();
-//
-//            // 댓글 수정
-//            replyService.editReply(replyVO);
-//
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } catch (Exception e) {
-//            log.error("댓글 수정 중 오류", e);
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
 
 //    @DeleteMapping("/{id}")
