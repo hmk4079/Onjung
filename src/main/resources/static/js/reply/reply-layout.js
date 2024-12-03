@@ -380,9 +380,11 @@ function fetchReplies(postId, currentMemberId, page) {
         });
 }
 // 댓글 추가하기 함수
+// 댓글 추가하기 함수
 function addReply(postId, replyData) {
     const url = `/replies/posts/${postId}/replies`;
 
+    // 비동기 요청
     fetch(url, {
         method: 'POST',
         headers: {
@@ -445,9 +447,7 @@ function addReply(postId, replyData) {
                                 <div class="nick">
                                     <div class="nickname-container user-nick-wrapper">
                                         <p class="nickname-text">
-                                            <a class="user-nick nick" href="#">
-                                                ${memberName}
-                                            </a>
+                                            <a class="user-nick nick" href="#">${memberName}</a>
                                         </p>
                                     </div>
                                 </div>
