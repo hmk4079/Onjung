@@ -60,20 +60,22 @@ public class ReplyController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
-            ReplyVO replyVO = replyDTO.toReplyVO();
+            // replyStatus 설정
+            replyDTO.setReplyStatus("VISIBLE");
 
-            // 댓글 저장
+            // VO 변환 후 저장
+            ReplyVO replyVO = replyDTO.toReplyVO();
             replyService.save(replyVO);
 
+            // 저장된 댓글 정보 반환
             ReplyDTO createdReplyDTO = replyService.getReplyById(replyVO.getId());
-            
-
             return new ResponseEntity<>(createdReplyDTO, HttpStatus.CREATED);
         } catch (Exception e) {
             log.error("댓글 작성 중 오류", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @Operation(summary = "댓글 목록", description = "댓글 목록 조회 시 사용하는 API")
     @GetMapping("/posts/{postId}/replies")
@@ -119,6 +121,49 @@ public class ReplyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+//    @Operation(summary = "댓글 작성", description = "댓글 작성 시 사용하는 API")
+//    @PostMapping("/write")
+//    public ResponseEntity<?> write(@RequestBody ReplyDTO replyDTO, HttpSession session) {
+//        // 세션에서 사용자 정보 가져오기
+//        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+//        if (loginMember == null) {
+//            log.warn("로그인 상태가 아닙니다. 댓글 작성 요청 거부.");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+//        }
+//
+//        // 사용자 정보 및 기본 상태 설정
+//        replyDTO.setMemberId(loginMember.getId());
+//        replyDTO.setReplyStatus("VISIBLE"); // 댓글 상태 설정
+//
+//        // 댓글 저장
+//        try {
+//            replyService.save(replyDTO);
+//            log.info("댓글이 성공적으로 저장되었습니다. ReplyDTO: {}", replyDTO);
+//            return ResponseEntity.ok("댓글 작성 성공");
+//        } catch (Exception e) {
+//            log.error("댓글 저장 중 오류 발생: {}", e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("댓글 작성 실패");
+//        }
+//    }
+//
+//
+//    @Operation(summary = "댓글 목록", description = "댓글 목록 조회 시 사용하는 API")
+//    @GetMapping("/{postId}/{page}")
+//    public ResponseEntity<ReplyListDTO> getReplies(
+//            @PathVariable Long postId,
+//            @PathVariable int page) {
+//        // 페이지네이션 설정
+//        Pagination pagination = new Pagination();
+//        pagination.setPage(page);
+//        pagination.setRowCount(10);
+//
+//        // 댓글 목록 조회
+//        ReplyListDTO replyListDTO = replyService.getListByPostId(postId, pagination);
+//
+//        // 응답 반환
+//        return ResponseEntity.ok(replyListDTO);
+//    }
 
 //    @Operation(summary = "댓글 소프트 삭제", description = "댓글 삭제 시 사용하는 API")
 //    @DeleteMapping("/replies-delete/{replyId}")

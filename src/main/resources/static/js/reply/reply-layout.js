@@ -379,7 +379,6 @@ function fetchReplies(postId, currentMemberId, page) {
             alert("댓글을 불러오는 데 문제가 발생했습니다.");
         });
 }
-
 // 댓글 추가하기 함수
 function addReply(postId, replyData) {
     const url = `/replies/posts/${postId}/replies`;
@@ -501,6 +500,7 @@ function addReply(postId, replyData) {
             alert(error.message || "댓글을 추가하는 데 문제가 발생했습니다.");
         });
 }
+
 
 
 // 댓글 수정 버튼 클릭 시 핸들러 함수
