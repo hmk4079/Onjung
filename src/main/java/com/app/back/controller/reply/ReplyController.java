@@ -57,24 +57,34 @@ public class ReplyController {
             replyDTO.setPostId(postId);
             Long memberId = replyDTO.getMemberId();
             if (memberId == null) {
+                log.error("memberId가 null입니다.");
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
-            // replyStatus 설정
+            // 댓글 상태 설정
             replyDTO.setReplyStatus("VISIBLE");
 
             // VO 변환 후 저장
             ReplyVO replyVO = replyDTO.toReplyVO();
             replyService.save(replyVO);
 
-            // 저장된 댓글 정보 반환
+            log.info("저장된 ReplyVO ID: {}", replyVO.getId());
+
+            // 저장된 댓글 조회
             ReplyDTO createdReplyDTO = replyService.getReplyById(replyVO.getId());
+            if (createdReplyDTO == null) {
+                log.error("저장된 댓글 데이터를 조회할 수 없습니다. ID: {}", replyVO.getId());
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            log.info("저장된 댓글 데이터: {}", createdReplyDTO);
             return new ResponseEntity<>(createdReplyDTO, HttpStatus.CREATED);
         } catch (Exception e) {
-            log.error("댓글 작성 중 오류", e);
+            log.error("댓글 작성 중 오류 발생", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 
     @Operation(summary = "댓글 목록", description = "댓글 목록 조회 시 사용하는 API")

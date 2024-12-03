@@ -6,17 +6,20 @@ import com.app.back.domain.reply.ReplyVO;
 import com.app.back.domain.reply.Pagination;
 import com.app.back.mapper.reply.ReplyMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class ReplyDAO {
     private final ReplyMapper replyMapper;
     //    댓글 추가
     public void insertReply(ReplyVO replyVO) {
         replyMapper.insertReply(replyVO);
+        log.info("Save 호출 후 ID: {}", replyVO.getId());
     }
 
     //    페이징된 댓글 조회
