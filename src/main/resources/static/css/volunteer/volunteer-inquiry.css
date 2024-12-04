@@ -1104,4 +1104,14 @@ p {
     margin: 0; /* 기본 마진 제거 */
 }
 
-
+.edit-textarea {
+    width: 700px;
+    height: 80px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+    outline: none;
+    margin-top:20px;
+}

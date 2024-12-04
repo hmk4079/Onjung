@@ -238,89 +238,27 @@ function getCurrentMember() {
         });
 }
 
-// 댓글 렌더링 함수
-function renderReplies(replies, currentMemberId, postId) {
-    const commentSections = document.querySelector(".comment-section");
-
-    if (!replies || replies.length === 0) {
-        console.log("더 이상 가져올 댓글이 없습니다.");
-        return;
-    }
-
-    // 새 댓글 추가
-    replies.forEach(reply => {
-        const listItem = document.createElement("li");
-        listItem.setAttribute('data-reply-id', reply.id);
-        listItem.setAttribute('data-member-id', reply.memberId);
-
-        const memberName = reply.memberName || reply.memberNickname || "닉네임 없음";
-        const profileImage = reply.profileFileName
-            ? `/profile/display?memberId=${reply.memberId}`
-            : "/images/default-profile.png";
-
-        listItem.innerHTML = `
-            <div class="comment-container">
-                <div class="contest-comment-show">
-                    <div>
-                        <div class="comment-card">
-                            <div class="contest-comment-userinfo">
-                                <a href="/m/${reply.memberNickname || ""}" class="profile-avatar-container avatar">
-                                    <img src="${profileImage}" alt="프로필 이미지" />
-                                </a>
-                                <div class="nick">
-                                    <div class="nickname-container user-nick-wrapper">
-                                        <p class="nickname-text">
-                                            <a class="user-nick nick" href="#">${memberName}</a>
-                                        </p>
-                                    </div>
-                                </div>
-                                <p>| ${timeForToday(reply.createdDate)}</p>
-                            </div>
-                            <div class="contest-comment-content">
-                                <div class="reply-content-${reply.id}">${reply.replyContent}</div>
-                            </div>
-                        </div>
-                        <div class="contest-comment-buttons">
-                            <button type="button" class="edit-button" data-reply-id="${reply.id}" data-state="modify">
-                                <img src="/images/modify-icon.png" alt="수정 아이콘">
-                            </button>
-                            <button type="button" class="delete-button" data-reply-id="${reply.id}">
-                                <img src="/images/delete-icon.png" alt="삭제 아이콘">
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        commentSections.appendChild(listItem); // 기존 댓글 아래에 새 댓글 추가
-    });
-    // 각 댓글에 대한 이벤트 리스너 추가
-    // 이는 `renderReplies`가 여러 번 호출될 때마다 이벤트 리스너가 중복 추가되지 않도록 주의해야 합니다.
-    // 따라서, 이벤트 위임을 사용하는 것이 더 효율적입니다.
-    // 하지만 현재 구조를 유지하기 위해 기존 방식을 사용하겠습니다.
-}
-
 document.querySelector('.comment-section').addEventListener('click', function (event) {
     const target = event.target;
+    const button = target.closest('button');
 
-    // 수정 버튼 클릭 시 처리
-    if (target.classList.contains('edit-button')) {
-        const replyId = target.closest('li').getAttribute('data-reply-id');
-        const state = target.getAttribute('data-state');
+    if (!button) return;
+
+    // 수정 버튼 클릭 처리
+    if (button.classList.contains('edit-button')) {
+        const replyId = button.getAttribute('data-reply-id');
+        const state = button.getAttribute('data-state');
         if (state === 'modify') {
-            console.log(`수정 버튼 클릭: ${replyId}`);
-            handleModifyButtonClick(postId, { id: replyId });
+            handleModifyButtonClick(postId, { id: reply.postId }); // postId 전달
         }
     }
 
-    // 삭제 버튼 클릭 시 처리
-    if (target.classList.contains('delete-button')) {
-        const replyId = target.closest('li').getAttribute('data-reply-id');
-        console.log(`삭제 버튼 클릭: ${replyId}`);
-        handleDeleteButtonClick(postId, { id: replyId });
+    // 삭제 버튼 클릭 처리
+    if (button.classList.contains('delete-button')) {
+        const replyId = button.getAttribute('data-reply-id');
+        handleDeleteButtonClick(postId, { id: replyId }); // postId 전달
     }
 });
-
 
 // 댓글 가져오기 함수
 function fetchReplies(postId, currentMemberId, page) {
@@ -448,62 +386,136 @@ function addReply(postId, replyData) {
             console.error("댓글 작성 중 오류 발생:", error);
             alert("댓글 추가 중 문제가 발생했습니다.");
         });
+}
 
 // 댓글 수정 버튼 클릭 시 핸들러 함수
-    function handleModifyButtonClick(postId, reply) {
-        const listItem = document.querySelector(`[data-reply-id="${reply.id}"]`).closest('li');
-        const commentTxt = listItem.querySelector('.comment-txt');
-        const modifyButton = listItem.querySelector('.edit-button');
-        const modifyButtonImg = modifyButton.querySelector('img');
+function handleModifyButtonClick(postId, reply) {
+    const listItem = document.querySelector(`[data-reply-id="${reply.id}"]`).closest('li');
+    const commentTxt = listItem.querySelector('.reply-content-' + reply.id); // 수정할 댓글 내용
+    const modifyButton = listItem.querySelector('.edit-button'); // 수정 버튼
+    const modifyButtonImg = modifyButton.querySelector('img'); // 수정 버튼 아이콘
 
-        // 현재 버튼의 상태 확인
-        const currentState = modifyButton.getAttribute('data-state');
+    // 현재 버튼 상태 확인
+    const currentState = modifyButton.getAttribute('data-state');
 
-        if (currentState === 'modify') {
-            // 수정 모드로 전환
-            const originalContent = commentTxt.textContent;
-            commentTxt.setAttribute('data-original-content', originalContent);
+    if (currentState === 'modify') {
+        // 수정 모드로 전환
+        const originalContent = commentTxt.textContent; // 기존 댓글 내용 저장
+        commentTxt.setAttribute('data-original-content', originalContent); // 원본 내용 저장
 
-            const textarea = document.createElement('textarea');
-            textarea.value = originalContent;
-            textarea.classList.add('modify-comment');
+        // `textarea` 생성 후 기존 댓글 내용을 입력
+        const textarea = document.createElement('textarea');
+        textarea.value = originalContent;
+        textarea.classList.add('edit-textarea');
 
-            commentTxt.innerHTML = '';
-            commentTxt.appendChild(textarea);
+        // 댓글 영역을 `textarea`로 대체
+        commentTxt.innerHTML = '';
+        commentTxt.appendChild(textarea);
 
-            // 버튼을 저장 모드로 변경
-            modifyButtonImg.src = '/images/save-icon.png'; // 저장 아이콘 경로
-            modifyButtonImg.alt = '저장 아이콘';
-            modifyButton.setAttribute('data-state', 'save');
-        } else if (currentState === 'save') {
-            // 저장 모드: 수정 내용 저장
-            const textarea = commentTxt.querySelector('textarea');
-            const updatedContent = textarea.value.trim();
-            const originalContent = commentTxt.getAttribute('data-original-content');
+        // 버튼을 저장 모드로 변경
+        modifyButtonImg.src = '/images/save-icon.png'; // 저장 아이콘 경로
+        modifyButtonImg.alt = '저장 아이콘';
+        modifyButton.setAttribute('data-state', 'save');
+    } else if (currentState === 'save') {
+        // 저장 모드: 수정된 내용 저장
+        const textarea = commentTxt.querySelector('textarea');
+        const updatedContent = textarea.value.trim(); // 수정된 댓글 내용
+        const originalContent = commentTxt.getAttribute('data-original-content'); // 원본 내용
+        alert("댓글이 수정되었습니다.");
 
-            if (updatedContent === "") {
-                alert("댓글 내용을 입력해주세요.");
-                return;
-            }
-
-            if (updatedContent === originalContent) {
-                alert("수정된 내용이 없습니다.");
-                commentTxt.innerHTML = originalContent;
-                modifyButtonImg.src = '/images/modify-icon.png'; // 수정 아이콘 경로
-                modifyButtonImg.alt = '수정 아이콘';
-                modifyButton.setAttribute('data-state', 'modify');
-                return;
-            }
-
-            // 댓글 수정 요청
-            updateReply(postId, reply.id, reply.memberId, updatedContent);
+        // 유효성 검사: 내용이 비어 있거나 수정되지 않은 경우
+        if (updatedContent === "") {
+            alert("댓글 내용을 입력해주세요.");
+            return;
         }
+
+        if (updatedContent === originalContent) {
+            alert("수정된 내용이 없습니다.");
+            commentTxt.innerHTML = originalContent; // 원래 내용 복구
+            modifyButtonImg.src = '/images/modify-icon.png'; // 수정 아이콘 경로
+            modifyButtonImg.alt = '수정 아이콘';
+            modifyButton.setAttribute('data-state', 'modify');
+            return;
+        }
+
+        // 댓글 수정 요청
+        updateReply(postId, reply.id, reply.memberId, updatedContent);
     }
 }
 
+// 댓글 렌더링 함수
+function renderReplies(replies, currentMemberId, postId) {
+    const commentSections = document.querySelector(".comment-section");
+
+    if (!replies || replies.length === 0) {
+        console.log("더 이상 가져올 댓글이 없습니다.");
+        return;
+    }
+
+    replies.forEach(reply => {
+        const listItem = document.createElement("li");
+        listItem.setAttribute('data-reply-id', reply.id);
+        listItem.setAttribute('data-member-id', reply.memberId);
+
+        const memberName = reply.memberName || reply.memberNickname || "닉네임 없음";
+        const profileImage = reply.profileFileName
+            ? `/profile/display?memberId=${reply.memberId}`
+            : "/images/default-profile.png";
+
+        listItem.innerHTML = `
+            <div class="comment-container">
+                <div class="contest-comment-show">
+                    <div>
+                        <div class="comment-card">
+                            <div class="contest-comment-userinfo">
+                                <a href="/m/${reply.memberNickname || ""}" class="profile-avatar-container avatar">
+                                    <img src="${profileImage}" alt="프로필 이미지" />
+                                </a>
+                                <div class="nick">
+                                    <div class="nickname-container user-nick-wrapper">
+                                        <p class="nickname-text">
+                                            <a class="user-nick nick" href="#">${memberName}</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <p>| ${timeForToday(reply.createdDate)}</p>
+                            </div>
+                            <div class="contest-comment-content">
+                                <div class="reply-content-${reply.id}">${reply.replyContent}</div>
+                            </div>
+                        </div>
+                        <div class="contest-comment-buttons">
+                            <button type="button" class="edit-button" data-reply-id="${reply.id}" data-state="modify">
+                                <img src="/images/modify-icon.png" alt="수정 아이콘">
+                            </button>
+                            <button type="button" class="delete-button" data-reply-id="${reply.id}">
+                                <img src="/images/delete-icon.png" alt="삭제 아이콘">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        commentSections.appendChild(listItem);
+
+        const editButton = listItem.querySelector('.edit-button');
+        const deleteButton = listItem.querySelector('.delete-button');
+
+        editButton.addEventListener('click', () => {
+            handleModifyButtonClick(postId, { id: reply.id });
+        });
+
+        deleteButton.addEventListener('click', () => {
+            handleDeleteButtonClick(postId, { id: reply.id });
+        });
+    });
+}
+
+
+
 // 댓글 수정하기 함수
 function updateReply(postId, replyId, memberId, newContent) {
-    const url = `/replies-update/${replyId}`; // URL 수정
+    const url = `/replies/replies-update/${replyId}`;
 
     const replyData = {
         replyContent: newContent,
@@ -520,13 +532,10 @@ function updateReply(postId, replyId, memberId, newContent) {
     })
         .then(response => {
             console.log(`updateReply - 응답 상태: ${response.status}`);
-            const contentType = response.headers.get('Content-Type');
-            console.log(`updateReply - Content-Type: ${contentType}`);
-
             if (response.status === 204) {
                 // 본문이 없는 경우
                 return null;
-            } else if (response.ok && contentType && contentType.includes('application/json')) {
+            } else if (response.ok) {
                 return response.json();
             } else {
                 throw new Error(`서버 응답 오류: ${response.status}`);
@@ -534,17 +543,15 @@ function updateReply(postId, replyId, memberId, newContent) {
         })
         .then(updatedReply => {
             const listItem = document.querySelector(`[data-reply-id="${replyId}"]`).closest('li');
-            const commentTxt = listItem.querySelector('.comment-txt');
-            const modifyButton = listItem.querySelector('.btn-comment-etc-modi');
+            const commentTxt = listItem.querySelector('.reply-content-' + replyId);
+            const modifyButton = listItem.querySelector('.edit-button');
             const modifyButtonImg = modifyButton.querySelector('img');
 
             if (updatedReply) {
                 console.log("댓글이 수정되었습니다:", updatedReply);
-                // DOM에서 댓글 내용 업데이트
-                commentTxt.textContent = updatedReply.replyContent;
+                commentTxt.textContent = updatedReply.replyContent; // DOM 업데이트
             } else {
-                // 서버가 204 No Content를 반환한 경우, newContent로 DOM 업데이트
-                commentTxt.textContent = newContent;
+                commentTxt.textContent = newContent; // 서버가 204를 반환한 경우 DOM 업데이트
             }
 
             // 버튼을 다시 수정 모드로 변경
@@ -552,13 +559,14 @@ function updateReply(postId, replyId, memberId, newContent) {
             modifyButtonImg.alt = '수정 아이콘';
             modifyButton.setAttribute('data-state', 'modify');
 
-            alert("댓글이 성공적으로 수정되었습니다.");
+            console.log("댓글 수정 성공");
         })
         .catch(error => {
             console.error("댓글 수정 중 오류 발생:", error);
-            alert(error.message || "댓글을 수정하는 데 문제가 발생했습니다.");
+            alert("댓글 수정 중 문제가 발생했습니다.");
         });
 }
+
 
 
 // 댓글 삭제 버튼 클릭 시 핸들러 함수
