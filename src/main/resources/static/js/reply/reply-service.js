@@ -116,7 +116,7 @@ function deleteReply(replyId) {
     //         return 0;
     //     }
     // };
-
+    //
     // // 댓글 수 업데이트
     // const updateReplyCount = async (postId) => {
     //     try {

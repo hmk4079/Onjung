@@ -241,32 +241,25 @@ function getCurrentMember() {
 
 // 댓글 렌더링 함수
 function renderReplies(replies, currentMemberId, postId) {
-    console.log(`댓글 렌더링 중: 게시글 ID ${postId}`);
     const commentSections = document.querySelector(".comment-section");
 
     if (!replies || replies.length === 0) {
-        if (commentSections.childElementCount === 0) {
-            const noRepliesMessage = document.createElement('li');
-            noRepliesMessage.textContent = "댓글이 없습니다.";
-            commentSections.appendChild(noRepliesMessage);
-        }
+        console.log("더 이상 가져올 댓글이 없습니다.");
         return;
     }
 
+    // 새 댓글 추가
     replies.forEach(reply => {
-        console.log(`댓글 ID: ${reply.id}, 작성자 ID: ${reply.memberId}`);
         const listItem = document.createElement("li");
-        listItem.setAttribute('data-reply-id', reply.id); // 댓글 ID를 데이터 속성으로 설정
-        listItem.setAttribute('data-member-id', reply.memberId); // 댓글 작성자 ID를 데이터 속성으로 설정
-        let formattedDate = reply.createdDate ? new Date(reply.createdDate).toLocaleDateString() : "날짜 정보 없음";
+        listItem.setAttribute('data-reply-id', reply.id);
+        listItem.setAttribute('data-member-id', reply.memberId);
 
         const memberName = reply.memberName || reply.memberNickname || "닉네임 없음";
         const profileImage = reply.profileFileName
             ? `/profile/display?memberId=${reply.memberId}`
             : "/images/default-profile.png";
 
-        // 댓글 HTML 구성
-        let innerHTML = `
+        listItem.innerHTML = `
             <div class="comment-container">
                 <div class="contest-comment-show">
                     <div>
@@ -278,9 +271,7 @@ function renderReplies(replies, currentMemberId, postId) {
                                 <div class="nick">
                                     <div class="nickname-container user-nick-wrapper">
                                         <p class="nickname-text">
-                                            <a class="user-nick nick" href="#">
-                                                ${memberName}
-                                            </a>
+                                            <a class="user-nick nick" href="#">${memberName}</a>
                                         </p>
                                     </div>
                                 </div>
@@ -291,37 +282,19 @@ function renderReplies(replies, currentMemberId, postId) {
                             </div>
                         </div>
                         <div class="contest-comment-buttons">
-        `;
-
-        // 현재 사용자가 작성자인 경우 수정 및 삭제 버튼 추가
-        if (reply.memberId === currentMemberId) {
-            console.log(`사용자 ${currentMemberId}가 댓글 ${reply.id}를 수정/삭제할 수 있습니다.`);
-            innerHTML += `
-                <button type="button" class="edit-button" data-reply-id="${reply.id}" data-state="modify">
-                    <img src="/images/modify-icon.png" alt="수정 아이콘">
-                </button>
-                <button type="button" class="delete-button" data-reply-id="${reply.id}">
-                    <img src="/images/delete-icon.png" alt="삭제 아이콘">
-                </button>
-            `;
-        } else {
-            console.log(`사용자 ${currentMemberId}가 댓글 ${reply.id}를 수정/삭제할 수 없습니다.`);
-        }
-
-        innerHTML += `
-                        </div> 
+                            <button type="button" class="edit-button" data-reply-id="${reply.id}" data-state="modify">
+                                <img src="/images/modify-icon.png" alt="수정 아이콘">
+                            </button>
+                            <button type="button" class="delete-button" data-reply-id="${reply.id}">
+                                <img src="/images/delete-icon.png" alt="삭제 아이콘">
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         `;
-
-        listItem.innerHTML = innerHTML;
-
-        commentSections.appendChild(listItem);
+        commentSections.appendChild(listItem); // 기존 댓글 아래에 새 댓글 추가
     });
-
-
-
     // 각 댓글에 대한 이벤트 리스너 추가
     // 이는 `renderReplies`가 여러 번 호출될 때마다 이벤트 리스너가 중복 추가되지 않도록 주의해야 합니다.
     // 따라서, 이벤트 위임을 사용하는 것이 더 효율적입니다.
@@ -379,12 +352,12 @@ function fetchReplies(postId, currentMemberId, page) {
             alert("댓글을 불러오는 데 문제가 발생했습니다.");
         });
 }
-// 댓글 추가하기 함수
-// 댓글 추가하기 함수
+
+
+// 댓글 추가하기
 function addReply(postId, replyData) {
     const url = `/replies/posts/${postId}/replies`;
 
-    // 비동기 요청
     fetch(url, {
         method: 'POST',
         headers: {
@@ -393,114 +366,83 @@ function addReply(postId, replyData) {
         body: JSON.stringify(replyData)
     })
         .then(response => {
-            console.log(`addReply - 응답 상태: ${response.status}`);
-            const contentType = response.headers.get('Content-Type');
-            console.log(`addReply - Content-Type: ${contentType}`);
-
             if (response.status === 201) {
-                // 본문이 JSON일 경우만 처리
-                if (contentType && contentType.includes('application/json')) {
-                    return response.json();
-                } else {
-                    return null; // 본문이 없을 경우 null 반환
-                }
+                return response.json();
             } else {
-                throw new Error(`서버 응답 오류: ${response.status}`);
+                throw new Error(`댓글 작성 실패: ${response.status}`);
             }
         })
-        .then(newReply => {
-            if (!newReply) {
-                console.warn("서버에서 댓글 데이터를 반환하지 않았습니다.");
-                alert("댓글이 추가되었지만 데이터를 받아오지 못했습니다.");
+        .then(reply => {
+            alert("댓글이 성공적으로 추가되었습니다!");
+
+            const commentSections = document.querySelector(".comment-section");
+            console.log("새 댓글 데이터:", reply);
+
+            if (!commentSections) {
+                console.error(".comment-section 요소를 찾을 수 없습니다.");
                 return;
             }
 
-            console.log("새 댓글 추가됨:", newReply);
-
-            const commentLists = document.querySelector(".comment-lists");
-            if (!commentLists) {
-                console.error("댓글 리스트를 렌더링할 '.comment-lists' 요소를 찾을 수 없습니다.");
-                alert("댓글을 표시할 리스트가 없습니다.");
-                return;
-            }
-
+            // 새 댓글 요소 생성
             const listItem = document.createElement("li");
-            listItem.setAttribute('data-reply-id', newReply.id); // 댓글 ID를 데이터 속성으로 설정
-            listItem.setAttribute('data-member-id', newReply.memberId); // 댓글 작성자 ID를 데이터 속성으로 설정
-            const formattedDate = new Date(newReply.createdDate).toLocaleDateString();
+            listItem.setAttribute('data-reply-id', reply.id);
+            listItem.setAttribute('data-member-id', reply.memberId);
 
-            const memberName = newReply.memberName || newReply.memberNickname || "닉네임 없음";
-            const profileImage = newReply.profileFileName
-                ? `/profile/display?memberId=${newReply.memberId}`
-                : "/images/default-profile.png";
+            // 프로필 이미지 경로 처리
+            const profileImage = reply.profileFileName
+                ? `/profile/display?fileName=${reply.profileFileName}` // 서버 파일명 기준 경로 구성
+                : "/images/default-profile.png"; // 기본 이미지
 
-            // 댓글 HTML 구성
             listItem.innerHTML = `
-            <div class="comment-container">
-                <div class="contest-comment-show">
-                    <div>
-                        <div class="comment-card">
-                            <div class="contest-comment-userinfo">
-                                <a href="/m/${newReply.memberNickname || ""}" class="profile-avatar-container avatar">
-                                    <img src="${profileImage}" alt="프로필 이미지" />
-                                </a>
-                                <div class="nick">
-                                    <div class="nickname-container user-nick-wrapper">
-                                        <p class="nickname-text">
-                                            <a class="user-nick nick" href="#">${memberName}</a>
-                                        </p>
+                <div class="comment-container">
+                    <div class="contest-comment-show">
+                        <div>
+                            <div class="comment-card">
+                                <div class="contest-comment-userinfo">
+                                    <a href="/m/${reply.memberNickname || ""}" class="profile-avatar-container avatar">
+                                        <img src="${profileImage}" alt="프로필 이미지" />
+                                    </a>
+                                    <div class="nick">
+                                        <div class="nickname-container user-nick-wrapper">
+                                            <p class="nickname-text">
+                                                <a class="user-nick nick" href="#">${reply.memberName || reply.memberNickname || "닉네임 없음"}</a>
+                                            </p>
+                                        </div>
                                     </div>
+                                    <p>| ${timeForToday(reply.createdDate)}</p>
                                 </div>
-                                <p>| ${timeForToday(newReply.createdDate)}</p>
+                                <div class="contest-comment-content">
+                                    <div class="reply-content-${reply.id}">${reply.replyContent}</div>
+                                </div>
                             </div>
-                            <div class="contest-comment-content">
-                                <div class="reply-content-${newReply.id}">${newReply.replyContent}</div>
+                            <div class="contest-comment-buttons">
+                                <button type="button" class="edit-button" data-reply-id="${reply.id}" data-state="modify">
+                                    <img src="/images/modify-icon.png" alt="수정 아이콘">
+                                </button>
+                                <button type="button" class="delete-button" data-reply-id="${reply.id}">
+                                    <img src="/images/delete-icon.png" alt="삭제 아이콘">
+                                </button>
                             </div>
-                        </div>
-                        <div class="contest-comment-buttons">
-                            <button type="button" class="edit-button" data-reply-id="${newReply.id}" data-state="modify">
-                                <img src="/images/modify-icon.png" alt="수정 아이콘">
-                            </button>
-                            <button type="button" class="delete-button" data-reply-id="${newReply.id}">
-                                <img src="/images/delete-icon.png" alt="삭제 아이콘">
-                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
             `;
 
-            commentLists.prepend(listItem); // 새 댓글을 목록의 맨 위에 추가
+            // 댓글 목록 맨 위에 새 댓글 추가
+            commentSections.prepend(listItem);
 
-            // 수정 및 삭제 버튼 이벤트 리스너 추가
-            const modifyButton = listItem.querySelector('.edit-button');
-            const deleteButton = listItem.querySelector('.delete-button');
+            // 댓글 수 갱신
+            updateReplyCount(postId);
 
-            if (modifyButton) {
-                modifyButton.addEventListener('click', function () {
-                    handleModifyButtonClick(postId, newReply);
-                });
-            }
-            if (deleteButton) {
-                deleteButton.addEventListener('click', function () {
-                    handleDeleteButtonClick(postId, newReply);
-                });
-            }
-
-            // 입력 필드 비우기
-            const inputField = document.getElementById('contents');
-            if (inputField) {
-                inputField.value = '';
-            } else {
-                console.warn("#contents 요소를 찾을 수 없습니다.");
-            }
+            // 입력 필드 초기화
+            const inputField = document.getElementById('reply-content');
+            if (inputField) inputField.value = ''; // textarea 초기화
         })
         .catch(error => {
-            console.error("댓글 추가 중 오류 발생:", error);
-            alert(error.message || "댓글을 추가하는 데 문제가 발생했습니다.");
+            console.error("댓글 작성 중 오류 발생:", error);
+            alert("댓글 추가 중 문제가 발생했습니다.")
         });
 }
-
 
 
 // 댓글 수정 버튼 클릭 시 핸들러 함수
@@ -652,5 +594,46 @@ function deleteReply(postId, replyId, memberId) {
         });
 }
 
+const replyCountElement = document.getElementById("reply-count");
+if (!replyCountElement) {
+    console.error("댓글 수를 표시할 요소를 찾을 수 없습니다: #reply-count");
+}
 
 
+// 댓글 수 조회
+async function getReplyCount(postId) {
+    try {
+        const response = await fetch(`/replies/count/${postId}`);
+        if (!response.ok) return 0;
+        const { count } = await response.json();
+        return count;
+    } catch (error) {
+        console.error("댓글 수 조회 중 오류:", error);
+        return 0;
+    }
+}
+
+// 댓글 수 업데이트
+async function updateReplyCount(postId) {
+    try {
+        const totalCount = await getReplyCount(postId);
+        const replyCountElement = document.getElementById("reply-count");
+        if (replyCountElement) replyCountElement.textContent = `${totalCount}`;
+    } catch (error) {
+        console.error("댓글 수 갱신 중 오류:", error);
+    }
+}
+
+
+
+// 페이지 로드 시 댓글 수 초기화
+document.addEventListener("DOMContentLoaded", function () {
+    const postId = window.location.pathname.split('/').pop(); // URL에서 postId 추출
+    if (!postId || isNaN(postId)) {
+        console.error("postId가 유효하지 않습니다. 값:", postId);
+        return; // postId가 유효하지 않으면 실행 중단
+    }
+
+    console.log("postId:", postId); // postId 값 확인
+    updateReplyCount(postId); // 댓글 수 초기화
+});

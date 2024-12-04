@@ -102,18 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
     renderAttachments({ attachments });
 });
 
-// 게시물 업데이트 및 삭제
-const updateButton = document.querySelector("a.go-update");
-const deleteButton = document.querySelector("a.go-delete");
-
-updateButton.addEventListener("click", () => {
-    location.href = `/volunteer/volunteer-update?postId=${volunteer.id}`;
-});
-
-deleteButton.addEventListener("click", () => {
-    alert("게시물이 성공적으로 삭제되었습니다.");
-    location.href = `/volunteer/volunteer-delete?postId=${volunteer.id}`;
-})
 
 // 신고하기 모달
 document.addEventListener("DOMContentLoaded", function () {

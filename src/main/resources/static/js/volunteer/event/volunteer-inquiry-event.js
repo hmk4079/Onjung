@@ -17,6 +17,7 @@ document.querySelector('.last-modal').addEventListener('click', () => {
     approveModal.style.display = 'none';
 });
 
+// 게시물 업데이트 및 삭제
 const updateButton = document.querySelector("a.go-update");
 const deleteButton = document.querySelector("a.go-delete");
 
