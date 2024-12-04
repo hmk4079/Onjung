@@ -42,7 +42,7 @@ public class ReplyController {
         if (isLoggedIn) {
             model.addAttribute("loginMember", loginMember);
             model.addAttribute("memberProfile", memberProfile);
-            log.info("로그인 상태 - 사용자 ID: {}, 프로필 ID: {}", loginMember.getId(), memberProfile != null ? memberProfile.getId() : "null");
+            log.info("로그인 상태 - 사용자 ID: {}, 프로필 정보: {}", loginMember.getId(), memberProfile != null ? memberProfile.getId() : "null");
         } else {
             log.info("비로그인 상태입니다.");
         }
@@ -52,16 +52,19 @@ public class ReplyController {
     @PostMapping("/posts/{postId}/replies")
     public ResponseEntity<ReplyDTO> addReply(
             @PathVariable Long postId,
-            @RequestBody ReplyDTO replyDTO) {
+            @RequestBody ReplyDTO replyDTO, HttpSession session) {
         try {
-            replyDTO.setPostId(postId);
-            Long memberId = replyDTO.getMemberId();
-            if (memberId == null) {
-                log.error("memberId가 null입니다.");
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            // 세션에서 로그인 멤버 정보 가져오기
+            MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+
+            if (loginMember == null) {
+                log.error("로그인된 사용자가 없습니다.");
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); // 401 Unauthorized
             }
 
-            // 댓글 상태 설정
+            // 댓글 정보 설정
+            replyDTO.setPostId(postId);
+            replyDTO.setMemberId(loginMember.getId()); // 세션에서 가져온 사용자 ID 설정
             replyDTO.setReplyStatus("VISIBLE");
 
             // VO 변환 후 저장
@@ -70,7 +73,7 @@ public class ReplyController {
 
             log.info("저장된 ReplyVO ID: {}", replyVO.getId());
 
-            // 저장된 댓글 조회
+            // 저장된 댓글 데이터 및 작성자 프로필 정보 포함 조회
             ReplyDTO createdReplyDTO = replyService.getReplyById(replyVO.getId());
             if (createdReplyDTO == null) {
                 log.error("저장된 댓글 데이터를 조회할 수 없습니다. ID: {}", replyVO.getId());
@@ -78,12 +81,19 @@ public class ReplyController {
             }
 
             log.info("저장된 댓글 데이터: {}", createdReplyDTO);
+
+            // 반환 데이터 확인
+            log.info("작성자의 프로필 파일명: {}", createdReplyDTO.getProfileFileName());
+            log.info("작성자의 프로필 경로: {}", createdReplyDTO.getProfileFilePath());
+
             return new ResponseEntity<>(createdReplyDTO, HttpStatus.CREATED);
         } catch (Exception e) {
             log.error("댓글 작성 중 오류 발생", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
 
 

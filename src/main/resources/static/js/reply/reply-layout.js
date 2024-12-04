@@ -158,7 +158,6 @@
 //         commentSection.appendChild(listItem);
 //     });
 // }
-
 document.addEventListener("DOMContentLoaded", function () {
     const postId = window.location.pathname.split('/').pop(); // URL에서 postId 추출
     let currentPage = 1; // 현재 페이지 번호
@@ -376,7 +375,6 @@ function addReply(postId, replyData) {
             alert("댓글이 성공적으로 추가되었습니다!");
 
             const commentSections = document.querySelector(".comment-section");
-            console.log("새 댓글 데이터:", reply);
 
             if (!commentSections) {
                 console.error(".comment-section 요소를 찾을 수 없습니다.");
@@ -388,10 +386,10 @@ function addReply(postId, replyData) {
             listItem.setAttribute('data-reply-id', reply.id);
             listItem.setAttribute('data-member-id', reply.memberId);
 
-            // 프로필 이미지 경로 처리
+            const memberName = reply.memberName || reply.memberNickname || "닉네임 없음";
             const profileImage = reply.profileFileName
-                ? `/profile/display?fileName=${reply.profileFileName}` // 서버 파일명 기준 경로 구성
-                : "/images/default-profile.png"; // 기본 이미지
+                ? `/profile/display?fileName=${reply.profileFileName}`
+                : "/images/default-profile.png"; // 기본 이미지 설정
 
             listItem.innerHTML = `
                 <div class="comment-container">
@@ -405,7 +403,7 @@ function addReply(postId, replyData) {
                                     <div class="nick">
                                         <div class="nickname-container user-nick-wrapper">
                                             <p class="nickname-text">
-                                                <a class="user-nick nick" href="#">${reply.memberName || reply.memberNickname || "닉네임 없음"}</a>
+                                                <a class="user-nick nick" href="#">${memberName}</a>
                                             </p>
                                         </div>
                                     </div>
@@ -440,60 +438,61 @@ function addReply(postId, replyData) {
         })
         .catch(error => {
             console.error("댓글 작성 중 오류 발생:", error);
-            alert("댓글 추가 중 문제가 발생했습니다.")
+            alert("댓글 추가 중 문제가 발생했습니다.");
         });
 }
 
 
 // 댓글 수정 버튼 클릭 시 핸들러 함수
-function handleModifyButtonClick(postId, reply) {
-    const listItem = document.querySelector(`[data-reply-id="${reply.id}"]`).closest('li');
-    const commentTxt = listItem.querySelector('.comment-txt');
-    const modifyButton = listItem.querySelector('.edit-button');
-    const modifyButtonImg = modifyButton.querySelector('img');
+    function handleModifyButtonClick(postId, reply) {
+        const listItem = document.querySelector(`[data-reply-id="${reply.id}"]`).closest('li');
+        const commentTxt = listItem.querySelector('.comment-txt');
+        const modifyButton = listItem.querySelector('.edit-button');
+        const modifyButtonImg = modifyButton.querySelector('img');
 
-    // 현재 버튼의 상태 확인
-    const currentState = modifyButton.getAttribute('data-state');
+        // 현재 버튼의 상태 확인
+        const currentState = modifyButton.getAttribute('data-state');
 
-    if (currentState === 'modify') {
-        // 수정 모드로 전환
-        const originalContent = commentTxt.textContent;
-        commentTxt.setAttribute('data-original-content', originalContent);
+        if (currentState === 'modify') {
+            // 수정 모드로 전환
+            const originalContent = commentTxt.textContent;
+            commentTxt.setAttribute('data-original-content', originalContent);
 
-        const textarea = document.createElement('textarea');
-        textarea.value = originalContent;
-        textarea.classList.add('modify-comment');
+            const textarea = document.createElement('textarea');
+            textarea.value = originalContent;
+            textarea.classList.add('modify-comment');
 
-        commentTxt.innerHTML = '';
-        commentTxt.appendChild(textarea);
+            commentTxt.innerHTML = '';
+            commentTxt.appendChild(textarea);
 
-        // 버튼을 저장 모드로 변경
-        modifyButtonImg.src = '/images/save-icon.png'; // 저장 아이콘 경로
-        modifyButtonImg.alt = '저장 아이콘';
-        modifyButton.setAttribute('data-state', 'save');
-    } else if (currentState === 'save') {
-        // 저장 모드: 수정 내용 저장
-        const textarea = commentTxt.querySelector('textarea');
-        const updatedContent = textarea.value.trim();
-        const originalContent = commentTxt.getAttribute('data-original-content');
+            // 버튼을 저장 모드로 변경
+            modifyButtonImg.src = '/images/save-icon.png'; // 저장 아이콘 경로
+            modifyButtonImg.alt = '저장 아이콘';
+            modifyButton.setAttribute('data-state', 'save');
+        } else if (currentState === 'save') {
+            // 저장 모드: 수정 내용 저장
+            const textarea = commentTxt.querySelector('textarea');
+            const updatedContent = textarea.value.trim();
+            const originalContent = commentTxt.getAttribute('data-original-content');
 
-        if (updatedContent === "") {
-            alert("댓글 내용을 입력해주세요.");
-            return;
+            if (updatedContent === "") {
+                alert("댓글 내용을 입력해주세요.");
+                return;
+            }
+
+            if (updatedContent === originalContent) {
+                alert("수정된 내용이 없습니다.");
+                commentTxt.innerHTML = originalContent;
+                modifyButtonImg.src = '/images/modify-icon.png'; // 수정 아이콘 경로
+                modifyButtonImg.alt = '수정 아이콘';
+                modifyButton.setAttribute('data-state', 'modify');
+                return;
+            }
+
+            // 댓글 수정 요청
+            updateReply(postId, reply.id, reply.memberId, updatedContent);
+
         }
-
-        if (updatedContent === originalContent) {
-            alert("수정된 내용이 없습니다.");
-            commentTxt.innerHTML = originalContent;
-            modifyButtonImg.src = '/images/modify-icon.png'; // 수정 아이콘 경로
-            modifyButtonImg.alt = '수정 아이콘';
-            modifyButton.setAttribute('data-state', 'modify');
-            return;
-        }
-
-        // 댓글 수정 요청
-        updateReply(postId, reply.id, reply.memberId, updatedContent);
-    }
 }
 
 // 댓글 수정하기 함수
@@ -637,3 +636,4 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("postId:", postId); // postId 값 확인
     updateReplyCount(postId); // 댓글 수 초기화
 });
+
