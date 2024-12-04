@@ -298,23 +298,29 @@ function renderReplies(replies, currentMemberId, postId) {
     // 이는 `renderReplies`가 여러 번 호출될 때마다 이벤트 리스너가 중복 추가되지 않도록 주의해야 합니다.
     // 따라서, 이벤트 위임을 사용하는 것이 더 효율적입니다.
     // 하지만 현재 구조를 유지하기 위해 기존 방식을 사용하겠습니다.
-    replies.forEach(reply => {
-        if (reply.memberId === currentMemberId) {
-            const modifyButton = document.querySelector(`[data-reply-id="${reply.id}"] .edit-button`);
-            const deleteButton = document.querySelector(`[data-reply-id="${reply.id}"] .delete-button`);
-
-            modifyButton.addEventListener('click', function () {
-                handleModifyButtonClick(postId, reply);
-            });
-
-            deleteButton.addEventListener('click', function () {
-                handleDeleteButtonClick(postId, reply);
-            });
-
-            console.log(`댓글 ID: ${reply.id}에 대한 이벤트 리스너가 추가되었습니다.`);
-        }
-    });
 }
+
+document.querySelector('.comment-section').addEventListener('click', function (event) {
+    const target = event.target;
+
+    // 수정 버튼 클릭 시 처리
+    if (target.classList.contains('edit-button')) {
+        const replyId = target.closest('li').getAttribute('data-reply-id');
+        const state = target.getAttribute('data-state');
+        if (state === 'modify') {
+            console.log(`수정 버튼 클릭: ${replyId}`);
+            handleModifyButtonClick(postId, { id: replyId });
+        }
+    }
+
+    // 삭제 버튼 클릭 시 처리
+    if (target.classList.contains('delete-button')) {
+        const replyId = target.closest('li').getAttribute('data-reply-id');
+        console.log(`삭제 버튼 클릭: ${replyId}`);
+        handleDeleteButtonClick(postId, { id: replyId });
+    }
+});
+
 
 // 댓글 가져오기 함수
 function fetchReplies(postId, currentMemberId, page) {
@@ -372,6 +378,8 @@ function addReply(postId, replyData) {
             }
         })
         .then(reply => {
+            console.log("서버에서 반환된 댓글 데이터:", reply);
+            console.log("서버에서 받환된 프로필이름 :{}", reply.profileFileName)
             alert("댓글이 성공적으로 추가되었습니다!");
 
             const commentSections = document.querySelector(".comment-section");
@@ -388,7 +396,7 @@ function addReply(postId, replyData) {
 
             const memberName = reply.memberName || reply.memberNickname || "닉네임 없음";
             const profileImage = reply.profileFileName
-                ? `/profile/display?fileName=${reply.profileFileName}`
+                ? `/profile/display?memberId=${reply.memberId}`
                 : "/images/default-profile.png"; // 기본 이미지 설정
 
             listItem.innerHTML = `
@@ -440,8 +448,6 @@ function addReply(postId, replyData) {
             console.error("댓글 작성 중 오류 발생:", error);
             alert("댓글 추가 중 문제가 발생했습니다.");
         });
-}
-
 
 // 댓글 수정 버튼 클릭 시 핸들러 함수
     function handleModifyButtonClick(postId, reply) {
@@ -491,8 +497,8 @@ function addReply(postId, replyData) {
 
             // 댓글 수정 요청
             updateReply(postId, reply.id, reply.memberId, updatedContent);
-
         }
+    }
 }
 
 // 댓글 수정하기 함수

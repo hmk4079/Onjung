@@ -73,16 +73,18 @@ public class ReplyController {
 
             log.info("저장된 ReplyVO ID: {}", replyVO.getId());
 
-            // 저장된 댓글 데이터 및 작성자 프로필 정보 포함 조회
+            // 저장된 댓글 데이터 조회
             ReplyDTO createdReplyDTO = replyService.getReplyById(replyVO.getId());
             if (createdReplyDTO == null) {
                 log.error("저장된 댓글 데이터를 조회할 수 없습니다. ID: {}", replyVO.getId());
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
-            log.info("저장된 댓글 데이터: {}", createdReplyDTO);
+            // 세션에서 가져온 프로필 정보 추가
+            createdReplyDTO.setProfileFileName(loginMember.getProfileFileName());
+            createdReplyDTO.setProfileFilePath(loginMember.getProfileFilePath());
 
-            // 반환 데이터 확인
+            log.info("저장된 댓글 데이터: {}", createdReplyDTO);
             log.info("작성자의 프로필 파일명: {}", createdReplyDTO.getProfileFileName());
             log.info("작성자의 프로필 경로: {}", createdReplyDTO.getProfileFilePath());
 
@@ -92,9 +94,6 @@ public class ReplyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
 
 
     @Operation(summary = "댓글 목록", description = "댓글 목록 조회 시 사용하는 API")

@@ -651,6 +651,7 @@ a {
     cursor: pointer;
     border-radius: 4px;
     background-color:white;
+    margin-left: 5px;
 }
 .edit-button:hover{
     background-color: rgb(244, 245, 248);
