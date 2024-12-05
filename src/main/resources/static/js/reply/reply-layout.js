@@ -1,163 +1,3 @@
-// document.addEventListener("DOMContentLoaded", () => {
-//     const postId = window.location.pathname.split('/').pop(); // URL에서 postId 추출
-//     let currentPage = 1; // 현재 페이지
-//     if (!postId) {
-//         console.error("postId가 없습니다. HTML에 id='post-id' 요소를 추가하세요.");
-//         return;
-//     }
-//
-//     // 댓글 목록 로드 함수
-//     window.loadComments = async (page = 1, postId) => {
-//         try {
-//             console.log("댓글 새로고침 실행");
-//             const data = await replyService.getList(page, postId);
-//
-//             if (data && data.replies) {
-//                 if (page === 1) clearComments(); // 기존 댓글 초기화
-//
-//                 renderReplies(data.replies, postId);
-//
-//                 // 마지막 페이지 여부 확인
-//                 isLastPage = data.replies.length < data.rowCount;
-//
-//                 // "더보기" 버튼 상태 업데이트
-//                 toggleLoadMoreButton(!isLastPage);
-//                 await replyService.updateReplyCount(postId);
-//             }
-//         } catch (error) {
-//             console.error("댓글 목록 로딩 중 오류:", error);
-//         }
-//     };
-//
-//     // 댓글 초기화 함수
-//     function clearComments() {
-//         const commentSection = document.getElementById("comment-section");
-//         commentSection.innerHTML = ""; // 기존 댓글 초기화
-//     }
-//
-//     // 댓글 렌더링 함수
-//     function renderReplies(replies, postId) {
-//         const commentSection = document.getElementById("comment-section");
-//         console.log(`댓글 렌더링 중: 게시글 ID ${postId}`);
-//
-//         if (!replies || replies.length === 0) {
-//             if (commentSection.childElementCount === 0) {
-//                 const noRepliesMessage = document.createElement("li");
-//                 noRepliesMessage.textContent = "댓글이 없습니다.";
-//                 commentSection.appendChild(noRepliesMessage);
-//             }
-//             return;
-//         }
-//
-//         replies.forEach((reply) => {
-//             const commentHTML = `
-//                 <article class="comment-container">
-//                     <div class="contest-comment-show">
-//                         <div>
-//                             <div class="comment-card">
-//                                 <div class="contest-comment-profile">
-//                                     <a href="/m/${reply.memberId}">
-//                                         <img src="${reply.profileFileName ? `/profile/display?memberId=${reply.memberId}` : "/images/default-profile.png"}" alt="${reply.memberName || "닉네임 없음"}">
-//                                     </a>
-//                                     <div class="nick">
-//                                         <p class="name">
-//                                             <a class="nickname">
-//                                               ${reply.memberNickname ? reply.memberNickname : (reply.memberName ? reply.memberName : "닉네임 없음")}
-//                                             </a>
-//                                         </p>
-//                                     </div>
-//                                     <p>| ${timeForToday(reply.createdDate)}</p>
-//                                 </div>
-//                                 <div class="contest-comment-content">
-//                                     <span class="reply-content">${reply.replyContent}</span>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </article>
-//             `;
-//             const listItem = document.createElement("li");
-//             listItem.innerHTML = commentHTML;
-//             commentSection.appendChild(listItem);
-//         });
-//     }
-//
-//     // "더보기" 버튼 상태 업데이트
-//     function toggleLoadMoreButton(show) {
-//         const loadMoreButton = document.getElementById("load-more");
-//         if (loadMoreButton) loadMoreButton.style.display = show ? "block" : "none";
-//     }
-//
-//     // 초기 댓글 로드
-//     loadComments(1, postId);
-// });
-
-
-
-// function renderReplies(replies, currentMemberId) {
-//     const commentSection = document.querySelector(".comment-section");
-//
-//
-//     if (!replies || replies.length === 0) {
-//         if (commentSection.childElementCount === 0) {
-//             const noRepliesMessage = document.createElement('li');
-//             noRepliesMessage.textContent = "댓글이 없습니다.";
-//             commentSection.appendChild(noRepliesMessage);
-//         }
-//         return;
-//     }
-//
-//     replies.forEach(reply => {
-//         const listItem = document.createElement("li");
-//         listItem.setAttribute('data-reply-id', reply.id);
-//         listItem.setAttribute('data-member-id', reply.memberId);
-//         const formattedDate = reply.createdDate ? new Date(reply.createdDate).toLocaleDateString() : "날짜 정보 없음";
-//
-//         let innerHTML = `
-//             <article class="comment-container">
-//                     <div class="contest-comment-show">
-//                         <div>
-//                             <div class="comment-card">
-//                                 <div class="contest-comment-profile">
-//                                     <a href="/m/${reply.memberId}">
-//                                         <img src="${reply.profileFileName ? `/profile/display?memberId=${reply.memberId}` : "/images/default-profile.png"}" alt="${reply.memberName || "닉네임 없음"}">
-//                                     </a>
-//                                     <div class="nick">
-//                                         <p class="name">
-//                                             <a class="nickname">
-//                                               ${reply.memberNickname ? reply.memberNickname : (reply.memberName ? reply.memberName : "닉네임 없음")}
-//                                             </a>
-//                                         </p>
-//                                     </div>
-//                                     <p>| ${timeForToday(reply.createdDate)}</p>
-//                                 </div>
-//                                 <div class="contest-comment-content">
-//                                     <span class="reply-content">${reply.replyContent}</span>
-//                                 </div>
-//                             </div>
-//                             <div class="contest-comment-buttons">
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </article>
-//         `;
-//
-//         if (reply.memberId === currentMemberId) {
-//             innerHTML += `
-//                 <button type="button" class="edit-button" data-reply-id="${reply.id}">
-//                     <img src="/images/modify-icon.png" alt="수정 아이콘">
-//                 </button>
-//                 <button type="button" class="delete-button" data-reply-id="${reply.id}">
-//                     <img src="/images/delete-icon.png" alt="삭제 아이콘">
-//                 </button>
-//             `;
-//         }
-//
-//         innerHTML += `</div>`;
-//         listItem.innerHTML = innerHTML;
-//         commentSection.appendChild(listItem);
-//     });
-// }
 document.addEventListener("DOMContentLoaded", function () {
     const postId = window.location.pathname.split('/').pop(); // URL에서 postId 추출
     let currentPage = 1; // 현재 페이지 번호
@@ -175,10 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const currentMemberId = currentMember.id;
         console.log("현재 사용자 닉네임:", currentMember.memberNickname,currentMember.memberName);
-
-        // const memberNicknameElement = document.getElementById('user-nick');
-        // memberNicknameElement.textContent = currentMember.memberNickname;
-        // memberNameElement.textContent = currentMember.memberName;
 
         // 댓글 등록 버튼 클릭 이벤트 처리
         document.querySelector('.submit-comment-button').addEventListener('click', function () {
@@ -239,30 +75,22 @@ function getCurrentMember() {
 }
 
 document.querySelector('.comment-section').addEventListener('click', function (event) {
-    const target = event.target;
-    const button = target.closest('button');
-
+    const button = event.target.closest('button');
     if (!button) return;
 
-    // postId 가져오기: 버튼 또는 상위 컨테이너에서 속성 읽기
-    const postId = button.closest('.post-container')?.getAttribute('data-post-id');
-    if (!postId) {
-        console.error('postId가 정의되지 않았습니다.');
-        return;
-    }
+    const replyId = button.getAttribute('data-reply-id');
+    const state = button.getAttribute('data-state');
+    const postId = window.location.pathname.split('/').pop();
 
-    // 수정 버튼 클릭 처리
-    if (button.classList.contains('edit-button')) {
-        const replyId = button.getAttribute('data-reply-id');
-        const state = button.getAttribute('data-state');
-        if (state === 'modify') {
-            handleModifyButtonClick(postId, { id: replyId });
-        }
-    }
+    if (!replyId || !state) return;
+
+    // // 수정 버튼 클릭 처리
+    // if (button.classList.contains('edit-button') && state === 'modify') {
+    //     handleModifyButtonClick(postId, { id: replyId });
+    // }
 
     // 삭제 버튼 클릭 처리
     if (button.classList.contains('delete-button')) {
-        const replyId = button.getAttribute('data-reply-id');
         handleDeleteButtonClick(postId, { id: replyId });
     }
 });
@@ -382,6 +210,18 @@ function addReply(postId, replyData) {
             // 댓글 목록 맨 위에 새 댓글 추가
             commentSections.prepend(listItem);
 
+            // 수정 버튼 클릭 처리
+            listItem.querySelector('.edit-button').addEventListener("click", (e) => {
+                const replyId = listItem.getAttribute('data-reply-id');
+                handleModifyButtonClick(postId, { id: replyId });
+            })
+
+            // // 삭제 버튼 클릭 처리
+            // listItem.querySelector('.delete-button').addEventListener("click", (e) => {
+            //     const replyId = listItem.getAttribute('data-reply-id');
+            //     handleDeleteButtonClick(postId, { id: replyId });
+            // })
+
             // 댓글 수 갱신
             updateReplyCount(postId);
 
@@ -401,7 +241,7 @@ function handleModifyButtonClick(postId, reply) {
     const commentTxt = listItem.querySelector('.reply-content-' + reply.id); // 수정할 댓글 내용
     const modifyButton = listItem.querySelector('.edit-button'); // 수정 버튼
     const modifyButtonImg = modifyButton.querySelector('img'); // 수정 버튼 아이콘
-
+    console.log("함수 드러옴");
     // 현재 버튼 상태 확인
     const currentState = modifyButton.getAttribute('data-state');
 
@@ -423,27 +263,40 @@ function handleModifyButtonClick(postId, reply) {
         modifyButtonImg.src = '/images/save-icon.png'; // 저장 아이콘 경로
         modifyButtonImg.alt = '저장 아이콘';
         modifyButton.setAttribute('data-state', 'save');
+        console.log("1번 - 수정 모드 활성화", currentState);
     } else if (currentState === 'save') {
         // 저장 모드: 수정된 내용 저장
         const textarea = commentTxt.querySelector('textarea');
         const updatedContent = textarea.value.trim(); // 수정된 댓글 내용
         const originalContent = commentTxt.getAttribute('data-original-content'); // 원본 내용
-        alert("댓글이 수정되었습니다.");
+        console.log("저장 시도 - 수정 모드에서의 상태:", currentState);
 
         // 유효성 검사: 내용이 비어 있거나 수정되지 않은 경우
         if (updatedContent === "") {
             alert("댓글 내용을 입력해주세요.");
+            console.log("2번 - 빈 내용");
             return;
         }
 
         if (updatedContent === originalContent) {
             alert("수정된 내용이 없습니다.");
-            commentTxt.innerHTML = originalContent; // 원래 내용 복구
+
+            // **수정된 내용이 없을 경우 원래 상태 복구**
+            // 1. 원래 내용을 다시 DOM에 적용
+            commentTxt.innerHTML = originalContent; // 원래 댓글 내용 복구
+            console.log("3번 - 원래 내용 복구 완료:", originalContent);
+
+            // 2. 버튼 상태와 아이콘 복구
             modifyButtonImg.src = '/images/modify-icon.png'; // 수정 아이콘 경로
             modifyButtonImg.alt = '수정 아이콘';
             modifyButton.setAttribute('data-state', 'modify');
-            return;
+            console.log("3번 - 버튼 상태 복구 완료", modifyButton.getAttribute('data-state'));
+
+            return; // 복구 완료 후 함수 종료
         }
+
+        // 수정된 내용이 있는 경우
+        alert("댓글이 수정되었습니다.");
 
         // 댓글 수정 요청
         updateReply(postId, reply.id, reply.memberId, updatedContent);
@@ -511,7 +364,6 @@ function renderReplies(replies, currentMemberId, postId) {
         editButton.addEventListener('click', () => {
             handleModifyButtonClick(postId, { id: reply.id });
         });
-
         deleteButton.addEventListener('click', () => {
             handleDeleteButtonClick(postId, { id: reply.id });
         });
