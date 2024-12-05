@@ -244,19 +244,26 @@ document.querySelector('.comment-section').addEventListener('click', function (e
 
     if (!button) return;
 
+    // postId 가져오기: 버튼 또는 상위 컨테이너에서 속성 읽기
+    const postId = button.closest('.post-container')?.getAttribute('data-post-id');
+    if (!postId) {
+        console.error('postId가 정의되지 않았습니다.');
+        return;
+    }
+
     // 수정 버튼 클릭 처리
     if (button.classList.contains('edit-button')) {
         const replyId = button.getAttribute('data-reply-id');
         const state = button.getAttribute('data-state');
         if (state === 'modify') {
-            handleModifyButtonClick(postId, { id: reply.postId }); // postId 전달
+            handleModifyButtonClick(postId, { id: replyId });
         }
     }
 
     // 삭제 버튼 클릭 처리
     if (button.classList.contains('delete-button')) {
         const replyId = button.getAttribute('data-reply-id');
-        handleDeleteButtonClick(postId, { id:  reply.postId }); // postId 전달
+        handleDeleteButtonClick(postId, { id: replyId });
     }
 });
 
@@ -318,7 +325,7 @@ function addReply(postId, replyData) {
         .then(reply => {
             console.log("서버에서 반환된 댓글 데이터:", reply);
             console.log("서버에서 받환된 프로필이름 :{}", reply.profileFileName)
-            alert("댓글이 성공적으로 추가되었습니다!");
+            alert("댓글이 성공적으로 작성되었습니다!");
 
             const commentSections = document.querySelector(".comment-section");
 
