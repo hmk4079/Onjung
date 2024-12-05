@@ -151,30 +151,42 @@ public class ReplyController {
         }
     }
 
-        @Operation(summary = "댓글 소프트 삭제", description = "댓글 삭제 시 사용하는 API")
+    @Operation(summary = "댓글 소프트 삭제", description = "댓글 삭제 시 사용하는 API")
     @DeleteMapping("/replies-delete/{replyId}")
     public ResponseEntity<Void> deleteReply(
-            @PathVariable Long replyId,
-            @RequestParam Long memberId) { // 프론트엔드에서 memberId를 전달받음
+            @PathVariable Long replyId, HttpSession session) {
         try {
+            // 세션에서 로그인 사용자 정보 가져오기
+            MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+            if (loginMember == null) {
+                log.error("로그인된 사용자가 없습니다.");
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+
             // 댓글 조회
             ReplyDTO existingReply = replyService.getReplyById(replyId);
             if (existingReply == null) {
+                log.error("댓글이 존재하지 않습니다. replyId: {}", replyId);
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            if (!existingReply.getMemberId().equals(memberId)) {
+            // 권한 검사: 로그인 사용자와 댓글 작성자 비교
+            if (!existingReply.getMemberId().equals(loginMember.getId())) {
+                log.error("삭제 권한이 없습니다. 로그인 사용자 ID: {}, 댓글 작성자 ID: {}", loginMember.getId(), existingReply.getMemberId());
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
 
-            // 댓글 삭제
-            replyService.updateReplyStatus(id, status);
+            // 댓글 상태를 DELETED로 변경 (소프트 삭제)
+            replyService.updateReplyStatus(replyId, "DELETED");
+
+            log.info("댓글이 소프트 삭제되었습니다. replyId: {}", replyId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             log.error("댓글 삭제 중 오류", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 //    @Operation(summary = "댓글 작성", description = "댓글 작성 시 사용하는 API")
 //    @PostMapping("/write")

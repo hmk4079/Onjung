@@ -256,7 +256,7 @@ document.querySelector('.comment-section').addEventListener('click', function (e
     // 삭제 버튼 클릭 처리
     if (button.classList.contains('delete-button')) {
         const replyId = button.getAttribute('data-reply-id');
-        handleDeleteButtonClick(postId, { id: replyId }); // postId 전달
+        handleDeleteButtonClick(postId, { id:  reply.postId }); // postId 전달
     }
 });
 
@@ -569,18 +569,18 @@ function updateReply(postId, replyId, memberId, newContent) {
 
 
 
-// 댓글 삭제 버튼 클릭 시 핸들러 함수
+// 댓글 삭제 버튼 클릭 시 핸들러
 function handleDeleteButtonClick(postId, reply) {
     const confirmDelete = confirm("정말로 댓글을 삭제하시겠습니까?");
     if (confirmDelete) {
-        console.log(`댓글 ID: ${reply.id} 삭제 중`);
-        deleteReply(postId, reply.id, reply.memberId);
+        console.log(`Post ID: ${postId}, Reply ID: ${reply.id} 삭제 요청`);
+        deleteReply(postId, reply.id);
     }
 }
 
 // 댓글 삭제하기 함수
-function deleteReply(postId, replyId, memberId) {
-    const url = `/replies/replies-delete/${replyId}?memberId=${memberId}`;
+function deleteReply(postId, replyId) {
+    const url = `/replies/replies-delete/${replyId}`;
 
     fetch(url, {
         method: 'DELETE',
@@ -588,40 +588,40 @@ function deleteReply(postId, replyId, memberId) {
     })
         .then(response => {
             console.log(`deleteReply - 응답 상태: ${response.status}`);
-            if (response.status === 204 || response.status === 200) { // 204 No Content 또는 200 OK
-                // DOM에서 삭제된 댓글 제거
-                const replyElement = document.querySelector(`[data-reply-id="${replyId}"]`).closest('li');
-                if (replyElement) {
-                    replyElement.remove();
-                    alert("댓글이 삭제되었습니다.");
-                } else {
-                    console.error(`댓글 요소 ID: ${replyId}를 찾을 수 없습니다.`);
-                }
+            if (response.status === 204) {
+                console.log("댓글이 성공적으로 삭제되었습니다.");
+                const replyElement = document.querySelector(`[data-reply-id="${replyId}"]`);
+                if (replyElement) replyElement.remove(); // DOM에서 댓글 제거
+                alert("댓글이 성공적으로 삭제되었습니다.")
+                updateReplyCount(postId); // 댓글 수 갱신
             } else {
                 throw new Error(`서버 응답 오류: ${response.status}`);
             }
         })
         .catch(error => {
             console.error("댓글 삭제 중 오류 발생:", error);
-            alert(error.message || "댓글을 삭제하는 데 문제가 발생했습니다.");
+            alert("댓글 삭제 중 문제가 발생했습니다.");
         });
 }
+
 
 const replyCountElement = document.getElementById("reply-count");
 if (!replyCountElement) {
     console.error("댓글 수를 표시할 요소를 찾을 수 없습니다: #reply-count");
 }
 
-
 // 댓글 수 조회
 async function getReplyCount(postId) {
+    const url = `/replies/count/${postId}`;
     try {
-        const response = await fetch(`/replies/count/${postId}`);
-        if (!response.ok) return 0;
-        const { count } = await response.json();
-        return count;
+        const response = await fetch(url, { method: 'GET', credentials: 'include' });
+        if (!response.ok) {
+            throw new Error(`댓글 수 요청 실패: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.count;
     } catch (error) {
-        console.error("댓글 수 조회 중 오류:", error);
+        console.error("댓글 수 가져오기 중 오류:", error);
         return 0;
     }
 }
@@ -629,15 +629,17 @@ async function getReplyCount(postId) {
 // 댓글 수 업데이트
 async function updateReplyCount(postId) {
     try {
-        const totalCount = await getReplyCount(postId);
+        const totalCount = await getReplyCount(postId); // 댓글 수 가져오기
         const replyCountElement = document.getElementById("reply-count");
-        if (replyCountElement) replyCountElement.textContent = `${totalCount}`;
+        if (replyCountElement) {
+            replyCountElement.textContent = `${totalCount}`; // 댓글 수 업데이트
+        } else {
+            console.error("댓글 수를 표시할 요소를 찾을 수 없습니다: #reply-count");
+        }
     } catch (error) {
         console.error("댓글 수 갱신 중 오류:", error);
     }
 }
-
-
 
 // 페이지 로드 시 댓글 수 초기화
 document.addEventListener("DOMContentLoaded", function () {
