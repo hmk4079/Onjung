@@ -1,27 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.back.mapper.support.SupportMapper">
+    <insert id="insert">
+        insert into tbl_support(id,recruitment_count,vt_s_date,vt_e_date)
+        values(#{id}, #{recruitmentCount}, #{vtSDate}, #{vtEDate})
+    </insert>
 
-    <select id="selectTop10Supports" resultType="supportDTO">
-        select s.id,
-           s.goal_point,
-           s.support_s_date,
-           s.support_e_date,
-           p.post_title,
-           p.post_content,
-           a.attachment_file_name,
-           a.attachment_file_path,
-           a.attachment_file_size,
-           a.attachment_file_type
-        from tbl_support s
-                join tbl_post p on s.id = p.id
-                left join tbl_attachment a on p.id = a.post_id
+<!--    <insert id="insertApplication">-->
+<!--        insert into tbl_vt_application (application_status, vt_id, member_id)-->
+<!--        values (#{applicationStatus}, #{vtId}, #{memberId})-->
+<!--    </insert>-->
+
+    <select id="selectAll" resultType="volunteerDTO">
+        select v.id, v.recruitment_count, p.post_title, m.member_name, m.member_nickname, p.post_status,
+        pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
+        v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date, p.member_id
+        from tbl_vt v
+        left join tbl_post p on v.id = p.id
+        left join tbl_member m on p.member_id = m.id
+        left join tbl_profile pf on p.member_id = pf.member_id
+        <where>
+            <if test="pagination.postType == 'VOLUNTEER'">
+                p.post_type = #{pagination.postType}
+            </if>
+        </where>
+        order by
+        <choose>
+            <when test="pagination.order == 'recent'">
+                p.created_date desc, v.id
+            </when>
+            <when test="pagination.order == 'viewCount'">
+                p.post_view_count desc, p.created_date desc, v.id
+            </when>
+            <when test="pagination.order == 'endingSoon'">
+                case
+                when v.vt_e_date >= curdate() then 1
+                else 2
+                end asc, -- 남은 신청일이 있는 게시글이 우선 정렬
+                v.vt_e_date asc, -- 신청일 순서대로 정렬
+                p.created_date desc, -- 같은 신청일일 경우 생성일 순으로 정렬
+                v.id
+            </when>
+            <otherwise>
+                p.created_date desc, v.id
+            </otherwise>
+        </choose>
+        limit #{pagination.startRow}, #{pagination.rowCount}
     </select>
 
-    <update id="updateCurrentPoint" parameterType="supportDTO">
-        update tbl_support
-        set current_point = #{currentPoint}
+
+    <update id="updatePostReadCount">
+        update tbl_post
+        set post_view_count = post_view_count + 1
         where id = #{id}
     </update>
 
+    <select id="selectTotal">
+        select count(*)
+        from tbl_vt v
+                 join tbl_post p on v.id = p.id
+        where p.post_type = #{postType}
+    </select>
+
+    <select id="selectById" resultType="VolunteerDTO">
+        select
+            v.id,
+            v.now_recruitment_count,
+            v.recruitment_count,
+            p.id as postId,
+            p.post_title as postTitle,
+            p.post_content as postContent,
+            p.member_id as memberId,
+            m.id,
+            m.member_nickname as memberNickname,
+            m.member_name as memberName,
+            p.post_status as postStatus,
+            pf.profile_file_name as profileFileName,
+            pf.profile_file_path as profileFilePath,
+            pf.profile_file_size as profileFileSize,
+            pf.profile_file_type as profileFileType,
+            v.vt_s_date as vtSDate,
+            v.vt_e_date as vtEDate,
+            p.post_view_count as postViewCount,
+            p.post_type as postType,
+            p.post_summary as postSummary,
+            p.created_date as createdDate
+        from
+            tbl_vt v
+                join tbl_post p on v.id = p.id
+                join tbl_member m on m.id = p.member_id
+                left join tbl_profile pf on pf.member_id = m.id
+        where
+            v.id = #{id}
+    </select>
+
+    <update id="updateNowRecruitment">
+        update tbl_vt
+        set now_recruitment_count = tbl_vt.now_recruitment_count + 1
+        where id = #{vtId}
+    </update>
+
+    <update id="updatePost">
+        update tbl_post
+        set id = #{id},
+            post_title = #{postTitle},
+            post_summary = #{postSummary},
+            post_content = #{postContent},
+            updated_date = #{updatedDate}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateVt">
+        update tbl_vt
+        set id = #{id},
+            recruitment_count = #{recruitmentCount},
+            vt_s_date = #{vtSDate},
+            vt_e_date = #{vtEDate}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateAttachment">
+        update tbl_attachment
+        set attachment_file_name = #{attachmentFileName},
+            attachment_file_path = #{attachmentFilePath},
+            attachment_file_size = #{attachmentFileSize},
+            attachment_file_type = #{attachmentFileType},
+            created_date = #{createdDate}
+        where post_id = #{postId}
+    </update>
+
+    <delete id="deleteById">
+        delete from tbl_vt
+        where id = #{id}
+    </delete>
+
+    <select id="findByMemberId" parameterType="long" resultType="VolunteerDTO">
+        SELECT * FROM tbl_post WHERE member_id = #{memberId}
+    </select>
+
 </mapper>
+
+
+
