@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.back.mapper.support.SupportMapper">
     <insert id="insert">
-        insert into tbl_support(id,recruitment_count,vt_s_date,vt_e_date)
-        values(#{id}, #{recruitmentCount}, #{vtSDate}, #{vtEDate})
+        insert into tbl_support(id,goal_point,support_s_date,support_e_date)
+        values(#{id}, #{goalPoint}, #{supportSDate}, #{supportEDate})
     </insert>
 
 <!--    <insert id="insertApplication">-->
@@ -11,7 +11,7 @@
 <!--        values (#{applicationStatus}, #{vtId}, #{memberId})-->
 <!--    </insert>-->
 
-    <select id="selectAll" resultType="volunteerDTO">
+    <select id="selectAll" resultType="supportDTO">
         select v.id, v.recruitment_count, p.post_title, m.member_name, m.member_nickname, p.post_status,
         pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
         v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date, p.member_id
