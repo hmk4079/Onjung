@@ -216,11 +216,11 @@ function addReply(postId, replyData) {
                 handleModifyButtonClick(postId, { id: replyId });
             })
 
-            // // 삭제 버튼 클릭 처리
-            // listItem.querySelector('.delete-button').addEventListener("click", (e) => {
-            //     const replyId = listItem.getAttribute('data-reply-id');
-            //     handleDeleteButtonClick(postId, { id: replyId });
-            // })
+            // 삭제 버튼 클릭 처리
+            listItem.querySelector('.delete-button').addEventListener("click", (e) => {
+                const replyId = listItem.getAttribute('data-reply-id');
+                handleDeleteButtonClick(postId, { id: replyId });
+            })
 
             // 댓글 수 갱신
             updateReplyCount(postId);
