@@ -13,7 +13,7 @@ public class SupportVO {
     private Long id;
     private int goalPoint;
     private int currentPoint;
-    private String supportSdate;
-    private String supportEdate;
+    private String supportSDate;
+    private String supportEDate;
 
 }

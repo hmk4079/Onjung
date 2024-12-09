@@ -13,13 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
     setOrder(currentOrder, currentPage, currentCategory);
 });
 
-// 정렬 기준을 설정하고 fetchVolunteers를 호출하는 함수
+// 정렬 기준을 설정하고 fetchSupports를 호출하는 함수
 function setOrder(order, page = 1, category = '') {
     if (order) {
         currentOrder = order;
         currentPage = page;
         currentCategory = category;
-        fetchVolunteers(currentOrder, currentPage, currentCategory);
+        fetchSupports(currentOrder, currentPage, currentCategory);
 
         // URL 업데이트
         const url = new URL(window.location);
@@ -28,13 +28,12 @@ function setOrder(order, page = 1, category = '') {
         window.history.pushState({}, '', url);
     }
 }
-
 // 봉사 지원 모집 게시글 가져오기
-const fetchVolunteers = async (order = "recent", page = 1, category = "") => {
+const fetchSupports = async (order = "recent", page = 1, category = "") => {
     console.log("주어진 order:", order);
     console.log("주어진 page:", page);
 
-    const url = `/volunteer/volunteer-info?order=${order}&page=${page}&category=${encodeURIComponent(category)}`;
+    const url = `/support/support-info?order=${order}&page=${page}&category=${encodeURIComponent(category)}`;
     console.log("요청 URL:", url);
 
     try {
@@ -44,16 +43,19 @@ const fetchVolunteers = async (order = "recent", page = 1, category = "") => {
         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는데 실패했습니다.");
 
         const data = await response.json();
-        const lists = data.lists || data;
+        const supports = data.lists || []; // 수정된 부분
         const pagination = data.pagination || {};
 
         console.log("pagination 객체:", pagination);
         console.log("선택된 페이지:", pagination.page || "페이지 정보가 없습니다");
+        console.log("supports1:{}", supports);
 
-        showList({ lists, pagination });
+        showList({ supports, pagination });
+        console.log("supports2:{}", supports);
 
     } catch (error) {
-        console.error("Error fetching filtered volunteer lists:", error);
-        alert("봉사 모집 게시글을 불러오는데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+        console.error("Error fetching filtered support lists:", error);
+        alert("후원 모집 게시글을 불러오는데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
 };
+

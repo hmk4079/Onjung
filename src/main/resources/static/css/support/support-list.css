@@ -32,7 +32,7 @@ html {
 
     background-color: #fff;
     font: 12px / 18px "Noto Sans KR", NanumGothic, "나눔고딕", "Nanum Gothic",
-        "맑은 고딕", "Malgun Gothic", Dotum;
+    "맑은 고딕", "Malgun Gothic", Dotum;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
@@ -413,7 +413,7 @@ ul {
     list-style: none;
     padding-left: 0;
 }
-.donation-list-a {
+.support-list-a {
     flex-direction: row;
     -webkit-box-pack: start;
     justify-content: flex-start;
@@ -447,7 +447,7 @@ h6 {
     font-family: inherit;
     font-size: inherit;
 }
-.donation-list-a .contest-info {
+.support-list-a .contest-info {
     display: flex;
     flex-direction: column;
     -webkit-box-pack: start;
@@ -455,7 +455,7 @@ h6 {
     width: calc(100% - 217px);
     height: 100%;
 }
-.donation-list-a .contest-info-top {
+.support-list-a .contest-info-top {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -465,7 +465,7 @@ h6 {
     border-right: 1px solid rgb(219, 222, 226);
     height: 100%;
 }
-.donation-list-a .contest-info-top .outline-info {
+.support-list-a .contest-info-top .outline-info {
     display: flex;
     flex-direction: column;
     -webkit-box-pack: start;
@@ -477,7 +477,7 @@ h6 {
     padding-left: 24px;
     padding-right: 24px;
 }
-.donation-list-a .contest-info-top .outline-info-category {
+.support-list-a .contest-info-top .outline-info-category {
     display: flex;
     flex-direction: row;
     -webkit-box-pack: start;
@@ -492,7 +492,7 @@ h6 {
     letter-spacing: -0.15px;
     color: rgb(111, 119, 133);
 }
-.donation-list-a .contest-info-top .outline-info-category label {
+.support-list-a .contest-info-top .outline-info-category label {
     margin-right: 8px;
     padding: 3px 10px;
 }
@@ -517,7 +517,7 @@ h6 {
     --sub-color: #6f778512;
     --border-color: #8e94a04c;
 }
-.donation-list-a .contest-info-top .outline-info-category span {
+.support-list-a .contest-info-top .outline-info-category span {
     display: flex;
     flex-direction: column;
     -webkit-box-pack: center;
@@ -530,7 +530,7 @@ h6 {
     background: rgb(191, 198, 210);
     margin: 0px 8px;
 }
-.donation-list-a .contest-info-top .outline-info-title {
+.support-list-a .contest-info-top .outline-info-title {
     display: inline-block;
     flex-direction: row;
     -webkit-box-pack: start;
@@ -548,7 +548,7 @@ h6 {
     overflow: hidden;
     white-space: nowrap;
 }
-.donation-list-a .contest-info-top .outline-info-companyDesc {
+.support-list-a .contest-info-top .outline-info-companyDesc {
     width: 100%;
     text-align: left;
     display: -webkit-box;
@@ -563,7 +563,7 @@ h6 {
     margin-bottom: 16px;
     white-space: normal;
 }
-.donation-list-a .contest-info-top .outline-info-label {
+.support-list-a .contest-info-top .outline-info-label {
     display: flex;
     flex-direction: row;
     -webkit-box-pack: start;
@@ -573,8 +573,8 @@ h6 {
     width: 100%;
     margin-bottom: 10px;
 }
-.donation-list-a .contest-info-top .outline-info-hashTag,
-.donation-list-a .contest-info-top .outline-info-label {
+.support-list-a .contest-info-top .outline-info-hashTag,
+.support-list-a .contest-info-top .outline-info-label {
     display: flex;
     flex-direction: row;
     -webkit-box-pack: start;
@@ -588,11 +588,11 @@ h6 {
     letter-spacing: -0.25px;
     color: rgb(142, 148, 160);
 }
-.donation-list-a .contest-info-top .outline-info-hashTag > div,
-.donation-list-a .contest-info-top .outline-info-label > div {
+.support-list-a .contest-info-top .outline-info-hashTag > div,
+.support-list-a .contest-info-top .outline-info-label > div {
     margin-bottom: 10px;
 }
-.donation-list-a .contest-info-bottom {
+.support-list-a .contest-info-bottom {
     display: flex;
     flex-direction: row;
     -webkit-box-pack: start;
@@ -607,13 +607,14 @@ h6 {
 img {
     vertical-align: bottom;
 }
-.donation-list-a .contest-info-bottom-user-nick {
+.support-list-a .contest-info-bottom-user-nick {
     margin-left: 4px;
     margin-right: 24px;
 }
-.donation-list-a .contest-info-bottom-user-nick,
-.donation-list-a .contest-info-bottom-view-icon,
-.donation-list-a .contest-info-bottom-view-count {
+.support-list-a .contest-info-bottom-user-nick,
+.support-list-a .contest-info-bottom-view-icon,
+.support-list-a .contest-info-bottom-view-count,
+.support-list-a .contest-info-bottom-created-date{
     display: flex;
     flex-direction: column;
     -webkit-box-pack: center;
@@ -626,7 +627,11 @@ img {
     letter-spacing: -0.25px;
     color: rgb(142, 148, 160);
 }
-.donation-list-a .contest-info-bottom-view-icon {
+
+.support-list-a .contest-info-bottom-created-date{
+    margin-left:5px;
+}
+.support-list-a .contest-info-bottom-view-icon {
     margin-right: 6px;
 }
 .trophy-svg {
@@ -649,7 +654,7 @@ img {
     margin-left: 2px;
     margin-right: 2px;
 }
-.donation-list-a .prize-info {
+.support-list-a .prize-info {
     display: flex;
     flex-direction: column;
     -webkit-box-pack: center;
@@ -663,7 +668,7 @@ img {
     border-bottom-right-radius: 8px;
     background-color: rgb(245, 248, 255);
 }
-.donation-list-a .prize-info-row {
+.support-list-a .prize-info-row {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -672,11 +677,11 @@ img {
     width: 100%;
     margin-bottom: 16px;
 }
-.donation-list-a .prize-info-row:last-child,
-.donation-list-a .prize-info-row:nth-last-child(2) {
+.support-list-a .prize-info-row:last-child,
+.support-list-a .prize-info-row:nth-last-child(2) {
     margin-bottom: 0px;
 }
-.donation-list-a .prize-info-row-key {
+.support-list-a .prize-info-row-key {
     display: flex;
     flex-direction: row;
     -webkit-box-pack: start;
@@ -685,7 +690,7 @@ img {
     align-items: center;
     width: 40%;
 }
-.donation-list-a .prize-info-row-key span {
+.support-list-a .prize-info-row-key span {
     display: flex;
     flex-direction: column;
     -webkit-box-pack: center;
@@ -700,7 +705,8 @@ img {
     margin-left: 6px;
     word-break: keep-all;
 }
-.donation-list-a .prize-info-row-label {
+
+.support-list-a .prize-info-row-label {
     display: flex;
     flex-direction: row;
     -webkit-box-pack: start;
@@ -715,7 +721,11 @@ img {
     color: rgb(16, 28, 51);
     width: 42%;
 }
-.donation-list-a .prize-info-row-label-date {
+#width200padding-left28{
+    width:200px;
+    padding-left: 28px;
+}
+.support-list-a .prize-info-row-label-date {
     display: flex;
     flex-direction: column;
     -webkit-box-pack: center;
@@ -763,6 +773,27 @@ img {
     color: rgb(142, 148, 160);
     transition: 0.3s;
 }
+
+.page-container .next-page-btn{
+    cursor: pointer;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    background-color: rgb(245, 246, 247);
+    border-radius: 2px;
+    color: rgb(142, 148, 160);
+    transition: 0.3s;
+    width: 40px;
+    height: 40px;
+}
+.page-container .page-btn:hover,
+.page-container .next-page-btn:hover{
+    background-color: rgb(16, 28, 51);
+    color: rgb(255, 255, 255);
+}
+
 .icon-default {
     user-select: none;
     display: inline-block;

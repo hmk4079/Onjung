@@ -1,7 +1,5 @@
 package com.app.back.domain.volunteer;
 
-
-
 import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.domain.post.PostVO;
 import com.app.back.enums.PostType;
@@ -12,7 +10,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Component
 @Getter @Setter @ToString

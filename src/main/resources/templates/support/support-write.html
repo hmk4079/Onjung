@@ -3,10 +3,11 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>봉사 모집 게시판 작성</title>
+        <title>후원 게시판 작성</title>
+        <link rel="stylesheet" href="/css/support/support-write.css" />
         <link
-            rel="stylesheet"
-            href="/css/volunteer/volunteer-write.css"
+            rel="icon"
+            href="https://cdn-dantats.stunning.kr/static/feature/loudFavicon/loud-favicon-32-new.png"
         />
         <link rel="stylesheet" href="/css/main/basic-header.css" />
         <link rel="stylesheet" href="/css/main/footer.css"/>
@@ -23,13 +24,12 @@
     <div th:if="${!isLogin}">
         <th:block th:replace="~{main/basic-header :: header}"></th:block>
     </div>
-
         <div class="content-wrapper">
             <div class="content-container contents">
-                <form th:action="@{/volunteer/volunteer-write}" method="post" enctype="multipart/form-data" name="volunteer-write-form">
+                <form th:action="@{/support/support-write}" method="post" enctype="multipart/form-data" name="support-write-form">
                     <main class="content-form contest-launch form">
                         <div class="section-divider"></div>
-                        <h3 class="write-introduce">✍🏻봉사 모집 게시판 작성</h3>
+                        <h3 class="write-introduce">✍🏻 후원 게시판 작성</h3>
                         <div class="form">
                             <div class="write-info" direction="row">
                                 <div class="option">
@@ -37,7 +37,7 @@
                                     <span
                                     >많은 사람들이 볼 수 있게
                                         <span class="blue"
-                                        >봉사 모집 게시판을 작성</span
+                                        >후원 게시판을 작성</span
                                         >해주세요.</span
                                     >
                                     </p>
@@ -47,7 +47,6 @@
                                     type="MOBILE_DIVIDER"
                                     class="section-divider"
                             ></div>
-
                             <div class="company-name-wrap" direction="row">
                                 <div class="header">
                                     <div>
@@ -113,7 +112,7 @@
                                 <div class="header">
                                     <div>
                                         <h4 class="label required">
-                                            <span>목표 지원자 설정</span>
+                                            <span>목표 포인트 설정</span>
                                         </h4>
                                     </div>
                                     <div></div>
@@ -122,11 +121,11 @@
                                     <label class="company-name">
                                         <input
                                                 type="text"
-                                                name="recruitmentCount"
+                                                name="goalPoint"
                                                 placeholder="숫자만 입력 가능합니다."
                                                 value=""
                                                 oninput="validateAndDisplayNumber(this)"
-                                                id="post-recruitmentCount"
+                                                id="post-goalCount"
                                         />
                                     </label>
                                 </div>
@@ -146,7 +145,7 @@
                                     <label class="company-name">
                                         <input
                                                 type="date"
-                                                name="vtSDate"
+                                                name="supportSDate"
                                                 id="start-date"
                                                 onchange="updateDateRange()"
                                         />
@@ -155,7 +154,7 @@
                                     <label class="company-name">
                                         <input
                                                 type="date"
-                                                name="vtEDate"
+                                                name="supportEDate"
                                                 id="end-date"
                                                 onchange="updateDateRange()"
                                         />
@@ -184,6 +183,7 @@
                                         aria-hidden="true"
                                         placeholder="내용을 자세히 작성해주세요!"
                                 ></textarea>
+
                                     <input
                                             id="multipulfile-briefing"
                                             type="file"
@@ -250,8 +250,8 @@
                             </div>
                         </div>
                         <div class="submit-button-container">
-                            <button type="submit" id="submit-volunteer" class="submit-button">
-                                작성완료
+                            <button type ="submit" id="submit-support" class="submit-button">
+                                작성 완료
                             </button>
                         </div>
                     </main>
@@ -260,7 +260,7 @@
         </div>
     <div th:replace="~{main/footer :: footer}"></div>
     </body>
-    <script src="/js/volunteer/event/volunteer-write-event.js"></script>
-    <script src="/js/volunteer/service/volunteer-write-service.js"></script>
+    <script src="/js/support/event/support-write-event.js"></script>
+    <script src="/js/support/service/support-write-service.js"></script>
     <script src="/js/main/login-header.js"></script>
 </html>
