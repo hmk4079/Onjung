@@ -135,6 +135,7 @@ public class SupportController {
         Pagination pagination = new Pagination();
         pagination.setOrder(order);
         pagination.setPostType("SUPPORT");
+        pagination.setPostStatus("VISIBLE");
         pagination.setPage(page);
         pagination.setTotal(postService.getTotal(pagination.getPostType()));
         pagination.progress();
@@ -234,10 +235,12 @@ public class SupportController {
 
     }
 
-    @GetMapping("support-delete")
-    public RedirectView reviewDelete(@RequestParam("postId") Long postId) {
+    @GetMapping("/support/support-delete")
+    public String supportDelete(@RequestParam("postId") Long postId, Long id, RedirectAttributes redirectAttributes) {
         supportService.delete(postId);
-        return new RedirectView("/support/support-list");
+        postService.delete(id);
+        redirectAttributes.addFlashAttribute("successMessage", "성공적으로 게시물이 삭제되었습니다.");
+        return "redirect:/support/support-list";
     }
 
     //    첨부파일 부분

@@ -54,6 +54,6 @@ public class ReportController {
 
         reportService.save(reportDTO);
 
-        return new RedirectView("/volunteer/volunteer-list");
+        return new RedirectView("/main/main");
     }
 }

@@ -18,6 +18,7 @@ public class Pagination {
     private int total;
     private String order;
     private String postType;  // postType 필드 추가
+    private String postStatus;
     private int moreRowcount;
 
     public void progress() {

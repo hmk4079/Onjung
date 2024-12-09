@@ -162,7 +162,7 @@ const updateDateRange = () => {
 // 필수 입력 필드와 제출 버튼 가져오기(유효성 검사)
 const postTitle = document.getElementById('post-title'); // 게시글 이름
 const postSummary = document.getElementById('post-summary'); // 한 줄 소개
-const recruitmentCount = document.getElementById('post-goalCount'); // 목표 포인트
+const goalPoint = document.getElementById('post-goalCount'); // 목표 포인트
 const dateCount = document.getElementById('date-count'); // 남은 일수 (span)
 const briefing = document.getElementById('briefing'); // 내용
 const submitButton = document.getElementById('submit-support');
@@ -172,7 +172,7 @@ const uuidInput = document.querySelector('input[name="uuid"]');
 function validateFields() {
     const isPostTitleValid = postTitle.value.trim() !== '';
     const isPostSummaryValid = postSummary.value.trim() !== '';
-    const isRecruitmentCountValid = parseInt(recruitmentCount.value) > 0;
+    const isRecruitmentCountValid = parseInt(goalPoint.value) > 0;
     const dateCountValue = parseInt(dateCount.textContent || dateCount.innerText);
     const isDateCountValid = !isNaN(dateCountValue) && dateCountValue >= 0;
     const isBriefingValid = briefing.value.trim() !== '';

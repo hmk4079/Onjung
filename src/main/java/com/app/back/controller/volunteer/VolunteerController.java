@@ -63,6 +63,7 @@ public class VolunteerController {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
         volunteerDTO.setMemberId(loginMember.getId());
         volunteerDTO.setPostType("VOLUNTEER");
+        volunteerDTO.setPostStatus("VISIBLE");
         volunteerService.write(volunteerDTO, uuids, realNames, paths, sizes, files);
 
         return new RedirectView("/volunteer/volunteer-list");
@@ -92,6 +93,7 @@ public class VolunteerController {
 
         pagination.setOrder(order);
         pagination.setPostType("VOLUNTEER");
+        pagination.setPostStatus("VISIBLE");
         pagination.setTotal(postService.getTotal(pagination.getPostType()));
         pagination.progress();
 
@@ -266,8 +268,9 @@ public class VolunteerController {
     }
 
     @GetMapping("volunteer-delete")
-    public RedirectView reviewDelete(@RequestParam("postId") Long postId) {
+    public RedirectView volunteerDelete(@RequestParam("postId") Long postId, Long id) {
         volunteerService.delete(postId);
+        postService.delete(id);
         return new RedirectView("/volunteer/volunteer-list");
     }
 

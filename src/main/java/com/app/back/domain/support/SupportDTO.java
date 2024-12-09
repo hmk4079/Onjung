@@ -36,6 +36,7 @@ public class SupportDTO {
     private Long postViewCount;
 
     private String memberNickName;
+    private String memberName;
     private Long memberId;
     private String createdDate;
     private String updatedDate;
