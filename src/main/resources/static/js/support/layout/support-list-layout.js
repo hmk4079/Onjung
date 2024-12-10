@@ -12,24 +12,34 @@ const showList = ({ supports, pagination }) => {
         layText = `<p class="empty-component"> 게시글이 없습니다.</p>`;
     } else {
         supports.forEach((support) => {
-            const today = new Date().toISOString().split('T')[0];
-            console.log(`ID: ${support.id}, daysLeft: ${support.daysLeft}, vtEDate: ${support.supportEDate}, today: ${today}, createdDate: ${support.createdDate}, postViewCount: ${support.postViewCount}`);
-            console.log('Profile File Name:', support.profileFileName);
-            console.log('Member ID:', support.memberId);
+            const today = new Date().toISOString().split('T')[0]; // 오늘 날짜 yyyy-MM-dd 형식
+            console.log(`ID: ${support.id}, daysLeft: ${support.daysLeft}, supportEDate: ${support.supportEDate}, today: ${today}`);
 
-            // 프로필 이미지 URL 처리
+// 프로필 이미지 URL 처리
             const profileImageSrc = support.memberId
                 ? `/profile/display?memberId=${support.memberId}`
                 : '/images/default-profile.png';
 
+// 남은 기간 텍스트 설정
             let daysLeftText;
+
             if (support.daysLeft > 0) {
                 daysLeftText = `${support.daysLeft}일 남음`;
-            } else if (support.supportEDate === today) {
+            } else if (support.daysLeft === 0 && support.supportEDate === today) {
                 daysLeftText = "오늘까지";
+            } else if (support.daysLeft === 0 && new Date(support.supportEDate) > new Date(today)) {
+                // 날짜 차이를 직접 계산
+                const endDate = new Date(support.supportEDate);
+                const currentDate = new Date(today);
+                const differenceInTime = endDate.getTime() - currentDate.getTime(); // 밀리초 단위 차이 계산
+                const differenceInDays = Math.ceil(differenceInTime / (1000 * 60 * 60 * 24)); // 일 단위로 변환
+                daysLeftText = `${differenceInDays}일 남음`;
             } else {
                 daysLeftText = "종료됨";
             }
+
+            console.log('남은 기간 텍스트:', daysLeftText);
+
 
             // 리스트 항목 HTML 생성
             layText += `
@@ -167,7 +177,7 @@ const showList = ({ supports, pagination }) => {
             `;
         });
     }
-    console.log("생성된 layText:", layText); // 추가된 로그
+    // console.log("생성된 layText:", layText); // 추가된 로그
     supportLayout.innerHTML = layText;
 
     // 리스트 렌더링 후 페이징 버튼 생성 함수 호출

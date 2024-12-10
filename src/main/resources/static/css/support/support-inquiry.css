@@ -1119,3 +1119,7 @@ li{
     margin-top:20px;
 }
 
+.support-btn-wrap{
+    display:flex;
+}
+

@@ -26,7 +26,7 @@ public class ReplyServiceTests {
         replyDTO.setMemberId(2L);
         replyDTO.setReplyContent("댓글테스트입니다잇");
         replyDTO.setReplyStatus("VISIBLE");
-        replyMapper.insert(replyDTO.toReplyVO());
+        replyMapper.insertReply(replyDTO.toReplyVO());
     }
 
 

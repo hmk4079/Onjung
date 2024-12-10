@@ -73,8 +73,8 @@ values ('746aa1357@gmail.com','양승민','010-4452-9003', 1234567);
 
 
 UPDATE tbl_member
-set member_point = 10000
-where id = 23;
+set member_jung = 1000000
+where id = 35;
 
 INSERT INTO tbl_member (member_email, member_name, member_nickname, member_phone, member_password)
 VALUES

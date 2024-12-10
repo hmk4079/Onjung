@@ -1,5 +1,6 @@
 package com.app.back.repository.support;
 
+import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.support.SupportDTO;
 import com.app.back.domain.support.SupportVO;
@@ -15,18 +16,22 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SupportDAO {
     private final SupportMapper supportMapper;
+    private final SupportDTO supportDTO;
 
     public List<SupportDTO> findTop10() {
         return supportMapper.selectTop10Supports();
     }
 
-    public void updateCurrentPoint(SupportDTO supportDTO) {
-        supportMapper.updateCurrentPoint(supportDTO);
-    }
-
     //    봉사활동모집 작성
     public void save(SupportVO supportVO) {
         supportMapper.insert(supportVO);
+    }
+
+    // 후원 정보 조회
+    public SupportDTO findSupportById(Long id) {
+        SupportDTO supportDTO = new SupportDTO();
+        supportDTO.setId(id);
+        return supportMapper.findSupportById(supportDTO);
     }
 
     //    게시글 전체 조회(목록 가져오기<최신순, 조회수 순, 마감 임박 순>)
@@ -71,10 +76,8 @@ public class SupportDAO {
         return supportMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 
-//    // 모집 인원 증가
-//    public void incrementNowRecruitment(Long vtId) {
-//        supportMapper.updateNowRecruitment(vtId);
-//    }
-
-
+    // 후원 금액 업데이트
+    public void updateCurrentPoint(SupportDTO supportDTO) {
+        supportMapper.updateCurrentPoint(supportDTO);
+    }
 }

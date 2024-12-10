@@ -66,11 +66,13 @@ public class SupportController {
     }
 
     @PostMapping("support-write")
-    public RedirectView supportWrite(SupportDTO supportDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, HttpSession session) throws IOException {
+    public RedirectView supportWrite(SupportDTO supportDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, HttpSession session, @RequestParam String supportSDate, @RequestParam String supportEDate) throws IOException {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
         supportDTO.setMemberId(loginMember.getId());
         supportDTO.setPostType("SUPPORT");
         supportService.write(supportDTO, uuids, realNames, paths, sizes, files);
+        System.out.println("Start Date: " + supportSDate); // 확인용 출력
+        System.out.println("End Date: " + supportEDate);   // 확인용 출력
 
         return new RedirectView("/support/support-list");
     }
@@ -317,4 +319,25 @@ public class SupportController {
         headers.add("Content-Disposition", "attchment; filename=" + new String(("온정_" + fileName.substring(fileName.indexOf("_") + 1)).getBytes("UTF-8"), "ISO-8859-1"));
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
+
+    @PostMapping("/support/updatePoint")
+    public String updatePoint(@RequestParam("currentPoint") int inputPoint,
+                              HttpSession session, Model model) {
+        // 세션에서 로그인 정보 가져오기
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+
+        if (loginMember == null) {
+            return "redirect:/login"; // 로그인되지 않은 경우 로그인 페이지로 이동
+        }
+
+
+        // 후원 금액 업데이트
+        supportDTO.setCurrentPoint(inputPoint + supportDTO.getCurrentPoint());
+        supportService.updateCurrentPoint(supportDTO);
+
+        return "redirect:/mypage/mypage"; // 성공 시 마이페이지로 리다이렉트
+    }
+
+
+
 }

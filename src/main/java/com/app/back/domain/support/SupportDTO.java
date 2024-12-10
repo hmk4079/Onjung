@@ -68,7 +68,7 @@ public class SupportDTO {
 
     //  후원게시판 정보
     public SupportVO toVO() {
-        return new SupportVO(id,goalPoint,currentPoint,supportEDate,supportSDate);
+        return new SupportVO(id,goalPoint,currentPoint,supportSDate,supportEDate);
     }
 
 
@@ -92,12 +92,12 @@ public void calculateDaysLeft() {
                 System.out.println("종료일이 지났습니다.");
             }
         } catch (DateTimeParseException e) {
-            System.err.println("Invalid date format for vtEDate: " + supportEDate);
+            System.err.println("Invalid date format for supportEDate: " + supportEDate);
             this.daysLeft = 0;
         }
     } else {
         this.daysLeft = 0;
-        System.out.println("종료일(vtEDate)이 설정되지 않았습니다.");
+        System.out.println("종료일(supportEDate)이 설정되지 않았습니다.");
     }
 }
 

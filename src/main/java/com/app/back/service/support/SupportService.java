@@ -1,5 +1,6 @@
 package com.app.back.service.support;
 
+import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.support.SupportDTO;
 import com.app.back.domain.support.Pagination;
@@ -12,8 +13,6 @@ import java.util.Optional;
 public interface SupportService {
 
     public List<SupportDTO> getLatest10Supports();
-
-    public void updateCurrentPointAndCheckGoal(SupportDTO supportDTO);
 
     //    봉사모집 작성
     void write(SupportDTO supportDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException;;
@@ -34,4 +33,12 @@ public interface SupportService {
     //    멤버ID가져오기
     public List<SupportDTO> getMemberId(Long memberId);
 
+//    후원포인트 증가 및 목표 포인트체크
+    public void updateCurrentPointAndCheckGoal(SupportDTO supportDTO);
+
+    // 현재 포인트 업데이트 메서드
+    public void updateCurrentPoint(SupportDTO supportDTO);
+
+    // 후원 정보 조회 메서드
+    SupportDTO getSupportById(Long id);
 }

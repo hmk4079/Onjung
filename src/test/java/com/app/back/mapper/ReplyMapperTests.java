@@ -21,6 +21,6 @@ public class ReplyMapperTests {
         replyDTO.setReplyStatus("VISIBLE");
         replyDTO.setMemberId(37L);
         replyDTO.setPostId(40l);
-        replyMapper.insert(replyDTO.toReplyVO());
+        replyMapper.insertReply(replyDTO.toReplyVO());
     }
 }

@@ -1,5 +1,6 @@
 package com.app.back.service.support;
 
+import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.support.SupportDTO;
 import com.app.back.domain.support.Pagination;
@@ -142,5 +143,13 @@ public class SupportServiceImpl implements SupportService {
         return supportDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 
+    @Override
+    public void updateCurrentPoint(SupportDTO supportDTO) {
+        supportDAO.updateCurrentPoint(supportDTO); // DAO에서 후원 금액 업데이트
+    }
 
+    @Override
+    public SupportDTO getSupportById(Long id) {
+        return supportDAO.findSupportById(id); // DAO에서 후원 정보 조회
+    }
 }

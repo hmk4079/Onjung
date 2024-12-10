@@ -99,11 +99,18 @@
             sp.id = #{id}
     </select>
 
-<!--    <update id="updateNowRecruitment">-->
-<!--        update tbl_vt-->
-<!--        set now_recruitment_count = tbl_vt.now_recruitment_count + 1-->
-<!--        where id = #{vtId}-->
-<!--    </update>-->
+
+    <select id="findSupportById" parameterType="long" resultType="supportDTO">
+        select id, goal_point as goalPoint, current_point as currentPoint
+        from tbl_support
+        where id = #{id}
+    </select>
+
+    <update id="updateCurrentPoint" parameterType="supportDTO">
+        update tbl_support
+        set current_point = current_point + #{currentPoint}
+        where id = #{id} and (goal_point - current_point) >= #{currentPoint}
+    </update>
 
     <update id="updatePost">
         update tbl_post

@@ -1,5 +1,6 @@
 package com.app.back.mapper.support;
 
+import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.support.SupportDTO;
 import com.app.back.domain.support.SupportVO;
@@ -14,7 +15,12 @@ import java.util.Optional;
 public interface SupportMapper {
 
     public List<SupportDTO> selectTop10Supports();
-    public void updateCurrentPoint(SupportDTO supportDTO);
+
+    //    후원 포인트 증가
+    void updateCurrentPoint(SupportDTO supportDTO);
+
+    //    현재 후원 포인트와 목표포인트 조회(확인)
+    SupportDTO findSupportById(SupportDTO supportDTO);
 
     // 봉사활동 게시글 작성
     public void insert(SupportVO supportVO);

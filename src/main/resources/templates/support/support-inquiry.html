@@ -20,37 +20,40 @@
 <div th:if="${!isLogin}">
     <th:block th:replace="~{main/basic-header :: header}"></th:block>
 </div>
-<!--<form method="post" action="/support/apply">-->
-<!--    <div class="approvemodal" style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; z-index: 10000;">-->
-<!--        <div style="-->
-<!--        transform: translate3d(0px, 0px, 0px);-->
-<!--        z-index: 10002;-->
-<!--        box-sizing: border-box;-->
-<!--        transition: transform 500ms cubic-bezier(0, 0, 0.25, 1),-->
-<!--            opacity 500ms cubic-bezier(0, 0, 0.25, 1);">-->
-<!--            <div class="alert-modal-inner-1u03v alert-modal" style="width: 365px">-->
-<!--                <div class="alert-txt-box-2bji8">-->
-<!--                    <span class="alert-ico-1mtdg"></span>-->
-<!--                    <p>봉사 활동 신청을 하시겠습니까?</p>-->
-<!--                    <button class="alert-btn-complete" id="confirmApprove" data-listener="true">-->
-<!--                        확인-->
-<!--                    </button>-->
-
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="last-modal" style="-->
-<!--            position: fixed;-->
-<!--            top: 0px;-->
-<!--            left: 0px;-->
-<!--            width: 100%;-->
-<!--            height: 100%;-->
-<!--            background-color: rgba(0, 0, 0, 0.7);-->
-<!--            z-index: 10001;-->
-<!--        ">-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</form>-->
+<form method="post" action="/support/updatePoint">
+    <div class="approvemodal" style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; z-index: 10000;">
+        <div style="
+            transform: translate3d(0px, 0px, 0px);
+            z-index: 10002;
+            box-sizing: border-box;
+            transition: transform 500ms cubic-bezier(0, 0, 0.25, 1),
+                opacity 500ms cubic-bezier(0, 0, 0.25, 1);">
+            <div class="alert-modal-inner-1u03v alert-modal" style="width: 365px">
+                <div class="alert-txt-box-2bji8">
+                    <span class="alert-ico-1mtdg"></span>
+                    <p>목표 포인트: <span id="goalPointText" data-goal="${support.goalPoint}" th:text="${support.goalPoint}"></span></p>
+                    <p>현재까지 후원된 포인트: <span id="currentPointText" data-current="${support.currentPoint}" th:text="${support.currentPoint}"></span></p>
+                    <p>후원할 포인트를 입력해주세요.</p>
+                    <input type="number" name="currentPoint" value=""> <!-- 업데이트할 포인트 -->
+                    <p>보유 포인트: <span id="memberPointText" data-member="${support.memberPoint}"  th:text="${loginMember.memberPoint}"></span></p>
+                    <button class="alert-btn-complete" id="confirmApprove" data-listener="true">
+                        확인
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="last-modal" style="
+                position: fixed;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                z-index: 10001;
+            ">
+        </div>
+    </div>
+</form>
 <div class="content-container-maincontent">
     <div class="thumbnail-background" style="position: relative">
         <main class="container-main-body">
@@ -227,7 +230,7 @@
                                         <div class="title">
                                             모금 기간
                                         </div>
-                                        <div class="content" th:text="(${support.supportEDate != null ? support.supportSDate : '시작시간없음'}) + ' ~ ' + (${support.supportEDate != null ? support.supportSDate : '끝나는시간없음'})"></div>
+                                        <div class="content" th:text="(${support.supportSDate != null ? support.supportSDate : '시작시간없음'}) + ' ~ ' + (${support.supportEDate != null ? support.supportEDate : '끝나는시간없음'})"></div>
                                         <div class="sub-content">
                                             <span>(24시까지)
                                             </span>
@@ -248,7 +251,15 @@
                                         <div class="content" th:text="${support.postViewCount}"></div>
                                     </div>
                                 </section>
-                                <div class="support-btn-container" th:if="${isAuthor}">
+                                <div class="volunteer-btn-container tooltip" >
+                                    <div class="volunteer-btn-container tooltip">
+                                        <input type="text" id="donation-amount-input" style="display: none; text-align: end" placeholder="기부할 금액을 입력하세요. ex) 10000">
+                                        <button type="submit" class="support-btn-style" id="support-btn">
+                                            <span class="visual-correction">후원하기</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="support-btn-wrap">
                                     <!-- 수정하기 폼 -->
                                     <form th:action="@{/support/support-update}" method="get" style="display: inline;">
                                         <input type="hidden" name="postId" th:value="${support.id}" />
@@ -307,6 +318,7 @@
     const support = [[${support}]]
     const attachments = [[${attachments}]]
     const isAuthor = [[${isAuthor}]]
+    const loginMember = [[${loginMember}]]
     console.log(isAuthor)
     console.log("가져온 아이디는:{}",support.postId)
 </script>
