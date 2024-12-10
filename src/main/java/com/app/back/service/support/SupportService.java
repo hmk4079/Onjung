@@ -18,9 +18,9 @@ public interface SupportService {
     //    봉사모집 작성
     void write(SupportDTO supportDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException;;
     //    봉사모집 목록
-    public List<SupportDTO> getList(Pagination pagination);
+    List<SupportDTO> getList(Pagination pagination);
     //    게시글 전체 개수 조회
-    public int getTotal();
+    int getTotal(Pagination pagination);
     //    개시글 조회
     public Optional<SupportDTO> getPostById(Long id);
     //    게시글 수정

@@ -6,7 +6,7 @@
         values(#{id}, #{goalPoint}, #{supportSDate}, #{supportEDate})
     </insert>
 
-    <select id="selectAll" resultType="SupportDTO">
+    <select id="selectList" resultType="SupportDTO">
         select sp.id, sp.goal_point, p.post_title, m.member_name, m.member_nickname, p.post_status,
         pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
         sp.support_s_date, sp.support_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date, p.member_id
@@ -15,32 +15,35 @@
         left join tbl_member m on p.member_id = m.id
         left join tbl_profile pf on p.member_id = pf.member_id
         <where>
-            <if test="pagination.postType == 'SUPPORT'">
-                p.post_type = #{pagination.postType}
+            <if test="postType != null and postType != ''">
+                p.post_type = #{postType}
+            </if>
+            <if test="postStatus != null and postStatus != ''">
+                and p.post_status = #{postStatus}
             </if>
         </where>
         order by
         <choose>
-            <when test="pagination.order == 'recent'">
+            <when test="order == 'recent'">
                 p.created_date desc, sp.id
             </when>
-            <when test="pagination.order == 'viewCount'">
+            <when test="order == 'viewCount'">
                 p.post_view_count desc, p.created_date desc, sp.id
             </when>
-            <when test="pagination.order == 'endingSoon'">
+            <when test="order == 'endingSoon'">
                 case
                 when sp.support_e_date >= curdate() then 1
                 else 2
-                end asc, -- 남은 신청일이 있는 게시글이 우선 정렬
-                sp.support_e_date asc, -- 신청일 순서대로 정렬
-                p.created_date desc, -- 같은 신청일일 경우 생성일 순으로 정렬
+                end asc,
+                sp.support_e_date asc,
+                p.created_date desc,
                 sp.id
             </when>
             <otherwise>
                 p.created_date desc, sp.id
             </otherwise>
         </choose>
-        limit #{pagination.startRow}, #{pagination.rowCount}
+        limit #{startRow}, #{rowCount}
     </select>
 
 
@@ -50,11 +53,18 @@
         where id = #{id}
     </update>
 
-    <select id="selectTotal">
+    <select id="selectTotal" resultType="int">
         select count(*)
         from tbl_support sp
-                 join tbl_post p on sp.id = p.id
-        where p.post_type = #{postType}
+        join tbl_post p on sp.id = p.id
+        <where>
+            <if test="postType != null and postType != ''">
+                p.post_type = #{postType}
+            </if>
+            <if test="postStatus != null and postStatus != ''">
+                and p.post_status = #{postStatus}
+            </if>
+        </where>
     </select>
 
     <select id="selectById" resultType="SupportDTO">
@@ -132,7 +142,6 @@
     <select id="findByMemberId" parameterType="long" resultType="SupportDTO">
         SELECT * FROM tbl_post WHERE member_id = #{memberId}
     </select>
-
 </mapper>
 
 

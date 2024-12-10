@@ -43,19 +43,19 @@ const fetchSupports = async (order = "recent", page = 1, category = "") => {
         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는데 실패했습니다.");
 
         const data = await response.json();
-        const supports = data.lists || []; // 수정된 부분
+        console.log("서버에서 받은 데이터:", data);
+
+        // 서버 응답 구조에 맞게 수정
+        const supports = data.support || [];
         const pagination = data.pagination || {};
 
         console.log("pagination 객체:", pagination);
-        console.log("선택된 페이지:", pagination.page || "페이지 정보가 없습니다");
-        console.log("supports1:{}", supports);
+        console.log("supports 배열:", supports);
 
         showList({ supports, pagination });
-        console.log("supports2:{}", supports);
 
     } catch (error) {
         console.error("Error fetching filtered support lists:", error);
         alert("후원 모집 게시글을 불러오는데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
 };
-

@@ -109,8 +109,6 @@
     <script th:inline="javascript">
         const supports = [[${supports}]];
         const pagination = [[${pagination}]];
-        // 초기 목록과 페이지네이션 렌더링
-        showList({ supports, pagination });
     </script>
     <script th:if="${successMessage}">
         alert([[${successMessage}]]);

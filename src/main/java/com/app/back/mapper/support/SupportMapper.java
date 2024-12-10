@@ -15,12 +15,13 @@ public interface SupportMapper {
 
     public List<SupportDTO> selectTop10Supports();
     public void updateCurrentPoint(SupportDTO supportDTO);
+
     // 봉사활동 게시글 작성
     public void insert(SupportVO supportVO);
     // 봉사활동 게시글 전체 조회
-    public List<SupportDTO> selectAll(@Param("pagination") Pagination pagination);
+    List<SupportDTO> selectList(Pagination pagination);
     // 전체 개수
-    public int selectTotal();
+    int selectTotal(@Param("postType") String postType, @Param("postStatus") String postStatus);
     //  봉사활동 게시글 조회
     public Optional<SupportDTO> selectById(Long id);
     //  봉사활동 게시글 수정

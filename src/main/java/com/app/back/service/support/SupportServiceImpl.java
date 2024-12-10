@@ -70,12 +70,12 @@ public class SupportServiceImpl implements SupportService {
 
     @Override
     public List<SupportDTO> getList(Pagination pagination) {
-        return supportDAO.findAll(pagination); // 페이징된 Q&A 게시글 목록 조회
+        return supportDAO.getList(pagination);
     }
 
     @Override
-    public int getTotal() {
-        return supportDAO.findCount();
+    public int getTotal(Pagination pagination) {
+        return supportDAO.getTotal(pagination);
     }
 
     @Override

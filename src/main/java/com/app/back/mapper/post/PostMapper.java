@@ -63,7 +63,6 @@ public interface PostMapper {
     // 상태 업데이트 메서드
     public void updateStatusById(@Param("id") Long id, @Param("postStatus") String postStatus);
 
-
     public String findOwnerByPostId(Long postId);
 
 

@@ -30,13 +30,13 @@ public class SupportDAO {
     }
 
     //    게시글 전체 조회(목록 가져오기<최신순, 조회수 순, 마감 임박 순>)
-    public List<SupportDTO> findAll(Pagination pagination) {
-        return supportMapper.selectAll(pagination);
+    public List<SupportDTO> getList(Pagination pagination) {
+        return supportMapper.selectList(pagination);
     }
 
     //    게시글 전체 개수 조회
-    public int findCount() {
-        return supportMapper.selectTotal();
+    public int getTotal(Pagination pagination) {
+        return supportMapper.selectTotal(pagination.getPostType(), pagination.getPostStatus());
     }
 
     //    게시글 조회

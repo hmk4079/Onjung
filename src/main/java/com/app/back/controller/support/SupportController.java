@@ -5,6 +5,7 @@ import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.support.SupportDTO;
 import com.app.back.domain.support.Pagination;
 import com.app.back.domain.vt_application.VtApplicationDTO;
+import com.app.back.enums.AdminPostStatus;
 import com.app.back.exception.NotFoundPostException;
 import com.app.back.service.attachment.AttachmentService;
 import com.app.back.service.post.PostService;
@@ -77,82 +78,88 @@ public class SupportController {
 
 
     //        봉사 모집 게시글 목록
-    @GetMapping("support-list")
-    public String getList(HttpSession session, Pagination pagination, Model model,
-                          @RequestParam(value = "order", defaultValue = "recent") String order) {
+    @GetMapping("/support-list")
+    public String getSupportList(
+            HttpSession session,
+            Pagination pagination,
+            Model model,
+            @RequestParam(value = "order", defaultValue = "recent") String order) {
+
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
         boolean isLoggedIn = (loginMember != null);
         model.addAttribute("isLogin", isLoggedIn);
+
         if (isLoggedIn) {
             model.addAttribute("member", loginMember);
-        }
-
-        // loginMember가 null인지 확인하고 memberType을 가져옵니다.
-        if (loginMember != null) {
-            String memberType = loginMember.getMemberType();
-            model.addAttribute("memberType", memberType);
+            model.addAttribute("memberType", loginMember.getMemberType());
         } else {
-            // 로그인되지 않은 경우 또는 loginMember가 null인 경우
             model.addAttribute("memberType", "GUEST");
         }
 
+        // Pagination 설정
         pagination.setOrder(order);
         pagination.setPostType("SUPPORT");
-        pagination.setTotal(postService.getTotal(pagination.getPostType()));
+        pagination.setPostStatus("VISIBLE"); // 필수 조건 설정
+
+        // 로그 추가: getTotal 호출 전 Pagination 상태 확인
+        log.info("getTotal 호출 전 Pagination 상태: {}", pagination);
+
+        pagination.setTotal(supportService.getTotal(pagination));
+
+        // 로그 추가: getTotal 호출 후 total 값 확인
+        log.info("getTotal 호출 후 total 값: {}", pagination.getTotal());
+
         pagination.progress();
 
-        log.info("페이지네이션 설정 - page: {}, startRow: {}, rowCount: {}",
-                pagination.getPage(), pagination.getStartRow(), pagination.getRowCount());
-
+        // 데이터 가져오기
         List<SupportDTO> supports = supportService.getList(pagination);
-        log.info("현재 받은 데이터 갯수: {}", supports.size());
-
-        log.info("Progress 메서드 실행 후 Pagination 상태: {}", pagination);
-
-        log.info("Total from getTotal: {}", postService.getTotal("SUPPORT"));
-        log.info("List size from getList: {}", supportService.getList(pagination).size());
-        log.info("전달받은 멤버, 프로필:{},{}",supportDTO.getProfileFileName(),supportDTO.getMemberId());
-
-
-        supports.forEach(support -> {
-            log.info("Controller 전달받은 Profile File Name: {}", support.getProfileFileName());
-            log.info("Controller 전달받은 Member ID: {}", support.getMemberId());
-        });
-
         model.addAttribute("support", supports);
+        model.addAttribute("pagination", pagination);
+        log.info("supports 데이터 확인: {}", supports);
+        log.info("Pagination 상태: {}", pagination);
+        log.info("getTotal 결과: {}", pagination.getTotal());
+
         return "support/support-list";
     }
 
+
+
     // 봉사모집 게시판 json형태
-    @GetMapping("support-info")
+    @GetMapping("/support-info")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> getListInfo(
+    public ResponseEntity<Map<String, Object>> getSupportInfo(
             @RequestParam(value = "order", defaultValue = "recent") String order,
             @RequestParam(value = "page", defaultValue = "1") int page) {
-        log.info("받은 page 파라미터: {}", page);
-        log.info("받은 order 파라미터: {}", order);
 
         Pagination pagination = new Pagination();
         pagination.setOrder(order);
         pagination.setPostType("SUPPORT");
-        pagination.setPostStatus("VISIBLE");
+        pagination.setPostStatus("VISIBLE"); // VISIBLE 상태 추가
         pagination.setPage(page);
-        pagination.setTotal(postService.getTotal(pagination.getPostType()));
-        pagination.progress();
-        log.info("Pagination 객체: {}", pagination);
 
-        List<SupportDTO> supportList = supportService.getList(pagination);
-        for (SupportDTO support : supportList) {
-            support.calculateDaysLeft();
-            support.setPostType(support.getPostType());
-        }
+        // 로그 추가: Pagination 상태 확인
+        log.info("support-info 호출 전 Pagination 상태: {}", pagination);
+
+        pagination.setTotal(supportService.getTotal(pagination));
+
+        // 로그 추가: total 값 확인
+        log.info("support-info 호출 후 total 값: {}", pagination.getTotal());
+
+        pagination.progress();
+
+        log.info("받은 order: {}, 받은 page: {}", order, page);
+        log.info("Pagination 상태: {}", pagination);
+        List<SupportDTO> supports = supportService.getList(pagination);
+        log.info("서버에서 반환할 supports 데이터 크기: {}", supports.size());
+
 
         Map<String, Object> response = new HashMap<>();
-        response.put("lists", supportList);
+        response.put("support", supports);
         response.put("pagination", pagination);
 
         return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("support-inquiry/{postId}")
     public String goToSupportPath(
@@ -236,12 +243,22 @@ public class SupportController {
     }
 
     @GetMapping("/support/support-delete")
-    public String supportDelete(@RequestParam("postId") Long postId, Long id, RedirectAttributes redirectAttributes) {
-        supportService.delete(postId);
-        postService.delete(id);
-        redirectAttributes.addFlashAttribute("successMessage", "성공적으로 게시물이 삭제되었습니다.");
+    public String deleteSupport(@RequestParam("postId") Long postId, RedirectAttributes redirectAttributes) {
+        try {
+            // 상태를 DELETE로 업데이트
+            postService.updateStatus(postId, AdminPostStatus.DELETED);
+
+            // 성공 메시지 설정
+            redirectAttributes.addFlashAttribute("message", "게시물이 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            // 오류 처리
+            redirectAttributes.addFlashAttribute("errorMessage", "게시물을 삭제하는 중 오류가 발생했습니다.");
+        }
+
+        // 삭제 후 목록 페이지로 리다이렉트
         return "redirect:/support/support-list";
     }
+
 
     //    첨부파일 부분
     @PostMapping("upload")
