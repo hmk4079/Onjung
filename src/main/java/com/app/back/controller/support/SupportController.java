@@ -79,7 +79,7 @@ public class SupportController {
 
 
 
-    //        봉사 모집 게시글 목록
+    //    후원금 모집 게시글 목록
     @GetMapping("/support-list")
     public String getSupportList(
             HttpSession session,
@@ -102,7 +102,6 @@ public class SupportController {
         pagination.setOrder(order);
         pagination.setPostType("SUPPORT");
         pagination.setPostStatus("VISIBLE"); // 필수 조건 설정
-
         // 로그 추가: getTotal 호출 전 Pagination 상태 확인
         log.info("getTotal 호출 전 Pagination 상태: {}", pagination);
 
@@ -178,7 +177,6 @@ public class SupportController {
         if (isLoggedIn) {
             model.addAttribute("member", loginMember);
         }
-
         // SupportDTO 가져오기
         SupportDTO supportDTO = supportService.getPostById(postId)
                 .orElseThrow(() -> new NotFoundPostException("Support with ID " + postId + " not found"));
@@ -202,7 +200,6 @@ public class SupportController {
         // Pagination 객체 생성 및 설정
         Pagination pagination = new Pagination();
         pagination.setPage(page);
-
 
         // 모델에 데이터 추가
         model.addAttribute("support", supportDTO);

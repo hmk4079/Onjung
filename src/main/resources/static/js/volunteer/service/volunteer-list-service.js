@@ -44,11 +44,13 @@ const fetchVolunteers = async (order = "recent", page = 1, category = "") => {
         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는데 실패했습니다.");
 
         const data = await response.json();
-        const lists = data.lists || data;
+        console.log("서버에서 받은 데이터:", data);
+
+        const lists = data.volunteers || []; // key 이름 volunteers로 수정
         const pagination = data.pagination || {};
 
+        console.log("lists 데이터:", lists);
         console.log("pagination 객체:", pagination);
-        console.log("선택된 페이지:", pagination.page || "페이지 정보가 없습니다");
 
         showList({ lists, pagination });
 
@@ -57,3 +59,4 @@ const fetchVolunteers = async (order = "recent", page = 1, category = "") => {
         alert("봉사 모집 게시글을 불러오는데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
 };
+

@@ -14,11 +14,11 @@ public interface SupportService {
 
     public List<SupportDTO> getLatest10Supports();
 
-    //    봉사모집 작성
+    //    후원 게시글 작성
     void write(SupportDTO supportDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException;;
-    //    봉사모집 목록
+    //    후원 게시글 목록
     List<SupportDTO> getList(Pagination pagination);
-    //    게시글 전체 개수 조회
+    //    후원 게시글 전체 개수 조회
     int getTotal(Pagination pagination);
     //    개시글 조회
     public Optional<SupportDTO> getPostById(Long id);

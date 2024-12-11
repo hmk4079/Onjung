@@ -56,12 +56,12 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     @Override
     public List<VolunteerDTO> getList(Pagination pagination) {
-        return volunteerDAO.findAll(pagination); // 페이징된 Q&A 게시글 목록 조회
+        return volunteerDAO.findAll(pagination);
     }
 
     @Override
-    public int getTotal() {
-        return volunteerDAO.findCount();
+    public int getTotal(Pagination pagination) {
+        return volunteerDAO.getTotal(pagination);
     }
 
     @Override

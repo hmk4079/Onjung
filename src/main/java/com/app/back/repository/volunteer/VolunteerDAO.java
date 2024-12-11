@@ -30,8 +30,8 @@ public class VolunteerDAO {
     }
 
     //    게시글 전체 개수 조회
-    public int findCount() {
-        return volunteerMapper.selectTotal();
+    public int getTotal(Pagination pagination) {
+        return volunteerMapper.selectTotal(pagination.getPostType(), pagination.getPostStatus());
     }
 
     //    게시글 조회

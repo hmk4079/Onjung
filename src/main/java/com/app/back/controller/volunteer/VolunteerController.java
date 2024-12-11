@@ -2,6 +2,7 @@ package com.app.back.controller.volunteer;
 
 import com.app.back.domain.attachment.AttachmentDTO;
 import com.app.back.domain.member.MemberDTO;
+import com.app.back.domain.support.SupportDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.domain.vt_application.VtApplicationDTO;
@@ -73,49 +74,44 @@ public class VolunteerController {
 
     //        봉사 모집 게시글 목록
     @GetMapping("volunteer-list")
-    public String getList(HttpSession session, Pagination pagination, Model model,
-                          @RequestParam(value = "order", defaultValue = "recent") String order) {
+    public String getList(
+            HttpSession session,
+            Pagination pagination,
+             Model model,
+            @RequestParam(value = "order", defaultValue = "recent") String order) {
+
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
         boolean isLoggedIn = (loginMember != null);
         model.addAttribute("isLogin", isLoggedIn);
+
         if (isLoggedIn) {
             model.addAttribute("member", loginMember);
-        }
-
-        // loginMember가 null인지 확인하고 memberType을 가져옵니다.
-        if (loginMember != null) {
-            String memberType = loginMember.getMemberType();
-            model.addAttribute("memberType", memberType);
+            model.addAttribute("memberType", loginMember.getMemberType());
         } else {
-            // 로그인되지 않은 경우 또는 loginMember가 null인 경우
             model.addAttribute("memberType", "GUEST");
         }
-
+    // Pagination 설정
         pagination.setOrder(order);
         pagination.setPostType("VOLUNTEER");
-        pagination.setPostStatus("VISIBLE");
-        pagination.setTotal(postService.getTotal(pagination.getPostType()));
+        pagination.setPostStatus("VISIBLE");  // 필수 조건 설정
+        // 로그 추가: getTotal 호출 전 Pagination 상태 확인
+        log.info("getTotal 호출 전 Pagination 상태: {}", pagination);
+
+        pagination.setTotal(volunteerService.getTotal(pagination));
+
+        // 로그 추가: getTotal 호출 후 total 값 확인
+        log.info("getTotal 호출 후 total 값: {}", pagination.getTotal());
+
         pagination.progress();
 
-        log.info("페이지네이션 설정 - page: {}, startRow: {}, rowCount: {}",
-                pagination.getPage(), pagination.getStartRow(), pagination.getRowCount());
-
+        // 데이터 가져오기
         List<VolunteerDTO> volunteers = volunteerService.getList(pagination);
-        log.info("현재 받은 데이터 갯수: {}", volunteers.size());
+        model.addAttribute("volunteers", volunteers);
+        model.addAttribute("pagination", pagination);
+        log.info("supports 데이터 확인: {}", volunteers);
+        log.info("Pagination 상태: {}", pagination);
+        log.info("getTotal 결과: {}", pagination.getTotal());
 
-        log.info("Progress 메서드 실행 후 Pagination 상태: {}", pagination);
-
-        log.info("Total from getTotal: {}", postService.getTotal("VOLUNTEER"));
-        log.info("List size from getList: {}", volunteerService.getList(pagination).size());
-        log.info("전달받은 멤버, 프로필:{},{}",volunteerDTO.getProfileFileName(),volunteerDTO.getMemberId());
-
-
-        volunteers.forEach(volunteer -> {
-            log.info("Controller 전달받은 Profile File Name: {}", volunteer.getProfileFileName());
-            log.info("Controller 전달받은 Member ID: {}", volunteer.getMemberId());
-        });
-
-        model.addAttribute("volunteer", volunteers);
         return "volunteer/volunteer-list";
     }
 
@@ -131,19 +127,27 @@ public class VolunteerController {
         Pagination pagination = new Pagination();
         pagination.setOrder(order);
         pagination.setPostType("VOLUNTEER");
+        pagination.setPostStatus("VISIBLE"); // VISIBLE 상태 추가
         pagination.setPage(page);
-        pagination.setTotal(postService.getTotal(pagination.getPostType()));
-        pagination.progress();
-        log.info("Pagination 객체: {}", pagination);
 
-        List<VolunteerDTO> volunteerList = volunteerService.getList(pagination);
-        for (VolunteerDTO volunteer : volunteerList) {
-            volunteer.calculateDaysLeft();
-            volunteer.setPostType(volunteer.getPostType());
-        }
+        // 로그 추가: Pagination 상태 확인
+        log.info("support-info 호출 전 Pagination 상태: {}", pagination);
+
+        pagination.setTotal(volunteerService.getTotal(pagination));
+
+        // 로그 추가: total 값 확인
+        log.info("support-info 호출 후 total 값: {}", pagination.getTotal());
+
+        pagination.progress();
+
+        log.info("받은 order: {}, 받은 page: {}", order, page);
+        log.info("Pagination 상태: {}", pagination);
+        List<VolunteerDTO> volunteers = volunteerService.getList(pagination);
+        log.info("서버에서 반환할 volunteers 데이터 크기: {}", volunteers.size());
+
 
         Map<String, Object> response = new HashMap<>();
-        response.put("lists", volunteerList);
+        response.put("volunteers", volunteers);
         response.put("pagination", pagination);
 
         return ResponseEntity.ok(response);

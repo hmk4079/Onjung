@@ -259,22 +259,30 @@
                                     </div>
                                 </section>
                                 <div class="volunteer-btn-wrap">
-                                    <div class="volunteer-btn-container tooltip" th:if="${!isAuthor}">
-                                        <div class="volunteer-btn-container tooltip">
-                                            <button type="submit" class="volunteer-btn-style" id="apply-btn">
-                                                <span class="visual-correction">지원하기</span>
-                                            </button>
-                                        </div>
+<!--                                    <div class="volunteer-btn-container tooltip" th:if="${!isAuthor}">-->
+                                    <div class="volunteer-btn-container tooltip">
+                                        <button type="submit" class="volunteer-btn-style" id="apply-btn">
+                                            <span class="visual-correction">지원하기</span>
+                                        </button>
                                     </div>
-                                    <div class="volunteer-btn-container" id="edit-buttons" th:if="${isAuthor}">
-                                        <a class="volunteer-btn-style2 go-update">
+                                </div>
+                                <div class="volunteer-btn-wrap" th:if="${isAuthor}">
+                                    <!-- 수정하기 폼 -->
+                                    <form th:action="@{/volunteer/volunteer-update}" method="get" style="display: inline;">
+                                        <input type="hidden" name="postId" th:value="${volunteer.id}" />
+                                        <button type="submit" class="volunteer-btn-style2">
                                             <span class="visual-correction">수정하기</span>
-                                        </a>
-                                        <div class="space"></div>
-                                        <a class="volunteer-btn-style2 go-delete">
+                                        </button>
+                                    </form>
+                                    <div class="space"></div>
+                                    <!-- 삭제하기 폼 -->
+                                    <form th:action="@{/volunteer/volunteer-delete}" method="get" style="display: inline;" onsubmit="return confirm('정말 게시물을 삭제하시겠습니까?');">
+                                        <input type="hidden" name="postId" th:value="${volunteer.id}" />
+                                        <button type="submit" class="volunteer-btn-style2">
                                             <span class="visual-correction">삭제하기</span>
-                                        </a>
-                                    </div>
+                                        </button>
+                                    </form>
+                                </div>
                                 </div>
                             </div>
                         </div>

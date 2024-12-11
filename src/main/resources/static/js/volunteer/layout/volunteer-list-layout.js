@@ -20,10 +20,18 @@ const showList = ({ lists, pagination }) => {
                 : '/images/default-profile.png';
 
             let daysLeftText;
+
             if (list.daysLeft > 0) {
                 daysLeftText = `${list.daysLeft}일 남음`;
-            } else if (list.vtEDate === today) {
+            } else if (list.daysLeft === 0 && list.vtEDate === today) {
                 daysLeftText = "오늘까지";
+            } else if (list.daysLeft === 0 && new Date(list.vtEDate) > new Date(today)) {
+                // 날짜 차이를 직접 계산
+                const endDate = new Date(list.vtEDate);
+                const currentDate = new Date(today);
+                const differenceInTime = endDate.getTime() - currentDate.getTime(); // 밀리초 단위 차이 계산
+                const differenceInDays = Math.ceil(differenceInTime / (1000 * 60 * 60 * 24)); // 일 단위로 변환
+                daysLeftText = `${differenceInDays}일 남음`;
             } else {
                 daysLeftText = "종료됨";
             }
@@ -164,6 +172,7 @@ const showList = ({ lists, pagination }) => {
             `;
         });
     }
+    console.log("생성된 layText:", layText); // 추가된 로그
     vtLayout.innerHTML = layText;
 
     // 리스트 렌더링 후 페이징 버튼 생성 함수 호출

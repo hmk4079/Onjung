@@ -14,14 +14,8 @@ import java.util.Optional;
 @Mapper
 public interface SupportMapper {
 
+    //    메인페이지 top10
     public List<SupportDTO> selectTop10Supports();
-
-    //    후원 포인트 증가
-    void updateCurrentPoint(SupportDTO supportDTO);
-
-    //    현재 후원 포인트와 목표포인트 조회(확인)
-    SupportDTO findSupportById(SupportDTO supportDTO);
-
     // 봉사활동 게시글 작성
     public void insert(SupportVO supportVO);
     // 봉사활동 게시글 전체 조회
@@ -44,6 +38,12 @@ public interface SupportMapper {
     );
     //    조회수 증가
     public void updatePostReadCount(Long id);
+
+    //    후원 포인트 증가
+    void updateCurrentPoint(SupportDTO supportDTO);
+
+    //    현재 후원 포인트와 목표포인트 조회(확인)
+    SupportDTO findSupportById(SupportDTO supportDTO);
 
 }
 
