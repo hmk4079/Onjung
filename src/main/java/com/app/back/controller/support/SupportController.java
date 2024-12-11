@@ -320,23 +320,33 @@ public class SupportController {
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
 
-    @PostMapping("/support/updatePoint")
+    @GetMapping("/support/updatePoint")
     public String updatePoint(@RequestParam("currentPoint") int inputPoint,
                               HttpSession session, Model model) {
-        // 세션에서 로그인 정보 가져오기
+        // 로그인 정보 가져오기
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
 
         if (loginMember == null) {
             return "redirect:/login"; // 로그인되지 않은 경우 로그인 페이지로 이동
         }
 
+        // 세션에서 저장된 Support ID 가져오기
+        Long supportId = (Long) session.getAttribute("supportId");
+        if (supportId == null) {
+            throw new IllegalStateException("No support ID found in session");
+        }
 
-        // 후원 금액 업데이트
+        // DB에서 SupportDTO 가져오기
+        SupportDTO supportDTO = supportService.getPostById(supportId)
+                .orElseThrow(() -> new NotFoundPostException("Support with ID " + supportId + " not found"));
+
+        // 후원 포인트 업데이트
         supportDTO.setCurrentPoint(inputPoint + supportDTO.getCurrentPoint());
         supportService.updateCurrentPoint(supportDTO);
 
         return "redirect:/mypage/mypage"; // 성공 시 마이페이지로 리다이렉트
     }
+
 
 
 

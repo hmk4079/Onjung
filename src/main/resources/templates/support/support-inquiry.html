@@ -20,7 +20,7 @@
 <div th:if="${!isLogin}">
     <th:block th:replace="~{main/basic-header :: header}"></th:block>
 </div>
-<form method="post" action="/support/updatePoint">
+<form method="get" action="/support/updatePoint">
     <div class="approvemodal" style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; z-index: 10000;">
         <div style="
             transform: translate3d(0px, 0px, 0px);
@@ -31,11 +31,11 @@
             <div class="alert-modal-inner-1u03v alert-modal" style="width: 365px">
                 <div class="alert-txt-box-2bji8">
                     <span class="alert-ico-1mtdg"></span>
-                    <p>목표 포인트: <span id="goalPointText" data-goal="${support.goalPoint}" th:text="${support.goalPoint}"></span></p>
-                    <p>현재까지 후원된 포인트: <span id="currentPointText" data-current="${support.currentPoint}" th:text="${support.currentPoint}"></span></p>
+                    <p>목표 포인트: <span id="goalPointText" th:text="${support.goalPoint}"></span></p>
+                    <p>현재까지 후원된 포인트: <span id="currentPointText" th:text="${support.currentPoint}"></span></p>
                     <p>후원할 포인트를 입력해주세요.</p>
                     <input type="number" name="currentPoint" value=""> <!-- 업데이트할 포인트 -->
-                    <p>보유 포인트: <span id="memberPointText" data-member="${support.memberPoint}"  th:text="${loginMember.memberPoint}"></span></p>
+                    <p>보유 포인트: <span id="memberPointText"  th:text="${member?.memberPoint ?: '0'}"></span></p>
                     <button class="alert-btn-complete" id="confirmApprove" data-listener="true">
                         확인
                     </button>

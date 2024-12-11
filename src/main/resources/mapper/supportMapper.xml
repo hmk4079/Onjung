@@ -108,8 +108,8 @@
 
     <update id="updateCurrentPoint" parameterType="supportDTO">
         update tbl_support
-        set current_point = current_point + #{currentPoint}
-        where id = #{id} and (goal_point - current_point) >= #{currentPoint}
+        set current_point = #{currentPoint}
+        where id = #{id}
     </update>
 
     <update id="updatePost">
